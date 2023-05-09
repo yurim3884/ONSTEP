@@ -1,0 +1,210 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
+  <div class="sub-header-container">
+                <header class="header navbar navbar-expand-sm">
+                    <ul class="navbar-nav flex-row">
+                        <li>
+                            <div class="page-header">
+                                <nav class="breadcrumb-one" aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Apps</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page"><span>자유게시판</span></li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+                        <li class="">
+                            <p class="current-time" id="currentTime"></p>
+                            <p class="current-date" id="currentDate"></p>
+                        </li>
+                    </ul>
+                </header>
+            </div>
+  
+  
+  <div class="layout-px-spacing">
+                <div class="row layout-top-spacing">
+                    <div class="col-xl-12 col-lg-12 col-md-12">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12">
+                                <div class="card-box email-inbox">
+                                    <div class="email-left">
+<!--                                         <a href="apps_mail.html" class="ripple-button m-auto ripple-button-primary btn-sm text-white font-12" type="button"> -->
+                                            <div class="ripple-ripple js-ripple">
+                                              <span class="ripple-ripple__circle"></span>
+                                            </div>
+                                            	<button type="button" class="btn btn-primary" id="listBtn"><i class="las la-arrow-left">List</i></button>
+                                        </a>
+                                        <div class="email-list mt-4">
+                                            <a href="javascript: void(0);">
+                                                <i class="las la-inbox mr-2 font-17"></i>
+                                                	작성자 : ${board.memId }
+                                            </a>
+                                            <a href="javascript: void(0);">
+                                                <i class="las la-star mr-2 font-17"></i>
+													작성일 : <span><fmt:formatDate value="${board.boardStart }"/> </span>
+                                            </a>
+                                            <a href="javascript: void(0);">
+                                                <i class="las la-clipboard-list mr-2 font-17"></i>
+                                                	조회수 : <span>${board.boardHit }</span>
+                                            </a>
+                                            <a href="javascript: void(0);">
+                                                <i class="lar la-envelope mr-2 font-17"></i>
+                                                	좋아요
+                                            </a>
+                                            <a href="javascript: void(0);">
+                                                <i class="las la-trash mr-2 font-17"></i>
+													신고
+                                            </a>
+                                            <a href="javascript: void(0);">
+                                                <i class="las la-tag mr-2 font-17"></i>
+													댓글
+                                            </a>
+                                            <a href="javascript: void(0);">
+                                                <i class="las la-exclamation-circle mr-2 font-17"></i>Spam
+                                            </a>
+                                        </div>
+                                        <h6 class="mt-3 email-label">첨부파일</h6>
+<div class="col-md-12">
+    <div class="card mb-1 shadow-none border border-light">
+        <div class="p-2">
+            <div class="row align-items-center">
+                <div class="col pl-0">
+                    <c:if test="${not empty board.boardFileList }">
+						<c:forEach items="${board.boardFileList }" var="boardFile">
+							<li><span class="mailbox-attachment-icon"> <i class="far fa-file-pdf"></i>
+							</span>
+								<div class="mailbox-attachment-info">
+										<i class="fas fa-paperclip"></i>${boardFile.attFileName }
+									<span class="mailbox-attachment-size clearfix mt-1">
+										<span>${boardFile.attFancySize }</span> 
+										<c:url value="/board/download" var="downloadURL">
+											<c:param name="attId" value="${boardFile.attId }" />
+										</c:url> 
+										<a href="${downloadURL }"> <!-- a태그는 다운로드 할때 쓸 것 -->
+											<span class="font-25 text-primary mr-2">
+												<i class="las la-download"></i>
+											</span>
+										</a>
+									</span>
+								</div>
+							</li>
+						</c:forEach>
+					</c:if>
+                </div>
+              <!--   <div class="col-auto">
+                    Button
+                    <a href="javascript:void(0);" class="font-25 text-primary mr-2">
+                        <i class="las la-download"></i>
+                    </a>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div> <!-- end col -->
+                                    </div>
+                                    <div class="email-right">
+                                        <!-- <div class="email-right-top flex-column align-items-start">
+                                            <div class="email-search-container pl-0">
+                                                <div class="mail-options d-flex">
+                                                    <a title="Archive" data-placement="bottom"  class="font-19 ml-0 mr-2 pointer pt-1 bs-tooltip"><i class="las la-archive"></i></a>
+                                                    <a title="Spam" data-placement="bottom"  class="font-19 mr-2 ml-0 pointer pt-1 bs-tooltip"><i class="las la-exclamation-circle"></i></a>
+                                                    <a title="Delete" data-placement="bottom"  class="font-19 mr-2 ml-0 pointer pt-1 bs-tooltip"><i class="lar la-trash-alt"></i></a>
+                                                    <a title="Mark as unread" data-placement="bottom"  class="font-19 mr-2 ml-0 pointer pt-1 bs-tooltip"><i class="lar la-envelope"></i></a>
+                                                    <a title="Snooze" data-placement="bottom"  class="font-19 mr-2 ml-0 pointer pt-1 bs-tooltip"><i class="las la-stopwatch"></i></a>
+                                                    <a title="Labels" data-placement="bottom"  class="font-19 mr-2 ml-0 pointer pt-1 bs-tooltip"><i class="las la-tag"></i></a>
+                                                </div>
+                                            </div> 
+                                        </div> -->
+                                        <div class="email-right-bottom">
+                                            <div class="mt-4 d-block">
+                                                <h1 class="font-18">${board.boardTitle }</h1>
+                                                <hr>
+                                                <p>${board.boardContent }</p>
+                                                <hr>
+                                                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                                            </div>
+                                                <!-- end row-->
+                                                <div class="mt-3 text-right">
+													<c:if test="${sessionScope.memberVO.memId eq board.memId }">
+														<button type="button" class="btn btn-info" id="updateBtn">수정</button>
+														<button type="button" class="btn btn-danger" id="delBtn">삭제</button>
+													</c:if>
+												</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+	                    <form action="/board/update" method="get" id="nFrm">
+							<input type="hidden" name="boardId" value="${board.boardId }">
+							<input type="hidden" name="boardCategory" value="${board.boardCategory }" id="boardCategory">
+						</form>
+					<div class="col-md-6"></div>
+                </div>
+            </div>
+<script type="text/javascript">
+$(function(){
+	var nFrm = $("#nFrm");
+	var listBtn = $("#listBtn");
+	var updateBtn = $("#updateBtn");
+	var delBtn = $("#delBtn");
+	var boardCategory = $("#boardCategory").val();
+	console.log("bc", boardCategory);
+	
+	listBtn.on("click",function(){
+		location.href="/board/list/"+ boardCategory;
+	});
+	updateBtn.on("click",function(){
+		nFrm.submit();
+	});
+	delBtn.on("click",function(){
+		if(confirm("정말로 삭제하시겠습니까?")){
+			nFrm.attr("action","/board/delete/" + boardCategory);
+			nFrm.attr("method","post");
+			nFrm.submit();
+		}else{
+			nFrm.reset();
+		}
+	});
+});
+</script>            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            

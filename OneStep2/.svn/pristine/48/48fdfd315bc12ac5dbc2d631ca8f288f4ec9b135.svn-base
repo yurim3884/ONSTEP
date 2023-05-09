@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.MasterMapper">
+
+<resultMap type="memberVO" id="memberMap">
+<id property="memId" column="mem_id"/>
+<result property="companyId" column="company_id"/>
+<result property="memPw" column="mem_pw"/>
+<result property="memName" column="mem_name"/>
+<result property="memNick" column="mem_nick"/>
+<result property="memBirth" column="mem_birth"/>
+<result property="mem_gender" column="mem_gender"/>
+<result property="mem_zip" column="mem_zip"/>
+<result property="mem_addr1" column="mem_addr1"/>
+<result property="mem_addr2" column="mem_addr2"/>
+<result property="mem_email" column="mem_email"/>
+<result property="mem_tel" column="mem_tel"/>
+<result property="mem_msn" column="mem_msn"/>
+<result property="mem_email_app" column="mem_email_app"/>
+<result property="mem_app" column="mem_app"/>
+<result property="mem_start" column="mem_start"/>
+<result property="mem_status" column="mem_status"/>
+<result property="mem_end" column="mem_end"/>
+<result property="mem_free" column="mem_free"/>
+<result property="profile_id" column="profile_id"/>
+<collection property="companyList" resultMap="companyMap"/>
+</resultMap>
+
+<resultMap type="companyVO" id="companyMap">
+<id property="" column="company_id"/>
+<result property="" column="company_number"/>
+<result property="" column="company_name"/>
+<result property="" column="company_representative"/>
+<result property="" column="company_business"/>
+<result property="" column="company_zip"/>
+<result property="" column="company_phone"/>
+<result property="" column="company_email"/>
+<result property="" column="company_establishment"/>
+<result property="" column="company_small"/>
+<result property="" column="company_employees"/>
+<result property="" column="company_average"/>
+<result property="" column="company_person"/>
+<result property="" column="company_main"/>
+<result property="" column="company_check"/>
+<result property="" column="company_intro"/>
+<result property="" column="company_logo"/>
+<result property="" column="company_addr2"/>
+<result property="" column="company_cap"/>
+<result property="" column="company_take"/>
+<result property="" column="company_profit"/>
+<result property="" column="company_income"/>
+<result property="" column="company_addr1"/>
+</resultMap>
+
+<select id="list" resultType="memberVO">
+select a.mem_id, company_id, mem_pw, 
+		mem_name, mem_nick, mem_birth, 
+		mem_gender, mem_zip, mem_addr1, 
+		mem_addr2, mem_email, mem_tel, 
+		mem_msn, mem_email_app, mem_app, 
+		mem_start, mem_status, mem_end, mem_free, blacklist_start, blacklist_check, blacklist_id 
+from member a left outer join blacklist b
+on a.mem_id = b.mem_id
+where mem_status = '1'
+or mem_status = '5'
+</select>
+
+<update id="status" parameterType="String">
+	update member 
+	set mem_status = #{memStatus}
+	where mem_id = #{memId}
+</update>
+
+<select id="reportList" resultType="reportVO">
+select report_id, report_mem, report_date, 
+		report_content, report_status, comm_id, 
+		a.board_id, a.mem_id, b.board_category, b.board_title, b.board_content
+from report a join board b
+on a.board_id = b.board_id
+</select>
+
+<select id="reportCnt" resultType="memberVO">
+select a.mem_id, count(b.report_mem) as cnt
+from member a join report b
+on a.mem_id = b.report_mem
+where b.report_status = 0
+group by a.mem_id, b.report_mem,b.report_status
+</select>
+
+<select id="reportAllCnt" resultType="memberVO">
+select a.mem_id, count(b.report_mem) as cnt
+from member a join report b
+on a.mem_id = b.report_mem
+group by a.mem_id, b.report_mem
+</select>
+
+<insert id="insertBlack" parameterType="String">
+insert into blacklist (blacklist_id, blacklist_start, blacklist_content, blacklist_check, mem_id)
+values (seq_blacklistid.nextval, sysdate, '차단', '1', #{memId})
+</insert>
+
+<update id="updateBlack1" parameterType="String">
+update blacklist 
+set blacklist_start = sysdate,
+	blacklist_content = '정상',
+	blacklist_check = '0'
+where mem_id = #{memId}
+</update>
+
+<update id="updateBlack2" parameterType="String">
+update blacklist 
+set blacklist_start = sysdate,
+	blacklist_content = '차단',
+	blacklist_check = '1'
+where mem_id = #{memId}
+</update>
+
+<select id="selectOneId" parameterType="String" resultType="String">
+select mem_id
+from blackList
+where mem_id = #{memId}
+</select>
+
+<update id="reportStatus" parameterType="int">
+	update report
+	set report_status = 1
+	where report_id = #{reportId}
+</update>
+
+<!-- 구인자 -->
+<select id="companyList" resultType="">
+
+</select>
+</mapper>

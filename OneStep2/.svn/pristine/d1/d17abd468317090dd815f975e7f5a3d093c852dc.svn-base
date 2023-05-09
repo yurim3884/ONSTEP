@@ -1,0 +1,26 @@
+package kr.or.ddit.myPage.vo;
+
+import java.util.Date;
+
+import lombok.Data;
+
+@Data
+public class CareerVO {
+	
+	/* 경력 */
+	private int careerId;				// 경력ID
+	private String careerCategory;		// 업종
+	private String careerCmpName;		// 회사명
+	private String careerCmpDprtm;		// 부서명
+	private String careerWorkfield;		// 담당직무
+	private String careerDuties;		// 담당업무
+	private String careerPosition;		// 직급
+	private String careerJoinDate;		// 입사일
+	private String careerResignDate;	// 퇴사일
+	private String careerSalary;		// 연봉
+	private int attId;					// 첨부파일ID
+	private String careerInsertDate;	// 작성날짜
+	private String careerDeleteDate;	// 삭제날짜
+	private int resumeId;				// 이력서번호
+	
+}

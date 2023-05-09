@@ -1,0 +1,20 @@
+package kr.or.ddit.mapper;
+
+
+import org.apache.ibatis.annotations.Mapper;
+import kr.or.ddit.prod.vo.ProdVO;
+
+@Mapper
+public interface PayMapper {
+
+	public void insertMem(ProdVO pay);
+
+	public void insertCom(ProdVO pay);
+
+	public void insertAttFile(ProdVO pay) throws Exception;
+
+	public void insertComp(ProdVO pay);
+
+	public void updateMem(ProdVO pay);
+
+}

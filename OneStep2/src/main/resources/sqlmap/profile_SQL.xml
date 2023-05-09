@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.ProfileMapper">
+
+	<insert id ="insertProfile" parameterType="profileVO" useGeneratedKeys="true">
+		<selectKey keyProperty="profileId" order="BEFORE" resultType="int">
+			SELECT seq_profileid.nextval FROM DUAL
+		</selectKey>
+		INSERT INTO profile (
+			profile_id, profile_fn, profile_name, profile_path 
+		) VALUES (
+			#{profileId}, #{profileFn}, #{profileName}, #{profilePath}
+		)
+	</insert>
+	
+	<update id ="updateProfile" parameterType="profileVO">
+		UPDATE profile 
+		SET
+			profile_fn = #{profileFn},
+			profile_name = #{profileName},
+			profile_path = #{profilePath}
+		WHERE profile_id = #{profileId}
+	</update>
+	
+	<update id="updateMemberProfileId" parameterType="map">
+		UPDATE member
+		SET
+			profile_id = #{profileId}
+		WHERE mem_id = #{memId}
+	</update>
+	
+	
+	<select id = "getProfile" parameterType="int" resultType="profileVO">
+		SELECT
+			profile_id
+			, profile_fn
+			, profile_name
+			, profile_path
+		FROM profile
+		WHERE profile_id = #{profileId}
+	</select>
+	
+	
+</mapper>

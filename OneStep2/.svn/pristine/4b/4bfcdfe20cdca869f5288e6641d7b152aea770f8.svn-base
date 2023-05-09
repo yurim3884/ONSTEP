@@ -1,0 +1,91 @@
+package kr.or.ddit.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.company.vo.CompanyVO;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.vo.AnnoKeywordVO;
+import kr.or.ddit.vo.AnnoVO;
+import kr.or.ddit.vo.AttVO;
+import kr.or.ddit.vo.FaqVO;
+import kr.or.ddit.vo.ReviewVO;
+
+@Mapper
+public interface CompanyMapper {
+
+	void insertAnno(AnnoVO anno);
+
+	List<AnnoVO> selectAnno(int comId);
+
+	int deleteAnno(int annoId);
+
+	AnnoVO selectAnnoOne(int annoId);
+
+	int updateAnno(AnnoVO annoVO);
+
+	List<MemberVO> selectMember();
+
+	void insertCompany(CompanyVO vo);
+
+	void insertFile(CompanyVO vo);
+
+	void insertAnnoFile(AnnoVO anno);
+
+	List<AnnoKeywordVO> selectAnnoKeyword();
+
+	CompanyVO getCompany(String companyId);
+
+	List<MemberVO> selectinterMember(int comId);
+
+	List<MemberVO> selectApplyMem(int comId);
+
+	void insertReview(ReviewVO vo);
+
+	List<ReviewVO> getReviewList(int comId);
+
+	List<BoardVO> noticeList();
+
+	int annoCnt(int companyId);
+
+	int interCnt(int comId);
+
+	int applyCnt(int comId);
+
+	int reviewCnt(int comId);
+
+	List<CompanyVO> searchCompanyList(String companyName);
+
+	CompanyVO searchCompany(String companyName);
+
+	List<AnnoVO> annoList();
+
+	List<AnnoVO> ajaxAnnoList(String searchType);
+
+	void deleteBoardFile(int boardId);
+
+	List<FaqVO> selectFaq();
+
+	void delete(int boardId);
+
+	List<AttVO> selectBoardFile(int boardId);
+
+	BoardVO inquiry(int boardId);
+
+	void deleteBoardFileByBoardId(int boardId);
+
+	int deleteBoard(int boardId);
+
+	int updateBoard(BoardVO boardVO);
+
+	void insertBoardFile(AttVO attVO);
+
+	int insertInqu(BoardVO board);
+
+	List<BoardVO> inquirylist(String memId);
+
+	void insertHeart(MemberVO memberVO);
+
+}

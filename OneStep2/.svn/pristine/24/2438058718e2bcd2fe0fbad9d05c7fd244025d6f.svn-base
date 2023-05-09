@@ -1,0 +1,177 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<div class="sub-header-container">
+	<header class="header navbar navbar-expand-sm">
+		<ul class="navbar-nav flex-row">
+			<li>
+				<div class="page-header">
+					<nav class="breadcrumb-one" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item active" aria-current="page"><span>자기소개서 목록</span></li>
+						</ol>
+					</nav>
+				</div>
+			</li>
+		</ul>
+		<ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+			<li class="">
+				<p class="current-time" id="currentTime"></p>
+				<p class="current-date" id="currentDate"></p>
+			</li>
+		</ul>
+	</header>
+</div>
+<!--  Navbar Ends / Breadcrumb Area  -->
+<!-- Main Body Starts -->
+<div class="layout-px-spacing">
+	<div class="layout-top-spacing mb-2">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="container p-0">
+					<div class="row layout-top-spacing date-table-container">
+						<!-- Datatable with export options -->
+						<div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+							<div class="widget-content widget-content-area br-6">
+								<h4 class="table-header">대표 자기소개서</h4>
+								<div class="row">
+									<div class="col-sm-8">
+	                                    <select class="form-control" required>
+	                                        <option value="">대표 자기소개서를 선택해 주세요.</option>
+	                                        <option value="1">바로 실무 가능한 경험 많은 인재입니다.</option>
+	                                        <option value="2">김구직의 이력서</option>
+	                                        <option value="3">이력서3</option>
+	                                    </select>
+	<!--                                     <div class="valid-feedback"> -->
+	<!--                                     Success! -->
+	<!--                                     </div> -->
+	<!--                                     <div class="invalid-feedback"> -->
+	<!--                                         Please select a value -->
+	<!--                                     </div> -->
+	                                </div>
+	                                <div class="col-sm-4">
+	                                    <button type="button" class="btn btn-primary">이력서 공개하기</button>
+	                                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/myPage/resumeInsert'">이력서 작성</button>
+	                                </div>
+                                </div>
+								<div class="table-responsive mb-4">	<br>
+									<table id="export-dt" class="table table-hover" style="width: 100%">
+										<thead>
+											<tr>
+<!-- 												<th>번호</th> -->
+												<th>이력서 제목</th>
+												<th>희망 직무 · 직업</th>
+												<th>근무지역</th>
+												<th>작성일</th>
+												<th>희망 연봉</th>
+												<th class="no-content"></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+<!-- 												<td>3</td> -->
+												<td><a data-toggle="modal" href="#resumeViewModal">바로 실무 가능한 경험 많은 인재입니다.</a></td>
+												
+												<!-- ================================================== -->
+												<div id="resumeViewModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                                                  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="">바로 실무 가능한 경험 많은 인재입니다.</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <i class="las la-times"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body"><p>ㄴㅁㅇㄹㄹ</p></div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i>닫기</button>
+                                                            <button type="button" class="btn btn-primary">이력서 수정</button>
+                                                        </div>
+                                                    </div>
+                                                  </div>
+                                                </div>												
+												<!-- ================================================== -->
+												
+												<td>IT 개발 · 데이터</td>
+												<td>서울 전체</td>
+												<td>2022/04/25</td>
+												<td>$320,800</td>
+												<td><a href="#" title="Edit"
+													class="font-20 text-primary"><i class="las la-edit"></i></a></td>
+											</tr>
+											<tr>
+<!-- 												<td>2</td> -->
+												<td><a href="/myPage/resume/detail">김구직의 이력서</a></td>
+												<td>인사 · 총무</td>
+												<td>서울시 종로구, 서울시 동작구</td>
+												<td>2022/07/25</td>
+												<td>$170,750</td>
+												<td><a href="#" title="Edit"
+													class="font-20 text-primary"><i class="las la-edit"></i></a></td>
+											</tr>
+											<tr>
+<!-- 												<td>1</td> -->
+												<td><a href="/myPage/resumeView">이력서 2</a></td>
+												<td>IT 개발 · 데이터</td>
+												<td>서울 · 경기</td>
+												<td>2020/01/12</td>
+												<td>$86,000</td>
+												<td><a href="#" title="Edit"
+													class="font-20 text-primary"><i class="las la-edit"></i></a></td>
+											</tr>
+											
+											
+										</tbody>
+										<tfoot>
+											<tr>
+<!-- 												<th>번호</th> -->
+												<th>이력서 제목</th>
+												<th>희망 직무 · 직업</th>
+												<th>근무지역</th>
+												<th>작성일</th>
+												<th>희망 연봉</th>
+												<th></th>
+											</tr>
+										</tfoot>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Main Body Ends -->
+<!-- <div class="responsive-msg-component"> -->
+<!--     <p> -->
+<!--         <a class="close-msg-component"><i class="las la-times"></i></a> -->
+<!--         Please reload the page when you change the viewport size to view the responsive functionalities correctly -->
+<!--     </p> -->
+<!-- </div> -->
+<!--  </div> -->
+<!--  Content Area Ends  -->
+
+<script>
+        $(document).ready(function() {
+            $('#export-dt').DataTable( {
+                dom: '<"row"<"col-md-6"B><"col-md-6"f> ><""rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>>',
+                buttons: {
+                    buttons: [
+//                         { extend: 'copy', className: 'btn btn-primary' },
+//                         { extend: 'csv', className: 'btn btn-primary' },
+                        { extend: 'excel', className: 'btn btn-rounded btn-success' },
+                        { extend: 'pdf', className: 'btn btn-rounded btn-warning' },
+                        { extend: 'print', className: 'btn btn-rounded btn-info' }
+                    ]
+                },
+                "language": {
+                    "paginate": {
+                        "previous": "<i class='las la-angle-left'></i>",
+                        "next": "<i class='las la-angle-right'></i>"
+                    }
+                },
+                "lengthMenu": [7, 10, 20, 50],
+                "pageLength": 7 
+            } );
+        } );
+    </script>

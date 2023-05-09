@@ -1,0 +1,11 @@
+package kr.or.ddit.fullcalendar.service;
+
+import java.util.List;
+
+import kr.or.ddit.fullcalendar.vo.FullcalendarVO;
+
+public interface IAnnoFullcalendarService {
+
+	public List<FullcalendarVO> selectfullList();
+
+}

@@ -1,0 +1,149 @@
+package kr.or.ddit.company.service;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.company.vo.CompanyVO;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.prod.vo.ProdVO;
+import kr.or.ddit.vo.AnnoKeywordVO;
+import kr.or.ddit.vo.AnnoVO;
+import kr.or.ddit.vo.ApplyVO;
+import kr.or.ddit.vo.AttVO;
+import kr.or.ddit.vo.EvaluationVO;
+import kr.or.ddit.vo.FaqVO;
+import kr.or.ddit.vo.ProposalVO;
+import kr.or.ddit.vo.ReviewVO;
+import kr.or.ddit.vo.keywordAnnoVO;
+
+public interface ICompanyService {
+
+	void insertAnno(HttpServletRequest req, AnnoVO anno)throws Exception;
+
+	List<AnnoVO> selectAnno(String companyId);
+
+	ServiceResult deleteAnno(int annoId);
+
+	AnnoVO selectAnnoOne(int annoId);
+
+	ServiceResult updateAnno(HttpServletRequest req,AnnoVO annoVO)throws Exception;
+
+	List<MemberVO> selectMember();
+
+
+	void insertCompany(CompanyVO vo, HttpServletRequest req) throws Exception;
+
+	List<AnnoKeywordVO> selectAnnoKeyword();
+
+	CompanyVO getCompany(String companyId);
+
+	List<MemberVO> selectinterMember(String companyId);
+
+	List<MemberVO> selectApplymem(String companyId);
+	
+
+	void insertReview(ReviewVO vo);
+
+	List<ReviewVO> getReviewList(int parseInt);
+	
+	List<BoardVO> noticeList();
+
+	int annoCnt(String companyId);
+
+	int interCnt(String companyId);
+
+	int applyCnt(String companyId);
+
+	int reviewCnt(String companyId);
+
+	List<CompanyVO> searchCompanyList(String companyName);
+
+	CompanyVO searchCompany(String companyName);
+
+	List<AnnoVO> annoList();
+	
+	List<BoardVO> inquirylist(String memId);
+
+	BoardVO inquiry(int boardId);
+
+	ServiceResult insertInqu(HttpServletRequest req, BoardVO board);
+
+	ServiceResult updateBoard(HttpServletRequest req, BoardVO boardVO);
+
+	ServiceResult deleteInquiry(HttpServletRequest req, int boardId);
+
+	List<AttVO> selectBoardFile(int boardId);
+
+	void delete(int boardId);
+
+	List<FaqVO> selectFaq();
+
+
+	List<AnnoVO> ajaxAnnoList(String searchType);
+
+	void insertHeart(MemberVO memberVO);
+
+	List<MemberVO> selectinter(String companyId);
+
+	void deleteHeart(MemberVO member);
+
+	CompanyVO getCompanyInt(int companyId);
+
+	void createTag(keywordAnnoVO tagVO);
+
+	List<keywordAnnoVO> seleteKeyword(int annoId);
+
+	List<AnnoVO> ajaxAnnoSearch(List<String> jsonObj);
+
+	List<keywordAnnoVO> seleteComKeyword(String companyId);
+
+	List<ReviewVO> getReview(String companyId);
+
+	BoardVO notice(int boardId);
+
+	List<AnnoVO> ajaxAnnoRegionSearch(List<String> jsonObj);
+
+	List<AnnoVO> ajaxAnnoJobSearch(List<String> jsonObj);
+
+	List<AnnoVO> selectAnnoList();
+
+	MemberVO detailMem(String memId);
+
+	void proposal(ProposalVO proposalVO);
+
+	List<MemberVO> selectProposalMember(String companyId);
+
+	MemberVO detailMemInt(int resumeId);
+
+	void updateApply(ApplyVO applyVO);
+
+	List<MemberVO> selectApplyAnno(int annoId);
+
+	void updateApplyResult(EvaluationVO evaluationVO);
+
+	List<ReviewVO> getReviewAll();
+
+	List<ProdVO> adList(String companyId);
+
+	List<MemberVO> selectApplyMemList(int annoId);
+
+	List<BoardVO> noticeList5();
+
+	MemberVO selectApplyMemId(Map<String, Object> memApplyMap);
+
+	Map<String, Object> getAvgPay(String companyMain);
+
+	List<MemberVO> getComMemList(String companyName);
+
+	List<MemberVO> getApplyMemList(String companyName);
+
+
+
+
+
+}

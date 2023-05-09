@@ -1,0 +1,231 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <div class="sub-header-container">
+      <header class="header navbar navbar-expand-sm">
+        <ul class="navbar-nav flex-row">
+          <li>
+            <div class="page-header">
+              <nav class="breadcrumb-one" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="javascript:void(0);">Forms</a></li>
+                  <li class="breadcrumb-item active" aria-current="page"><span>Welcome to OneStep</span></li>
+                </ol>
+              </nav>
+            </div>
+          </li>
+        </ul>
+        <ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+          <li class="">
+            <p class="current-time" id="currentTime"></p>
+            <p class="current-date" id="currentDate"></p>
+          </li>
+        </ul>
+      </header>
+    </div>
+
+    <!--  Navbar Ends / Breadcrumb Area  -->
+    <!-- Main Body Starts -->
+    <div class="layout-px-spacing">
+      <div class="row layout-top-spacing">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+          <div class="widget top-welcome">
+            <div class="f-100">
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="media">
+                    <div class="mr-3">
+                      <img src="/resources/upload/${vo.companyLogo}" alt="회사로고" class="avatar-md rounded-circle img-thumbnail">
+                    </div>
+                    
+                    <div class="align-self-center media-body">
+                      <div class="text-muted">
+                        <p class="mb-2 text-primary">${vo.companyEstablishment }</p>
+                        <h5 class="mb-1">${vo.companyName }</h5>
+                        <p class="mb-0">${vo.companySmall }  ${vo.companyMain }</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="align-self-center col-lg-5">
+                  <div class="text-lg-center mt-4 mt-lg-0">
+                    <div class="row">
+                      <div class="col-3">
+                        <div>
+                          <p class="text-muted text-truncate mb-2">공고수</p>
+                          <h5 class="mb-0">${annoCnt }</h5>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div>
+                          <p class="text-muted text-truncate mb-2">관심인재수</p>
+                          <h5 class="mb-0">${insterstCnt }</h5>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div>
+                          <p class="text-muted text-truncate mb-2">지원수</p>
+                          <h5 class="mb-0">${applyCnt }</h5>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div>
+                          <p class="text-muted text-truncate mb-2">리뷰수</p>
+                          <h5 class="mb-0">${reviewCnt }</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-none d-lg-flex col-lg-3 align-items-end justify-content-center flex-column">
+                  <button class="btn btn-primary" onclick="location.href='/company/detail/48'">
+                	    내정보
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+             <div class="layout-px-spacing">
+                <div class="layout-top-spacing mb-5">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-4 col-md-4 bg-light-primary p-4 rounded">
+                                <img src="assets/img/logo.png" height="60px" class="mb-5"/>
+                                <div class="plan-left">
+                                    <h5>Plans Designed</h5>
+                                    <h5>for Every Business</h5>
+                                    <p>Choose plan that works best for you. Feel free to connect with us if you face any kind of issue</p>
+                                </div>
+                                <div class="small-testimonial mb-3">
+                                    <h6>"Amazing and totally satisfied with the service."</h6>
+                                    <div class="media">
+                                        <img class="mr-3 avatar-sm rounded-circle" src="assets/img/profile-28.jpg">
+                                        <div class="media-body">
+                                        <h5 class="mt-0 font-13 text-light strong mb-0">Anna Jonas</h5>
+                                        <p class="mt-0 font-12 text-light mb-0">Cras sit </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="media mt-1 happy-container">
+                                    <i class="lar la-laugh-beam font-45 mr-2 text-light"></i>
+                                    <div class="media-body mt-1">
+                                    <h5 class="mt-0 font-13 text-light strong mb-0">24000+</h5>
+                                    <p class="mt-0 font-12 text-light mb-0">Happy Customers </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-9 col-lg-8 col-md-8 p-4 rounded plan-right">
+                                <h4 class="mt-3">OneStep</h4>
+                                <p class="mb-4">쉽고 빠른 채용 공고</p>
+                                <div class="row">
+                                    <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
+                                        <div class="single-plan">
+                                            <i class="las la-motorcycle main-icon"></i>
+                                            <h6 class="main-title">Starter</h6>
+                                            <p class="plan-price">
+                                                <span class="dollar">$</span>10 <span class="plan-month">/ month</span>
+                                            </p>
+                                            <div class="d-flex multi-option">
+                                                <i class="lar la-check-circle"></i>
+                                                <a>Industry Relevance</a>
+                                            </div>
+                                            <div class="d-flex multi-option">
+                                                <i class="lar la-check-circle"></i>
+                                                <a>Developer API</a>
+                                            </div>
+                                            <div class="d-flex multi-option">
+                                                <i class="lar la-check-circle"></i>
+                                                <a>Search Analytics</a>
+                                            </div>
+                                            <div class="d-flex multi-option">
+                                                <i class="lar la-check-circle"></i>
+                                                <a>Cross Domain Search</a>
+                                            </div>
+                                            <a class="btn btn-primary btn-sm mt-4 mb-2">
+                                                Start Trial <i class="las la-angle-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
+                                        <div class="single-plan most-popular">
+                                            <i class="las la-car-side main-icon"></i>
+                                            <h6 class="main-title d-flex align-center">Business <span class="badge badge-primary font-10">Most Popular</span></h6>
+                                            <p class="plan-price">
+                                                <span class="dollar">$</span>20 <span class="plan-month">/ month</span>
+                                            </p>
+                                            <div class="d-flex multi-option">
+                                                <i class="lar la-check-circle"></i>
+                                                <a>All of Starter +</a>
+                                            </div>
+                                            <div class="d-flex multi-option">
+                                                <i class="lar la-check-circle"></i>
+                                                <a>Custom Reporting</a>
+                                            </div>
+                                            <div class="d-flex multi-option">
+                                                <i class="lar la-check-circle"></i>
+                                                <a>Content Updates</a>
+                                            </div>
+                                            <div class="d-flex multi-option">
+                                                <i class="lar la-check-circle"></i>
+                                                <a>History Analytics</a>
+                                            </div>
+                                            <a class="btn btn-primary btn-sm mt-4 mb-2">
+                                                Start Trial <i class="las la-angle-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
+                                        <div class="single-plan">
+                                            <i class="las la-truck-moving main-icon"></i>
+                                            <h6 class="main-title">Premium</h6>
+                                            <p class="plan-price">
+                                                <span class="dollar">$</span>40 <span class="plan-month">/ month</span>
+                                            </p>
+                                            <div class="d-flex multi-option">
+                                                <i class="lar la-check-circle"></i>
+                                                <a>All of Business +</a>
+                                            </div>
+                                            <div class="d-flex multi-option">
+                                                <i class="lar la-check-circle"></i>
+                                                <a>Service Levels</a>
+                                            </div>
+                                            <div class="d-flex multi-option">
+                                                <i class="lar la-check-circle"></i>
+                                                <a>Security Controls</a>
+                                            </div>
+                                            <div class="d-flex multi-option">
+                                                <i class="lar la-check-circle"></i>
+                                                <a>Account Manager</a>
+                                            </div>
+                                            <a class="btn btn-primary btn-sm mt-4 mb-2">
+                                                Start Trial <i class="las la-angle-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+            <div class="widget-chart-one">
+              <div class="widget-content overflow-hidden">
+                <div class="ticker-wrap">
+                  <div class="ticker-heading bg-gradient-info">
+                    <p onclick="location.href='/company/notice'">공지사항</p>
+                  </div>
+                  <div class="ticker">
+                  <c:forEach items="${notice}" var="notice">
+                    <div class="ticker-item">${notice.boardTitle }</div>
+                  </c:forEach>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

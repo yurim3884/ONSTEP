@@ -1,0 +1,48 @@
+package kr.or.ddit.mapper;
+
+import java.util.List;
+
+import kr.or.ddit.myPage.vo.ActivityVO;
+import kr.or.ddit.myPage.vo.AwardVO;
+import kr.or.ddit.myPage.vo.CareerVO;
+import kr.or.ddit.myPage.vo.CertificationVO;
+import kr.or.ddit.myPage.vo.DesiredEmplVO;
+import kr.or.ddit.myPage.vo.EducationVO;
+import kr.or.ddit.myPage.vo.EmploymentPreferencesVO;
+import kr.or.ddit.myPage.vo.LanguageVO;
+import kr.or.ddit.myPage.vo.NotificationVO;
+import kr.or.ddit.myPage.vo.PortfolioVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.myPage.vo.SkillVO;
+import kr.or.ddit.myPage.vo.WorkfieldVO;
+import kr.or.ddit.vo.PaginationInfoVO;
+
+public interface MypageMapper {
+
+	public int selectNotificationCount(PaginationInfoVO<NotificationVO> pagingVO);
+
+	public List<NotificationVO> selectNotificationList(PaginationInfoVO<NotificationVO> pagingVO);
+
+	public NotificationVO selectNotification(int notificationId);
+
+	public int deleteNotification(int notificationId);
+
+	public int selectResumeCount(PaginationInfoVO<ResumeVO> pagingVO);
+	public List<ResumeVO> selectResumeList(PaginationInfoVO<ResumeVO> pagingVO);
+
+	public void insertResume(ResumeVO resume);
+	public void insertActivity(ActivityVO activity);
+	public void insertAward(AwardVO award);
+	public void insertCareer(CareerVO career);
+	public void insertCertification(CertificationVO certification);
+	public void insertDesired(DesiredEmplVO desired);
+	public void insertEducation(EducationVO education);
+	public void insertPrfrn(EmploymentPreferencesVO prfrn);
+	public void insertLanguage(LanguageVO language);
+	public void insertSkill(SkillVO skill);
+	public void insertPortfolio(PortfolioVO portfolio);
+	public void insertWorkfield(WorkfieldVO workfield);
+
+	public ResumeVO detail(String resumeId);
+
+}

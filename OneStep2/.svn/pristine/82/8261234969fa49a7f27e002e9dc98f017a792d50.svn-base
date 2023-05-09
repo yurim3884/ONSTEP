@@ -1,0 +1,107 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<div class="sub-header-container"> 
+    <header class="header navbar navbar-expand-sm">
+        <ul class="navbar-nav flex-row">
+            <li>
+                <div class="page-header">
+                    <nav class="breadcrumb-one" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Forms</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><span>main</span></li>
+                        </ol>
+                    </nav>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+            <li class="">
+                <p class="current-time" id="currentTime"></p>
+                <p class="current-date" id="currentDate"></p>
+            </li>
+        </ul>
+    </header>
+</div>
+<div class="col-xl-12 col-lg-12 col-md-12">
+     <div class="row">
+         <div class="col-md-12">
+             <div class="input-group m-t-10">
+                 <input type="text"  id="text" class="form-control" placeholder="원하는기업을 검색해보세요">
+                 <span class="input-group-append">
+                     <button type="button" class="btn btn-primary">Search</button>
+                 </span>
+             </div>
+             <div class="col-xl-12 col-lg-12 col-md-12"> 
+             <table class="table mb-0" id="searchTable" style="display: none;" >
+                   <thead>
+                   <tr>
+                       <th>기업명</th>
+                   </tr>
+                   </thead>
+                   <tbody id="table">
+                   </tbody>
+               </table>
+             </div>
+             
+         </div>
+     </div>
+ </div>
+ 
+ 
+ <script type="text/javascript">
+$(function(){
+
+	var text = $('#text');
+	
+	text.on("keyup",function(){
+			
+		
+			if($('#text').val()!=""){
+			$.ajax({
+		 		url : "/company/searchCompanyList",
+		 		type: "get",
+		 		data:{companyName:text.val()},
+		 		success: function(res){
+					
+			 		
+		 			$("#table").html("");
+		 			html="";
+		 			
+		 			for(let i=0; i<res.length; i++){
+
+						
+			 			html ="";
+			 			
+		 				console.log('기업명 : ' + res[i]['companyName']);	
+						companyId = res[i]['companyId'];
+		 				html += `<tr>`;
+		 				html += "<td><a href= '/member/detail/"+companyId+"'"+">"+res[i]['companyName']+'</a></td>';
+		 				html += `</tr>`;
+	
+		 				$("#table").append(html);
+			 		}
+
+						console.log($('#text').val());	
+					
+						if(res.length>0){
+							$('#searchTable').css('display','table');
+						}
+
+						
+						
+	 					
+						
+						}
+					
+				});
+			}else{
+				$('#searchTable').css('display','none');
+				}
+			
+
+			
+});
+
+	
+});
+</script>

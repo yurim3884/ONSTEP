@@ -1,0 +1,117 @@
+package kr.or.ddit.fullcalendar.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.or.ddit.fullcalendar.service.IAnnoFullcalendarService;
+import kr.or.ddit.fullcalendar.vo.FullcalendarVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/annofullcal")
+@Controller
+public class AnnounceMentFullcalendar {
+
+	@Inject
+	private IAnnoFullcalendarService annofulcalService;
+	
+	public String fullcalendarList() {
+		return "member/calendar";
+	}
+	
+	@RequestMapping(value="/list", method=RequestMethod.GET)
+	public String annocalendar() {
+		log.info("뭐라도 나와라");
+		return "member/calendar";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/list",method=RequestMethod.POST)
+	public JSONArray annoCalendarList(Model model) {
+		log.info("뭐라도 떠라 제발 500이 뭐냐 : ");
+		List<FullcalendarVO> list = annofulcalService.selectfullList();
+		System.out.println("데이터가 뜨는가? : " + list);
+		
+		model.addAttribute("list", list);
+		JSONObject jsonObj = new JSONObject();
+		JSONArray jsonArr = new JSONArray();
+		
+		Map<String, Object> annocalMap = new HashMap<String, Object>();
+		
+		for(int i=0; i<list.size(); i++) {
+			annocalMap.put("no", list.get(i).getCalId());
+			annocalMap.put("title", list.get(i).getCalTitle());
+			annocalMap.put("content", list.get(i).getCalContent());
+			annocalMap.put("start", list.get(i).getCalStart());
+			annocalMap.put("end", list.get(i).getCalEnd());
+			annocalMap.put("memId", list.get(i).getMemId());
+			annocalMap.put("annoId", list.get(i).getAnnoId());
+			annocalMap.put("id", list.get(i).getId());
+			annocalMap.put("className", list.get(i).getLabel());
+			
+			jsonObj = new JSONObject(annocalMap);
+			jsonArr.add(jsonObj);
+		}
+		System.out.println("json : {}" + jsonArr);
+		return jsonArr;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

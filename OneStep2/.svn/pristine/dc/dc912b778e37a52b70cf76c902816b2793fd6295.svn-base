@@ -1,0 +1,399 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+
+
+        <div id="content" class="main-content">
+            <!--  Navbar Starts / Breadcrumb Area  -->
+            <div class="sub-header-container">
+                <header class="header navbar navbar-expand-sm">
+                    <ul class="navbar-nav flex-row">
+                        <li>
+                            <div class="page-header">
+                                <nav class="breadcrumb-one" aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Apps</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page" ><span>로그인</span></li>
+                                        
+                                    </ol>
+                                </nav>
+                            </div>
+                        </li>
+                    </ul>
+                </header>
+            </div>
+            <!--  Navbar Ends / Breadcrumb Area  -->
+            <!-- Main Body Starts -->
+            <div class="layout-px-spacing">                
+                <div class="row layout-spacing layout-top-spacing" id="cancel-row">
+                    <div class="col-lg-12">
+                        <div class="">
+                        <div class="widget-content searchable-container grid">
+                            <div class="card-box">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 filtered-list-search align-self-center w-100">
+                                        <form class="form-inline my-2 my-lg-0">
+                                            <div class="">
+                                                <i class="las la-search toggle-search"></i>
+                                                <input type="text" id="input-search" class="form-control search-form-control  ml-lg-auto" placeholder="Search Companies">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-5 text-sm-right text-center align-self-center">
+                                        <div class="d-flex justify-content-sm-end justify-content-center contact-options">
+                                            <a id="btn-add-company" class="pointer font-25 s-o mr-2">
+                                                <i class="las la-plus-circle"></i>
+                                            </a>
+                                            <a class="pointer font-25 s-o">
+                                                <i class="las la-cog"></i>
+                                            </a>
+                                            <div class="dropdown custom-dropdown-icon mt-1">
+                                                <a class="dropdown-toggle" href="#" role="button" id="customDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Sort By</span> <i class="las la-angle-down"></i></a>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="customDropdown" style="will-change: transform;">
+                                                    <a class="dropdown-item" href="javascript:void(0);">Name</a>
+                                                    <a class="dropdown-item" href="javascript:void(0);">Projects</a>
+                                                    <a class="dropdown-item" href="javascript:void(0);">Team</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Add Modal -->
+                                        <div class="modal fade" id="addCompanyModal" tabindex="-1" role="dialog" aria-labelledby="addCompanyModalTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <i class="las la-times pointer" data-dismiss="modal"></i>
+                                                        <div class="add-company-box">
+                                                            <div class="add-company-content">
+                                                                <h5 class="text-center mb-4">Add a Company</h5>
+                                                                <form id="addCompanyModalTitle">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12 text-center">
+                                                                            <img id="image" src="https://via.placeholder.com/75x75" style="border-radius:50%"/>
+                                                                            <input type="file" id="myfile" style="display: none;"/>
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            <div class="company-name">
+                                                                                <i class="las la-briefcase"></i>
+                                                                                <input type="text" id="c-name" class="form-control" placeholder="Company Name">
+                                                                                <span class="validation-text"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            <div class="company-email">
+                                                                                <i class="las la-map-marker"></i>
+                                                                                <input type="text" id="c-email" class="form-control" placeholder="Company Location">
+                                                                                <span class="validation-text"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="company-project">
+                                                                                <i class="las la-clipboard-list"></i>
+                                                                                <input type="text" id="c-designation" class="form-control" placeholder="Project">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="company-team">
+                                                                                <i class="las la-user-friends"></i>
+                                                                                <input type="text" id="c-contact" class="form-control" placeholder="Team">
+                                                                                <span class="validation-text"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="company-description">
+                                                                                <i class="las la-pen"></i>
+                                                                                <input type="text" id="c-location" class="form-control" placeholder="Description">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a data-dismiss="modal" class="pointer text-primary font-12 mr-3">Close</a>
+                                                        <button class="btn btn-sm btn-primary">Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Edit Modal -->
+                                        <div class="modal fade" id="editContactModal" tabindex="-1" role="dialog" aria-labelledby="editContactModalTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <i class="flaticon-cancel-12 close" data-dismiss="modal"></i>
+                                                        <div class="add-contact-box">
+                                                            <div class="add-contact-content">
+                                                                <h5 class="text-center mb-4">Edit Contact</h5>
+                                                                <form id="addContactModalTitle">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12 text-center">
+                                                                            <img id="image" src="assets/img/profile-5.jpg" style="border-radius:50%"/>
+                                                                            <input type="file" id="myfile" style="display: none;"/>
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            <div class="contact-name">
+                                                                                <i class="las la-user"></i>
+                                                                                <input value="Azeemo Shaan" type="text" id="c-name" class="form-control" placeholder="Name">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            <div class="contact-email">
+                                                                                <i class="las la-envelope"></i>
+                                                                                <input value="azeemo@mail.com" type="text" id="c-email" class="form-control" placeholder="Email">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="contact-designation">
+                                                                                <i class="las la-briefcase"></i>
+                                                                                <input value="Web Developer" type="text" id="c-designation" class="form-control" placeholder="Designation">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="contact-contact">
+                                                                                <i class="las la-phone"></i>
+                                                                                <input value="California, USA" type="text" id="c-contact" class="form-control" placeholder="Contact">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="contact-location">
+                                                                                <i class="las la-map-marker"></i>
+                                                                                <input value="+1 (070) 123-4567" type="text" id="c-location" class="form-control" placeholder="Location">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a data-dismiss="modal" class="pointer text-primary font-12 mr-3">Close</a>
+                                                        <button class="btn btn-sm btn-primary">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="searchable-items grid card-box">
+                                <div class="items">
+                                    <div class="item-content">
+                                        <div class="user-profile">
+                                            <img src="assets/img/company-5.jpg" class="light-image" alt="avatar">
+                                            <img src="assets/img/company-5.jpg" alt="avatar">
+                                            <div class="user-meta-info">
+                                                <p class="user-name">Link Technology</p>
+                                                <p class="user-work">California, USA</p>
+                                            </div>
+                                        </div> 
+                                        <p class="font-12 text-center text-muted">Link Technology is an American multinational technology conglomerate headquartered in California.</p>
+                                        <div class="d-flex company-small-details align-center justify-content-around mt-3">
+                                            <div class="left text-center">
+                                                <p class="font-12 text-muted  mb-0">Projects</p>
+                                                <p class="font-25 text-primary strong">12</p>
+                                            </div>
+                                            <div class="right text-center">
+                                                <p class="font-12 text-muted  mb-0">Team</p>
+                                                <p class="font-25 text-primary strong">22</p>
+                                            </div>
+                                        </div>
+                                        <div class="action-btn">
+                                           <a class="btn btn-sm btn-dark" href="apps_company_details.html">Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="items">
+                                    <div class="item-content">
+                                        <div class="user-profile">
+                                            <img src="assets/img/company-1.jpg" class="light-image" alt="avatar">
+                                            <img src="assets/img/company-1.jpg" alt="avatar">
+                                            <div class="user-meta-info">
+                                                <p class="user-name">Cube House</p>
+                                                <p class="user-work">Chicago, USA</p>
+                                            </div>
+                                        </div>
+                                        <p class="font-12 text-center text-muted">Cube House is an American multinational technology  conglomerate headquartered in California.</p>
+                                        <div class="d-flex company-small-details align-center justify-content-around mt-3">
+                                            <div class="left text-center">
+                                                <p class="font-12 text-muted  mb-0">Projects</p>
+                                                <p class="font-25 text-primary strong">10</p>
+                                            </div>
+                                            <div class="right text-center">
+                                                <p class="font-12 text-muted  mb-0">Team</p>
+                                                <p class="font-25 text-primary strong">17</p>
+                                            </div>
+                                        </div>
+                                        <div class="action-btn">
+                                           <a class="btn btn-sm btn-dark" href="apps_company_details.html">Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="items">
+                                    <div class="item-content">
+                                        <div class="user-profile">
+                                            <img src="assets/img/company-2.jpg" class="light-image" alt="avatar">
+                                            <img src="assets/img/company-2.jpg" alt="avatar">
+                                            <div class="user-meta-info">
+                                                <p class="user-name">Hightech</p>
+                                                <p class="user-work">Sao Paolo, Brazil</p>
+                                            </div>
+                                        </div>
+                                        <p class="font-12 text-center text-muted">Hightech is an multinational technology company conglomerate headquartered in Brazil.</p>
+                                        <div class="d-flex company-small-details align-center justify-content-around mt-3">
+                                            <div class="left text-center">
+                                                <p class="font-12 text-muted  mb-0">Projects</p>
+                                                <p class="font-25 text-primary strong">10</p>
+                                            </div>
+                                            <div class="right text-center">
+                                                <p class="font-12 text-muted  mb-0">Team</p>
+                                                <p class="font-25 text-primary strong">17</p>
+                                            </div>
+                                        </div>
+                                        <div class="action-btn">
+                                           <a class="btn btn-sm btn-dark" href="apps_company_details.html">Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="items">
+                                    <div class="item-content">
+                                        <div class="user-profile">
+                                            <img src="assets/img/company-3.jpg" class="light-image" alt="avatar">
+                                            <img src="assets/img/company-3.jpg" alt="avatar">
+                                            <div class="user-meta-info">
+                                                <p class="user-name">Innovation Tech</p>
+                                                <p class="user-work">Madrid, Spain</p>
+                                            </div>
+                                        </div>
+                                        <p class="font-12 text-center text-muted">Innovation Tech is an Spainish multinational technology conglomerate headquartered in Spain.</p>
+                                        <div class="d-flex company-small-details align-center justify-content-around mt-3">
+                                            <div class="left text-center">
+                                                <p class="font-12 text-muted  mb-0">Projects</p>
+                                                <p class="font-25 text-primary strong">2</p>
+                                            </div>
+                                            <div class="right text-center">
+                                                <p class="font-12 text-muted  mb-0">Team</p>
+                                                <p class="font-25 text-primary strong">22</p>
+                                            </div>
+                                        </div>
+                                        <div class="action-btn">
+                                           <a class="btn btn-sm btn-dark" href="apps_company_details.html">Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="items">
+                                    <div class="item-content">
+                                        <div class="user-profile">
+                                            <img src="assets/img/company-4.jpg" class="light-image" alt="avatar">
+                                            <img src="assets/img/company-4.jpg" alt="avatar">
+                                            <div class="user-meta-info">
+                                                <p class="user-name">Circle Inc.</p>
+                                                <p class="user-work">California, USA</p>
+                                            </div>
+                                        </div>
+                                        <p class="font-12 text-center text-muted">Circle Corporation is an American multinational technology conglomerate headquartered in USA.</p>
+                                        <div class="d-flex company-small-details align-center justify-content-around mt-3">
+                                            <div class="left text-center">
+                                                <p class="font-12 text-muted  mb-0">Projects</p>
+                                                <p class="font-25 text-primary strong">14</p>
+                                            </div>
+                                            <div class="right text-center">
+                                                <p class="font-12 text-muted  mb-0">Team</p>
+                                                <p class="font-25 text-primary strong">37</p>
+                                            </div>
+                                        </div>
+                                        <div class="action-btn">
+                                           <a class="btn btn-sm btn-dark" href="apps_company_details.html">Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="items">
+                                    <div class="item-content">
+                                        <div class="user-profile">
+                                            <img src="assets/img/company-7.jpg" class="light-image" alt="avatar">
+                                            <img src="assets/img/company-7.jpg" alt="avatar">
+                                            <div class="user-meta-info">
+                                                <p class="user-name">Hightech Joint</p>
+                                                <p class="user-work">Mumbai, India</p>
+                                            </div>
+                                        </div>
+                                        <p class="font-12 text-center text-muted">Hightech Joint is an Indian multinational technology conglomerate headquartered in India.</p>
+                                        <div class="d-flex company-small-details align-center justify-content-around mt-3">
+                                            <div class="left text-center">
+                                                <p class="font-12 text-muted  mb-0">Projects</p>
+                                                <p class="font-25 text-primary strong">1</p>
+                                            </div>
+                                            <div class="right text-center">
+                                                <p class="font-12 text-muted  mb-0">Team</p>
+                                                <p class="font-25 text-primary strong">5</p>
+                                            </div>
+                                        </div>
+                                        <div class="action-btn">
+                                           <a class="btn btn-sm btn-dark" href="apps_company_details.html">Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="items">
+                                    <div class="item-content">
+                                        <img src="assets/img/company-8.jpg" class="light-image" alt="avatar">
+                                        <div class="user-profile">
+                                            <img src="assets/img/company-8.jpg" alt="avatar">
+                                            <div class="user-meta-info">
+                                                <p class="user-name">Vision Primary</p>
+                                                <p class="user-work">California, USA</p>
+                                            </div>
+                                        </div>
+                                        <p class="font-12 text-center text-muted">Vision Primary is an American multinational technology conglomerate headquartered in USA.</p>
+                                        <div class="d-flex company-small-details align-center justify-content-around mt-3">
+                                            <div class="left text-center">
+                                                <p class="font-12 text-muted  mb-0">Projects</p>
+                                                <p class="font-25 text-primary strong">8</p>
+                                            </div>
+                                            <div class="right text-center">
+                                                <p class="font-12 text-muted  mb-0">Team</p>
+                                                <p class="font-25 text-primary strong">50</p>
+                                            </div>
+                                        </div>
+                                        <div class="action-btn">
+                                           <a class="btn btn-sm btn-dark" href="apps_company_details.html">Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pagination p13 text-center mt-4">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Main Body Ends -->
+            <div class="responsive-msg-component">
+                <p>
+                    <a class="close-msg-component"><i class="las la-times"></i></a>
+                    Please reload the page when you change the viewport size to view the responsive functionalities correctly
+                </p>
+            </div>
+            <!-- Copyright Footer Starts -->
+            <div class="footer-wrapper">
+                <div class="footer-section f-section-1">
+                    <p class="">Copyright © 2021 <a target="_blank" href="https://xato-web.web.app/">XatoWeb</a>, All rights reserved.</p>
+                </div>
+                <div class="footer-section f-section-2">
+                    <p class="">Crafted with extra <i class="las la-heart text-danger"></i></p>
+                </div>
+            </div>
+            <!-- Copyright Footer Ends -->
+            <!-- Arrow Starts -->
+            <div class="scroll-top-arrow" style="display: none;">
+                <i class="las la-angle-up"></i>
+            </div>
+            <!-- Arrow Ends -->
+        </div>

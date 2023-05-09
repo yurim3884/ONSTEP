@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.PaymentMapper">
+
+<select id="prodList" resultType="prodVO">
+select prod_id, prod_status, prod_content, prod_day, prod_start, prod_end, prod_cs, prod_price, mem_id, company_id from prod
+</select>
+
+<select id="prodYear" parameterType="String" resultType="prodVO">
+select substr(prod_day, 4, 2) as prod_month, 
+		sum(prod_price) as prod_sum
+from prod
+where  ('20'||substr(prod_day,0,2)) = #{year}
+and prod_cs = 1
+group by substr(prod_day,4,2)
+order by 1
+<!-- select substr(prod_day, 6, 2) as prod_month, 
+		sum(prod_price) as prod_sum
+from prod
+where substr(prod_day,1,4) = #{year}
+group by substr(prod_day,6,2)
+order by 1 -->
+</select>
+
+</mapper>

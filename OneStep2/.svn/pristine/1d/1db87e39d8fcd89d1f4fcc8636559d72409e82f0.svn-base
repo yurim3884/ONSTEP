@@ -1,0 +1,181 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<!--  Navbar Starts / Breadcrumb Area  -->
+<div class="sub-header-container">
+	<header class="header navbar navbar-expand-sm">
+		<ul class="navbar-nav flex-row">
+			<li>
+				<div class="page-header">
+					<nav class="breadcrumb-one" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="javascript:void(0);">Apps</a></li>
+							<li class="breadcrumb-item active" aria-current="page"><span>알림</span></li>
+						</ol>
+					</nav>
+				</div>
+			</li>
+		</ul>
+	</header>
+</div>
+<div class="card-box col-8" style="margin: 0 auto;">
+	<div class="w-100 animated-underline-content">
+		<ul class="nav nav-tabs  mb-3" id="lineTab" role="tablist">
+			<li class="nav-item"><a class="nav-link active"
+				id="underline-about-tab" data-toggle="tab" href="#underline-about"
+				role="tab" aria-controls="underline-about" aria-selected="true">받은
+					알림</a></li>
+			<li class="nav-item"><a class="nav-link"
+				id="underline-project-tab" data-toggle="tab"
+				href="#underline-project" role="tab"
+				aria-controls="underline-project" aria-selected="false">보낸 알림</a></li>
+		</ul>
+		<div class="tab-content" id="lineTabContent-3">
+			<!-- 받은 알림 -->
+			<div class="tab-pane fade show active" id="underline-about"
+				role="tabpanel" aria-labelledby="underline-about-tab">
+				<div class="d-flex flex-wrap">
+
+					<!-- 내용 -->
+					<div
+						class="col-xl-12 col-lg-12 col-md-12 col-sm-12 layout-spacing text-center"
+						style="margin: 0 auto;">
+						<div class="widget dashboard-table">
+							<div class="widget-content">
+								<div class="table-responsive">
+									<table class="table">
+										<thead>
+											<tr>
+												<th><div class="th-content">NO</div></th>
+												<th><div class="th-content">알림내용</div></th>
+												<th><div class="th-content">보낸사람</div></th>
+												<th><div class="th-content">받은날짜</div></th>
+												<th><div class="th-content">읽었는지</div></th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:set value="${pagingVO1.dataList }" var="alarmList" />
+											<c:choose>
+												<c:when test="${empty alarmList }">
+													<tr>
+														<td colspan="1" class="d-flex">조회하신 게시글이 존재하지 않습니다.</td>
+													</tr>
+												</c:when>
+												<c:otherwise>
+													<c:forEach items="${alarmList }" var="alarm">
+														<tr>
+															<td>${alarm.notificationId }</td>
+															<td>${alarm.postId } 님이 ${alarm.notificationContent }를 보냈습니다.</td>
+															<td>${alarm.postId }</td>
+															<td><fmt:formatDate
+																	value="${alarm.notificationDate }" /></td>
+															<td>
+																<c:choose>
+																	<c:when test="${alarm.notificationRead == 1}">
+																	<span class="btn btn-sm btn-primary"> 읽음 </span>
+																	</c:when>
+																	<c:otherwise>
+																	<span class="btn btn-sm btn-danger"> 안읽음 </span>
+																	</c:otherwise>
+																</c:choose>
+															</td>
+														</tr>
+													</c:forEach>
+												</c:otherwise>
+											</c:choose>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="pagination p13 text-center mt-4">
+								<ul class="mx-auto">
+									<nav aria-label="Page navigation example" id="pagingArea">${pagingVO1.pagingHTML }</nav>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 보낸 알림 -->
+			<div class="tab-pane fade" id="underline-project" role="tabpanel"
+				aria-labelledby="underline-project-tab">
+				<div class="row w-100 m-0">
+
+					<!-- 내용 -->
+					<div
+						class="col-xl-12 col-lg-12 col-md-12 col-sm-12 layout-spacing text-center"
+						style="margin: 0 auto;">
+						<div class="widget dashboard-table">
+							<div class="widget-content">
+								<div class="table-responsive">
+									<table class="table">
+										<thead>
+											<tr>
+												<th><div class="th-content">NO</div></th>
+												<th><div class="th-content">알림내용</div></th>
+												<th><div class="th-content">받은사람</div></th>
+												<th><div class="th-content">보낸날짜</div></th>
+												<th><div class="th-content">읽었는지</div></th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:set value="${pagingVO2.dataList }" var="alarmList" />
+											<c:choose>
+												<c:when test="${empty alarmList }">
+													<tr>
+														<td colspan="1" class="d-flex">조회하신 게시글이 존재하지 않습니다.</td>
+													</tr>
+												</c:when>
+												<c:otherwise>
+													<c:forEach items="${alarmList }" var="alarm">
+														<tr>
+															<td>${alarm.notificationId }</td>
+															<td>${alarm.getId } 님이 ${alarm.notificationContent }를 받았습니다.</td>
+															<td>${alarm.getId }</td>
+															<td><fmt:formatDate
+																	value="${alarm.notificationDate }" /></td>
+															<td>
+																<c:choose>
+																	<c:when test="${alarm.notificationRead == 1}">
+																	<span class="btn btn-sm btn-primary"> 읽음 </span>
+																	</c:when>
+																	<c:otherwise>
+																	<span class="btn btn-sm btn-danger"> 안읽음 </span>
+																	</c:otherwise>
+																</c:choose>
+															</td>
+														</tr>
+													</c:forEach>
+												</c:otherwise>
+											</c:choose>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="pagination p13 text-center mt-4">
+								<ul class="mx-auto">
+									<nav aria-label="Page navigation example" id="pagingArea">${pagingVO.pagingHTML }</nav>
+								</ul>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+		var pagingArea = $("#pagingArea");
+
+		pagingArea.on("click", "a", function(e) {
+			e.preventDefault();
+			var pageNo = $(this).data("page");
+			searchForm.find("#page").val(pageNo);
+			searchForm.submit();
+		});
+
+	});
+</script>

@@ -1,0 +1,13 @@
+package kr.or.ddit.pay.service;
+
+import javax.servlet.http.HttpServletRequest;
+
+import kr.or.ddit.pay.vo.PayVO;
+
+public interface IPayService {
+
+	void insert(PayVO pay);
+
+	
+
+}

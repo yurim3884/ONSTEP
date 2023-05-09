@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.FreeMapper">
+
+	<insert id="insertFree" parameterType="freeVO">
+		insert into free 
+			(FREE_NUM
+			, MEM_ID
+			, FREE_START
+			, FREE_CAREER
+			, FREE_SALARY
+			, FREE_WORK
+			, FREE_STALY
+			, FREE_COMPANY
+			, FREE_TYPE
+			, FREE_EXPER
+			, FREE_SKILL)
+			values (
+			seq_free_num.nextval
+			,#{memId}
+			,#{freeStart}
+			,#{freeCareer}
+			,#{freeSalary}
+			,#{freeWork}
+			,#{freeStaly}
+			,#{freeCompany}
+			,#{freeType}
+			,#{freeExper}
+			,#{freeSkill}
+			)
+	</insert>
+	
+	<select id="freeList" resultType="freeVO">
+	select * from free a LEFT OUTER join member b on a.MEM_ID = b.MEM_ID
+	</select>
+
+</mapper>

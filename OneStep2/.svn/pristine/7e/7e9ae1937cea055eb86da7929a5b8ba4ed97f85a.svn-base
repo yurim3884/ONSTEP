@@ -1,0 +1,45 @@
+package kr.or.ddit.myPage.serviceImpl;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.mapper.MypageMapper;
+import kr.or.ddit.myPage.service.IMypageService;
+import kr.or.ddit.myPage.vo.NotificationVO;
+import kr.or.ddit.vo.PaginationInfoVO;
+
+@Service
+public class MypageServiceImpl implements IMypageService {
+
+	@Inject
+	private MypageMapper mypageMapper;
+	
+	@Override
+	public int selectNotificationCount(PaginationInfoVO<NotificationVO> pagingVO) {
+		return mypageMapper.selectNotificationCount(pagingVO);
+	}
+
+	@Override
+	public List<NotificationVO> selectNotificationList(PaginationInfoVO<NotificationVO> pagingVO) {
+		return mypageMapper.selectNotificationList(pagingVO);
+	}
+
+	@Override
+	public ServiceResult deleteNotification(int notificationId) {
+		
+		ServiceResult result = null;
+		NotificationVO notificationVO = mypageMapper.selectNotification(notificationId);
+		int cnt = mypageMapper.deleteNotification(notificationId);
+		if (cnt > 0) {
+			result = ServiceResult.OK;
+		} else {
+			result = ServiceResult.FAILED;
+		}
+		return result;
+	}
+
+}

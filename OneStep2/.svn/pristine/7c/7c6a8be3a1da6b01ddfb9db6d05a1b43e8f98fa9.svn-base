@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.Fullcalendarmapper">
+
+<!-- 	<resultMap type="calVO" id="calMap"> -->
+<!-- 		<id property="calId" column="cal_id"/> -->
+<!-- 		<result property="calId" column="cal_id"/> -->
+<!-- 		<result property="calTitle" column="cal_title"/> -->
+<!-- 		<result property="calContent" column="cal_content"/> -->
+<!-- 		<result property="calStart" column="cal_start"/> -->
+<!-- 		<result property="calEnd" column="cal_end"/> -->
+<!-- 		<result property="memId" column="mem_id"/> -->
+<!-- 		<result property="annoId" column="anno_id"/> -->
+<!-- 		<result property="label" column="label"/> -->
+<!-- 		<result property="id" column="id"/> -->
+<!-- 		<collection property="annoList" resultMap="annoMap"/> -->
+<!-- 	</resultMap> -->
+	
+<!-- 	<resultMap type="annoVO" id="annoMap"> -->
+<!-- 		<result column="anno_title" property="annoTitle" /> -->
+<!-- 		<result column="com_id" property="comId" /> -->
+<!-- 		<result column="anno_id" property="annoId" /> -->
+<!-- 		<result column="anno_startDate" property="annoStartDate" /> -->
+<!-- 		<result column="anno_endDate" property="annoEndDate" /> -->
+<!-- 	</resultMap> -->
+
+
+
+
+
+
+
+	<select id="list" resultType="calVO">
+		select 
+			cal_id, cal_title, cal_content, cal_start, cal_end, mem_id, anno_id, id, label
+		  from cal 
+	</select>
+	
+	
+<!-- 	<insert id="insert" parameterType="calVO" useGeneratedKeys="true"> -->
+<!-- 		<selectKey order="BEFORE" keyProperty="calId" resultType="int"> -->
+<!-- 			select seq_calid.nextval from dual -->
+<!-- 		</selectKey> -->
+<!-- 		insert into cal( -->
+<!-- 			cal_id, cal_title, cal_content, cal_start, cal_end, mem_id,anno_id -->
+<!-- 		)values( -->
+<!-- 			#{calId}, #{calTitle}, #{calContent}, #{calStart}, #{calEnd},#{memId},#{annoId}  -->
+<!-- 		) -->
+<!-- 	</insert> -->
+
+     <insert id="insert" parameterType="calVO" useGeneratedKeys="true">
+      <selectKey order="BEFORE" keyProperty="calId" resultType="int">
+         select seq_calid.nextval from dual
+      </selectKey>
+      insert into cal(
+         cal_id
+         , cal_title
+         , cal_content
+         , cal_start
+         , cal_end
+         , mem_id
+         , anno_id
+         , id
+         , label
+         )values(
+           #{calId}
+         , #{calTitle}
+         , #{calContent}
+		 , #{calStart}
+		 , #{calEnd}
+         , #{memId}
+         , #{annoId} 
+         , #{id}
+         , #{label}
+         )
+   </insert>
+   
+   
+   
+   <update id="update" parameterType="calVO" >
+   		update cal
+   		   set 
+	           cal_title = #{calTitle}
+	         , cal_content =#{calContent}
+	         , cal_start = #{calStart}
+	         , cal_end = #{calEnd}
+	         , anno_id = #{annoId}
+	         , label = #{label}
+	    where cal_id = #{calId} 
+   </update>
+   
+   
+   <delete id="del" parameterType="calVO">
+   		delete from cal
+   		 where cal_id =#{calId}
+   </delete>
+   
+   
+   <select id="selectfullList" resultType="annoVO">
+   		select
+   			   anno_id
+   			 , com_id
+   			 , anno_startDate
+   			 , anno_endDate
+   		  from announcement 
+   		  left outer join announcement a on (a.anno_id = c.anno_id)
+   </select>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

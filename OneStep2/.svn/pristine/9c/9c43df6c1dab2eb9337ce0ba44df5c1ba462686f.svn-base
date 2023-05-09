@@ -1,0 +1,11 @@
+package kr.or.ddit.master.service;
+
+import java.util.List;
+
+import kr.or.ddit.board.vo.BoardVO;
+
+public interface IinquiryService {
+
+	List<BoardVO> inquirylist() throws Exception;
+
+}

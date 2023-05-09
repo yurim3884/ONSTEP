@@ -1,0 +1,4 @@
+.form-control.do-animation{
+    height: unset;
+    padding-left: 10px;
+}

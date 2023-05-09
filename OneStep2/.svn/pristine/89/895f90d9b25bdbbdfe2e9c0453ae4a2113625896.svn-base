@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.FreeMapper">
+
+	<insert id="insertFree" parameterType="freeVO">
+		insert into free 
+			(FREE_NUM
+			, MEM_ID
+			, FREE_START
+			, FREE_CAREER
+			, FREE_SALARY
+			, FREE_WORK
+			, FREE_STALY
+			, FREE_COMPANY
+			, FREE_TYPE
+			, FREE_EXPER
+			, FREE_SKILL)
+			values (
+			seq_free_num.nextval
+			,#{memId}
+			,#{freeStart}
+			,#{freeCareer}
+			,#{freeSalary}
+			,#{freeWork}
+			,#{freeStaly}
+			,#{freeCompany}
+			,#{freeType}
+			,#{freeExper}
+			,#{freeSkill}
+			)
+	</insert>
+	
+	<select id="freeList" resultType="freeVO">
+	select * from free a LEFT OUTER join member b on a.MEM_ID = b.MEM_ID
+	</select>
+	
+	<insert id="insertProject" parameterType="annoVO">
+		<selectKey keyProperty="annoId" resultType="int"
+			order="BEFORE">
+			select seq_ANNOID.nextval from dual
+		</selectKey>
+		insert into ANNOUNCEMENT  
+		(ANNO_ID
+		, ANNO_TITLE
+		, INDUSTRY_CODE
+		, ANNO_UD
+		, ANNO_MEM
+		, ANNO_CAREER
+		, ANNO_STARTDATE
+		, ANNO_PROBATION
+		, ANNO_SALARY
+		, ANNO_WORK
+		, ANNO_STATUS
+		, ANNO_MANAGER
+		, ANNO_TEL
+		, ANNO_EMAIL) 
+		values ( #{annoId},#{annoTitle},#{industryCode},#{annoUd},#{annoMem},#{annoCareer},#{annoStartDate}
+		,#{annoProbation},#{annoSalary},#{annoWork},2,#{annoManager},#{annoTel},#{annoEmail})
+	</insert>
+	
+	<update id="insertAnnoFile" parameterType="annoVO">
+		
+		update ANNOUNCEMENT set
+		att_Id = #{attId}
+		where
+		ANNO_ID = #{annoId}
+
+	</update>
+	
+	<select id="projList" resultType="annoVO">
+		select 
+		ANNO_ID
+		, ANNO_TITLE
+		, INDUSTRY_CODE
+		, ANNO_UD
+		, ANNO_MEM
+		, ANNO_CAREER
+		, ANNO_STARTDATE
+		, ANNO_PROBATION
+		, ANNO_SALARY
+		, ANNO_WORK
+		, ANNO_STATUS
+		, ANNO_MANAGER
+		, ANNO_TEL
+		, ANNO_EMAIL
+		from ANNOUNCEMENT
+		where ANNO_STATUS = 2
+	</select>
+	
+	<select id="projDetail" resultType="annoVO" parameterType="int">
+		select * from ANNOUNCEMENT where anno_id =#{annoId}
+	</select>
+	<select id="freeDetail" resultType="freeVO" parameterType="int">
+		select * from free where free_Num =#{freeNum}
+	</select>
+
+</mapper>

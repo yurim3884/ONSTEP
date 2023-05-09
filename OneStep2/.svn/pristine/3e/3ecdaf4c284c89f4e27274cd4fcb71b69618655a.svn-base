@@ -1,0 +1,25 @@
+package kr.or.ddit.manager.serviceImpl;
+
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.manager.service.IManagerService;
+import kr.or.ddit.mapper.ManagerMapper;
+import kr.or.ddit.vo.CommendVO;
+
+@Service
+public class ManagerServiceImpl implements IManagerService {
+
+	@Inject
+	private ManagerMapper mapper;
+	
+	@Override
+	public void insertResume(CommendVO commendVO) {
+		// TODO Auto-generated method stub
+		mapper.insertResume(commendVO);
+	}
+
+}

@@ -1,0 +1,17 @@
+package kr.or.ddit.alarm.service;
+
+import java.util.List;
+
+import kr.or.ddit.alarm.vo.NotificationVO;
+
+public interface IAlarmService {
+
+	List<NotificationVO> postList(String memId);
+
+	List<NotificationVO> getList(String memId);
+
+	NotificationVO count(String memId);
+
+
+
+}

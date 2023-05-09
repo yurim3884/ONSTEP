@@ -1,0 +1,68 @@
+package kr.or.ddit.master.controller;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.master.service.IMasternoService;
+import kr.or.ddit.member.vo.MemberVO;
+
+@Controller
+@RequestMapping("/master")
+public class MasterNoticeController {
+
+	@Inject
+	private IMasternoService manoService;
+
+	
+	// 공지사항 List
+	@RequestMapping(value = "/noticeList", method = RequestMethod.GET)
+	public String noitceList(Model model) throws Exception {
+		List<BoardVO> noticeList = manoService.list();
+		model.addAttribute("noticeList",noticeList);
+		return "master/noticeList";
+	}
+	
+	@RequestMapping(value = "/noticeDetail", method = RequestMethod.GET )
+	public String noticeDetail(Model model, BoardVO boardId) throws Exception {
+		BoardVO noticeDetail = manoService.detail(boardId);
+		model.addAttribute("noticeDetail",noticeDetail);
+		return "master/noticeDetail";
+	}
+	
+	// 공지사항 insert 페이지 이동
+	@RequestMapping(value = "/noticeForm", method = RequestMethod.GET)
+	public String noticeForm() throws Exception {
+		return "master/noticeModify";
+	}
+	
+	@RequestMapping(value = "/noticeInsert", method = RequestMethod.POST)
+	public String noticeInsert(HttpServletRequest req, BoardVO boardVO) throws Exception {
+		String goPage = "";
+		HttpSession session = req.getSession();
+		
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		
+		if(memberVO!=null) {
+			boardVO.setMemId(memberVO.getMemId());
+			ServiceResult result = manoService.insert(boardVO);
+			if(result.equals(ServiceResult.OK)) {
+				goPage = "redirect:/master/noticeList";
+			}else {
+				goPage = "redirect:/master/noticeInsert";
+			}
+		} else {
+			goPage = "redirect:/member/login";
+		}
+		return goPage;
+	}
+}

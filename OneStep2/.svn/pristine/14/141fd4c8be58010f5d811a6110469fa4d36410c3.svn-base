@@ -1,0 +1,550 @@
+package kr.or.ddit.myPage.controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
+import org.mybatis.logging.LoggerFactory;
+import org.slf4j.Logger;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.master.service.IMasterAdvertService;
+import kr.or.ddit.member.service.IMemService;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.member.vo.SupportVO;
+import kr.or.ddit.myPage.service.IMypageService;
+import kr.or.ddit.myPage.vo.CoverletterItemVO;
+import kr.or.ddit.myPage.vo.CoverletterVO;
+import kr.or.ddit.myPage.vo.NotificationVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.myPage.vo.WorkfieldVO;
+import kr.or.ddit.vo.AnnoVO;
+import kr.or.ddit.vo.ApplyVO;
+import kr.or.ddit.vo.PaginationInfoVO;
+import kr.or.ddit.vo.ProposalVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@RequestMapping("/myPage")
+public class MyPageController {
+	
+	@Inject
+	private IMypageService mypageService;
+	
+	@Inject
+	private IMemService memService;
+
+	@RequestMapping("/main")
+	public String main() {
+		return "myPage/myPageMain";
+	}
+	
+	@RequestMapping("/memInfo")
+	public String memInfo() {
+		return "myPage/memInfo";
+	}
+	
+	@RequestMapping(value = "/notification/list", method = RequestMethod.GET)
+	public String notificationList(
+			@RequestParam(name="page", required=false, defaultValue="1") int currentPage, Model model) {
+		
+		PaginationInfoVO<NotificationVO> pagingVO = new PaginationInfoVO<NotificationVO>();
+		
+		pagingVO.setCurrentPage(currentPage);
+		int totalRecord = mypageService.selectNotificationCount(pagingVO);		// 총 게시글 수 얻어 옴
+		pagingVO.setTotalRecord(totalRecord);
+		
+		List<NotificationVO> notificationList = mypageService.selectNotificationList(pagingVO);		// 위에서 만들어진 pagingVO를 다시 list쪽에 넘겨 줌 
+		pagingVO.setDataList(notificationList);
+		
+		model.addAttribute("pagingVO", pagingVO);
+		
+		return "myPage/notification";
+	}
+	
+	@RequestMapping(value="/notification/delete", method=RequestMethod.POST)
+	public String notificationDelete(int notificationId, Model model) {
+		String goPage = "";
+		ServiceResult result = mypageService.deleteNotification(notificationId);
+		
+		if (result.equals(ServiceResult.OK)) {
+			goPage = "redirect:/myPage/notification/list";
+			
+		} else {
+			goPage = "myPage/notification/list";
+		}
+		return goPage;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	
+
+	@RequestMapping(value="/resume/list", method=RequestMethod.GET)
+	public String resumeList(HttpServletRequest req,
+			@RequestParam(name="page", required=false, defaultValue = "1") int currentPage, 
+			@RequestParam(required=false, defaultValue="title") String searchType,
+			@RequestParam(required=false) String searchWord,
+			Model model) {
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = null;
+		if (member == null) {
+			goPage = "redirect:/member/login";
+		} else {
+			PaginationInfoVO<ResumeVO> pagingVO = new PaginationInfoVO<ResumeVO>();
+			
+			if (StringUtils.isNotBlank(searchWord)) {
+				pagingVO.setSearchType(searchType);
+				pagingVO.setSearchType(searchType);
+				model.addAttribute("searchType", searchType);
+				model.addAttribute("searchWord", searchWord);
+			}
+			
+			pagingVO.setCurrentPage(currentPage);
+			int totalRecord = mypageService.selectResumeCount(pagingVO);
+			pagingVO.setTotalRecord(totalRecord);
+			
+			List<ResumeVO> resumeList = mypageService.selectResumeList(pagingVO);
+			System.out.println("resumeList >> " + resumeList);
+			pagingVO.setDataList(resumeList);
+			
+			model.addAttribute("pagingVO", pagingVO);
+			model.addAttribute("list", resumeList);
+			
+			goPage = "myPage/resumeList";
+		}
+		return goPage;
+	}
+
+	@RequestMapping(value="/resume/insert", method=RequestMethod.GET)
+	public String resumeInsertForm(HttpServletRequest req, Model model, ResumeVO resume) {
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = null;
+		if (member != null) {
+			goPage = "myPage/resumeInsert";
+			model.addAttribute("resume", resume);
+			model.addAttribute("memberVO", member);
+		} else {
+			goPage = "redirect:/member/login";
+		}
+		return goPage;
+	}
+	
+	@RequestMapping(value="/resume/insert", method=RequestMethod.POST)
+	public String resumeInsert(HttpServletRequest req, Model model, ResumeVO resume) throws IOException, Exception {
+		log.info("resume>> " + resume);
+		mypageService.insertResume(req, resume);
+		return "redirect:/myPage/resume/detail?resumeId=" + resume.getResumeId();
+	}
+	
+	@RequestMapping(value="/resume/detail", method=RequestMethod.GET)
+	public String resumeDetail(HttpServletRequest req, int resumeId, Model model) {
+		MemberVO member = mypageService.getMemberByResumeId(resumeId);
+		ResumeVO resume = mypageService.resumeDetail(req, resumeId);
+		
+		model.addAttribute("resume", resume);
+		model.addAttribute("member", member);
+		return "myPage/resumeDetail";
+	}
+	
+	//PDF다운로드하는 방법
+//	private static final Logger logger = (Logger) LoggerFactory.getLogger(MyPageController.class);
+	@RequestMapping(value="/pdfDownload", method=RequestMethod.GET)
+	public String home(Locale locale, Model model) {
+		return "resumeDetail";
+	}
+	
+	
+	
+	@RequestMapping(value="/resume/modify", method=RequestMethod.GET)
+	public String resumeModify(HttpServletRequest req, int resumeId, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = "";
+		if (member == null) {
+			goPage = "redirect:/member/login";
+		} else {
+			MemberVO memberVO = mypageService.getMemberByResumeId(resumeId);
+			ResumeVO resume = mypageService.resumeDetail(req, resumeId);
+			if (member.getMemId().equals(resume.getMemId())) {
+				model.addAttribute("memberVO", memberVO);
+				model.addAttribute("resume", resume);
+				model.addAttribute("status", "u");
+				goPage = "myPage/resumeInsert";
+			} else {
+				goPage = "redirect:/myPage/resume/detail?resumeId=" + resumeId;
+			}
+		}
+		return goPage;
+	}
+	
+	@RequestMapping(value="/resume/modify", method=RequestMethod.POST)
+	public String resumeModify(HttpServletRequest req, ResumeVO resume, Model model) throws IllegalStateException, IOException, Exception {
+		mypageService.modifyResume(req, resume);
+		return "redirect:/myPage/resume/detail?resumeId=" + resume.getResumeId();
+	}
+	
+	@RequestMapping(value="/resume/delete", method=RequestMethod.POST)
+	public String resumeDelete(HttpServletRequest req, int resumeId, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = "";
+		if (member == null) {
+			goPage = "redirect:/member/login";
+		} else {
+			ResumeVO resume = mypageService.resumeDetail(req, resumeId);
+			if (member.getMemId().equals(resume.getMemId())) {
+				log.info("resume.getMemId() >> ", resume.getMemId());
+				mypageService.deleteResume(req, resumeId);
+				goPage = "redirect:/myPage/resume/list";
+			} else {
+				goPage = "redirect:/myPage/resume/detail?resumeId=" + resumeId;
+			}
+		}
+		return goPage;
+	}
+
+	
+	/////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	@RequestMapping(value="/coverletter/insert", method=RequestMethod.GET)
+	public String coverletterInsertForm(HttpServletRequest req, Model model) {
+		
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = null;
+		if (member != null) {
+			List<CoverletterItemVO> covltrItemList = mypageService.getCovltrItemByMemId(member.getMemId());
+			model.addAttribute("covltrItemList", covltrItemList);
+			goPage = "myPage/coverletterInsert";
+		} else {
+			goPage = "redirect:/member/login";
+		}
+		return goPage;
+	}
+
+	
+	
+	@RequestMapping(value="/coverletter/insert", method=RequestMethod.POST)
+	public String coverletterInsert (Model model, CoverletterVO covltr) {
+		
+		log.info("covltr >> " + covltr);
+		
+		mypageService.insertCoverletter(covltr);
+		return "redirect:/myPage/coverletter/detail?covltrId=" + covltr.getCovltrId();
+	}
+	
+	
+	@RequestMapping(value="/coverletter/modify", method=RequestMethod.GET)
+	public String coverletterModify(HttpServletRequest req, int covltrId, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = "";
+		if (member == null) {
+			goPage = "redirect:/member/login";
+		} else {
+			CoverletterVO covltr = mypageService.coverletterDetail(req, covltrId);
+//			List<CoverletterItemVO> covltrItemList = covltr.getCovltrItemList();
+			if (member.getMemId().equals(covltr.getMemId())) {
+//				model.addAttribute("covltrItemList", covltrItemList);
+				model.addAttribute("member", member);
+				model.addAttribute("covltr", covltr);
+				model.addAttribute("status", "u");
+				return "myPage/coverletterInsert";
+			} else {
+				goPage = "redirect:/myPage/coverletter/detail?covltrId=" + covltrId;
+			}
+		}
+		return goPage;
+	}
+	
+	@RequestMapping(value="/coverletter/modify", method=RequestMethod.POST)
+	public String coverletterModify(HttpServletRequest req, CoverletterVO covltr, String memId, Model model) {
+		mypageService.modifyCoverletter(req, covltr, memId);
+		return "redirect:/myPage/coverletter/detail?covltrId=" + covltr.getCovltrId();
+	}
+	
+	@RequestMapping(value="/coverletter/delete", method=RequestMethod.POST)
+	public String coverletterDelete(HttpServletRequest req, int covltrId, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = "";
+		if (member == null) {
+			goPage = "redirect:/member/login";
+		} else {
+			CoverletterVO covltr = mypageService.coverletterDetail(req, covltrId);
+			if (member.getMemId().equals(covltr.getMemId())) {
+				mypageService.deleteCoverletter(req, covltrId);
+				goPage = "redirect:/myPage/coverletter/list";
+			} else {
+				goPage = "redirect:/myPage/coverletter/detail?covltrId=" + covltrId;
+			}
+		}
+		return goPage;
+	}
+	
+	@RequestMapping(value="/coverletter/list", method=RequestMethod.GET)
+	public String coverletterList (HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = null;
+		if (member == null) {
+			goPage = "redirect:/member/login";
+		} else {
+			List<CoverletterVO> covltrList = mypageService.selectCoverletterList(req, member.getMemId());
+			log.info("covltrList >> ", covltrList);
+			model.addAttribute("list", covltrList);
+			goPage = "myPage/coverletterList";
+		}
+		return goPage;
+	}
+	
+	@RequestMapping(value="/coverletter/detail", method=RequestMethod.GET)
+	public String coverletterDetail (HttpServletRequest req, int covltrId, Model model) {
+		
+		MemberVO member = mypageService.getMemberByCovltrId(covltrId);
+		log.info("member >> ", member);
+		
+		CoverletterVO covltr = mypageService.coverletterDetail(req, covltrId);
+		log.info("covltr >> ", covltr);
+		
+//		List<CoverletterItemVO> covltrItemList = covltr.getCovltrItemList();
+		
+		model.addAttribute("covltr", covltr);
+//		model.addAttribute("covltrItemList", covltrItemList);
+		model.addAttribute("member", member);
+		return "myPage/coverletterDetail";
+	}
+	// 저장된 항목 불러오기
+	  @GetMapping("/get_items")
+	  @ResponseBody
+	  public Map<String, Object> getItems() {
+	    List<CoverletterItemVO> items = mypageService.getItems();
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("items", items);
+	    return map;
+	  }
+
+//	  // 선택된 항목의 정보 가져오기
+	  @PostMapping("/get_item")
+	  @ResponseBody
+	  public Map<String, Object> getItem(@RequestParam("id") int id) {
+	    CoverletterItemVO item = mypageService.getItem(id);
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("item", item);
+	    return map;
+	  }
+
+//	  // 목록 페이지
+	  @GetMapping("/list")
+	  public String getList(Model model) {
+	    // 작성된 커버레터 목록을 가져와서 모델에 추가한다
+	    List<CoverletterVO> coverletters = mypageService.getCoverletters();
+	    model.addAttribute("coverletters", coverletters);
+	    return "list";
+	  }
+
+//	  // 새로운 커버레터 작성 페이지
+//	  @GetMapping("/new")
+//	  public String getNew(Model model) {
+//	    // 새로운 커버레터 작성 페이지를 보여주기 위해 빈 CoverLetter를 모델에 추가한다
+//	    CoverLetter coverLetter = new CoverLetter();
+//	    model.addAttribute("coverLetter", coverLetter);
+//	    return "new";
+//	  }
+//
+//	  // 새로운 커버레터 작성 처리
+//	  @PostMapping("/new")
+//	  public String postNew(@ModelAttribute("coverLetter") CoverLetter coverLetter) {
+//	    // 새로운 커버레터를 저장하고, 저장된 커버레터 상세보기 페이지로 이동한다
+//		  mypageService.saveCoverLetter(coverLetter);
+//		  int id = coverLetter.getId();
+//		  return "redirect:/detail/" + id;
+//		  }
+//
+//		  // 커버레터 상세보기 페이지
+//		  @GetMapping("/detail/{id}")
+//		  public String getDetail(@PathVariable("id") int id, Model model) {
+//		  // 해당 커버레터의 상세 정보를 가져와서 모델에 추가한다
+//		  CoverLetter coverLetter = mypageService.getCoverLetter(id);
+//		  model.addAttribute("coverLetter", coverLetter);
+//		  return "detail";
+//		  }
+//
+//		  // 커버레터 수정 페이지
+//		  @GetMapping("/edit/{id}")
+//		  public String getEdit(@PathVariable("id") int id, Model model) {
+//		  // 해당 커버레터의 정보를 가져와서 모델에 추가한다
+//		  CoverLetter coverLetter = mypageService.getCoverLetter(id);
+//		  model.addAttribute("coverLetter", coverLetter);
+//		  return "edit";
+//		  }
+//
+//		  // 커버레터 수정 처리
+//		  @PostMapping("/edit/{id}")
+//		  public String postEdit(@PathVariable("id") int id, @ModelAttribute("coverLetter") CoverLetter coverLetter) {
+//		  // 해당 커버레터를 수정하고, 상세보기 페이지로 이동한다
+//		  coverLetter.setId(id);
+//		  mypageService.updateCoverLetter(coverLetter);
+//		  return "redirect:/detail/" + id;
+//		  }
+//
+//		  // 커버레터 삭제 처리
+//		  @PostMapping("/delete/{id}")
+//		  public String postDelete(@PathVariable("id") int id) {
+//		  // 해당 커버레터를 삭제하고, 목록 페이지로 이동한다
+//		  mypageService.deleteCoverLetter(id);
+//		  return "redirect:/list";
+//		  }
+	
+	
+	@GetMapping(value = "/proposal")
+	public String proposal(HttpServletRequest req,Model model) {
+		
+		HttpSession session = req.getSession();
+		MemberVO memVO = (MemberVO)session.getAttribute("memberVO");
+		
+		List<ProposalVO> proList = mypageService.getProposalList(memVO.getMemId());
+		log.debug("으으으" + proList);
+		
+		List<AnnoVO> annoList = new ArrayList<AnnoVO>();
+		for(int i=0; i< proList.size(); i++) {
+			AnnoVO annoVO = mypageService.getAnnoOne(proList.get(i).getAnnoId());
+			annoList.add(annoVO);
+		}
+		
+		log.debug("공고리스트 :" + annoList);
+		
+		model.addAttribute("annoList", annoList);
+		return "myPage/proposal";
+	}
+	
+	@GetMapping(value = "/mySup")
+	public String mySup(HttpServletRequest req,Model model) {
+		
+		HttpSession session = req.getSession();
+		MemberVO memVO = (MemberVO)session.getAttribute("memberVO");
+		
+		List<SupportVO> supList = memService.getSupportList(memVO.getMemId());
+		List<AnnoVO> annoList = new ArrayList<AnnoVO>();
+		for(int i=0; i<supList.size(); i++) {
+			List<AnnoVO> annoList2 = mypageService.getAnnoCom(supList.get(i).getComId());
+			for(int j=0; j<annoList2.size(); j++) {
+				AnnoVO annoVo = annoList2.get(j);
+				annoList.add(annoVo);
+			}
+		}
+		log.debug("관심회사리스트 :" + annoList);
+		model.addAttribute("annoList", annoList);
+		return "myPage/mySup";
+	}
+	
+	@PostMapping(value = "/ajaxProposalDel", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public String ajaxProposalDel(@RequestBody ProposalVO proVO) {
+		
+		
+		mypageService.deleteProposal(proVO);
+		
+		return "SUCCESS";
+	}
+	@PostMapping(value = "/ajaxsupDel", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public String ajaxsupDel(@RequestBody SupportVO supVO) {
+		
+		
+		mypageService.deleteSupport(supVO);
+		
+		return "SUCCESS";
+	}
+	
+	@GetMapping(value = "/myApply")
+	public String myApply(HttpServletRequest req, Model model) {
+		
+	HttpSession session = req.getSession();
+	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+	List<ApplyVO> applyList = mypageService.getApplyList(memberVO.getMemId());
+	
+	model.addAttribute("applyList", applyList);
+		log.debug("잘나옵니까 :" + applyList);
+		return "myPage/myApply";
+	}
+	
+//	@RequestMapping(value = "/coverletter/getCovltrItem", method = RequestMethod.GET)
+//	@ResponseBody
+//	public List<CoverletterItemVO> getCovltrItem(@RequestParam(value = "covltrItemIdList[]") List<Integer> covltrItemIdList) {
+//	    List<CoverletterItemVO> covltrItemList = mypageService.getCovltrItemByCovltrItemIdList(covltrItemIdList);
+//	    return covltrItemList;
+//	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/coverletter/getCovltrItem", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+	public List<CoverletterItemVO> getCovltrItem(@RequestParam Map<String, String> resultMap) {
+		String obj = resultMap.get("data");
+		List<Integer> idList = new ArrayList<Integer>();
+		for (int i = 0; i < obj.split(",").length; i++) {
+			String id = obj.split(",")[i];
+			idList.add(Integer.parseInt(id));
+		}
+		List<CoverletterItemVO> covltrItemList = mypageService.getCovltrItemByCovltrItemIdList(idList);
+		return covltrItemList;
+	}
+	
+//	@ResponseBody
+//	@RequestMapping(value="/workfieldList", method=RequestMethod.POST, produces="application/json; charset=UTF-8")
+//	public List<WorkfieldVO> getWorkfieldList (@RequestBody Map<String, String> dataMap) {
+//		List<WorkfieldVO> workfield1 = mypageService.selectAllWorkfields(dataMap.get("workfield1"));
+//		return workfield1;
+//	}
+	
+//	@PostMapping("/updateResumeRepresentative")
+//	public void updateResumeRepresentative(@RequestBody ResumeVO request) {
+//		mypageService.updateResumeRepresentative(request.getResumeId(),request.getResumeRepresentative() );
+//	}
+
+//	@PostMapping("/updateResumeRepresentative")
+//	@ResponseBody
+//	public String updateResumeRepresentative(@RequestParam("resumeId") int resumeId) {
+//		log.info("resumeId >> {} ", resumeId);
+//		mypageService.updateResumeRepresentative(resumeId);
+//		return "success";
+//	}
+	
+	@PostMapping("/updateResumeRepresentative")
+	@ResponseBody
+	public Map<String, Object> updateResumeRepresentative(@RequestParam("resumeId") int resumeId) {
+	    log.info("resumeId >> {} ", resumeId);
+	    mypageService.updateResumeRepresentative(resumeId);
+	    
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("status", "success");
+	    return response;
+	}
+	
+}

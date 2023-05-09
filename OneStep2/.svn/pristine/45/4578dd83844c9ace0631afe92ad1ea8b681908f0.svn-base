@@ -1,0 +1,246 @@
+package kr.or.ddit.myPage.serviceImpl;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.mapper.MypageMapper;
+import kr.or.ddit.myPage.service.IMypageService;
+import kr.or.ddit.myPage.vo.ActivityVO;
+import kr.or.ddit.myPage.vo.AwardVO;
+import kr.or.ddit.myPage.vo.CareerVO;
+import kr.or.ddit.myPage.vo.CertificationVO;
+import kr.or.ddit.myPage.vo.DesiredEmplVO;
+import kr.or.ddit.myPage.vo.EducationVO;
+import kr.or.ddit.myPage.vo.EmploymentPreferencesVO;
+import kr.or.ddit.myPage.vo.LanguageVO;
+import kr.or.ddit.myPage.vo.NotificationVO;
+import kr.or.ddit.myPage.vo.PortfolioVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.myPage.vo.SkillVO;
+import kr.or.ddit.myPage.vo.WorkfieldVO;
+import kr.or.ddit.vo.PaginationInfoVO;
+
+@Service
+public class MypageServiceImpl implements IMypageService {
+
+	@Inject
+	private MypageMapper mypageMapper;
+	
+	@Override
+	public int selectNotificationCount(PaginationInfoVO<NotificationVO> pagingVO) {
+		return mypageMapper.selectNotificationCount(pagingVO);
+	}
+
+	@Override
+	public List<NotificationVO> selectNotificationList(PaginationInfoVO<NotificationVO> pagingVO) {
+		return mypageMapper.selectNotificationList(pagingVO);
+	}
+
+	@Override
+	public ServiceResult deleteNotification(int notificationId) {
+		
+		ServiceResult result = null;
+		mypageMapper.selectNotification(notificationId);
+		
+		int cnt = mypageMapper.deleteNotification(notificationId);
+		if (cnt > 0) {
+			result = ServiceResult.OK;
+		} else {
+			result = ServiceResult.FAILED;
+		}
+		return result;
+	}
+
+	@Override
+	public int selectResumeCount(PaginationInfoVO<ResumeVO> pagingVO) {
+		return mypageMapper.selectResumeCount(pagingVO);
+	}
+
+	@Override
+	public List<ResumeVO> selectResumeList(PaginationInfoVO<ResumeVO> pagingVO) {
+		return mypageMapper.selectResumeList(pagingVO);
+	}
+
+	@Override
+	public void insertResume(ResumeVO resume) {
+		
+		mypageMapper.insertResume(resume);
+		
+		List<ActivityVO> activityList = resume.getActivityList();
+		for (int i = 0; i < activityList.size(); i++) {
+			ActivityVO activity = activityList.get(i);
+			String actId = activity.getActId();
+			if (actId == null) {
+				continue;
+			}
+			if (actId.trim().length() == 0) {
+				continue;
+			}
+			activity.setResumeId(resume.getResumeId());
+			mypageMapper.insertActivity(activity);
+		}
+		
+		List<AwardVO> awardList = resume.getAwardList();
+		for (int i = 0; i < awardList.size(); i++) {
+			AwardVO award = awardList.get(i);
+			String awardId = award.getAwardId();
+			if (awardId == null) {
+				continue;
+			}
+			if (awardId.trim().length() == 0) {
+				continue;
+			}
+			award.setResumeId(resume.getResumeId());
+			mypageMapper.insertAward(award);
+		}
+		
+		
+		List<CareerVO> careerList = resume.getCareerList();
+		for (int i = 0; i < careerList.size(); i++) {
+			CareerVO career = careerList.get(i);
+			String careerId = career.getCareerId();
+			if (careerId == null) {
+				continue;
+			}
+			if (careerId.trim().length() == 0) {
+				continue;
+			}
+			career.setResumeId(resume.getResumeId());
+			mypageMapper.insertCareer(career);
+		}
+		
+		
+		List<CertificationVO> certList = resume.getCertList();
+		
+		for (int i = 0; i < certList.size(); i++) {
+			CertificationVO certification = certList.get(i);
+			String certId = certification.getCertId();
+			if (certId == null) {
+				continue;
+			}
+			if (certId.trim().length() == 0) {
+				continue;
+			}
+			certification.setResumeId(resume.getResumeId());
+			mypageMapper.insertCertification(certification);
+		}
+
+		
+		List<DesiredEmplVO> desiredList = resume.getDesiredList();
+		for (int i = 0; i < desiredList.size(); i++) {
+			DesiredEmplVO desired = desiredList.get(i);
+			String desiredId = desired.getDesiredId();
+			if (desiredId == null) {
+				continue;
+			}
+			if (desiredId.trim().length() == 0) {
+				continue;
+			}
+			desired.setResumeId(resume.getResumeId());
+			mypageMapper.insertDesired(desired);
+		}
+		
+		
+		List<EducationVO> eduList = resume.getEduList();
+		for (int i = 0; i < eduList.size(); i++) {
+			EducationVO education = eduList.get(i);
+			String eduId = education.getEduId();
+			if (eduId == null) {
+				continue;
+			}
+			if (eduId.trim().length() == 0) {
+				continue;
+			}
+			education.setResumeId(resume.getResumeId());
+			mypageMapper.insertEducation(education);
+		}
+		
+		List<EmploymentPreferencesVO> prfrnList = resume.getPrfrnList();
+		for (int i = 0; i < prfrnList.size(); i++) {
+			EmploymentPreferencesVO prfrn = prfrnList.get(i);
+			String prfrnId = prfrn.getPrfrnId();
+			if (prfrnId == null) {
+				continue;
+			}
+			if (prfrnId.trim().length() == 0) {
+				continue;
+			}
+			prfrn.setResumeId(resume.getResumeId());
+			mypageMapper.insertPrfrn(prfrn);
+		}
+		
+		
+		List<LanguageVO> langList = resume.getLangList();
+		for (int i = 0; i < langList.size(); i++) {
+			LanguageVO language = langList.get(i);
+			String langId = language.getLangId();
+			if (langId == null) {
+				continue;
+			}
+			if (langId.trim().length() == 0) {
+				continue;
+			}
+			language.setResumeId(resume.getResumeId());
+			mypageMapper.insertLanguage(language);
+		}
+		
+		
+		List<SkillVO> skillList = resume.getSkillList();
+		for (int i = 0; i < skillList.size(); i++) {
+			SkillVO skill = skillList.get(i);
+			String skillId = skill.getSkillId();
+			if (skillId == null) {
+				continue;
+			}
+			if (skillId.trim().length() == 0) {
+				continue;
+			}
+			skill.setResumeId(resume.getResumeId());
+			mypageMapper.insertSkill(skill);
+		}
+		
+		
+		List<PortfolioVO> portfolioList = resume.getPortfolioList();
+		for (int i = 0; i < portfolioList.size(); i++) {
+			PortfolioVO portfolio = portfolioList.get(i);
+			String portfolioId = portfolio.getPortfolioId();
+			if (portfolioId == null) {
+				continue;
+			}
+			if (portfolioId.trim().length() == 0) {
+				continue;
+			}
+			portfolio.setResumeId(resume.getResumeId());
+			mypageMapper.insertPortfolio(portfolio);
+		}
+		
+		List<WorkfieldVO> workfieldList = resume.getWorkfieldList();
+		for (int i = 0; i < workfieldList.size(); i++) {
+			WorkfieldVO workfield = workfieldList.get(i);
+			String workfieldId = workfield.getWorkfieldId();
+			if (workfieldId == null) {
+				continue;
+			}
+			if (workfieldId.trim().length() == 0) {
+				continue;
+			}
+			workfield.setResumeId(resume.getResumeId());
+			mypageMapper.insertWorkfield(workfield);
+		}
+		
+	}
+
+	@Override
+	public ResumeVO detail(String resumeId) {
+		return mypageMapper.detail(resumeId);
+	}
+
+	@Override
+	public void modify (ResumeVO resume) {
+	}
+
+}

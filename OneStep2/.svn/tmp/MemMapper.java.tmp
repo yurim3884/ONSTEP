@@ -1,0 +1,55 @@
+package kr.or.ddit.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.member.vo.SupportVO;
+<<<<<<< .mine
+import kr.or.ddit.myPage.vo.CoverletterItemVO;
+import kr.or.ddit.myPage.vo.CoverletterVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.vo.ApplyVO;
+||||||| .r317925
+=======
+import kr.or.ddit.myPage.vo.ResumeVO;
+>>>>>>> .r318066
+
+@Mapper
+public interface MemMapper {
+
+	int join(MemberVO vo);
+
+	int companyJoin(MemberVO vo);
+
+	MemberVO memCheck(String memId);
+
+	MemberVO idForget(MemberVO vo);
+
+	MemberVO pwForget(MemberVO vo);
+
+	int changePw(MemberVO vo);
+
+	int changeInfo(MemberVO vo);
+
+	void insertSupport(SupportVO supVO);
+
+	void delSupport(SupportVO supVO);
+
+	List<SupportVO> getSupportList(String memId);
+
+<<<<<<< .mine
+	List<ResumeVO> selectResume(String memId);
+
+	List<CoverletterItemVO> selectCoverletter(String memId);
+
+	void insertApply(ApplyVO applyVO);
+
+||||||| .r317925
+=======
+	List<ResumeVO> matchingResumeList(Map<String, Object> map);
+
+>>>>>>> .r318066
+}

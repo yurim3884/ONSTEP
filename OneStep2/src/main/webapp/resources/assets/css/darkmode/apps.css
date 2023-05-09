@@ -1,0 +1,655 @@
+.darkmode .widget-content-area {
+    background-color: #272727;
+}
+.darkmode .fc-button-group button {
+    color: #ffffff;
+}
+.fc-unthemed .fc-content, 
+.fc-unthemed .fc-divider, 
+.fc-unthemed .fc-list-heading td, 
+.fc-unthemed .fc-list-view, 
+.fc-unthemed .fc-popover, 
+.fc-unthemed .fc-row, 
+.fc-unthemed tbody, 
+.fc-unthemed td, 
+.fc-unthemed th, 
+.fc-unthemed thead {
+    border-color: #383838;
+}
+.darkmode button.fc-today-button {
+    border: 1px solid #383838;
+}
+.darkmode .fc th {
+    color: #ffffff;
+}
+.darkmode a.bg-primary:hover, 
+.darkmode a.bg-success:hover, 
+.darkmode a.bg-warning:hover, 
+.darkmode a.bg-danger:hover, 
+.darkmode a.bg-info:hover, 
+.darkmode a.bg-success-teal:hover {
+    background-color: #ffffff !important;
+    border-width: 1px!important;
+}
+.darkmode .card-box {
+    background-color: #272727;
+    padding: 1.4rem 1.2rem;
+    box-shadow: 0 0.75rem 6rem rgba(56, 65, 74, 0.15);
+    margin-bottom: 20px;
+    border-radius: .25rem;
+    border: 1px solid #343434;
+}
+.darkmode .chat-container .user-container {
+    background: #191a1a;
+}
+.darkmode .chat-container .user-container .own-details {
+    border-bottom: 1px solid #333333;
+}
+.darkmode .user-container .user-list-box {
+    border-right: 1px solid #272727;
+    background: #272727;
+}
+.darkmode .user-container .user-list-box .people .person {
+    position: relative;
+    width: 100%;
+    padding: 11px 13px;
+    cursor: pointer;
+    border-bottom: 1px solid #333333;
+    transition: all ease 0.3s;
+}
+.darkmode .user-container .user-list-box .people .person .user-info .user-body .chat-user-name {
+    color: #ffffff !important;
+}
+.darkmode .ps .ps__rail-x:hover, 
+.darkmode .ps .ps__rail-y:hover, 
+.darkmode .ps .ps__rail-x:focus, 
+.darkmode .ps .ps__rail-y:focus, 
+.darkmode .ps .ps__rail-x.ps--clicking, 
+.darkmode .ps .ps__rail-y.ps--clicking {
+    background-color: transparent;
+    opacity: 0.9;
+}
+.darkmode .chat-container .chat-details.empty p {
+    background: #272727;
+    color: #ffffff;
+}
+.darkmode .user-container .user-list-box .people .person.active {
+    background: #1b1b1b;
+}
+.darkmode .chat-with-options span, .darkmode .chat-with-options .chat-with-op {
+    background: #1a1a1a;
+    color: #f2f7ff;
+}
+.darkmode .chat-with-options span:hover, 
+.darkmode .chat-with-options .chat-with-op:hover {
+    background: #3b3b3b;
+    color: #f2f7ff;
+}
+.darkmode .chat-with-options .chat-with-op a {
+    color: #f2f7ff;
+}
+.darkmode .other-chat-container .other-chat p {
+    color: #ffffff;
+    background: #191a1a;
+}
+.darkmode .own-chat-container .own-chat p {
+    color: #ffffff;
+    background: #4165a7;
+}
+.darkmode .chatting-time p {
+    border-bottom: 1px solid #333333;
+    position: relative;
+}
+.darkmode .chatting-time span {
+    background: #333333;
+    color: #dadada;
+}
+.darkmode .own-chat-container.has-file .own-file-container {
+    background: #4165a7;
+}
+.darkmode .own-chat-container.has-file .own-file-container p.file-msg {
+    color: #c5c5c5;
+}
+.darkmode input.chat-text-input {
+    border: 1px solid #333333;
+    font-weight: 300;
+    color: #ffffff;
+    background: #191a1a;
+}
+.darkmode .chat-details .search input, 
+.darkmode .user-container .user-list-box input {
+    color: #ffffff;
+}
+.darkmode .chat-user-details {
+    background: #191a1a;
+}
+.darkmode .single-chat-option:hover {
+    background: #272727;
+}
+.darkmode .single-chat-option:hover a {
+    color: #ffffff;
+}
+.darkmode .chat-container .chat-user-details .other-section .single-file p.file-name {
+    color: #ffffff;
+}
+.darkmode .filtered-list-search form input.search-form-control::placeholder {
+    color: #d3d3d3;
+}
+.darkmode .contact-options a.s-o {
+    color: #f2f9fc;
+}
+.darkmode .custom-dropdown-icon .dropdown-toggle {
+    border: 1px solid #383838;
+    background-color: #191919;
+    color: #ffffff;
+}
+.darkmode .searchable-container .searchable-items.grid .items .item-content {
+    background-color: #1a1b1b;
+    border: 1px solid #383838;
+    box-shadow: none;
+}
+.darkmode .searchable-container .searchable-items.grid .items .user-meta-info .user-name {
+    color: #ffffff;
+}
+.darkmode .custom-dropdown .dropdown-item,
+.darkmode .custom-dropdown-icon .dropdown-item {
+    color: #3b3f5c;
+    font-weight: 500;
+}
+.darkmode .light-image {
+    opacity: 0.00;
+}
+.darkmode .filtered-list-search form input.search-form-control {
+    color: #ffffff;
+}
+.darkmode .company-detail-container .company-info {
+    padding-left: 1rem;
+}
+.darkmode .company-detail-container .company-info .name {
+    color: #ffffff;
+}
+.darkmode .company-info-right .social-media a {
+    color: #ffffff;
+}
+.darkmode .company-info-right p {
+    color: #fff !important;
+}
+.darkmode .animated-underline-content .contact-info a {
+    color: #fff;
+}
+.darkmode .animated-underline-content .contact-info i {
+    color: #ffffff;
+}
+.darkmode .animated-underline-content .contact-info i {
+    color: #666666;
+}
+.darkmode .animated-underline-content .contact-info .skills-container span {
+    background: #272727;
+    border: 1px solid #333333;
+    color: #666;
+}
+.darkmode .single-project .meta-info:before {
+    background: #333333;
+}
+.darkmode .single-team {
+    box-shadow: none;
+}
+.darkmode .card.single-team {
+    border: 1px solid transparent;
+}
+.darkmode .searchable-container .searchable-items.list .items .item-content {
+    background: #1a1b1b;
+    box-shadow: none;
+}
+.darkmode .searchable-container .searchable-items.list .items .user-meta-info .user-name {
+    color: #a7a7a7;
+}
+.darkmode .searchable-container .searchable-items.list .items .user-location p {
+    color: #515365;
+}
+.darkmode .add-contact-content i {
+    color: #cccccc;
+}
+.darkmode .widget-table-one .weekly-bestsellers {
+    border: 1px solid #383838;
+}
+.darkmode .table td, .darkmode .table th {
+    border: 1px solid #3a3a3a;
+}
+.darkmode .ecommerce-table .table > thead > tr > th {
+    background-color: #191919;
+    color: #ffffff;
+}
+.darkmode .searchable-items.list .items .user-meta-info .product-name {
+    color: #a7a7a7;
+}
+.darkmode .product-details .text-black {
+    color: #ffffff !important;
+}
+.darkmode .product-details .table td, 
+.darkmode .product-details .table th {
+    border: 1px solid #3a3a3a;
+    background-color: #191919;
+    color: #ffffff;
+}
+.darkmode .product-details .table > tbody > tr > td .progress {
+    background: #272727;
+}
+.darkmode .product-details .single-review {
+    border: 1px solid #505050;
+}
+.darkmode div.accordion .accordion-group .accordion-toggle {
+    border: 1px solid #505050;
+    color: #ffffff;
+}
+.darkmode .accordion-body .accordion-inner {
+    padding: 14px 15px;
+    border: 1px solid #505050;
+    border-top: 0px;
+    background: #1b1b1c;
+}
+.darkmode .order-detail-table .table .thead-light th {
+    background: #1c1e1e;
+    color: #ffffff;
+}
+.darkmode .order-detail-table .darkmode .table td, .darkmode .table th {
+    color: #ffffff;
+}
+.darkmode .track-order-list ul li:before {
+    border: 3px solid #272727;
+}
+.darkmode .single-seller .card-img-top {
+    margin: 20px 20px 0px;
+}
+.darkmode .cart-table th {
+    background-color: #191919;
+    color: #ffffff;
+}
+.darkmode .cart-table .table td, .darkmode .cart-table .table th {
+    border: 1px solid #272727;
+}
+.darkmode .checkout-tab-heading-container .nav-pills .nav-link {
+    border: 1px solid #424242;
+}
+.darkmode .email-left .list-group-item {
+    background-color: #1b1b1c;
+    border: 1px solid rgba(0,0,0,.125);
+    color: #ffffff;
+}
+.darkmode .email-list a {
+    color: #ffffff;
+}
+.darkmode .email-list a:hover {
+    background-color: #1b1b1c;
+}
+.darkmode .email-left:before {
+    border-right: 5px solid #1b1b1c;
+}
+.darkmode .message-list li.unread, 
+.darkmode .message-list li:hover {
+    background: #1b1b1c;
+    color: #ffffff;
+}
+.darkmode .message-list li.unread a.title, 
+.darkmode .message-list li.unread a.subject, 
+.darkmode .message-list li.unread .date {
+    color: #fff;
+}
+.darkmode .mail-list-left a {
+    color: #b8b8b8;
+}
+.darkmode .mail-list-right .subject {
+    color: #b8b8b8;
+}
+.darkmode .email-right .email-right-top .email-search-container .email-form input {
+    background: #1a1a1a !important;
+    border: 1px solid #353535 !important;
+    color: #ffffff !important;
+}
+.darkmode .email-right .email-right-top .email-search-container .email-form input::placeholder {
+    color: #ffffff !important;
+}
+.darkmode .email-right-top .email-search-container .mail-options a {
+    justify-content: center !important;
+}
+.darkmode .email-right-bottom .CodeMirror {
+    background: #1b1b1c;
+    color: white;
+    border: 1px solid #444444;
+}
+.darkmode .email-right-bottom .editor-toolbar {
+    background: #1b1b1c;
+    border: 1px solid #444444;
+}
+.darkmode .file-manager-list a {
+    color: #ffffff;
+}
+.darkmode .file-manager-list a:hover {
+    color: #ffffff;
+    background-color: #191a1a;
+    transition: all ease 0.4s;
+}
+.darkmode .file-manager-left:before {
+    border-right: 5px solid #1b1b1c;
+}
+.darkmode .folder {
+    background-color: #191a1a;
+}
+.darkmode .folder:hover {
+    background-color: #4165a7;
+}
+.darkmode .folder:before {
+    background-color: #191a1a;
+}
+.darkmode .folder:hover:before {
+    background-color: #4165a7;
+}
+.darkmode .files-table {
+    background: #272727;
+}
+.darkmode .files-table .files-t-heading .search-form-control {
+    background-color: #191919 !important;
+    border: 1px solid #2f2f2f !important;
+    color: #ffffff;
+    font-weight: 400;
+}
+.darkmode .files-table .files-t-heading .search-form-control::placeholder {
+    color: #ffffff;
+    font-weight: 400;
+}
+.darkmode .files-table .table > thead > tr > th {
+    background-color: #191919;
+    color: #ffffff;
+}
+.darkmode .file-manager-label {
+    color: #5d5d5d !important;
+}
+.darkmode .file-manager-label span {
+    border-bottom: 1px solid #5d5d5d !important;
+}
+.darkmode .file-manager-left .mail-list .text-left span {
+    color: #ffffff;
+}
+.darkmode .file-manager-left .mail-list .progress {
+    background: #191919;
+}
+.darkmode .compose-box .compose-content h5 {
+    color: #ffffff;
+}
+.darkmode .doc-container {
+    background: #343434;
+    border: 1px solid #343434;
+}
+.darkmode .tab-title .search input {
+    background-color: #191919;
+    color: #ffffff;
+    font-weight: 500;
+}
+.darkmode .tab-title .search input::placeholder {
+    color: #ffffff;
+    font-weight: 500;
+}
+.darkmode .tab-title .search .las {
+    color: #ffffff;
+}
+.darkmode .tab-title .list-actions:hover {
+    background: #292929;
+}
+.darkmode .tab-title .list-actions.active {
+    background: #292929;
+}
+.darkmode .tab-title .list-actions .f-m-body .f-head span:first-child {
+    color: #ffffff;
+}
+.darkmode .tab-title .list-actions .f-m-body .f-head span:nth-child(2),
+.darkmode .tab-title .list-actions .f-m-body .f-head span:nth-child(3) {
+    color: #ffffff;
+}
+.darkmode .tab-title .list-actions .f-m-body .f-body .invoice-customer-name {
+    color: #ffffff;
+}
+.darkmode .tab-title .list-actions .f-m-body .f-body .invoice-generated-date {
+    color: #b5b5b5;
+    font-weight: 400;
+}
+.darkmode .tab-title .inv-list-container .nav-item {
+    border-bottom: 1px solid #484848;
+}
+.darkmode .tab-title .search-bar-container {
+    border-right: 1px solid #484848;
+}
+.darkmode .tab-title .inv-list-container {
+    border-right: 1px solid #484848;
+}
+.darkmode .invoice-inbox {
+    background: #ffffff;
+}
+.darkmode .invoice .content-section .inv--payment-info .inv-subtitle span {
+    color: #222;
+}
+.darkmode .invoice .content-section .inv--payment-info .inv-subtitle {
+    color: #222;
+}
+.darkmode .inv--total-amounts p {
+    color: #222;
+}
+.darkmode .invoice .content-section .inv--product-table-section td {
+    border: 1px solid #e0e6ed;
+}
+.darkmode .invoice .content-section .inv--detail-section .inv-detail-title {
+    color: #222;
+}
+.darkmode .invoice .content-section .inv--detail-section .inv-created-date .inv-title {
+    color: #222;
+}
+.darkmode .invoice .content-section .inv--detail-section .inv-created-date .inv-date {
+    color: #222;
+}
+.darkmode .invoice .content-section .inv--detail-section .inv-street-addr {
+    color: #222;
+}
+.darkmode .invoice .content-section .inv--detail-section .inv-to {
+    color: #222;
+}
+.darkmode .app-note-container .tab-title .list-actions.active {
+    background: #1b1b1b;
+    color: #4165a7;
+}
+.darkmode .tab-title .nav-pills a.nav-link {
+    color: #ffffff;
+}
+.darkmode .tab-title .nav-pills a.nav-link:hover {
+    background: #1b1b1b;
+}
+.darkmode .note-container.note-grid .note-item .note-inner-content .note-description {
+    color: #515365;
+}
+.darkmode .note-container.note-grid .note-item .note-inner-content .meta-time {
+    color: #ffffff;
+    background: #272727;
+    border: 1px solid #272727;
+}
+.darkmode .note-container.note-grid .note-item:hover {
+    box-shadow: none;
+}
+.darkmode .note-container.create-note {
+    border-left: 4px solid #1a1a1a;
+}
+.darkmode .create-note-container .CodeMirror {
+    background: #191a1a;
+    border: 1px solid #383838;
+    color: #fff;
+}
+.darkmode .create-note-container .editor-toolbar {
+    background: #191a1a;
+    border: 1px solid #383838;
+}
+.darkmode .create-story-author p {
+    color: #272727;
+}
+.darkmode .editor-toolbar i.separator {
+    border-left: 1px solid #545454;
+    border-right: 1px solid #545454;
+}
+.darkmode .birthday-section::before {
+    content: "";
+}
+.darkmode .people-may-know .single-item .single-item-author {
+    color: #ffffff;
+}
+.darkmode .posted-post .post-author .par a {
+    border: 1px solid #464646;
+    color: #ffffff;
+}
+.darkmode .posted-post .post-number-container {
+    border-top: 1px solid #464646;
+    border-bottom: 1px solid #464646;
+}
+.darkmode .posted-post .post-number {
+    color: #fff;
+    font-weight: 400;
+}
+.darkmode .posted-post .post-input-area .input-container input[type="text"] {
+    border: 1px solid #464646;
+    background: #272727;
+    color: #fff;
+}
+.darkmode .post-user-comment-box {
+    background-color: #191919;
+}
+.darkmode .post-user-comment-box p {
+    color: #ffffff !important;
+}
+.darkmode .tab-horizontal-line .nav-tabs {
+    border-bottom: 1px solid #383838;
+}
+.darkmode .checkout-tab-heading-container .nav-pills .nav-link {
+    color: white;
+}
+.darkmode .add-product .form-group label {
+    color: #ffffff;
+}
+.darkmode .animated-underline-content .nav-tabs {
+    border-bottom: 1px solid #3a3a3a;
+}
+.darkmode .people-may-know .single-item {
+    border-bottom: 1px solid transparent;
+}
+.darkmode .mail-box-container {
+    background: #343434;
+    border: 1px solid #343434;
+}
+.darkmode .todo-inbox .todo-item:not(:last-child) {
+    border-bottom: 1px solid #343434;
+}
+.darkmode .tab-title {
+    border-right: 1px solid #292929;
+}
+.darkmode .todo-inbox .search input::placeholder {
+    background: #343434;
+    color: #ffffff;
+}
+.darkmode .todo-inbox .search input {
+    background: #343434;
+    border: 1px solid #585858 !important;
+    color: #ffffff;
+}
+.darkmode .todo-inbox .search .las.toggle-search {
+    color: #ffffff;
+}
+.darkmode .todo-inbox .todo-item .todo-item-inner .priority-dropdown .dropdown-toggle {
+    border: 1px solid #343434;
+    background-color: #343434;
+}
+.darkmode .custom-dropdown-icon .dropdown-toggle {
+    border: 1px solid #343434;
+    background-color: #343434;
+}
+.darkmode .todo-inbox .todo-item .todo-item-inner:hover {
+    background: #292929;
+}
+.darkmode .todo-inbox .todo-item .todo-item-inner:hover .priority-dropdown .dropdown-toggle {
+    background: #292929;
+    border: 1px solid #292929;
+}
+.darkmode .todo-inbox .todo-item .todo-item-inner:hover .custom-dropdown-icon .dropdown-toggle {
+    background: #292929;
+    border: 1px solid #292929;
+}
+.darkmode .todo-inbox .todo-item .todo-item-inner .todo-heading {
+    color: #ffffff;
+}
+.darkmode .todo-inbox .task-date span:first-child {
+    color: #ffffff;
+}
+.darkmode .new-control.new-checkbox .new-control-indicator {
+    background-color: #636363;
+}
+.darkmode .compose-box {
+    background-color: transparent;
+}
+.darkmode .single-number {
+    background-color: transparent;
+    border: 1px solid #343434;
+}
+.darkmode .apps-ticket .widget {
+    border: 1px solid #343434;
+}
+.darkmode .tickets-table-widget {
+    border: 1px solid #343434;
+    border-radius: 6px;
+}
+.darkmode .tickets-table-widget .widget-heading {
+    background-color: #191919;
+}
+.darkmode .tickets-table-widget .widget-heading h5 {
+    color: #ffffff;
+}
+.darkmode .filtered-list-search form i.la-search {
+    color: #545454;
+}
+.darkmode .chat-details .search .las {
+    color: #545454;
+}
+.darkmode .user-container .user-list-box input::placeholder {
+    color: #545454;
+}
+.darkmode .user-container .user-list-box .search .las {
+    color: #545454;
+}
+.darkmode .single-seller .meta-date {
+    color: #ffffff;
+}
+.darkmode .email-right-top .email-search-container .mail-options a {
+    color: #545454;
+}
+.darkmode .editor-toolbar a {
+    color: #545454!important;
+}
+.darkmode .folder:hover {
+    background-color: #545454;
+}
+.darkmode .folder:hover:before {
+    background-color: #545454;
+}
+.darkmode .folder p.folder-name {
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 0px;
+    color: #ffffff;
+}
+.darkmode .make-post-tab .create-post-button.primary {
+    color: #ffffff !important;
+}
+.darkmode .new-control.new-checkbox.checkbox-primary>input:checked~span.new-control-indicator {
+    border: 2px solid #ffffff;
+}
+.darkmode .new-control.new-checkbox span.new-control-indicator:after {
+    border: solid #ffffff;
+}
+.darkmode .tab-title .nav-pills .nav-link.active .badge {
+    color: #ffffff!important;
+}
+.apps-ticket .bg-white {
+    background-color: unset !important;
+}

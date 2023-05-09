@@ -1,0 +1,20 @@
+package kr.or.ddit.myPage.vo;
+
+import lombok.Data;
+
+@Data
+public class SkillVO {
+	
+	/* 스킬 */
+	private int skillId;					// 스킬ID
+//	private String skill1;					// 스킬1
+//	private String skill2;					// 스킬2
+//	private String skill3;					// 스킬3
+//	private String skill4;					// 스킬4
+//	private String skill5;					// 스킬5
+	private String skillName;				// 스킬이름
+	private String skillInsertDate;			// 작성날짜
+	private String skillDeleteDate;			// 삭제날짜
+	private int resumeId;					// 이력서번호
+	
+}

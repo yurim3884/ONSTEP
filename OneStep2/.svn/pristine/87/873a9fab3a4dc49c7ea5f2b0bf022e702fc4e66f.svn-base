@@ -1,0 +1,91 @@
+package kr.or.ddit.member.vo;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import kr.or.ddit.company.vo.CompanyVO;
+import kr.or.ddit.myPage.vo.ActivityVO;
+import kr.or.ddit.myPage.vo.AwardVO;
+import kr.or.ddit.myPage.vo.CareerVO;
+import kr.or.ddit.myPage.vo.CertificationVO;
+import kr.or.ddit.myPage.vo.DesiredEmplVO;
+import kr.or.ddit.myPage.vo.EducationVO;
+import kr.or.ddit.myPage.vo.EmploymentPreferencesVO;
+import kr.or.ddit.myPage.vo.LanguageVO;
+import kr.or.ddit.myPage.vo.PortfolioVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.myPage.vo.SkillVO;
+import kr.or.ddit.myPage.vo.WorkfieldVO;
+import kr.or.ddit.vo.AnnoVO;
+import kr.or.ddit.vo.ApplyVO;
+import lombok.Data;
+
+@Data
+public class MemberVO {
+String memId;
+String companyId;
+String memName;
+String memNick;
+@DateTimeFormat(pattern = "yyyy-MM-dd")
+Date memBirth;
+String memGender;
+String memZip;
+String memAddr1;
+String memAddr2;
+String memEmail;
+String memTel;
+String attId;
+String memMsn;
+String memEmailApp;
+String memApp;
+Date memStart;
+String memEnd;
+String memRole;
+String memPw;
+String memStatus;
+String memFree;
+
+private List<AnnoVO> annoList;
+private List<ApplyVO> applyList; 
+private List<ResumeVO> resumeList;
+private List<ActivityVO> activityList;					// 활동
+private List<AwardVO> awardList;						// 수상
+private List<CareerVO> careerList;						// 경력
+private List<CertificationVO> certList;					// 자격증
+private List<DesiredEmplVO> desiredList;				// 희망근무조건
+private List<EducationVO> eduList;						// 학력
+private List<EmploymentPreferencesVO> prfrnList;		// 취업우대사항/병역
+private List<LanguageVO> langList;						// 이력
+private List<SkillVO> skillList;						// 스킬
+private List<PortfolioVO> portfolioList;				// 포트폴리오
+private List<WorkfieldVO> workfieldList;				// 희망직무
+private String resumeInsertDate;						// 작성날짜
+private String resumeDeleteDate;						// 삭제날짜
+
+private List<CompanyVO> companyList;
+
+
+private int annoId;
+private String applyId;
+
+private int cnt;
+
+
+private int maleCnt;
+private int femaleCnt;
+private int twoCnt;
+private int threeCnt;
+private int fourCnt;
+private int fiveCnt;
+
+
+private int profileId;									// 프로필ID
+
+private int blacklistId;
+private Date blacklistStart;
+private String blacklistCheck;
+}
+
+

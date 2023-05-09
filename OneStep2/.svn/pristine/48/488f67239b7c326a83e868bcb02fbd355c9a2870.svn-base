@@ -1,0 +1,47 @@
+package kr.or.ddit.freelancer.service;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.freelancer.vo.FreeVO;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.vo.AnnoVO;
+import kr.or.ddit.vo.AttVO;
+import kr.or.ddit.vo.FaqVO;
+
+public interface IFreeService {
+
+	void insertFree(FreeVO free);
+
+	List<FreeVO> freeList();
+
+	void insertProject(HttpServletRequest req,AnnoVO anno) throws Exception;
+
+	List<AnnoVO> projList();
+
+	AnnoVO projDetail(int annoId);
+
+	FreeVO freeDetail(int freeNum);
+
+	List<BoardVO> inquirylist(String memId);
+
+	BoardVO inquiry(int boardId);
+
+	ServiceResult insertInqu(HttpServletRequest req, BoardVO board);
+
+	ServiceResult updateBoard(HttpServletRequest req, BoardVO boardVO);
+
+	ServiceResult deleteInquiry(HttpServletRequest req, int boardId);
+
+	List<AttVO> selectBoardFile(int boardId);
+
+	void delete(int boardId);
+
+	List<FaqVO> selectFaq();
+
+	MemberVO member(String memId);
+
+}

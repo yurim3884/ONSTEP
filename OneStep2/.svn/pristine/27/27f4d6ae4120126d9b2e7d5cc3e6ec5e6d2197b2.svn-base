@@ -1,0 +1,115 @@
+package kr.or.ddit.profile.controller;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import kr.or.ddit.common.MediaUtils;
+import kr.or.ddit.common.UploadFileUtils;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.profile.service.IProfileService;
+import kr.or.ddit.profile.vo.ProfileVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@RequestMapping("/member")
+public class ProfileController {
+	
+	
+	@Autowired
+	private IProfileService profileService;
+	
+	// 파일을 저장할 업로드 경로 설정
+	private String uploadPath = "D:/A_TeachingMaterial/08_Framework/03.SPRING2/workspace_spring2/OneStep/src/main/webapp/resources/images/profile";
+	// 파일 경로를 저장할 변수
+	private String filePath;
+
+	// 프로필 사진 업로드 ajax
+	@ResponseBody
+	@RequestMapping(value="/uploadAjax",method=RequestMethod.POST, produces = "text/plain;charset=utf-8") 
+	public ResponseEntity<String> uploadAjax(MultipartFile file, HttpSession session) throws Exception {
+	
+		String savedName = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(),file.getBytes());
+		
+		// 경로와 파일명으로 분리
+		// /2023/04/07/8d757d23-989a-4f09-9022-b57752651c88_Screenshot_20190409-211102_T world.jpg
+		int idx = savedName.lastIndexOf("/");	// lastIndexOf() 메서드를 사용하여 savedName 변수에서 마지막 / 문자의 위치를 찾고, 해당 위치를 idx 변수에 저장
+		filePath = savedName.substring(0, idx + 1);	// substring() 메서드의 첫번째 인자는 추출하고자 하는 문자열의 시작 인덱스이며, 두번째 인자는 추출하고자 하는 문자열의 끝 인덱스입니다. 끝 인덱스는 포함되지 않으므로, 실제 추출하고자 하는 문자열의 끝 인덱스보다 1을 더해줍니다.
+		savedName = savedName.substring(idx + 1); // 마지막 슬래시 바로 다음 문자에서 시작하는 새 문자열을 만들어 savedName에 저장
+		
+		ProfileVO profile = new ProfileVO(); // 프로필 정보 객체 생성
+		
+		profile.setProfileFn(file.getOriginalFilename()); // 파일명 설정
+		profile.setProfileName(savedName); // 저장된 파일명 설정
+		profile.setProfilePath(filePath); // 파일 경로 설정
+		
+		// 프로필 정보 로그 출력
+		log.info("getProfileFn >>>" + profile.getProfileFn());
+		log.info("getProfileName >>>" + profile.getProfileName());
+		log.info("getProfilePath >> " + profile.getProfilePath());
+		
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO"); // 세션에서 멤버 객체 가져오기
+		int profileId;
+		profileId = memberVO.getProfileId();
+		log.info("profileId >> ", profileId);
+		if (profileId == 0) {
+			profileService.insertProfile(profile, session);
+		} else {
+			profile.setProfileId(profileId);
+			profileService.updateProfile(profile, session);
+			profile.setProfileId(profileId);
+		}
+		
+		String data = filePath + savedName; // 업로드된 파일 경로와 파일명을 합친 문자열 생성
+		
+		return new ResponseEntity<String>(data, HttpStatus.CREATED); // 파일 경로와 파일명을 합친 문자열을 HTTP 응답으로 전송
+	}
+
+	// 프로필 사진 보여주기 ajax
+	@RequestMapping(value="/displayFile", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> display(String fileName) throws Exception {
+		InputStream in = null;
+		ResponseEntity<byte[]> entity = null;
+
+		log.info("fileName : " + fileName); // 보여줄 파일명 로그 출력
+
+		try {
+			String formatName = fileName.substring(fileName.lastIndexOf(".") + 1); // 확장자 추출
+			MediaType mType = MediaUtils.getMediaType(formatName); // 확장자에 따른 MIME 타입 객체 생성
+			HttpHeaders headers = new HttpHeaders();
+			in = new FileInputStream(uploadPath + fileName); // 파일 경로에 있는 파일을 읽어들임
+			log.info("in >>" , in);
+			if(mType != null) {
+				headers.setContentType(mType); // MIME 타입 설정
+			} else {
+				fileName = fileName.substring(fileName.indexOf("_") + 1); // 저장된 파일명에서 실제 파일명 추출
+				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM); // MIME 타입을 이진 데이터로 설정
+				headers.add("Content-Disposition", "attachment; filename=\""
+						+ new String(fileName.getBytes("UTF-8"),"ISO-8859-1") + "\""); // 다운로드할 때의 파일명 설정
+			}
+
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),headers,HttpStatus.CREATED); // 파일 데이터와 HTTP 헤더, 상태코드를 함께 응답으로 전송
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+		} finally {
+			in.close();
+		}
+		return entity;
+	}
+}

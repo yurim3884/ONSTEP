@@ -1,0 +1,347 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!--  Navbar Starts / Breadcrumb Area  -->
+<div class="sub-header-container">
+    <header class="header navbar navbar-expand-sm">
+        <ul class="navbar-nav flex-row">
+            <li>
+                <div class="page-header">
+                    <nav class="breadcrumb-one" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page"><span>실시간 알림</span></li>
+                        </ol>
+                    </nav>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+            <li class="">
+                <p class="current-time" id="currentTime"></p>
+                <p class="current-date" id="currentDate"></p>
+            </li>
+        </ul>
+    </header>
+</div>
+<!--  Navbar Ends / Breadcrumb Area  -->
+
+<!--  Main Container Starts  -->
+<!-- <div class="main-container" id="container"> -->
+<!--     <div class="overlay"></div> -->
+<!--     <div class="search-overlay"></div> -->
+<!--     <div class="rightbar-overlay"></div> -->
+<!--  Content Area Starts  -->
+<!-- <div id="content" class="main-content"> -->
+
+<!-- Main Body Starts -->
+<div class="layout-px-spacing">
+    <div class="row layout-top-spacing">
+        <div class="apps-ticket col-xl-12 col-lg-12 col-md-12">
+            <div class="row">
+                <div class="col-xl-12 col-md-12 layout-spacing">
+                    <div class="notifications-table-widget">
+                        <div class="widget-heading">
+                            <h5 class="">나의 알림 확인하기 </h5>
+                            <div class="d-none d-md-flex switch-outer-container">
+                                방해 금지 모드
+                                <span class="switch">
+                                    <label>
+                                        <input type="checkbox" checked="checked" name="select">
+                                        <span></span>
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th><div class="th-content">분류</div></th>
+                                            <th><div class="th-content">메시지</div></th>
+                                            <th><div class="th-content">시간</div></th>
+                                            <th><div class="th-content">상태</div></th>
+                                            <th><div class="th-content">삭제</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    	<c:set value="${pagingVO.dataList }" var="notificationList"/>
+                                    	<form class="input-group input-group-sm" method="post" id="searchForm" style="width: 440px;">
+                                    		<input type="hidden" name="page" id="page"/>
+                                    		</form>
+                                    		<c:choose>
+                                    			<c:when test="${empty notificationList }">
+                                    				<tr>
+	                                    				<td colspan="5" style="text-align:center;" >조회하실 알림이 존재하지 않습니다.</td>
+                                    				</tr>
+                                    			</c:when>
+	                                    		<c:otherwise>
+	                                    			<c:forEach items="${notificationList}" var="notification" >
+		                                    			<tr>
+				                                            <td>
+				                                            	<c:if test="${notification.notificationType == 1 }">
+					                                                <div class="d-flex align-items-center">
+					                                                    <i class="las la-box font-20 mr-2"></i>관심기업 신규 공고		
+					                                                </div>
+				                                            	</c:if>
+				                                            	<c:if test="${notification.notificationType == 2 }">
+					                                                <div class="d-flex align-items-center">
+					                                                    <i class="las la-user-plus font-20 mr-2"></i> 인재공개 상태
+					                                                </div>
+				                                            	</c:if>
+				                                            	<c:if test="${notification.notificationType == 3 }">
+					                                                <div class="d-flex align-items-center">
+					                                                    <i class="las la-ticket-alt font-20 mr-2"></i> 추천 채용정보
+					                                                </div>
+				                                            	</c:if>
+				                                            	<c:if test="${notification.notificationType == 4 }">
+					                                                <div class="d-flex align-items-center text-danger">
+					                                                    <i class="las la-user-shield font-20 mr-2"></i> 원스텝 관리팀
+					                                                </div>
+				                                            	</c:if>
+				                                            	<c:if test="${notification.notificationType == 5 }">
+				                                            		<div class="d-flex align-items-center">
+					                                                    <i class="las la-user-friends font-20 mr-2"></i> 입사지원 상태
+					                                                </div>
+						                                        </c:if>    	
+				                                            </td>
+				                                            <td style="width: 700px;">${notification.notificationContent }</td>
+				                                            <td>${notification.notificationDate }</td>
+				                                            <td>
+					                                            <c:if test="${notification.notificationRead == 1 }">
+					                                                <span class="btn btn-sm btn-primary"> 확인 </span>
+					                                            </c:if>
+					                                            <c:if test="${notification.notificationRead == 0 }">
+					                                                <span class="btn btn-sm btn-danger">미확인</span>
+					                                            </c:if>  
+				                                            </td>
+				                                            <td>
+			                                            		<form action="/myPage/notification/delete" method="post" id="nFrm">
+				                                            		<input type="hidden" name="notificationId" value="${notification.notificationId }">
+				                                            		<button type="button" id="delBtn" class="font-20 ml-2 text-danger" style="border:none; background-color:transparent;"><a class="bs-tooltip font-20 ml-2 text-danger" title="Delete" ><i class="las la-trash"></i></a></button>
+<!-- 				                                            		<a class="bs-tooltip font-20 ml-2 text-danger" title="Delete" id="delBtn"><i class="las la-trash"></i></a> -->
+				                                            	</form>
+				                                            </td>
+				                                        </tr>
+				                                    	</c:forEach>
+                                    			</c:otherwise>
+                                    		</c:choose>
+                                    		
+                                    		<!-- ============================================ -->
+<!--                                         <tr> -->
+<!--                                             <td> -->
+<!--                                                 <div class="d-flex align-items-center"> -->
+<!--                                                     <i class="las la-box font-20 mr-2"></i> 관심기업 신규 공고 -->
+<!--                                                 </div> -->
+<!--                                             </td> -->
+<!--                                             <td style="width: 700px;">㈜GS리테일 관심기업 신규 공고가 등록되었습니다.</td> -->
+<!--                                             <td>10초 전</td> -->
+<!--                                             <td> -->
+<!--                                                 <span class="btn btn-sm btn-primary"> 확인 </span> -->
+                                                
+<!--                                             </td> -->
+<!--                                             <td> -->
+<!--                                             	<a href="javascript:void(0);" class="bs-tooltip font-20 ml-2 text-danger" title="Delete"><i class="las la-trash"></i></a> -->
+<!--                                             </td> -->
+<!--                                         </tr> -->
+<!--                                         <tr> -->
+<!--                                             <td> -->
+<!--                                                 <div class="d-flex align-items-center"> -->
+<!--                                                     <i class="las la-user-plus font-20 mr-2"></i> 인재공개 상태 -->
+<!--                                                 </div> -->
+<!--                                             </td> -->
+<!--                                             <td style="width: 700px;">2개의 새로운 기업에서 이력서를 확인했어요. </td> -->
+<!--                                             <td>5분 전</td> -->
+<!--                                             <td> -->
+<!--                                                 <span class="btn btn-sm btn-danger">미확인</span> -->
+<!--                                             </td> -->
+<!--                                             <td> -->
+<!--                                                 <a href="javascript:void(0);" class="bs-tooltip font-20 ml-2 text-danger" title="Delete"><i class="las la-trash"></i></a> -->
+<!--                                             </td> -->
+<!--                                         </tr> -->
+<!--                                         <tr> -->
+<!--                                             <td> -->
+<!--                                                 <div class="d-flex align-items-center"> -->
+<!--                                                     <i class="las la-ticket-alt font-20 mr-2"></i> 추천 채용정보 -->
+<!--                                                 </div> -->
+<!--                                             </td> -->
+<!--                                             <td style="width: 700px;">구글의 신입사원 채용이 시작되었습니다!</td> -->
+<!--                                             <td>1시간 전</td> -->
+<!--                                             <td> -->
+<!--                                                 <span class="btn btn-sm btn-primary"> 확인 </span> -->
+<!--                                             </td> -->
+<!--                                             <td> -->
+<!--                                             	<a href="javascript:void(0);" class="bs-tooltip font-20 ml-2 text-danger" title="Delete"><i class="las la-trash"></i></a> -->
+<!--                                             </td> -->
+<!--                                         </tr> -->
+<!--                                         <tr> -->
+<!--                                             <td> -->
+<!--                                                 <div class="d-flex align-items-center text-danger"> -->
+<!--                                                     <i class="las la-user-shield font-20 mr-2"></i> 원스텝 관리팀 -->
+<!--                                                 </div> -->
+<!--                                             </td> -->
+<!--                                             <td style="width: 700px;">고객센터에 남긴 1대1 문의에 답변이 등록되었습니다.</td> -->
+<!--                                             <td>1일 전</td> -->
+<!--                                             <td> -->
+<!--                                                 <span class="btn btn-sm btn-danger">미확인</span> -->
+<!--                                             </td> -->
+<!--                                             <td> -->
+<!--                                             	<a href="javascript:void(0);" class="bs-tooltip font-20 ml-2 text-danger" title="Delete"><i class="las la-trash"></i></a> -->
+<!--                                             </td> -->
+<!--                                         </tr> -->
+<!--                                         <tr> -->
+<!--                                             <td> -->
+<!--                                                 <div class="d-flex align-items-center"> -->
+<!--                                                     <i class="las la-user-friends font-20 mr-2"></i> 입사지원 상태 -->
+<!--                                                 </div> -->
+<!--                                             </td> -->
+<!--                                             <td style="width: 700px;">세방전지 지원이 완료되었습니다.</td> -->
+<!--                                             <td>2일 전</td> -->
+<!--                                             <td> -->
+<!--                                             	<span class="btn btn-sm btn-primary"> 확인 </span> -->
+<!--                                             </td> -->
+<!--                                             <td> -->
+<!--                                             	<a href="javascript:void(0);" class="bs-tooltip font-20 ml-2 text-danger" title="Delete"><i class="las la-trash"></i></a> -->
+<!--                                             </td> -->
+<!--                                         </tr> -->
+<!--                                         <tr> -->
+<!--                                             <td> -->
+<!--                                                 <div class="d-flex align-items-center text-danger"> -->
+<!--                                                     <i class="las la-user-shield font-20 mr-2"></i> 원스텝 관리팀 -->
+<!--                                                 </div> -->
+<!--                                             </td> -->
+<!--                                             <td style="width: 700px;">서버 이전 작업 안내</td> -->
+<!--                                             <td>10일 전</td> -->
+<!--                                             <td> -->
+<!--                                                 <span class="btn btn-sm btn-primary"> 확인 </span>  -->
+<!--                                             </td> -->
+<!--                                             <td> -->
+<!--                                             	<a href="javascript:void(0);" class="bs-tooltip font-20 ml-2 text-danger" title="Delete"><i class="las la-trash"></i></a> -->
+<!--                                             </td> -->
+<!--                                         </tr> -->
+<!--                                         <tr> -->
+<!--                                             <td> -->
+<!--                                                 <div class="d-flex align-items-center"> -->
+<!--                                                     <i class="las la-user-friends font-20 mr-2"></i> 입사지원 상태 -->
+<!--                                                 </div> -->
+<!--                                             </td> -->
+<!--                                             <td style="width: 700px;">당근마켓 지원이 완료되었습니다.</td> -->
+<!--                                             <td>15일 전</td> -->
+<!--                                             <td> -->
+<!--                                             	<span class="btn btn-sm btn-primary"> 확인 </span> -->
+<!--                                             </td> -->
+<!--                                             <td> -->
+<!--                                             	<a href="javascript:void(0);" class="bs-tooltip font-20 ml-2 text-danger" title="Delete"><i class="las la-trash"></i></a> -->
+<!--                                             </td> -->
+<!--                                         </tr> -->
+<!--                                         <tr> -->
+<!--                                             <td> -->
+<!--                                                 <div class="d-flex align-items-center"> -->
+<!--                                                     <i class="las la-box font-20 mr-2"></i> 관심기업 신규 공고 -->
+<!--                                                 </div> -->
+<!--                                             </td> -->
+<!--                                             <td style="width: 700px;">현대로템㈜ 관심기업 신규 공고가 등록되었습니다.</td> -->
+<!--                                             <td>15일 전</td> -->
+<!--                                             <td> -->
+<!--                                                 <span class="btn btn-sm btn-primary"> 확인 </span> -->
+<!--                                             </td> -->
+<!--                                             <td> -->
+<!--                                             	<a href="javascript:void(0);" class="bs-tooltip font-20 ml-2 text-danger" title="Delete"><i class="las la-trash"></i></a> -->
+<!--                                             </td> -->
+<!--                                         </tr> -->
+<!--                                         <tr> -->
+<!--                                             <td> -->
+<!--                                                 <div class="d-flex align-items-center"> -->
+<!--                                                     <i class="las la-user-plus font-20 mr-2"></i> 인재공개 상태 -->
+<!--                                                 </div> -->
+<!--                                             </td> -->
+<!--                                             <td style="width: 700px;">대표 이력서를 설정하지 않으셨어요! </td> -->
+<!--                                             <td>25일 전</td> -->
+<!--                                             <td> -->
+<!--                                                 <span class="btn btn-sm btn-primary"> 확인 </span> -->
+<!--                                             </td> -->
+<!--                                             <td> -->
+<!--                                             	<a href="javascript:void(0);" class="bs-tooltip font-20 ml-2 text-danger" title="Delete"><i class="las la-trash"></i></a> -->
+<!--                                             </td> -->
+<!--                                         </tr> -->
+                                    </tbody>
+                                </table>
+                                <div class="pagination p13" id="pagingArea">
+			                      	${pagingVO.pagingHTML }
+                                
+                                    <ul class="mx-auto">
+                                      <a href="#" class="prev"><li>Prev</li></a>
+                                      <a href="#"><li>1</li></a>
+                                      <a href="#"><li>2</li></a>
+                                      <a href="#"><li>3</li></a>
+                                      <a href="#"><li>4</li></a>
+                                      <a href="#"><li>5</li></a>
+                                      <a class="is-active" href="#"><li>6</li></a>
+                                      <a href="#" class="next"><li>Next</li></a>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Main Body Ends -->
+<!-- <div class="responsive-msg-component"> -->
+<!--     <p> -->
+<!--         <a class="close-msg-component"><i class="las la-times"></i></a> -->
+<!--         Please reload the page when you change the viewport size to view the responsive functionalities correctly -->
+<!--     </p> -->
+<!-- </div> -->
+<!--  </div> -->
+ <!--  Content Area Ends  -->
+ 
+  <!-- Common Script Starts -->
+    <script src="assets/js/libs/jquery-3.1.1.min.js"></script>
+    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="bootstrap/js/popper.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+    <script src="assets/js/custom.js"></script>
+    <!-- Common Script Ends -->
+    <!-- Page Level Plugin/Script Starts -->
+    <script src="assets/js/loader.js"></script>
+    <script src="plugins/fullcalendar/moment.min.js"></script>
+    <script src="plugins/flatpickr/flatpickr.js"></script>
+    <!-- Page Level Plugin/Script Starts -->
+
+<script type="text/javascript">
+$(function() {
+	var pagingArea = $("#pagingArea");
+	var nFrm = $("#nFrm");
+	var searchFrm = $("#searchForm");
+	var newBtn = $("#newBtn");
+	var delBtn = $("#delBtn");
+	console.log()
+	delBtn.on("click", function(e) {
+// 		e.preventDefault();
+		if (confirm("정말로 삭제하시겠습니까?")) {
+			nFrm.submit();
+		} else {
+			nFrm.reset();
+		}
+	});
+	
+	pagingArea.on("click", "a", function(e) {	 // pagingArea 안의 a태그를 클릭하는거라 ... pagingHTML 안에 a태그 만들어 둠 
+		e.preventDefault();
+		var pageNo = $(this).data("page");	 	// 페이지번호 얻어오고
+		searchForm.find("#page").val(pageNo);	// 아이디 page에다가 밸류로 위에서얻어온 pageNo 세팅
+		searchForm.submit();
+		
+	});
+});
+</script>   
+    

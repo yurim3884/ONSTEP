@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.MasterAdvertMapper">
+
+<select id="advertList" resultType="advertVO">
+select advert_id, prod_id, advert_name, advert_content, advert_status, advert_start, advert_end, att_id, company_id
+from advert
+order by advert_id asc
+</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

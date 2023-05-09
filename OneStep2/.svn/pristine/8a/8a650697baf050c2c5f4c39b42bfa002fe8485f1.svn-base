@@ -1,0 +1,13 @@
+package kr.or.ddit.mapper;
+
+import java.util.List;
+
+import kr.or.ddit.prod.vo.ProdVO;
+
+public interface PaymentMapper {
+
+	List<ProdVO> prodList() throws Exception;
+
+//	List<ProdVO> prodYear(int year) throws Exception;
+
+}

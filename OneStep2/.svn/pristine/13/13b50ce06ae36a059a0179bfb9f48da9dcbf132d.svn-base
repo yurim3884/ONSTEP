@@ -1,0 +1,27 @@
+package kr.or.ddit.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.freelancer.vo.FreeVO;
+import kr.or.ddit.vo.AnnoVO;
+
+@Mapper
+public interface FreeMapper {
+
+	void insertFree(FreeVO free);
+
+	List<FreeVO> freeList();
+
+	void insertProject(AnnoVO anno);
+
+	List<AnnoVO> projList();
+
+	void insertAnnoFile(AnnoVO anno);
+
+	AnnoVO projDetail(int annoId);
+
+	FreeVO freeDetail(int freeNum);
+
+}

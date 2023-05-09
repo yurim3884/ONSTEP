@@ -1,0 +1,9 @@
+.darkmode .widget-content-area {
+    background-color: #272727;
+}
+.darkmode .widget-table-one .weekly-bestsellers {
+    border: 1px solid #3a3a3a;
+}
+.darkmode .ticker-item {
+    color: #ffffff;
+}

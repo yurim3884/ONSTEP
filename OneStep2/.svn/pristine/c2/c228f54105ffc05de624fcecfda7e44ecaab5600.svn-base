@@ -1,0 +1,222 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<div class="layout-px-spacing">
+	<div class="layout-top-spacing mb-2">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="container p-0">
+					<div class="row layout-top-spacing">
+						<div class="col-lg-12 layout-spacing">
+							<div class="statbox widget box box-shadow">
+								<div class="widget-content widget-content-area">
+									<div class="form-group row">
+										<div class="col-lg-12 col-md-12 col-sm-12">
+											<div class="card multiple-form-one px-0 pb-0 mb-3">
+												<h3 class="text-center">
+													<strong>의뢰인 정보 입력</strong>
+												</h3>
+												<p class="text-center">Fill all form field to go to next
+													step</p>
+												<div class="row">
+													<div class="col-md-12 mx-0">
+														<form id="msform" action="/free/insertProject" method="post">
+															<ul id="progressbar">
+																<li class="active" id="account"><strong>프로젝트
+																		기본 정보</strong></li>
+																<li id="personal"><strong>근무방식</strong></li>
+																<li id="personal"><strong>담당자</strong></li>
+																<li id="confirm"><strong>finish</strong></li>
+															</ul>
+															<fieldset>
+																<div class="form-card">
+																	<h5 class="fs-title mb-4">프로젝트 기본 정보</h5>
+																	<p>
+																		어떤 프로젝트 인가요?
+																	</p>
+																	<br>
+																	<br>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">프로젝트 명</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input type="text" class="form-control"name="annoTitle">
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">직군/직무</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<select class="form-control" name="industryCode">
+																				<option value="변역">변역</option>
+																				<option value="통역 외국어 MC">통역 외국어 MC</option>
+																				<option value="IT 개발 기획" selected>IT 개발 기획</option>
+																				<option value="디자인">디자인</option>
+																				<option value="광고 마케팅">광고 마케팅</option>
+																				<option value="영상 미디어">영상 미디어</option>
+																				<option value="경영 비즈니스">경영 비즈니스</option>
+																				<option value="엔지니어링 설계">엔지니어링 설계</option>
+																				<option value="법률 법집행기관">법률 법집행기관</option>
+																			</select>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">요구 스킬</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input type="text" class="form-control" value="없음"
+																				name="annoUd">
+																		</div>
+																	</div>
+																	  <div class="form-group row">
+                                 										 <label class="col-form-label text-left col-lg-2 col-sm-12">필요 인력</label>
+                             											     <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+                                  												  <input class="form-control" type="number" value="1" id="example-number-input"
+                                    													  name="annoMem" required>
+                                  											</div>
+                              										  </div>
+                              										     <div class="form-group row">
+											                                  <label class="col-form-label text-left col-lg-2 col-sm-12">경력</label>
+											                                  <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			      <input class="form-control form-control-solid" type="text"
+																			        name="annoCareer">
+																		</div>
+																	</div>
+																	</div>
+
+																<input type="button" name="next"
+																	class="next action-button btn btn-primary"
+																	value="Next Step" />
+															</fieldset>
+
+															<fieldset>
+																<div class="form-card">
+																	<h5 class="fs-title mb-4">근무방식</h5>
+																	<p>원하시는 일정 예산 근무방식을 선택해주세요</p>
+
+																		  <div class="form-group row">
+                               								   <label class="col-form-label text-left col-lg-2 col-sm-12">공고 시작 날짜</label>
+										                                 <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+										                                   <input class="form-control" type="date" value="2011-08-19" id="example-date-input"
+										                                     name="annoStartDate" required>
+										                                 </div>
+										                               </div>
+										                               <div class="form-group row">
+										                                  <label class="col-form-label text-left col-lg-2 col-sm-12">수습기간 (개월)</label>
+										                                  <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+										                                    <input class="form-control" type="number" value="6" id="example-number-input"
+										                                      name="annoProbation" required>
+										                                  </div>
+										                                </div>
+										                                      <div class="form-group row">
+										                                  <label class="col-form-label text-left col-lg-2 col-sm-12">급여 (만원)</label>
+										                                  <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+										                                    <input class="form-control" type="number" value="3000" id="example-number-input"
+										                                      name="annoSalary" required>
+										                                  </div>
+										                                </div>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">근무방식</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<select class="form-control" name="annoWork">
+																				<option value="상주">상주</option>
+																				<option value="원격">원격</option>
+																				<option value="상관없음" selected>상관없음</option>
+																			</select>
+																		</div>
+																	</div>
+										                                </div>
+										                                <input type="button" name="previous"
+																	class="previous action-button-previous btn btn-outline-primary"
+																	value="Previous" /> <input type="button" name="next"
+																	class="next action-button btn btn-primary"
+																	value="Next Step" />
+										                             </fieldset>
+										                             <fieldset>
+																<div class="form-card">
+																	<h5 class="fs-title mb-4">담당자</h5>
+																	<p>담당자를 입력해주세요</p>
+																	     <div class="form-group row">
+                                  <label class="col-form-label text-left col-lg-2 col-sm-12">담당자 이름</label>
+                                  <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12"">
+                                    <input class="form-control form-control-solid" type="text" name="annoManager"
+                                      value="1" required>
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                                  <label class="col-form-label text-left col-lg-2 col-sm-12">담당자 전화번호</label>
+                                  <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12"">
+                                    <div class="input-group input-group-solid">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                          <i class="la la-phone"></i>
+                                        </span>
+                                      </div>
+                                      <input type="text" class="form-control form-control-solid" placeholder="Phone"
+                                        value="1" name="annoTel" required>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                                  <label class="col-form-label text-left col-lg-2 col-sm-12">담당자 이메일</label>
+                                  <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12"">
+                                    <div class="input-group input-group-solid">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                          <i class="la la-at"></i>
+                                        </span>
+                                      </div>
+                                      <input type="text" class="form-control form-control-solid" placeholder="Email"
+                                        value="1" name="annoEmail" required>
+                                    </div>
+                                  </div>
+                                </div>
+										                          
+																</div>
+															
+																<input type="button" name="previous"
+																	class="previous action-button-previous btn btn-outline-primary"
+																	value="Previous" /> <input type="submit" name="next"
+																	class="next action-button btn btn-primary"
+																	value="Next Step" />
+															</fieldset>
+															<fieldset>
+																<div class="form-card">
+																	<h5 class="fs-title mb-4 text-center">Congrats !</h5>
+																	<br>
+																	<div class="row justify-content-center">
+																		<div class="col-md-3">
+																			<svg class="checkmark"
+																				xmlns="http://www.w3.org/2000/svg"
+																				viewBox="0 0 52 52">
+																				<circle class="checkmark__circle" cx="26" cy="26"
+																					r="25" fill="none" />
+																				<path class="checkmark__check" fill="none"
+																					d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+																		</div>
+																	</div>
+																	<br>
+																	<br>
+																	<div class="row justify-content-center">
+																		<div class="col-md-7 text-center">
+																			<p>OneStep 프로젝트 등록 완료!</p>
+																		</div>
+																	</div>
+																</div>
+															</fieldset>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

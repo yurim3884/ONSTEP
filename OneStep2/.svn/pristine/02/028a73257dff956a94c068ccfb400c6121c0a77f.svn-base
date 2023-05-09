@@ -1,0 +1,151 @@
+package kr.or.ddit.fullcalendar.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.or.ddit.fullcalendar.service.IAnnoFullcalendarService;
+import kr.or.ddit.fullcalendar.vo.FullcalendarVO;
+import kr.or.ddit.vo.AnnoVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/annofullcal")
+@Controller
+public class AnnounceMentFullcalendar {
+
+	@Inject
+	private IAnnoFullcalendarService annofulcalService;
+	
+	public String fullcalendarList() {
+		return "member/calendar";
+	}
+	
+	@RequestMapping(value="/list", method=RequestMethod.GET)
+	public String annocalendar() throws Exception {
+		log.info("뭐라도 나와라");
+		return "member/calendar";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/list",method=RequestMethod.POST)
+	public JSONArray annoCalendarList(Model model) {
+		log.info("뭐라도 떠라 제발 500이 뭐냐 : ");
+		List<AnnoVO> list = annofulcalService.selectfullList();
+		System.out.println("데이터가 뜨는가? : " + list);
+		
+		model.addAttribute("list", list);
+		JSONObject jsonObj = new JSONObject();
+		JSONArray jsonArr = new JSONArray();
+		
+		Map<String, Object> annocalMap = new HashMap<String, Object>();
+		
+		for(int i=0; i<list.size(); i++) {
+			annocalMap.put("no", list.get(i).getAnnoId());
+			annocalMap.put("comId", list.get(i).getComId());
+			annocalMap.put("annoTitle", list.get(i).getAnnoTitle());
+			annocalMap.put("annoContent", list.get(i).getAnnoContent());
+			annocalMap.put("annoStartDate", list.get(i).getAnnoStartDate());
+			annocalMap.put("annoEndDate", list.get(i).getAnnoEndDate());
+			annocalMap.put("annoHit", list.get(i).getAnnoHit());
+			annocalMap.put("annoStart", list.get(i).getAnnoStart());
+			annocalMap.put("annoState", list.get(i).getAnnoState());
+			annocalMap.put("annoType", list.get(i).getAnnoType());
+			annocalMap.put("annoManager", list.get(i).getAnnoManager());
+			annocalMap.put("annoTel", list.get(i).getAnnoTel());
+			annocalMap.put("annoEmail", list.get(i).getAnnoEmail());
+			annocalMap.put("annoWork", list.get(i).getAnnoWork());
+			annocalMap.put("annoAge", list.get(i).getAnnoAge());
+			annocalMap.put("annoProbation", list.get(i).getAnnoProbation());
+			annocalMap.put("annoSalary", list.get(i).getAnnoSalary());
+			annocalMap.put("industryCode", list.get(i).getIndustryCode());
+			annocalMap.put("annoMb", list.get(i).getAnnoMb());
+			annocalMap.put("annoMem", list.get(i).getAnnoMem());
+			annocalMap.put("annoCareer", list.get(i).getAnnoCareer());
+			annocalMap.put("annoDm1", list.get(i).getAnnoDm1());
+			annocalMap.put("annoDm2", list.get(i).getAnnoDm2());
+			annocalMap.put("annoGb", list.get(i).getAnnoGb());
+			annocalMap.put("annoJo", list.get(i).getAnnoJo());
+			annocalMap.put("annoUd", list.get(i).getAnnoUd());
+			annocalMap.put("annoGender", list.get(i).getAnnoGender());
+			annocalMap.put("annoDay", list.get(i).getAnnoDay());
+			annocalMap.put("annoTime", list.get(i).getAnnoTime());
+			annocalMap.put("annoWd", list.get(i).getAnnoWd());
+			annocalMap.put("annoStu", list.get(i).getAnnoStu());
+			annocalMap.put("annoStaly", list.get(i).getAnnoStaly());
+			annocalMap.put("annoStatus", list.get(i).getAnnoStatus());
+			annocalMap.put("annoIntro", list.get(i).getAnnoIntro());
+			annocalMap.put("attId", list.get(i).getAttId());
+			annocalMap.put("companyName", list.get(i).getCompanyName());
+//			annocalMap.put("attAnno", list.get(i).getAttAnno());
+//			annocalMap.put("reviewVO", list.get(i).getReviewVO());
+//			annocalMap.put("companyVO", list.get(i).getCompanyVO());
+			
+			
+			jsonObj = new JSONObject(annocalMap);
+			jsonArr.add(jsonObj);
+			
+			log.info("jsonArr >>> " + jsonArr);
+		}
+		System.out.println("json : {}" + jsonArr);
+		return jsonArr;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

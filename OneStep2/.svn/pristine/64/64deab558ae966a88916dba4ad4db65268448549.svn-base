@@ -1,0 +1,14 @@
+package kr.or.ddit.mapper;
+
+import java.util.List;
+
+import kr.or.ddit.fullcalendar.vo.FullcalendarVO;
+
+public interface Fullcalendarmapper {
+
+	public void insert(FullcalendarVO calendar);
+	public List<FullcalendarVO> list();
+	public void update(FullcalendarVO calendar);
+	public void del(FullcalendarVO calendar);
+
+}

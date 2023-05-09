@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<setting name="jdbcTypeForNull" value="VARCHAR"/> <!-- mybatipse 설치 후 사용 가능 -->
+	</settings>
+	
+	<typeAliases>
+	<typeAlias type="kr.or.ddit.member.vo.MemberVO" alias="memberVO"/>
+	<typeAlias type="kr.or.ddit.pay.vo.PayVO" alias="pay"/>
+	<typeAlias type="kr.or.ddit.vo.AnnoVO" alias="annoVO"/>
+	<typeAlias type="kr.or.ddit.board.vo.BoardVO" alias="boardVO"/>
+	<typeAlias type="kr.or.ddit.comment.vo.CommentVO" alias="commentVO"/>
+	<typeAlias type="kr.or.ddit.vo.GoodVO" alias="goodVO"/>
+	<typeAlias type="kr.or.ddit.vo.AttVO" alias="attVO"/>
+	<typeAlias type="kr.or.ddit.fullcalendar.vo.FullcalendarVO" alias="calVO"/>
+	<typeAlias type="kr.or.ddit.vo.PaginationInfoVO" alias="pagingVO"/>
+	<typeAlias type="kr.or.ddit.company.vo.CompanyVO" alias="companyVO"/> 
+	<typeAlias type="kr.or.ddit.vo.AnnoKeywordVO" alias="annoKeyword"/> 
+	<typeAlias type="kr.or.ddit.vo.ReviewVO" alias="reviewVO"/> 
+	<typeAlias type="kr.or.ddit.freelancer.vo.FreeVO" alias="freeVO"/> 
+	
+<!-- 	<typeAlias type="kr.or.ddit.myPage.vo.NotificationVO" alias="notificationVO"/> -->
+	<typeAlias type="kr.or.ddit.alarm.vo.NotificationVO" alias="notificationVO"/>
+	<typeAlias type="kr.or.ddit.master.vo.AdvertVO" alias="advertVO"/>
+	<typeAlias type="kr.or.ddit.myPage.vo.ResumeVO" alias="resumeVO"/>
+	<typeAlias type="kr.or.ddit.myPage.vo.ActivityVO" alias="activityVO"/>
+	<typeAlias type="kr.or.ddit.myPage.vo.AwardVO" alias="awardVO"/>
+	<typeAlias type="kr.or.ddit.myPage.vo.CareerVO" alias="careerVO"/>
+	<typeAlias type="kr.or.ddit.myPage.vo.CertificationVO" alias="certificationVO"/>
+	<typeAlias type="kr.or.ddit.myPage.vo.DesiredEmplVO" alias="desiredVO"/>
+	<typeAlias type="kr.or.ddit.myPage.vo.EducationVO" alias="educationVO"/>
+	<typeAlias type="kr.or.ddit.myPage.vo.EmploymentPreferencesVO" alias="prfrnVO"/>
+	<typeAlias type="kr.or.ddit.myPage.vo.LanguageVO" alias="languageVO"/>
+	<typeAlias type="kr.or.ddit.myPage.vo.SkillVO" alias="skillVO"/>
+	<typeAlias type="kr.or.ddit.myPage.vo.WorkfieldVO" alias="workfieldVO"/>
+	<typeAlias type="kr.or.ddit.myPage.vo.PortfolioVO" alias="portfolioVO"/>
+	<typeAlias type="kr.or.ddit.myPage.vo.CoverletterVO" alias="covltrVO"/>
+	<typeAlias type="kr.or.ddit.myPage.vo.CoverletterItemVO" alias="covltrItemVO"/>
+	<typeAlias type="kr.or.ddit.member.vo.SupportVO" alias="supportVO"/>
+	<typeAlias type="kr.or.ddit.vo.FaqVO" alias="faqVO"/>
+	<typeAlias type="kr.or.ddit.master.vo.AnswerVO" alias="answerVO"/>
+	<typeAlias type="kr.or.ddit.prod.vo.ProdVO" alias="prodVO"/>
+	<typeAlias type="kr.or.ddit.vo.keywordAnnoVO" alias="annoKeywordVO"/>
+	<typeAlias type="kr.or.ddit.vo.CommendVO" alias="commendVO"/>
+	<typeAlias type="kr.or.ddit.vo.ProposalVO" alias="proposalVO"/>
+	<typeAlias type="kr.or.ddit.vo.ApplyVO" alias="applyVO"/>
+	<typeAlias type="kr.or.ddit.vo.EvaluationVO" alias="evaluationVO"/>
+	<typeAlias type="kr.or.ddit.vo.ReportVO" alias="reportVO"/>
+	<typeAlias type="kr.or.ddit.manager.vo.ManageVO" alias="manageVO"/>
+	<typeAlias type="kr.or.ddit.chat.vo.ChatVO" alias="chatVO"/>
+	<typeAlias type="kr.or.ddit.profile.vo.ProfileVO" alias="profileVO"/>
+	<typeAlias type="kr.or.ddit.chat.vo.ChatroomVO" alias="chatroomVO"/>
+<!-- 		<typeAlias type="kr.or.ddit.vo.BoardFileVO" alias="boardFileVO"/> -->
+<!-- 		<typeAlias type="kr.or.ddit.vo.BoardVO" alias="boardVO"/> -->
+	</typeAliases>
+</configuration>

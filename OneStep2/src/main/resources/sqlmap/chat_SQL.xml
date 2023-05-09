@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.ChatMapper">
+	
+	
+	<insert id = "insertChat" parameterType="map">
+		INSERT INTO chat (
+			chat_id, chat_content, chat_date, mem_id, chatroom_id
+		) VALUES (
+			seq_chatid.nextval, #{chatContent}, sysdate, #{memId}, null
+		)
+	</insert>
+	
+<!-- 	<select id = "chatDetail" parameterType="map" resultMap="chatMemberMap"> -->
+<!-- 		SELECT -->
+<!-- 			a.chat_id, a.mem_id, a.chat_content, a.chat_date, b.mem_status, b.mem_nick -->
+<!-- 		FROM chat a -->
+<!-- 		JOIN member b on a.mem_id = b.mem_id -->
+<!-- 		ORDER BY a.chat_date ASC -->
+<!-- 	</select> -->
+
+	<resultMap type="chatVO" id="chatMap">
+		<id property="chatId" column="chat_id"/>
+		<result property="chatroomId" column="chatroom_id"/>
+	  	<result property="memId" column="mem_id"/>
+	  	<result property="chatContent" column="chat_content"/>
+	 	<result property="chatDate" column="chat_date"/>
+	 	<association property="member" javaType="memberVO">
+	    	<result property="memStatus" column="mem_status"/>
+	    	<result property="memNick" column="mem_nick"/>
+	  	</association>
+	</resultMap>
+
+	<select id = "chatDetail" parameterType="map" resultMap="chatMap">
+		SELECT
+			a.chat_id, a.mem_id, a.chat_content, a.chat_date, b.mem_status, b.mem_nick
+		FROM chat a
+		JOIN member b on a.mem_id = b.mem_id
+		WHERE a.chatroom_id = #{chatroomId}
+	    ORDER BY a.chat_date ASC
+	</select>
+	
+	<resultMap id="chatroomMap" type="chatroomVO">
+		<id property="chatroomId" column="chatroom_id"/>
+		<result property="chatroomName" column="chatroom_name"/>
+		<result property="chatroomInsertDate" column="chatroom_insert_date"/>
+		<collection property="chat" ofType="chatVO">
+			<id property="chatId" column="chat_id"/>
+			<result property="chatDate" column="chat_date"/>
+			<result property="chatContent" column="chat_content"/>
+			<association property="member" javaType="memberVO" >
+	  			<id property="memId" column="mem_id"/>
+	   			<result property="memStatus" column="mem_status"/>
+	  			<result property="memNick" column="mem_nick"/>
+			</association>
+		  </collection>
+	</resultMap>
+	
+<!-- 	<select id="selectMyChatrooms" parameterType="String" resultMap="chatroomMap"> -->
+<!-- 		SELECT -->
+<!-- 			cr.chatroom_id -->
+<!-- 			,cr.chatroom_name -->
+<!-- 			,cr.chatroom_insert_date -->
+<!-- 			,c.chat_id -->
+<!-- 			,c.chat_date -->
+<!-- 			,c.chat_content -->
+<!-- 			,m.mem_id -->
+<!-- 			,m.mem_status -->
+<!-- 			,m.mem_nick -->
+<!-- 		FROM chatroom cr -->
+<!-- 		INNER JOIN chat c ON cr.chatroom_id = c.chatroom_id -->
+<!-- 		INNER JOIN member m ON c.mem_id = m.mem_id -->
+<!-- 		WHERE m.mem_id = #{memId} -->
+<!-- 		GROUP BY cr.chatroom_id, cr.chatroom_name, cr.chatroom_insert_date, c.chat_id, c.chat_date, c.chat_content, m.mem_id, m.mem_status, m.mem_nick -->
+<!-- 	</select> -->
+	
+	<select id="selectChatList" parameterType="map" resultType="memberVO">
+		 SELECT mem_id, mem_nick, mem_status
+	    FROM member
+	    WHERE mem_id != #{memId} AND (
+	        (#{memStatus} IN ('1', '2') AND mem_status = '3')
+	        OR (#{memStatus} = '3' AND mem_status IN ('1', '2'))
+	    )
+	</select>
+	
+<!-- 	<select id="selectChatList" parameterType="map" > -->
+<!-- 		SELECT m.mem_id, m.mem_nick, m.mem_status, c.chat_id, c.chat_content, c.chat_date -->
+<!-- 		FROM member m -->
+<!-- 		INNER JOIN chat c ON m.mem_id = c.mem_id -->
+<!-- 		WHERE m.mem_id != #{memId}  -->
+<!-- 		AND ( -->
+<!-- 			(#{memStatus} IN ('1', '2') AND m.mem_status = '3') -->
+<!-- 			OR (#{memStatus} = '3' AND m.mem_status IN ('1', '2')) -->
+<!-- 		) -->
+<!-- 		AND c.mem_id = m.mem_id -->
+<!-- 	</select> -->
+	
+	<resultMap id="chatMemberResultMap" type="chatVO">
+		<result property="chatId" column="chat_id"/>
+		<result property="chatContent" column="chat_content"/>
+		<result property="chatDate" column="chat_date"/>
+		<association property="member" resultMap="memberResultMap"/>
+	</resultMap>
+	
+	<resultMap type="chatVO" id="chatMemberMap">
+		<id property="chatId" column="chat_id"/>
+		<result property="chatContent" column="chat_content"/>
+		<result property="chatDate" column="chat_date"/>
+		<association property="member" resultMap="memberResultMap"/>
+	</resultMap>
+	
+	<resultMap type="memberVO" id="memberResultMap">
+		<id property="memId" column="mem_id"/>
+		<result property="memNick" column="mem_nick"/>
+		<result property="memStatus" column="mem_status"/>
+		<result property="companyId" column="company_id"/>
+		<result property="memEmail" column="mem_email"/>
+		<result property="memFree" column="mem_free"/>
+		<result property="profileId" column="profile_id"/>
+	</resultMap>
+	
+	
+	<select id = "chatMember" parameterType="map" resultMap="chatMemberMap">
+		SELECT 
+			a.mem_id, a.mem_nick, a.mem_status, a.company_id, a.mem_email, a.mem_free, a.profile_id,
+			b.chat_content, b.chat_date
+		FROM member a, chat b
+		WHERE a.mem_id = b.mem_id
+	</select>
+	
+	
+</mapper>

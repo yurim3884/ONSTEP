@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.Fullcalendarmapper">
+
+	<select id="list" resultType="calVO">
+		select 
+			cal_id, cal_title, cal_content, cal_start, cal_end, mem_id, anno_id, id, label
+		  from cal 
+	</select>
+	
+	
+<!-- 	<insert id="insert" parameterType="calVO" useGeneratedKeys="true"> -->
+<!-- 		<selectKey order="BEFORE" keyProperty="calId" resultType="int"> -->
+<!-- 			select seq_calid.nextval from dual -->
+<!-- 		</selectKey> -->
+<!-- 		insert into cal( -->
+<!-- 			cal_id, cal_title, cal_content, cal_start, cal_end, mem_id,anno_id -->
+<!-- 		)values( -->
+<!-- 			#{calId}, #{calTitle}, #{calContent}, #{calStart}, #{calEnd},#{memId},#{annoId}  -->
+<!-- 		) -->
+<!-- 	</insert> -->
+
+     <insert id="insert" parameterType="calVO" useGeneratedKeys="true">
+      <selectKey order="BEFORE" keyProperty="calId" resultType="int">
+         select seq_calid.nextval from dual
+      </selectKey>
+      insert into cal(
+         cal_id
+         , cal_title
+         , cal_content
+         , cal_start
+         , cal_end
+         , mem_id
+         , anno_id
+         , id
+         , label
+         )values(
+           #{calId}
+         , #{calTitle}
+         , #{calContent}
+		 , #{calStart}
+		 , #{calEnd}
+         , #{memId}
+         , #{annoId} 
+         , #{id}
+         , #{label}
+         )
+   </insert>
+   
+   
+   
+   <update id="update" parameterType="calVO" >
+   		update cal
+   		   set 
+	           cal_title = #{calTitle}
+	         , cal_content =#{calContent}
+	         , cal_start = #{calStart}
+	         , cal_end = #{calEnd}
+	         , anno_id = #{annoId}
+	         , label = #{label}
+	    where cal_id = #{calId} 
+   </update>
+   
+   
+   <delete id="remove" parameterType="calVO">
+   		delete from cal
+   		 where cal_id =#{calId}
+   </delete>
+   
+   
+   
+   
+   
+   
+   
+   
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

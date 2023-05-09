@@ -1,0 +1,80 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+            <!--  Navbar Starts / Breadcrumb Area  -->
+            <div class="sub-header-container">
+                <header class="header navbar navbar-expand-sm">
+                    <ul class="navbar-nav flex-row">
+                        <li>
+                            <div class="page-header">
+                                <nav class="breadcrumb-one" aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Apps</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page"><span>인재관리</span></li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+                        <li class="">
+                            <p class="current-time" id="currentTime"></p>
+                            <p class="current-date" id="currentDate"></p>
+                        </li>
+                    </ul>
+                </header>
+            </div>
+            <!--  Navbar Ends / Breadcrumb Area  -->
+            <!-- Main Body Starts -->
+            <div class="layout-px-spacing">                
+                <div class="row layout-spacing layout-top-spacing" id="cancel-row">
+                    <div class="col-lg-12">
+                        <div class="">
+                        <div class="widget-content searchable-container grid">
+                            <div class="card-box">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 filtered-list-search align-self-center w-100">
+                                        <form class="form-inline my-2 my-lg-0">
+                                            <div class="">
+                                                <i class="las la-search toggle-search"></i>
+                                                <input type="text" id="input-search" class="form-control search-form-control  ml-lg-auto" placeholder="Search Companies">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="searchable-items grid card-box">
+                            <c:forEach items="${member }" var="member">
+                                <div class="items">
+                                <div style="border: solid gray"; >
+                                        <div class="user-profile">
+                                            <img src="assets/img/company-5.jpg" class="light-image" alt="avatar">
+                                            <img src="assets/img/company-5.jpg" alt="avatar">
+                                            <div class="user-meta-info">
+                                                <p class="user-name">${member.memName }</p>
+                                                <p class="user-work"> 학력</p>
+                                            </div>
+                                        </div> 
+                                        <p class="font-12 text-center text-muted"> 활동 / 자격증</p>
+                                       
+                                        <div class="action-btn">
+                                           <a class="btn btn-sm btn-dark" href="/company/deleteHeart/${member.memId} ">취소</a>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                            <div class="pagination p13 text-center mt-4">
+                                <ul class="mx-auto">
+                                  <a href="#" class="prev"><li>Prev</li></a>
+                                  <a class="is-active" href="#"><li>1</li></a>
+                                  <a href="#"><li>2</li></a>
+                                  <a href="#"><li>3</li></a>
+                                  <a href="#" class="next"><li>Next</li></a>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Main Body Ends -->

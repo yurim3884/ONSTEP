@@ -1,0 +1,89 @@
+.darkmode .widget-content-area {
+    background-color: #272727;
+}
+.darkmode .breadcrumb-with-icons .breadcrumb li {
+    background: #191919;
+}
+.darkmode .breadcrumb-with-icons .breadcrumb li a {
+    color: #fff;
+}
+.darkmode .basic-breadcrumb-two li > * {
+    color: #ffffff;
+}
+.darkmode .default-breadcrumb .breadcrumb-item a {
+    color: #ffffff;
+}
+.darkmode .dotted-seperators .breadcrumb li a {
+    color: #fff;
+}
+.darkmode .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #191919 !important;
+}
+.darkmode .grid-area .table td, 
+.darkmode .grid-area .table th {
+    color: #fff;
+}
+.darkmode .grid-area .bg-light-dark {
+    background-color: #191919;
+}
+.darkmode .jumbotron {
+    background-color: #191919;
+}
+.darkmode .list-group-area .list-group-item {
+    background-color: #191919;
+    color: #ffffff;
+}
+.darkmode .progress-area .progress {
+    background-color: #191919;
+}
+.darkmode blockquote.blockquote {
+    background-color: #191919;
+    border: 1px solid #191919;
+}
+.darkmode .default-breadcrumb .breadcrumb-item.active {
+    color: #9c9c9c;
+}
+.darkmode .breadcrumb-with-icons .breadcrumb li.active a {
+    color: #ffffff!important;
+    font-weight: 600;
+}
+.darkmode .breadcrumb-with-icons .breadcrumb li:not(:first-child):before {
+    background: #ffffff;
+}
+.darkmode .dotted-seperators .breadcrumb li.active a {
+    color: #ffffff!important;
+}
+.darkmode .dotted-seperators .breadcrumb li:not(:first-child):before {
+    background: #ffffff;
+}
+.darkmode .table > thead > tr > th {
+    color: #ffffff;
+}
+.darkmode .table td, .darkmode .table th {
+    color: #ffffff;
+}
+.darkmode .pagination a {
+    color: #ffffff;
+}
+.darkmode .p2 .is-active li {
+    border-bottom: 3px solid #797979;
+}
+.darkmode .p6 a,
+.darkmode .p5 a {
+    background-color: #797979;
+}
+.darkmode .p5 a.is-active, .darkmode .p6 a.is-active {
+    background-color: #4165a7;
+}
+.darkmode .p8 a.is-active {
+    background-color: #fff;
+    color: #1a1a27 !important;
+}
+.darkmode .pagination-lg .page-link,
+.darkmode .pagination-sm .page-link,
+.darkmode .pagination-rounded .page-link {
+    color: #1a1a27 !important;
+}
+.darkmode .progress {
+    background-color: #191919;
+}

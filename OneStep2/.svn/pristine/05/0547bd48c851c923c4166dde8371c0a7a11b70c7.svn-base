@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.MasterMapper">
+
+<select id="list" resultType="memberVO">
+select * from member
+</select>
+
+<update id="status" parameterType="String">
+	update member 
+	set mem_status = #{memStatus}
+	where mem_id = #{memId}
+</update>
+</mapper>

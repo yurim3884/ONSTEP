@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.InquiryMapper">
+
+	<resultMap type="boardVO" id="boardMap">
+		<id property="boardId" column="board_id"/>
+		<result property="boardId" column="board_id"/>
+		<result property="memId" column="mem_id"/>
+		<result property="boardTitle" column="board_title"/>
+		<result property="boardContent" column="board_content"/>
+		<result property="boardStart" column="board_start"/>
+		<result property="boardHit" column="board_hit"/>
+		<result property="boardWarn" column="board_warn"/>
+		<result property="boardCategory" column="board_category"/>
+		<result property="recnt" column="recnt"/>
+		<collection property="boardFileList" resultMap="attachMap"/>
+	</resultMap>
+	
+	<resultMap type="attVO" id="attachMap">
+		<id property="attId" column="att_id"/>
+		<result property="attId" column="att_id"/>
+		<result property="attPath" column="att_path"/>
+		<result property="attSaveName" column="att_savename"/>
+		<result property="attFileName" column="att_filename"/>
+		<result property="attMime" column="att_mime"/>
+		<result property="attFileSize" column="att_filesize"/>
+		<result property="attFancySize" column="att_fancysize"/>
+		<result property="attDownload" column="att_download"/>
+		<result property="memId" column="mem_id"/>
+		<result property="companyId" column="company_id"/>
+		<result property="annoId" column="anno_id"/>
+		<result property="boardId" column="board_id"/>
+	</resultMap>
+
+
+<select id="inquirylist" resultType="boardVO">
+	select 
+			board_id, mem_id, board_title, board_content, 
+			board_start, board_hit, board_warn, board_category
+	from board
+	where board_category = 2
+	order by board_id desc
+</select>
+
+<select id="inquiryDetail" parameterType="int" resultMap="boardMap">
+	select
+	  b.board_id, b.mem_id, board_title, board_content, board_start, board_hit,
+	  board_warn, board_category, recnt,
+	  att_id, att_path, att_savename, att_filename, att_mime, att_filesize, att_fancysize,
+	  att_download, company_id, anno_id
+  from board b left outer join attach a on(b.board_id = a.board_id)
+ where b.board_id = #{boardId}
+</select>
+
+<select id="answerSelect" parameterType="int" resultType="answerVO">
+select answer_id
+	 , answer_content
+	 , answer_start
+	 , answer_corr
+	 , board_id
+	 , answer_title
+from answer
+where board_id = #{boardId}
+</select>
+
+<insert id="insertAnswer" parameterType="answerVO">
+insert into answer
+				(
+				  answer_id
+				, board_id
+				, answer_title
+				, answer_content
+				, answer_start
+				)
+			values
+				(
+				  seq_answerid.nextval
+				, #{boardId}
+				, #{answerTitle}
+				, #{answerContent}
+				, sysdate
+				)
+</insert>
+
+<select id="answerList" resultType="answerVO">
+select answer_id
+	 , answer_content
+	 , answer_start
+	 , answer_corr
+	 , board_id
+	 , answer_title
+from answer
+</select>
+
+<select id="answerDetail" parameterType="int" resultType="answerVO">
+select answer_id
+	 , answer_content
+	 , answer_start
+	 , answer_corr
+	 , board_id
+	 , answer_title
+from answer
+where answer_id = #{answerId}
+</select>
+
+<update id="updateAnswer" parameterType="answerVO">
+update answer
+set answer_title = #{answerTitle},
+	answer_content = #{answerContent},
+	answer_corr = sysdate
+where answer_id = #{answerId}
+</update>
+
+<delete id="deleteAnswer" parameterType="int">
+delete from answer
+where answer_id = #{answerId}
+</delete>
+</mapper>

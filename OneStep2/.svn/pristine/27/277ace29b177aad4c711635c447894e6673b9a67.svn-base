@@ -1,0 +1,21 @@
+package kr.or.ddit.board.serviceImpl;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.board.service.IGoodService;
+import kr.or.ddit.mapper.GoodMapper;
+
+@Service
+public class GoodServiceImpl implements IGoodService {
+
+	@Inject
+	private GoodMapper mapper;
+
+	@Override
+	public int incrementGood(int boardId) {
+		return mapper.incrementGood(boardId);
+	}
+
+}

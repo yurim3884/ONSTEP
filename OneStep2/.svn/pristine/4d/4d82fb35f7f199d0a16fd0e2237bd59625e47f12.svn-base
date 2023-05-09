@@ -1,0 +1,19 @@
+package kr.or.ddit.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.alarm.vo.NotificationVO;
+
+@Mapper
+public interface AlarmMapper {
+
+	List<NotificationVO> postList(String memId);
+
+	List<NotificationVO> getList(String memId);
+
+	NotificationVO count(String memId);
+
+
+}

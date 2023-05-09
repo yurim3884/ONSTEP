@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<definition name="mainTemplate" template="/WEB-INF/views/mainTemplate.jsp">
+		<put-attribute name="aside" value="/WEB-INF/views/tiles/aside.jsp"/>
+		<put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp"/>
+		<put-attribute name="aside2" value="/WEB-INF/views/tiles/aside2.jsp"/>
+	</definition>
+	
+	<definition name="member/*" extends="mainTemplate">
+		<put-attribute name="content" value="/WEB-INF/views/member/{1}.jsp"/>
+	</definition>
+
+	<definition name="board/*" extends="mainTemplate">
+		<put-attribute name="content" value="/WEB-INF/views/board/{1}.jsp"/>
+	</definition>
+
+	<definition name="calendar/*" extends="myPageTemplate">
+		<put-attribute name="content" value="/WEB-INF/views/calendar/{1}.jsp"/>
+	</definition>
+	
+	<definition name="mainTemplate2" template="/WEB-INF/views/mainTemplate2.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp"/>
+		<put-attribute name="aside2" value="/WEB-INF/views/tiles/aside2.jsp"/>
+		<put-attribute name="asidecom" value="/WEB-INF/views/tiles/asidecom.jsp"/>
+	</definition>
+	
+	<definition name="company/*" extends="mainTemplate2">
+		<put-attribute name="content" value="/WEB-INF/views/company/{1}.jsp"/>
+	</definition>
+	
+	<definition name="myPageTemplate" template="/WEB-INF/views/myPageTemplate.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp"/>
+		<put-attribute name="aside2" value="/WEB-INF/views/tiles/aside2.jsp"/>
+		<put-attribute name="asideMyPage" value="/WEB-INF/views/tiles/asideMyPage.jsp"/>
+		<put-attribute name="rightbar" value="/WEB-INF/views/tiles/rightBar.jsp"/>
+	</definition>
+	
+	<definition name="myPage/*" extends="myPageTemplate">
+		<put-attribute name="content" value="/WEB-INF/views/myPage/{1}.jsp"/>
+	</definition>
+	
+	<definition name="FreelancerTemplate" template="/WEB-INF/views/FreelancerTemplate.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp"/>
+		<put-attribute name="aside2" value="/WEB-INF/views/tiles/aside2.jsp"/>
+		<put-attribute name="asideFree" value="/WEB-INF/views/tiles/asideFreelancer.jsp"/>
+	</definition>
+	
+	<definition name="free/*" extends="FreelancerTemplate">
+		<put-attribute name="content" value="/WEB-INF/views/free/{1}.jsp"/>
+	</definition>
+	
+	<definition name="MasterTemplate" template="/WEB-INF/views/masterTemplate.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp"/>
+		<put-attribute name="aside2" value="/WEB-INF/views/tiles/aside2.jsp"/>
+		<put-attribute name="asideAdmin" value="/WEB-INF/views/tiles/asideAdmin.jsp"/>
+	</definition>
+	
+	<definition name="master/*" extends="MasterTemplate">
+		<put-attribute name="content" value="/WEB-INF/views/master/{1}.jsp"/>
+	</definition>
+	
+	<definition name="ManagerTemplate" template="/WEB-INF/views/managerTemplate.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp"/>
+		<put-attribute name="aside2" value="/WEB-INF/views/tiles/aside2.jsp"/>
+		<put-attribute name="asideManager" value="/WEB-INF/views/tiles/asideManager.jsp"/>
+	</definition>
+	
+	<definition name="manager/*" extends="ManagerTemplate">
+		<put-attribute name="content" value="/WEB-INF/views/manager/{1}.jsp"/>
+	</definition>
+	
+	
+	<definition name="NewTemplate" template="/WEB-INF/views/newTemplate.jsp">
+		
+	</definition>
+	
+	<definition name="new/*" extends="NewTemplate">
+		<put-attribute name="content" value="/WEB-INF/views/new/{1}.jsp"/>
+	</definition>
+	
+	<definition name="chatTemplate" template="/WEB-INF/views/myPageTemplate.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp"/>
+		<put-attribute name="aside2" value="/WEB-INF/views/tiles/aside2.jsp"/>
+		<put-attribute name="asideMyPage" value="/WEB-INF/views/tiles/asideMyPage.jsp"/>
+		<put-attribute name="rightbar" value="/WEB-INF/views/tiles/rightBar.jsp"/>
+	</definition>
+	
+	<definition name="chat/*" extends="chatTemplate">
+		<put-attribute name="content" value="/WEB-INF/views/chat/{1}.jsp"/>
+	</definition>
+	
+	
+</tiles-definitions>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

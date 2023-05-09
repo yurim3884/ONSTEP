@@ -1,0 +1,79 @@
+package kr.or.ddit.board.controller;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import kr.or.ddit.board.service.IMainService;
+import kr.or.ddit.board.vo.BoardVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@RequestMapping("/board")
+public class BoardMainController {
+	
+	@Inject
+	private IMainService mainService;
+	
+	@RequestMapping(value="/total", method=RequestMethod.GET )
+	private String boardMain(Model model) {
+		
+		List<BoardVO> boardList =mainService.selectBoardMainList();
+		
+		model.addAttribute("boardList", boardList);
+		log.info("boardList:" + boardList);
+		return "board/main";
+	}
+	
+	
+//	
+//	@ResponseBody
+//	@RequestMapping(value="/wordcloudtest", method = RequestMethod.GET)
+//	public String wordcloud(HttpServletRequest req, BoardVO boardVO) throws Exception{
+//			
+//			log.info("값이? : " + boardVO);
+//			List<BoardVO> list = mainService.wordCloudList(boardVO);
+//			
+//			String json = null;
+//			try {
+//				json = new ObjectMapper().writeValueAsString(list);
+//			} catch (JsonProcessingException e) {
+//				e.printStackTrace();
+//			}
+//				
+//			log.info("과연 어떻게 나올것인가? : "  +  json);
+//			return json;
+//	}
+
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

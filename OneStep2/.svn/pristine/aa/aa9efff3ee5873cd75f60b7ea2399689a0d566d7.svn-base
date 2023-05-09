@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.GoodMapper">
+
+
+
+<!-- <resultMap type="goodVO" id="board"></resultMap> -->
+
+
+
+
+<!-- <select id="findLike" resultType="goodVO"> -->
+<!-- 	select  -->
+<!-- 	       good_id, board_id, mem_id, goodcnt -->
+<!-- 	  from good -->
+<!-- 	 where mem_id =#{memId} and board_id = #{boardId} -->
+<!-- </select> -->
+
+
+<insert id="likeUp" parameterType="goodVO" >
+	insert into good(
+		good_id, board_id, mem_id, goodcnt 
+	)values(
+		seq_goodid.nextval, #{boardId}, #{memId}, (select * from (select max(goodcnt)+1 from good) next)	
+	)
+</insert>
+
+
+<!-- 삭제하는 부분 -->
+<delete id="likeDown" parameterType="goodVO">
+	delete from good 
+	 where board_id = #{boardId} and mem_id =#{memId}
+</delete>
+
+
+<select id="goodList" parameterType="goodVO" resultType="goodVO">
+	select * from good
+	where mem_id = #{memId}
+	and board_id = #{boardId}
+</select>
+
+<insert id="insertGood" parameterType="goodVO"  >
+	insert into good(
+		good_id, board_id, mem_id
+	) values (
+		seq_goodid.nextval, #{boardId},#{memId}
+	)
+</insert>
+
+
+
+
+
+
+
+
+
+</mapper>

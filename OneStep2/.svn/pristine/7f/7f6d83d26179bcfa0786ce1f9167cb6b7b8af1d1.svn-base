@@ -1,0 +1,27 @@
+package kr.or.ddit.board.service;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.comment.vo.CommentVO;
+import kr.or.ddit.vo.AttVO;
+import kr.or.ddit.vo.PaginationInfoVO;
+import kr.or.ddit.vo.ReportVO;
+
+public interface IBoardService {
+	
+	public int selectBoardCount(PaginationInfoVO<BoardVO> pagingVO);
+	public List<BoardVO> selectBoardList(PaginationInfoVO<BoardVO> pagingVO);
+	public ServiceResult insertBoard(HttpServletRequest req, BoardVO boardVO);
+	public BoardVO selectBoard(int boardId);
+	public ServiceResult updateBoard(HttpServletRequest req, BoardVO boardVO);
+	public ServiceResult deleteBoard(HttpServletRequest req, int boardId);
+	public AttVO boardDownload(int attId);
+	public void good_cnt_down(int boardId);
+	public void insertReport(ReportVO reportVO);
+	
+
+}

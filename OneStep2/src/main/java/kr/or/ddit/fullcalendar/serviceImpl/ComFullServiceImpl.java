@@ -1,0 +1,47 @@
+package kr.or.ddit.fullcalendar.serviceImpl;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.fullcalendar.service.IComFullService;
+import kr.or.ddit.fullcalendar.vo.FullcalendarVO;
+import kr.or.ddit.mapper.Fullcalendarmapper;
+import kr.or.ddit.vo.AnnoVO;
+
+@Service
+public class ComFullServiceImpl implements IComFullService {
+
+	@Inject
+	private Fullcalendarmapper mapper;
+	
+//	@Override
+//	public List<AnnoVO> comList() {
+//		return mapper.comList() ;
+//	}
+
+	@Override
+	public void comCalInsert(FullcalendarVO calendar) {
+		mapper.comCalInsert(calendar);
+	}
+
+	@Override
+	public void comCalUpdate(FullcalendarVO calendar) {
+		mapper.comCalUpdate(calendar);
+		
+	}
+
+	@Override
+	public void comCalDel(FullcalendarVO calendar) {
+		mapper.comCalDel(calendar);
+		
+	}
+
+	@Override
+	public List<AnnoVO> comList(AnnoVO annoVO) {
+		return mapper.comList(annoVO) ;
+	}
+
+}

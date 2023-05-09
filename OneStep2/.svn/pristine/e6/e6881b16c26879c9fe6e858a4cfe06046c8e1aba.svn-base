@@ -1,0 +1,360 @@
+package kr.or.ddit.myPage.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.myPage.service.IMypageService;
+import kr.or.ddit.myPage.vo.CoverletterItemVO;
+import kr.or.ddit.myPage.vo.CoverletterVO;
+import kr.or.ddit.myPage.vo.NotificationVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.vo.AnnoVO;
+import kr.or.ddit.vo.ApplyVO;
+import kr.or.ddit.vo.PaginationInfoVO;
+import kr.or.ddit.vo.ProposalVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@RequestMapping("/myPage")
+public class MyPageController {
+	
+	@Inject
+	private IMypageService mypageService;
+	
+	@RequestMapping("/main")
+	public String main() {
+		return "myPage/myPageMain";
+	}
+	
+	@RequestMapping("/memInfo")
+	public String memInfo() {
+		return "myPage/memInfo";
+	}
+	
+	@RequestMapping(value = "/notification/list", method = RequestMethod.GET)
+	public String notificationList(
+			@RequestParam(name="page", required=false, defaultValue="1") int currentPage, Model model) {
+		
+		PaginationInfoVO<NotificationVO> pagingVO = new PaginationInfoVO<NotificationVO>();
+		
+		pagingVO.setCurrentPage(currentPage);
+		int totalRecord = mypageService.selectNotificationCount(pagingVO);		// 총 게시글 수 얻어 옴
+		pagingVO.setTotalRecord(totalRecord);
+		
+		List<NotificationVO> notificationList = mypageService.selectNotificationList(pagingVO);		// 위에서 만들어진 pagingVO를 다시 list쪽에 넘겨 줌 
+		pagingVO.setDataList(notificationList);
+		
+		model.addAttribute("pagingVO", pagingVO);
+		
+		return "myPage/notification";
+	}
+	
+	@RequestMapping(value="/notification/delete", method=RequestMethod.POST)
+	public String notificationDelete(int notificationId, Model model) {
+		String goPage = "";
+		ServiceResult result = mypageService.deleteNotification(notificationId);
+		
+		if (result.equals(ServiceResult.OK)) {
+			goPage = "redirect:/myPage/notification/list";
+			
+		} else {
+			goPage = "myPage/notification/list";
+		}
+		return goPage;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	
+
+	@RequestMapping(value="/resume/list", method=RequestMethod.GET)
+	public String resumeList(HttpServletRequest req,
+			@RequestParam(name="page", required=false, defaultValue = "1") int currentPage, 
+			@RequestParam(required=false, defaultValue="title") String searchType,
+			@RequestParam(required=false) String searchWord,
+			Model model) {
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = null;
+		if (member == null) {
+			goPage = "redirect:/member/login";
+		} else {
+			PaginationInfoVO<ResumeVO> pagingVO = new PaginationInfoVO<ResumeVO>();
+			
+			if (StringUtils.isNotBlank(searchWord)) {
+				pagingVO.setSearchType(searchType);
+				pagingVO.setSearchType(searchType);
+				model.addAttribute("searchType", searchType);
+				model.addAttribute("searchWord", searchWord);
+			}
+			
+			pagingVO.setCurrentPage(currentPage);
+			int totalRecord = mypageService.selectResumeCount(pagingVO);
+			pagingVO.setTotalRecord(totalRecord);
+			
+			List<ResumeVO> resumeList = mypageService.selectResumeList(pagingVO);
+			System.out.println("resumeList >> " + resumeList);
+			pagingVO.setDataList(resumeList);
+			
+			model.addAttribute("pagingVO", pagingVO);
+			model.addAttribute("list", resumeList);
+			
+			goPage = "myPage/resumeList";
+		}
+		return goPage;
+	}
+
+	@RequestMapping(value="/resume/insert", method=RequestMethod.GET)
+	public String resumeInsertForm(HttpServletRequest req, Model model, ResumeVO resume) {
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = null;
+		if (member != null) {
+			goPage = "myPage/resumeInsert";
+			model.addAttribute("resume", resume);
+			model.addAttribute("memberVO", member);
+		} else {
+			goPage = "redirect:/member/login";
+		}
+		return goPage;
+	}
+	
+	@RequestMapping(value="/resume/insert", method=RequestMethod.POST)
+	public String resumeInsert(HttpServletRequest req, Model model, ResumeVO resume) {
+		log.info("resume>> " + resume);
+		mypageService.insertResume(req, resume);
+		return "redirect:/myPage/resume/detail?resumeId=" + resume.getResumeId();
+	}
+	
+	@RequestMapping(value="/resume/detail", method=RequestMethod.GET)
+	public String resumeDetail(HttpServletRequest req, int resumeId, Model model) {
+		MemberVO member = mypageService.getMemberByResumeId(resumeId);
+		ResumeVO resume = mypageService.resumeDetail(req, resumeId);
+		
+		model.addAttribute("resume", resume);
+		model.addAttribute("member", member);
+		return "myPage/resumeDetail";
+	}
+	
+	@RequestMapping(value="/resume/modify", method=RequestMethod.GET)
+	public String resumeModify(HttpServletRequest req, int resumeId, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = "";
+		if (member == null) {
+			goPage = "redirect:/member/login";
+		} else {
+			MemberVO memberVO = mypageService.getMemberByResumeId(resumeId);
+			ResumeVO resume = mypageService.resumeDetail(req, resumeId);
+			if (member.getMemId().equals(resume.getMemId())) {
+				model.addAttribute("memberVO", memberVO);
+				model.addAttribute("resume", resume);
+				model.addAttribute("status", "u");
+				goPage = "myPage/resumeInsert";
+			} else {
+				goPage = "redirect:/myPage/resume/detail?resumeId=" + resumeId;
+			}
+		}
+		return goPage;
+	}
+	
+	@RequestMapping(value="/resume/modify", method=RequestMethod.POST)
+	public String resumeModify(HttpServletRequest req, ResumeVO resume, Model model) {
+		mypageService.modifyResume(req, resume);
+		return "redirect:/myPage/resume/detail?resumeId=" + resume.getResumeId();
+	}
+	
+	@RequestMapping(value="/resume/delete", method=RequestMethod.POST)
+	public String resumeDelete(HttpServletRequest req, int resumeId, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = "";
+		if (member == null) {
+			goPage = "redirect:/member/login";
+		} else {
+			ResumeVO resume = mypageService.resumeDetail(req, resumeId);
+			if (member.getMemId().equals(resume.getMemId())) {
+				log.info("resume.getMemId() >> ", resume.getMemId());
+				mypageService.deleteResume(req, resumeId);
+				goPage = "redirect:/myPage/resume/list";
+			} else {
+				goPage = "redirect:/myPage/resume/detail?resumeId=" + resumeId;
+			}
+		}
+		return goPage;
+	}
+
+	
+	/////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	@RequestMapping(value="/coverletter/insert", method=RequestMethod.GET)
+	public String coverletterInsertForm(HttpServletRequest req, Model model) {
+		
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = null;
+		if (member != null) {
+			goPage = "myPage/coverletterInsert";
+		} else {
+			goPage = "redirect:/member/login";
+		}
+		return goPage;
+	}
+	
+	@RequestMapping(value="/coverletter/insert", method=RequestMethod.POST)
+	public String coverletterInsert (Model model, CoverletterVO covltr) {
+		
+		log.info("covltr >> " + covltr);
+		
+		mypageService.insertCoverletter(covltr);
+		return "redirect:/myPage/coverletter/detail?covltrId=" + covltr.getCovltrId();
+	}
+	
+	@RequestMapping(value="/coverletter/modify", method=RequestMethod.GET)
+	public String coverletterModify(HttpServletRequest req, int covltrId, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = "";
+		if (member == null) {
+			goPage = "redirect:/member/login";
+		} else {
+			CoverletterVO covltr = mypageService.coverletterDetail(req, covltrId);
+//			List<CoverletterItemVO> covltrItemList = covltr.getCovltrItemList();
+			if (member.getMemId().equals(covltr.getMemId())) {
+//				model.addAttribute("covltrItemList", covltrItemList);
+				model.addAttribute("member", member);
+				model.addAttribute("covltr", covltr);
+				model.addAttribute("status", "u");
+				return "myPage/coverletterInsert";
+			} else {
+				goPage = "redirect:/myPage/coverletter/detail?covltrId=" + covltrId;
+			}
+		}
+		return goPage;
+	}
+	
+	@RequestMapping(value="/coverletter/modify", method=RequestMethod.POST)
+	public String coverletterModify(HttpServletRequest req, CoverletterVO covltr, String memId, Model model) {
+		mypageService.modifyCoverletter(req, covltr, memId);
+		return "redirect:/myPage/coverletter/detail?covltrId=" + covltr.getCovltrId();
+	}
+	
+	@RequestMapping(value="/coverletter/delete", method=RequestMethod.POST)
+	public String coverletterDelete(HttpServletRequest req, int covltrId, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = "";
+		if (member == null) {
+			goPage = "redirect:/member/login";
+		} else {
+			CoverletterVO covltr = mypageService.coverletterDetail(req, covltrId);
+			if (member.getMemId().equals(covltr.getMemId())) {
+				mypageService.deleteCoverletter(req, covltrId);
+				goPage = "redirect:/myPage/coverletter/list";
+			} else {
+				goPage = "redirect:/myPage/coverletter/detail?covltrId=" + covltrId;
+			}
+		}
+		return goPage;
+	}
+	
+	@RequestMapping(value="/coverletter/list", method=RequestMethod.GET)
+	public String coverletterList (HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("memberVO");
+		String goPage = null;
+		if (member == null) {
+			goPage = "redirect:/member/login";
+		} else {
+			List<CoverletterVO> covltrList = mypageService.selectCoverletterList(req, member.getMemId());
+			log.info("covltrList >> ", covltrList);
+			model.addAttribute("list", covltrList);
+			goPage = "myPage/coverletterList";
+		}
+		return goPage;
+	}
+	
+	@RequestMapping(value="/coverletter/detail", method=RequestMethod.GET)
+	public String coverletterDetail (HttpServletRequest req, int covltrId, Model model) {
+		
+		MemberVO member = mypageService.getMemberByCovltrId(covltrId);
+		log.info("member >> ", member);
+		
+		CoverletterVO covltr = mypageService.coverletterDetail(req, covltrId);
+		log.info("covltr >> ", covltr);
+		
+//		List<CoverletterItemVO> covltrItemList = covltr.getCovltrItemList();
+		
+		model.addAttribute("covltr", covltr);
+//		model.addAttribute("covltrItemList", covltrItemList);
+		model.addAttribute("member", member);
+		return "myPage/coverletterDetail";
+	}
+	
+	@GetMapping(value = "/proposal")
+	public String proposal(HttpServletRequest req,Model model) {
+		
+		HttpSession session = req.getSession();
+		MemberVO memVO = (MemberVO)session.getAttribute("memberVO");
+		
+		List<ProposalVO> proList = mypageService.getProposalList(memVO.getMemId());
+		log.debug("으으으" + proList);
+		
+		List<AnnoVO> annoList = new ArrayList<AnnoVO>();
+		for(int i=0; i< proList.size(); i++) {
+			AnnoVO annoVO = mypageService.getAnnoOne(proList.get(i).getAnnoId());
+			annoList.add(annoVO);
+		}
+		
+		log.debug("공고리스트 :" + annoList);
+		
+		model.addAttribute("annoList", annoList);
+		return "myPage/proposal";
+	}
+	
+	@PostMapping(value = "/ajaxProposalDel", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public String ajaxProposalDel(@RequestBody ProposalVO proVO) {
+		
+		
+		mypageService.deleteProposal(proVO);
+		
+		return "SUCCESS";
+	}
+	
+	@GetMapping(value = "/myApply")
+	public String myApply(HttpServletRequest req, Model model) {
+		
+	HttpSession session = req.getSession();
+	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+	List<ApplyVO> applyList = mypageService.getApplyList(memberVO.getMemId());
+	
+	model.addAttribute("applyList", applyList);
+		
+		return "myPage/myApply";
+	}
+	
+}

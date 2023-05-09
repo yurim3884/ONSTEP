@@ -1,0 +1,75 @@
+package kr.or.ddit.freelancer.serviceImpl;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.freelancer.service.IFreeService;
+import kr.or.ddit.freelancer.vo.FreeVO;
+import kr.or.ddit.mapper.FreeMapper;
+import kr.or.ddit.vo.AnnoVO;
+
+@Service
+public class FreeServiceImpl implements IFreeService {
+	
+	@Inject
+	private FreeMapper freemapper;
+
+	@Override
+	public void insertFree(FreeVO free) {
+		freemapper.insertFree(free);
+	}
+
+	@Override
+	public List<FreeVO> freeList() {
+		// TODO Auto-generated method stub
+		return freemapper.freeList();
+	}
+
+	@Override
+	public void insertProject(HttpServletRequest req,AnnoVO anno) throws Exception {
+		freemapper.insertProject(anno);
+		
+		if(anno.getAttAnno().getSize()>0) {
+	          String uuid =UUID.randomUUID().toString();
+	          String fileName =anno.getAttAnno().getOriginalFilename().replaceAll(" ", "_");
+	          String path =req.getSession().getServletContext().getRealPath("/resources/upload");
+	          String savePath = path + "/";
+	          fileName += "_"+uuid;
+	          
+	          
+	          File file = new File(savePath);
+	          if (!file.exists()) {
+	             file.mkdirs();
+	          }
+
+	          savePath += "/" + fileName;
+	          File saveFile = new File(savePath);
+	          
+	          anno.setAttId(fileName);
+	          System.out.println("아아앙 :" + anno.getAnnoId());
+	          freemapper.insertAnnoFile(anno);
+
+	          // 방법1
+	          anno.getAttAnno().transferTo(saveFile); // 파일 복사
+	          
+	       }
+	      
+		
+	}
+
+	@Override
+	public List<AnnoVO> projList() {
+		// TODO Auto-generated method stub
+		return freemapper.projList();
+	}
+	
+	
+
+}

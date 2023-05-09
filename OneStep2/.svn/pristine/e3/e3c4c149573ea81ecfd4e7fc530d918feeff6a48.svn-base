@@ -1,0 +1,15 @@
+package kr.or.ddit.comment.service;
+
+import java.util.List;
+
+import kr.or.ddit.comment.vo.CommentVO;
+
+public interface ICommentService {
+
+	public void insertComment(CommentVO commVO);
+//	public List<CommentVO> commentList(int boardId);
+//	public List<CommentVO> commentList(int boardId);
+	//수정
+//	public void modifyComment(CommentVO commentVO);
+
+}

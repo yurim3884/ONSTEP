@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.AlarmMapper">
+
+
+<select id="postList" resultType="notificationVO" parameterType="String">
+select notification_id, notification_content, notification_date, notification_read, get_id, notification_url, post_id
+from notification
+where post_id = #{memId}
+</select>
+
+<select id="getList" resultType="notificationVO" parameterType="String">
+select notification_id, notification_content, notification_date, notification_read, get_id, notification_url, post_id
+from notification
+where get_id = #{memId}
+</select>
+
+<select id="count" resultType="notificationVO" parameterType="String">
+select count(notification_read) as cnt
+from notification
+where notification_read = 0
+and get_id = #{memId}
+</select>
+
+
+</mapper>

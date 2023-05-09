@@ -1,0 +1,16 @@
+package kr.or.ddit.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import kr.or.ddit.member.vo.MemberVO;
+
+public interface MasterMapper {
+
+	public List<MemberVO> list() throws Exception;
+
+	public int status(@Param("memStatus") String memStatus, @Param("memId") String memId) throws Exception;
+
+
+}

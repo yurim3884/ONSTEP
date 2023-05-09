@@ -1,0 +1,381 @@
+package kr.or.ddit.manager.controller;
+
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.View;
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.company.service.ICompanyService;
+import kr.or.ddit.company.vo.CompanyVO;
+import kr.or.ddit.freelancer.service.IFreeService;
+import kr.or.ddit.freelancer.vo.FreeVO;
+import kr.or.ddit.manager.service.IManagerService;
+import kr.or.ddit.manager.vo.ManageVO;
+import kr.or.ddit.member.service.IMemService;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.prod.vo.ProdVO;
+import kr.or.ddit.util.SmsSendUtil;
+import kr.or.ddit.vo.AnnoVO;
+import kr.or.ddit.vo.ApplyVO;
+import kr.or.ddit.vo.AttVO;
+import kr.or.ddit.vo.CommendVO;
+import lombok.extern.slf4j.Slf4j;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+@Controller
+@RequestMapping(value = "/manager")
+@Slf4j
+public class ManagerController {
+	
+	@Inject
+	private ICompanyService companyService;
+	
+	@Inject
+	private IManagerService managerService;
+	
+	@Inject
+	private IMemService memberService;
+	
+	@Inject
+	private IFreeService freeService;
+	
+	@RequestMapping(value = "/docu", method = RequestMethod.GET)
+	public String document(Model model) {
+		return "document/page";
+	}
+	
+	@GetMapping("/main")
+	public String managerMain(HttpServletRequest req,Model model) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		String companyId = memberVO.getCompanyId();
+		CompanyVO vo = companyService.getCompany(companyId);
+		List<BoardVO> noticeList = companyService.noticeList5();
+		List<ProdVO> prodFree = managerService.prodFree();
+		List<ProdVO> prodProj = managerService.prodProj();
+		model.addAttribute("notice", noticeList);
+		model.addAttribute("prodFree", prodFree);
+		model.addAttribute("memberVO", memberVO);
+		model.addAttribute("prodProj", prodProj);
+		return "manager/main";
+	}
+	
+	@GetMapping("/management")
+	public String management(Model model){
+		List<ProdVO> prodFree = managerService.prodFree();
+		model.addAttribute("prodFree", prodFree);
+		return "manager/management";
+	}
+	
+	@GetMapping("/datail/{memId}")
+	public String datail(@PathVariable("memId")String memId, Model model, HttpServletRequest req){
+		// 이력서 가져오기
+		ResumeVO resume = managerService.detail(memId);
+		MemberVO member = managerService.memberdetail(memId);
+		// 프리랜서 가져오기
+		List<FreeVO> free = managerService.freedetail(memId);
+		// 관리 현황 가져오기
+		List<ManageVO> managerList = managerService.managerList(memId);
+		
+		String manageId = "";
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		manageId = memberVO.getMemId();
+		
+		model.addAttribute("resume",resume);
+		model.addAttribute("member",member);
+		model.addAttribute("free",free);
+		model.addAttribute("managerList",managerList);
+		model.addAttribute("memId",memId);
+		model.addAttribute("manageId",manageId);
+		return "manager/detail";
+	}
+	
+	@GetMapping("/matching")
+	public String Matching(Model model){
+		List<AnnoVO> annoList = freeService.projList();
+		model.addAttribute("annoList", annoList);
+		return "manager/matching";
+	}
+	
+	@PostMapping(value = "/insertResume", produces ="application/json;charset=utf-8")
+	@ResponseBody
+	public String InsertResume( @RequestBody CommendVO commendVO) throws Exception {
+		System.out.println("음" +commendVO);
+		managerService.insertResume(commendVO);
+		MemberVO memVo = memberService.memCheck(commendVO.getMemId());
+		AnnoVO annoVO = companyService.selectAnnoOne(commendVO.getAnnoId());
+		CompanyVO companyVO = companyService.getCompany(annoVO.getComId());
+		String serviceId = "ncp:sms:kr:304858872049:project";
+		String accessKey = "yyNMxKd1AhbFACU7N50d";
+		String secretKey = "4GSv86yYdf0XZU4WelyQ1fkpiBPZgA3S8BVEsB2b";
+		
+		SmsSendUtil ssu = new SmsSendUtil(serviceId, accessKey, secretKey, "01077692774");
+		
+		
+		
+	
+		String memTel = memVo.getMemTel().replaceAll("-", "");
+		String comName = companyVO.getCompanyName();
+		
+//		System.out.println(memTel);
+//	    boolean status = ssu.sendSms(memTel, "ONESTEP \n"+ memVo.getMemName()+"님 등록하신 이력서가" + comName + "기업의 추천이력서로 등록되었습니다. ");
+//	  
+		 
+		
+		return"SUCCESS";
+	}
+	
+
+	//파일 다운로드 
+		@RequestMapping(value="/download")
+		public View manageDownload(
+				int attId, Model model) {
+			AttVO attVO = managerService.manageDownload(attId);
+			Map<String, Object> manageFileMap = new HashMap<String, Object>();
+			manageFileMap.put("fileName", attVO.getAttFileName());
+			manageFileMap.put("fileSize", attVO.getAttFileSize());
+			manageFileMap.put("fileSavepath",attVO.getAttPath());
+			model.addAttribute("manageFileMap",manageFileMap);
+			
+			return new ManageDownloadView();
+		}
+
+		@RequestMapping(value = "/insertMange" , method = RequestMethod.POST)
+		public String insertManage(HttpServletRequest req, Model model, ManageVO manageVO) {
+			String goPage = "";
+			String memId = manageVO.getMemId();
+			HttpSession session = req.getSession();
+			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+			
+			if(memberVO != null) {
+				ServiceResult result = managerService.insertManage(manageVO);
+				if(result.equals(ServiceResult.OK)) {
+					goPage="redirect:/manager/datail/"+memId;
+				}else {
+					goPage = "/manager/management";
+				}
+			} 
+			return goPage;
+		}
+		
+		@GetMapping("/video")
+		public String video(Model model) throws Exception {
+			OkHttpClient client = new OkHttpClient();
+
+			Request request = new Request.Builder()
+			  .url("https://openapi.gooroomee.com/api/v1/room/list?page=1&limit=10&sortCurrJoinCnt=true")
+			  .get()
+			  .addHeader("accept", "application/json")
+			  .addHeader("X-GRM-AuthToken", "12056163501988613cf51b7b51cdd8140bb172761d02211a8b")
+			  .build();
+		
+			Response response = client.newCall(request).execute();
+			
+			
+			
+	        JSONParser jsonParser = new JSONParser();
+	        Object obj = jsonParser.parse(response.body().string());
+	        JSONObject jsonObj = (JSONObject) obj;
+	        
+			                        
+			model.addAttribute("roomList", jsonObj);
+			
+			 
+			
+			return "manager/video";
+		}
+		
+		@PostMapping("/createroom")
+		@ResponseBody
+		public JSONObject createroom(@RequestBody Map<String,Object> companyName) throws Exception {
+			
+			log.debug("방이름 : " + companyName);
+			String roomName = companyName.get("companyName").toString();
+			
+			OkHttpClient client = new OkHttpClient();
+			MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+			okhttp3.RequestBody body = okhttp3.RequestBody.create(mediaType, "callType=P2P&liveMode=false&maxJoinCount=4&liveMaxJoinCount=100&layoutType=4&roomTitle="+roomName+"&durationMinutes=300");
+			Request request = new Request.Builder()
+			  .url("https://openapi.gooroomee.com/api/v1/room")
+			  .post(body)
+			  .addHeader("accept", "application/json")
+			  .addHeader("content-type", "application/x-www-form-urlencoded")
+			  .addHeader("X-GRM-AuthToken", "12056163501988613cf51b7b51cdd8140bb172761d02211a8b")
+			  .build();
+			
+			Response response = client.newCall(request).execute();
+			
+			 	client = new OkHttpClient();
+
+			 	request = new Request.Builder()
+			  .url("https://openapi.gooroomee.com/api/v1/room/list?page=1&limit=10&sortCurrJoinCnt=true")
+			  .get()
+			  .addHeader("accept", "application/json")
+			  .addHeader("X-GRM-AuthToken", "12056163501988613cf51b7b51cdd8140bb172761d02211a8b")
+			  .build();
+		
+			 response = client.newCall(request).execute();
+			
+			
+			
+	        JSONParser jsonParser = new JSONParser();
+	        Object obj = jsonParser.parse(response.body().string());
+	        JSONObject jsonObj = (JSONObject) obj;
+			
+			return jsonObj;
+			
+		}
+		
+		@PostMapping("/deleteroom")
+		@ResponseBody
+		public JSONObject deleteroom(@RequestBody Map<String,Object> roomId) throws Exception {
+			
+			log.debug("방이름 : " + roomId);
+			String strRoomId = roomId.get("roomId").toString();
+			
+			OkHttpClient client = new OkHttpClient();
+
+			Request request = new Request.Builder()
+			  .url("https://openapi.gooroomee.com/api/v1/room/"+strRoomId)
+			  .delete(null)
+			  .addHeader("accept", "application/json")
+			  .addHeader("X-GRM-AuthToken", "12056163501988613cf51b7b51cdd8140bb172761d02211a8b")
+			  .build();
+
+			Response response = client.newCall(request).execute();
+			
+			Thread.sleep(500);
+			
+			client = new OkHttpClient();
+
+		 	request = new Request.Builder()
+			  .url("https://openapi.gooroomee.com/api/v1/room/list?page=1&limit=10&sortCurrJoinCnt=true")
+			  .get()
+			  .addHeader("accept", "application/json")
+			  .addHeader("X-GRM-AuthToken", "12056163501988613cf51b7b51cdd8140bb172761d02211a8b")
+			  .build();
+		
+			 response = client.newCall(request).execute();
+			
+			
+			
+	        JSONParser jsonParser = new JSONParser();
+	        Object obj = jsonParser.parse(response.body().string());
+	        JSONObject jsonObj = (JSONObject) obj;
+			
+	        
+			
+			return jsonObj;
+			
+		}
+		
+		@PostMapping(value = "/inviteList",produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public Map<String, Object> inviteList(String companyName) {
+			
+			log.debug("회사명 :" + companyName);
+			
+			//회사쪽 멤버
+			List<MemberVO> memList = companyService.getComMemList(companyName);
+			//지원자 리스트
+			List<MemberVO> memList2 = companyService.getApplyMemList(companyName);	
+			
+			Map<String, Object> resultMap = new HashMap<String, Object>();
+			log.debug("회사쪽 :" + memList);
+			log.debug("지원자 :" + memList2);
+			
+			resultMap.put("companyMemList", memList);
+			resultMap.put("applyMemList", memList2);
+			
+			return resultMap;
+		}
+		
+		
+		@PostMapping(value = "/inviteCom", produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String inviteCom(@RequestBody Map<String, Object> jsonObj) throws Exception {
+			
+			log.debug("아이디:" + jsonObj.get("memId"));
+			log.debug("방아이디:" + jsonObj.get("roomId").toString());
+			String strMemId = jsonObj.get("memId").toString();
+			String strRoomId = jsonObj.get("roomId").toString();
+			
+			OkHttpClient client = new OkHttpClient();
+
+			MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+			okhttp3.RequestBody body = okhttp3.RequestBody.create(mediaType, "roomId="+strRoomId+"&username="+strMemId+"&roleId=participant&apiUserId=gooroomee-"+strMemId+"&ignorePasswd=false");
+			Request request = new Request.Builder()
+			  .url("https://openapi.gooroomee.com/api/v1/room/user/otp/url")
+			  .post(body)
+			  .addHeader("accept", "application/json")
+			  .addHeader("content-type", "application/x-www-form-urlencoded")
+			  .addHeader("X-GRM-AuthToken", "12056163501988613cf51b7b51cdd8140bb172761d02211a8b")
+			  .build();
+
+			Response response = client.newCall(request).execute();
+			
+			log.debug("결과" + response.body().string());
+			
+			return "SUCCESS";
+		}
+		
+		
+		
+		@PostMapping(value = "/inviteMem", produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String inviteMem(@RequestBody Map<String, Object> jsonObj) throws Exception {
+			
+			log.debug("아이디:" + jsonObj.get("memId"));
+			log.debug("방아이디:" + jsonObj.get("roomId").toString());
+			String strMemId = jsonObj.get("memId").toString();
+			String strRoomId = jsonObj.get("roomId").toString();
+			
+			OkHttpClient client = new OkHttpClient();
+			
+			MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+			okhttp3.RequestBody body = okhttp3.RequestBody.create(mediaType, "roomId="+strRoomId+"&username="+strMemId+"&roleId=participant&apiUserId=gooroomee-"+strMemId+"&ignorePasswd=false");
+			Request request = new Request.Builder()
+					.url("https://openapi.gooroomee.com/api/v1/room/user/otp/url")
+					.post(body)
+					.addHeader("accept", "application/json")
+					.addHeader("content-type", "application/x-www-form-urlencoded")
+					.addHeader("X-GRM-AuthToken", "12056163501988613cf51b7b51cdd8140bb172761d02211a8b")
+					.build();
+			
+			Response response = client.newCall(request).execute();
+			
+			log.debug("결과" + response.body().string());
+			
+			return "SUCCESS";
+		}
+		
+		
+		
+		
+		
+}

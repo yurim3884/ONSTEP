@@ -1,0 +1,9 @@
+package kr.or.ddit.mapper;
+
+import kr.or.ddit.vo.GoodVO;
+
+public interface GoodMapper {
+
+	public void findGood(GoodVO goodVO);
+
+}

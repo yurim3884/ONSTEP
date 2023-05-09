@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.MasterannoMapper">
+
+<select id="list" resultType="AnnoVO">
+select 
+		anno_id
+		, anno_title
+		, anno_content
+		, anno_startdate
+		, anno_enddate
+		, anno_start
+		, anno_state
+		, anno_type
+		, anno_manager
+		, anno_tel
+		, anno_email
+		, anno_work
+		, anno_age
+		, anno_probation
+		, anno_salary
+		, industry_code
+		, anno_mb
+		, anno_mem
+		, anno_career
+		, anno_dm1
+		, anno_dm2
+		, anno_gb
+		, anno_jo
+		, anno_ud
+		, anno_gender
+		, anno_day
+		, anno_time
+		, anno_wd
+		, anno_stu
+		, anno_staly
+		, anno_status
+		, anno_intro
+		, com_id
+		, att_id
+from announcement
+</select>
+</mapper>

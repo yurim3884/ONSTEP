@@ -1,0 +1,36 @@
+package kr.or.ddit.alarm.serviceImpl;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.alarm.service.IAlarmService;
+import kr.or.ddit.alarm.vo.NotificationVO;
+import kr.or.ddit.mapper.AlarmMapper;
+
+@Service
+public class AlarmServiceImpl implements IAlarmService {
+
+	@Inject
+	private AlarmMapper mapper;
+
+	@Override
+	public List<NotificationVO> postList(String memId){
+		return mapper.postList(memId);
+	}
+
+	@Override
+	public List<NotificationVO> getList(String memId){
+		return mapper.getList(memId);
+	}
+
+	@Override
+	public NotificationVO count(String memId){
+		return mapper.count(memId);
+	}
+
+	
+
+}

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.AlarmMapper">
+
+
+<!-- 보낸 알림 -->
+<select id="postList" resultType="notificationVO" parameterType="String">
+select notification_id, notification_content, notification_date, notification_read, get_id, notification_url, post_id
+from notification
+where post_id = #{memId}
+order by notification_id desc
+</select>
+
+<!-- 받은 알림 -->
+<select id="getList" resultType="notificationVO" parameterType="String">
+select notification_id, notification_content, notification_date, notification_read, get_id, notification_url, post_id
+from notification
+where get_id = #{memId}
+order by notification_id desc
+</select>
+
+<!-- 받은 알림 중에 안읽은 알림  -->
+<select id="getListOK" resultType="notificationVO" parameterType="String">
+select notification_id, notification_content, notification_date, notification_read, get_id, notification_url, post_id
+from notification
+where get_id = #{memId}
+and notification_read = 0
+order by notification_id desc
+</select>
+
+<!-- 받은 알림 중에 안읽은 알림 수 -->
+<select id="count" resultType="notificationVO" parameterType="String">
+select count(notification_read) as cnt
+from notification
+where notification_read = 0
+and get_id = #{memId}
+</select>
+
+<!-- 받은 알림중 안읽은 알림 읽음 표시 변경 -->
+<update id="change" parameterType="String">
+update notification
+set notification_read = 1
+where get_id = #{memId}
+</update>
+
+<!-- 받은 알림 페이징 수 -->
+<select id="getListcount" parameterType="pagingVO" resultType="int">
+select count(notification_read)
+from notification
+where 1=1
+and get_id = #{memId}
+</select>
+
+<!-- 받은 알림 페이징에 데이터 추가 -->
+<select id="getListPage" parameterType="pagingVO" resultType="notificationVO">
+select
+			b.*
+		from (
+			select
+				a.*, row_number() over (order by a.notification_id desc) rnum
+			from(
+				select
+					notification_id, notification_content, notification_date, notification_read, get_id, notification_url, post_id
+				from notification
+				where get_id = #{memId}
+				order by notification_id desc
+			) a
+		) b
+		<![CDATA[
+			where b.rnum >= #{startRow} and b.rnum <= #{endRow}
+		]]>
+</select>
+
+<!-- 보낸 알림 페이징 수 -->
+<select id="postListcount" parameterType="pagingVO" resultType="int">
+select count(notification_read)
+from notification
+where 1=1
+and post_id = #{memId}
+</select>
+
+<!-- 보낸 알림 페이징에 데이터 추가 -->
+<select id="postListPage" parameterType="pagingVO" resultType="notificationVO">
+select
+			b.*
+		from (
+			select
+				a.*, row_number() over (order by a.notification_id desc) rnum
+			from(
+				select
+					notification_id, notification_content, notification_date, notification_read, get_id, notification_url, post_id
+				from notification
+				where post_id = #{memId}
+				order by notification_id desc
+			) a
+		) b
+		<![CDATA[
+			where b.rnum >= #{startRow} and b.rnum <= #{endRow}
+		]]>
+</select>
+
+
+<!-- board(게시판 작상자 가져오기) -->
+<select id="boardgetId" parameterType="int" resultType="String">
+select mem_id
+from board
+where board_id = #{boardId}
+</select>
+
+<!-- board(알람 보내기) -->
+<insert id="insertAlarm" parameterType="notificationVO">
+insert into notification
+(
+notification_id, 
+notification_content, 
+notification_date, 
+get_id, 
+notification_url, 
+post_id
+)
+values(
+seq_notification.nextval, #{notificationContent}, sysdate, #{getId}, #{notificationUrl}, #{postId}
+)
+</insert>
+</mapper>

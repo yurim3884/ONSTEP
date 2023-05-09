@@ -1,0 +1,228 @@
+package kr.or.ddit.board.serviceImpl;
+
+import java.io.File;
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+import javax.annotation.Resources;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Service;
+
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.board.service.IBoardService;
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.comment.vo.CommentVO;
+import kr.or.ddit.mapper.BoardMapper;
+import kr.or.ddit.vo.AttVO;
+import kr.or.ddit.vo.PaginationInfoVO;
+import kr.or.ddit.vo.ReportVO;
+
+@Service
+public class BoardServiceImpl implements IBoardService{
+
+	@Resource(name="uploadPath")
+	String uploadPath;
+	
+	@Inject
+	private BoardMapper mapper;
+
+	@Override
+	public int selectBoardCount(PaginationInfoVO<BoardVO> pagingVO) {
+		return mapper.selectBoardCount(pagingVO);
+	}
+
+	@Override
+	public List<BoardVO> selectBoardList(PaginationInfoVO<BoardVO> pagingVO) {
+		return mapper.selectBoardList(pagingVO);
+	}
+
+	@Override
+	public ServiceResult insertBoard(HttpServletRequest req, BoardVO boardVO) {
+		ServiceResult result = null;
+		int status = mapper.insertBoard(boardVO);
+		if(status>0) {
+			List<AttVO> boardFileList = boardVO.getBoardFileList();
+			try {
+				processBoardFile(boardFileList, boardVO.getBoardId(), req, boardVO.getMemId());	
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAILED;
+		}
+		return result;
+	}
+
+	private void processBoardFile(
+			List<AttVO> boardFileList,
+			int boardId,
+			HttpServletRequest req,
+			String memId) throws Exception {
+		if(boardFileList !=null && boardFileList.size()>0) {
+			for(AttVO attVO : boardFileList) {
+				String savedName = UUID.randomUUID().toString();
+				savedName = savedName + "_" + attVO.getAttFileName().replaceAll(" ", "_");
+				String endFileName = attVO.getAttFileName().split("\\.")[1];
+				String saveLocate =  uploadPath;
+				
+				File file = new File(saveLocate);
+				if(!file.exists()) {
+					file.mkdirs();
+				}
+				
+				saveLocate +="/" + savedName;
+				File saveFile = new File(saveLocate);
+				attVO.setBoardId(boardId);
+				attVO.setMemId(memId);
+				attVO.setAttSaveName(savedName);
+				attVO.setAttPath(saveLocate);
+				mapper.insertBoardFile(attVO);
+				
+				attVO.getItem().transferTo(saveFile);
+			}
+		}
+	}
+
+	@Override
+	public BoardVO selectBoard(int boardId) {
+		mapper.incrementHit(boardId);
+//		mapper.incrementGood(boardId);
+		return mapper.selectBoard(boardId);
+	}
+
+	@Override
+	public ServiceResult updateBoard(HttpServletRequest req, BoardVO boardVO) {
+		ServiceResult result = null;
+		int cnt = mapper.updateBoard(boardVO);
+		if(cnt >0) {
+			List<AttVO> boardFileList = boardVO.getBoardFileList();
+			try {
+				processBoardFile(boardFileList, boardVO.getBoardId(), req, boardVO.getMemId());
+				Integer[] delBoardId = boardVO.getDelBoardId();
+				if(delBoardId !=null) {
+					for(int i=0; i<delBoardId.length; i++) {
+						AttVO boardFileVO= mapper.selectBoardFile(delBoardId[i]);
+						mapper.deleteBoardFile(delBoardId[i]);
+						File file = new File(boardFileVO.getAttPath());
+						file.delete();
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAILED;
+		}
+		return result;
+	}
+
+	@Override
+	public ServiceResult deleteBoard(HttpServletRequest req, int boardId) {
+		ServiceResult result = null;
+		BoardVO boardVO = mapper.selectBoard(boardId);
+//		boardVO.getBoardCategory(boardCategory);
+		mapper.deleteBoardFileByBoardId(boardId);
+		int cnt = mapper.deleteBoard(boardId);
+		if(cnt>0) {
+			List<AttVO> boardFileList = boardVO.getBoardFileList();
+			try {
+				if(boardFileList !=null) {
+					String[] filePath = boardFileList.get(0).getAttPath().split("/");
+					int cutNum = boardFileList.get(0).getAttPath().lastIndexOf(filePath[filePath.length-1]);
+					String path = boardFileList.get(0).getAttPath().substring(0,cutNum);
+					deleteFolder(req,path);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			result = ServiceResult.OK;
+		}else {
+			result=ServiceResult.FAILED;
+		}
+		return result;
+	}
+
+	private void deleteFolder(HttpServletRequest req, String path) {
+		File folder = new File(path);
+		try {
+			if(folder.exists()) {
+				File[] folderList = folder.listFiles();
+				
+				for(int i=0; i<folderList.length; i++) {
+					if(folderList[i].isFile()) {
+						folderList[i].delete();
+					}else {
+						deleteFolder(req,folderList[i].getPath());
+					}
+				}
+				folder.delete(); //폴더 삭제
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public AttVO boardDownload(int attId) {
+		AttVO attVO = mapper.boardDownload(attId);
+		if(attVO ==null) {
+			throw new RuntimeException();
+		}
+		mapper.incrementBoardDowncount(attId);
+		return attVO;
+	}
+
+	@Override
+	public void good_cnt_down(int boardId) {
+		
+	}
+
+	@Override
+	public void insertReport(ReportVO reportVO) {
+		// TODO Auto-generated method stub
+		mapper.insertReport(reportVO);
+	}
+
+
+
+	
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

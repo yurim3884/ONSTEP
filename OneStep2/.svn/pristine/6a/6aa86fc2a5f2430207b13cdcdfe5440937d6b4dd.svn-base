@@ -1,0 +1,17 @@
+package kr.or.ddit.profile.service;
+
+
+import javax.servlet.http.HttpSession;
+
+import kr.or.ddit.profile.vo.ProfileVO;
+
+
+public interface IProfileService {
+
+	public void insertProfile(ProfileVO profile, HttpSession session);
+
+	public void updateProfile(ProfileVO profile, HttpSession session);
+	
+	public ProfileVO getProfile(int profileId);
+
+}

@@ -1,0 +1,1474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.CompanyMapper">
+
+	<resultMap type="boardVO" id="boardMap">
+		<id property="boardId" column="board_id" />
+		<result property="boardId" column="board_id" />
+		<result property="memId" column="mem_id" />
+		<result property="boardTitle" column="board_title" />
+		<result property="boardContent" column="board_content" />
+		<result property="boardStart" column="board_start" />
+		<result property="boardHit" column="board_hit" />
+		<result property="boardWarn" column="board_warn" />
+		<result property="boardCategory" column="board_category" />
+		<result property="recnt" column="recnt" />
+		<collection property="boardFileList" resultMap="attachMap" />
+	</resultMap>
+
+	<resultMap type="attVO" id="attachMap">
+		<id property="attId" column="att_id" />
+		<result property="attId" column="att_id" />
+		<result property="attPath" column="att_path" />
+		<result property="attSaveName" column="att_savename" />
+		<result property="attFileName" column="att_filename" />
+		<result property="attMime" column="att_mime" />
+		<result property="attFileSize" column="att_filesize" />
+		<result property="attFancySize" column="att_fancysize" />
+		<result property="attDownload" column="att_download" />
+		<result property="memId" column="mem_id" />
+		<result property="companyId" column="company_id" />
+		<result property="annoId" column="anno_id" />
+		<result property="boardId" column="board_id" />
+	</resultMap>
+
+
+
+	<insert id="insertAnno" parameterType="annoVO">
+		<selectKey keyProperty="annoId" resultType="int"
+			order="BEFORE">
+			select seq_ANNOID.nextval from dual
+		</selectKey>
+		insert into ANNOUNCEMENT (
+		ANNO_ID
+		, COM_ID
+		, ANNO_TITLE
+		, ANNO_CONTENT
+		, ANNO_STARTDATE
+		, ANNO_ENDDATE
+		, ANNO_START
+		, ANNO_STATE
+		, ANNO_TYPE
+		, ANNO_MANAGER
+		, ANNO_TEL
+		, ANNO_EMAIL
+		, ANNO_WORK
+		, ANNO_AGE
+		, ANNO_PROBATION
+		, ANNO_SALARY
+		, INDUSTRY_CODE
+		, ANNO_MB
+		, ANNO_MEM
+		, ANNO_CAREER
+		, ANNO_DM1
+		, ANNO_DM2
+		, ANNO_GB
+		, ANNO_JO
+		, ANNO_UD
+		, ANNO_GENDER
+		, ANNO_DAY
+		, ANNO_TIME
+		, ANNO_WD
+		, ANNO_STU
+		, ANNO_STALY
+		, ANNO_STATUS
+		, ANNO_INTRO)
+		values
+		(#{annoId},#{comId},#{annoTitle},#{annoContent},#{annoStartDate},#{annoEndDate},sysdate,
+		0,#{annoType},#{annoManager},#{annoTel},#{annoEmail},#{annoWork},#{annoAge},#{annoProbation},
+		#{annoSalary},#{industryCode},#{annoMb},#{annoMem},#{annoCareer},#{annoDm1},#{annoDm2},
+		#{annoGb},#{annoJo},#{annoUd},#{annoGender},#{annoDay},#{annoTime},#{annoWd},#{annoStu},#{annoStaly},
+		1,#{annoIntro})
+	</insert>
+
+	<insert id="createTag" parameterType="annoKeywordVO">
+		insert into ANNO (ANNO_KW,
+		ANNO_KWNAME,ANNO_ID) values
+		(seq_annokw.nextval,#{annoKwname},#{annoId})
+	</insert>
+
+	<select id="selectKeyword" parameterType="int"
+		resultType="annoKeywordVO">
+		select ANNO_KW, ANNO_KWNAME,ANNO_ID from ANNO where anno_id
+		=#{annoId}
+	</select>
+
+
+	<update id="insertAnnoFile" parameterType="annoVO">
+
+		update ANNOUNCEMENT set
+		att_Id = #{attId}
+		where
+		ANNO_ID = #{annoId}
+
+	</update>
+
+
+	<select id="selectAnno" parameterType="String"
+		resultType="annoVO">
+		select
+		ANNO_ID
+		, COM_ID
+		, ANNO_TITLE
+		, ANNO_CONTENT
+		, ANNO_STARTDATE
+		, ANNO_ENDDATE
+		, ANNO_START
+		, ANNO_STATE
+		, ANNO_TYPE
+		, ANNO_MANAGER
+		, ANNO_TEL
+		, ANNO_EMAIL
+		, ANNO_WORK
+		, ANNO_AGE
+		, ANNO_PROBATION
+		, ANNO_SALARY
+		, INDUSTRY_CODE
+		, ANNO_MB
+		, ANNO_MEM
+		, ANNO_CAREER
+		, ANNO_DM1
+		, ANNO_DM2
+		, ANNO_GB
+		, ANNO_JO
+		, ANNO_UD
+		, ANNO_GENDER
+		, ANNO_DAY
+		, ANNO_TIME
+		, ANNO_WD
+		, ANNO_STU
+		, ANNO_STALY
+		, ANNO_STATUS
+		, ANNO_INTRO
+		, ATT_ID
+		from ANNOUNCEMENT
+		where com_id = #{comId}
+		and ANNO_STATUS = 1
+	</select>
+
+	<select id="getCompany" parameterType="String"
+		resultType="companyVO">
+		select
+		COMPANY_ID
+		, COMPANY_NUMBER
+		, COMPANY_NAME
+		, COMPANY_REPRESENTATIVE
+		, COMPANY_BUSINESS
+		, COMPANY_ZIP
+		, COMPANY_PHONE
+		, COMPANY_EMAIL
+		, COMPANY_ESTABLISHMENT
+		, COMPANY_SMALL
+		, COMPANY_EMPLOYEES
+		, COMPANY_AVERAGE
+		, COMPANY_PERSON
+		, COMPANY_MAIN
+		, COMPANY_CHECK
+		, COMPANY_INTRO
+		, COMPANY_LOGO
+		, COMPANY_ADDR2
+		, COMPANY_CAP
+		, COMPANY_TAKE
+		, COMPANY_PROFIT
+		, COMPANY_INCOME
+		, COMPANY_ADDR1
+		from company where company_id = #{companyId}
+	</select>
+
+	<delete id="deleteAnno" parameterType="int">
+		delete from
+		ANNOUNCEMENT
+		where anno_id = #{annoId}
+	</delete>
+
+	<select id="selectAnnoOne" parameterType="int"
+		resultType="annoVO">
+		select
+		ANNO_ID
+		, COM_ID
+		, ANNO_TITLE
+		, ANNO_CONTENT
+		, ANNO_STARTDATE
+		, ANNO_ENDDATE
+		, ANNO_START
+		, ANNO_STATE
+		, ANNO_TYPE
+		, ANNO_MANAGER
+		, ANNO_TEL
+		, ANNO_EMAIL
+		, ANNO_WORK
+		, ANNO_AGE
+		, ANNO_PROBATION
+		, ANNO_SALARY
+		, INDUSTRY_CODE
+		, ANNO_MB
+		, ANNO_MEM
+		, ANNO_CAREER
+		, ANNO_DM1
+		, ANNO_DM2
+		, ANNO_GB
+		, ANNO_JO
+		, ANNO_UD
+		, ANNO_GENDER
+		, ANNO_DAY
+		, ANNO_TIME
+		, ANNO_WD
+		, ANNO_STU
+		, ANNO_STALY
+		, ANNO_STATUS
+		, ANNO_INTRO
+		, ATT_ID
+		from ANNOUNCEMENT where anno_id = #{annoId}
+	</select>
+
+	<update id="updateAnno" parameterType="annoVO">
+		update ANNOUNCEMENT
+		set
+		ANNO_TITLE =#{annoTitle},
+		ANNO_CONTENT=#{annoContent},
+		ANNO_STARTDATE=#{annoStartDate},
+		ANNO_ENDDATE=#{annoEndDate},
+		ANNO_TYPE=#{annoType},
+		ANNO_MANAGER=#{annoManager},
+		ANNO_TEL=#{annoTel},
+		ANNO_EMAIL=#{annoEmail},
+		ANNO_WORK=#{annoWork},
+		ANNO_AGE=#{annoAge},
+		ANNO_PROBATION=#{annoProbation},
+		ANNO_SALARY=#{annoSalary},
+		INDUSTRY_CODE=#{industryCode},
+		ANNO_MB=#{annoMb},
+		ANNO_MEM=#{annoMem},
+		ANNO_CAREER=#{annoCareer},
+		ANNO_DM1=#{annoDm1},
+		Anno_dm2=#{annoDm2}
+		ANNO_GB=#{annoGb},
+		ANNO_JO=#{annoJo},
+		ANNO_UD=#{annoUd},
+		ANNO_GENDER=#{annoGender},
+		ANNO_DAY=#{annoDay},
+		ANNO_TIME=#{annoTime},
+		ANNO_WD=#{annoWd},
+		ANNO_STU=#{annoStu},
+		ANNO_STATUS=#{annoStaly},
+		ANNO_INTRO=#{annoIntro}
+		where anno_id =
+		#{annoId}
+	</update>
+
+	<select id="selectApplyMem" resultMap="memberMap"
+		parameterType="String">
+		SELECT 
+			a.resume_id, a.resume_title, a.resume_status, a.resume_representative, a.mem_id, a.resume_photo,
+			b.act_id, b.act_content, b.act_category, b.act_institution, b.act_start, b.act_end, b.att_id,
+			c.award_id, c.award_name, c.award_content, c.award_date, c.award_institution,
+			d.career_id, d.career_category, d.career_cmp_name, d.career_cmp_dprtm, d.career_workfield, d.career_duties, d.career_position, d.career_join_date, d.career_resign_date, d.career_salary, d.att_id,
+			e.cert_id, e.cert_name, e.cert_date, e.cert_institution, e.att_id,
+			f.desired_id, f.desired_empl_form, f.desired_salary, f.desired_city1, f.desired_city2, f.desired_industry1, f.desired_industry2, f.desired_industry3, 
+			g.edu_id, g.edu_major1, g.edu_major2, g.edu_school_name, g.edu_start, g.edu_end, g.edu_score, g.edu_score_standard, g.edu_status, g.edu_school_type,
+			h.prfrn_id, h.prfrn_veterans, h.prfrn_subsidy, h.prfrn_disability, h.prfrn_military, h.prfrn_protection, h.prfrn_disability_grade, h.prfrn_military_type, h.prfrn_military_start, h.prfrn_military_end, h.prfrn_military_branch, h.prfrn_military_rank,
+			i.lang_id, i.lang_name, i.lang_test_name, i.lang_test_date, i.lang_test_score,
+			j.skill_id, j.skill_name, 
+			k.portfolio_id, k.portfolio_url, k.att_id,
+			l.workfield_id, l.workfield1, l.workfield2,
+			m.MEM_ID,m.MEM_name,m.MEM_BIRTH,m.MEM_GENDER,m.MEM_ZIP,m.MEM_ADDR1,m.MEM_ADDR2,m.MEM_EMAIL,m.MEM_TEL,m.MEM_EMAIL_APP,m.MEM_FREE,m.MEM_MSN,m.MEM_STATUS,
+			n.APPLY_ID,n.MEM_ID,n.ANNO_ID,n.RESUME_NUM,n.INTRO_ID,n.COMPANY_ID,n.APPLY_status,n.apply_school,n.apply_skill,n.apply_career,n.apply_license,n.apply_language,n.apply_activities,n.apply_portfolio,n.apply_point,n.apply_total,n.apply_result,
+			o.anno_title,o.ANNO_CONTENT,o.ANNO_ENDDATE
+		FROM resume a
+		LEFT OUTER JOIN activity b ON a.resume_id = b.resume_id 
+		LEFT OUTER JOIN award c ON a.resume_id = c.resume_id
+		LEFT OUTER JOIN career d ON a.resume_id = d.resume_id
+		LEFT OUTER JOIN certification e ON a.resume_id = e.resume_id
+		LEFT OUTER JOIN desired_empl f ON a.resume_id = f.resume_id
+		LEFT OUTER JOIN education g ON a.resume_id = g.resume_id
+		LEFT OUTER JOIN employment_preferences h ON a.resume_id = h.resume_id
+		LEFT OUTER JOIN language i ON a.resume_id = i.resume_id
+		LEFT OUTER JOIN skill j ON a.resume_id = j.resume_id
+		LEFT OUTER JOIN portfolio k ON a.resume_id = k.resume_id
+		LEFT OUTER JOIN workfield l ON a.resume_id = l.resume_id
+		left outer join member m on a.mem_id = m.mem_id
+		left outer join APPLY n on n.mem_id = m.mem_id
+		left outer join announcement o on n.anno_Id = o.anno_Id
+		WHERE m.MEM_STATUS =1 and n.company_id = #{companyId} and a.resume_id = n.RESUME_NUM
+		ORDER BY n.anno_id,n.apply_total DESC 	
+	</select>
+	<select id="selectApplyAnno" resultMap="memberMap"
+		parameterType="int">
+		SELECT 
+			a.resume_id, a.resume_title, a.resume_status, a.resume_representative, a.mem_id, a.resume_photo,
+			b.act_id, b.act_content, b.act_category, b.act_institution, b.act_start, b.act_end, b.att_id,
+			c.award_id, c.award_name, c.award_content, c.award_date, c.award_institution,
+			d.career_id, d.career_category, d.career_cmp_name, d.career_cmp_dprtm, d.career_workfield, d.career_duties, d.career_position, d.career_join_date, d.career_resign_date, d.career_salary, d.att_id,
+			e.cert_id, e.cert_name, e.cert_date, e.cert_institution, e.att_id,
+			f.desired_id, f.desired_empl_form, f.desired_salary, f.desired_city1, f.desired_city2, f.desired_industry1, f.desired_industry2, f.desired_industry3, 
+			g.edu_id, g.edu_major1, g.edu_major2, g.edu_school_name, g.edu_start, g.edu_end, g.edu_score, g.edu_score_standard, g.edu_status, g.edu_school_type,
+			h.prfrn_id, h.prfrn_veterans, h.prfrn_subsidy, h.prfrn_disability, h.prfrn_military, h.prfrn_protection, h.prfrn_disability_grade, h.prfrn_military_type, h.prfrn_military_start, h.prfrn_military_end, h.prfrn_military_branch, h.prfrn_military_rank,
+			i.lang_id, i.lang_name, i.lang_test_name, i.lang_test_date, i.lang_test_score,
+			j.skill_id, j.skill_name, 
+			k.portfolio_id, k.portfolio_url, k.att_id,
+			l.workfield_id, l.workfield1, l.workfield2,
+			m.MEM_ID,m.MEM_name,m.MEM_BIRTH,m.MEM_GENDER,m.MEM_ZIP,m.MEM_ADDR1,m.MEM_ADDR2,m.MEM_EMAIL,m.MEM_TEL,m.MEM_EMAIL_APP,m.MEM_FREE,m.MEM_MSN,m.MEM_STATUS,
+			n.APPLY_ID,n.MEM_ID,n.ANNO_ID,n.RESUME_NUM,n.INTRO_ID,n.COMPANY_ID,n.apply_result,
+			o.anno_title,o.ANNO_CONTENT
+		FROM resume a
+		LEFT OUTER JOIN activity b ON a.resume_id = b.resume_id 
+		LEFT OUTER JOIN award c ON a.resume_id = c.resume_id
+		LEFT OUTER JOIN career d ON a.resume_id = d.resume_id
+		LEFT OUTER JOIN certification e ON a.resume_id = e.resume_id
+		LEFT OUTER JOIN desired_empl f ON a.resume_id = f.resume_id
+		LEFT OUTER JOIN education g ON a.resume_id = g.resume_id
+		LEFT OUTER JOIN employment_preferences h ON a.resume_id = h.resume_id
+		LEFT OUTER JOIN language i ON a.resume_id = i.resume_id
+		LEFT OUTER JOIN skill j ON a.resume_id = j.resume_id
+		LEFT OUTER JOIN portfolio k ON a.resume_id = k.resume_id
+		LEFT OUTER JOIN workfield l ON a.resume_id = l.resume_id
+		left outer join member m on a.mem_id = m.mem_id
+		left outer join APPLY n on n.mem_id = m.mem_id
+		left outer join announcement o on n.anno_Id = o.anno_Id
+		WHERE m.MEM_STATUS =1 and a.resume_id = n.RESUME_NUM and o.anno_id= #{annoId}
+		ORDER BY a.resume_id DESC 	
+	</select>
+	
+	<select id="selectMember" resultMap="memberMap">
+	SELECT 
+			a.resume_id, a.resume_title, a.resume_status, a.resume_representative, a.mem_id, a.resume_photo,
+			b.act_id, b.act_content, b.act_category, b.act_institution, b.act_start, b.act_end, b.att_id,
+			c.award_id, c.award_name, c.award_content, c.award_date, c.award_institution,
+			d.career_id, d.career_category, d.career_cmp_name, d.career_cmp_dprtm, d.career_workfield, d.career_duties, d.career_position, d.career_join_date, d.career_resign_date, d.career_salary, d.att_id,
+			e.cert_id, e.cert_name, e.cert_date, e.cert_institution, e.att_id,
+			f.desired_id, f.desired_empl_form, f.desired_salary, f.desired_city1, f.desired_city2, f.desired_industry1, f.desired_industry2, f.desired_industry3, 
+			g.edu_id, g.edu_major1, g.edu_major2, g.edu_school_name, g.edu_start, g.edu_end, g.edu_score, g.edu_score_standard, g.edu_status, g.edu_school_type,
+			h.prfrn_id, h.prfrn_veterans, h.prfrn_subsidy, h.prfrn_disability, h.prfrn_military, h.prfrn_protection, h.prfrn_disability_grade, h.prfrn_military_type, h.prfrn_military_start, h.prfrn_military_end, h.prfrn_military_branch, h.prfrn_military_rank,
+			i.lang_id, i.lang_name, i.lang_test_name, i.lang_test_date, i.lang_test_score,
+			j.skill_id, j.skill_name, 
+			k.portfolio_id, k.portfolio_url, k.att_id,
+			l.workfield_id, l.workfield1, l.workfield2,
+			m.MEM_ID,m.MEM_name,m.MEM_BIRTH,m.MEM_GENDER,m.MEM_ZIP,m.MEM_ADDR1,m.MEM_ADDR2,m.MEM_EMAIL,m.MEM_TEL,m.MEM_EMAIL_APP,m.MEM_FREE,m.MEM_MSN,m.MEM_STATUS
+		FROM resume a
+		LEFT OUTER JOIN activity b ON a.resume_id = b.resume_id 
+		LEFT OUTER JOIN award c ON a.resume_id = c.resume_id
+		LEFT OUTER JOIN career d ON a.resume_id = d.resume_id
+		LEFT OUTER JOIN certification e ON a.resume_id = e.resume_id
+		LEFT OUTER JOIN desired_empl f ON a.resume_id = f.resume_id
+		LEFT OUTER JOIN education g ON a.resume_id = g.resume_id
+		LEFT OUTER JOIN employment_preferences h ON a.resume_id = h.resume_id
+		LEFT OUTER JOIN language i ON a.resume_id = i.resume_id
+		LEFT OUTER JOIN skill j ON a.resume_id = j.resume_id
+		LEFT OUTER JOIN portfolio k ON a.resume_id = k.resume_id
+		LEFT OUTER JOIN workfield l ON a.resume_id = l.resume_id
+		left outer join member m on a.mem_id = m.mem_id
+		WHERE m.MEM_STATUS =1 and RESUME_REPRESENTATIVE = 1
+		ORDER BY a.resume_id DESC 		 
+	</select>
+
+	<select id="selectinterMember" resultMap="memberMap"
+		parameterType="String">
+		  SELECT 
+			a.resume_id, a.resume_title, a.resume_status, a.resume_representative, a.mem_id, a.resume_photo,
+			b.act_id, b.act_content, b.act_category, b.act_institution, b.act_start, b.act_end, b.att_id,
+			c.award_id, c.award_name, c.award_content, c.award_date, c.award_institution,
+			d.career_id, d.career_category, d.career_cmp_name, d.career_cmp_dprtm, d.career_workfield, d.career_duties, d.career_position, d.career_join_date, d.career_resign_date, d.career_salary, d.att_id,
+			e.cert_id, e.cert_name, e.cert_date, e.cert_institution, e.att_id,
+			f.desired_id, f.desired_empl_form, f.desired_salary, f.desired_city1, f.desired_city2, f.desired_industry1, f.desired_industry2, f.desired_industry3, 
+			g.edu_id, g.edu_major1, g.edu_major2, g.edu_school_name, g.edu_start, g.edu_end, g.edu_score, g.edu_score_standard, g.edu_status, g.edu_school_type,
+			h.prfrn_id, h.prfrn_veterans, h.prfrn_subsidy, h.prfrn_disability, h.prfrn_military, h.prfrn_protection, h.prfrn_disability_grade, h.prfrn_military_type, h.prfrn_military_start, h.prfrn_military_end, h.prfrn_military_branch, h.prfrn_military_rank,
+			i.lang_id, i.lang_name, i.lang_test_name, i.lang_test_date, i.lang_test_score,
+			j.skill_id, j.skill_name, 
+			k.portfolio_id, k.portfolio_url, k.att_id,
+			l.workfield_id, l.workfield1, l.workfield2,
+			m.MEM_ID,m.MEM_name,m.MEM_BIRTH,m.MEM_GENDER,m.MEM_ZIP,m.MEM_ADDR1,m.MEM_ADDR2,m.MEM_EMAIL,m.MEM_TEL,m.MEM_EMAIL_APP,m.MEM_FREE,m.MEM_MSN,m.MEM_STATUS,
+            n.mem_id , n.com_Id
+		FROM resume a
+		LEFT OUTER JOIN activity b ON a.resume_id = b.resume_id 
+		LEFT OUTER JOIN award c ON a.resume_id = c.resume_id
+		LEFT OUTER JOIN career d ON a.resume_id = d.resume_id
+		LEFT OUTER JOIN certification e ON a.resume_id = e.resume_id
+		LEFT OUTER JOIN desired_empl f ON a.resume_id = f.resume_id
+		LEFT OUTER JOIN education g ON a.resume_id = g.resume_id
+		LEFT OUTER JOIN employment_preferences h ON a.resume_id = h.resume_id
+		LEFT OUTER JOIN language i ON a.resume_id = i.resume_id
+		LEFT OUTER JOIN skill j ON a.resume_id = j.resume_id
+		LEFT OUTER JOIN portfolio k ON a.resume_id = k.resume_id
+		LEFT OUTER JOIN workfield l ON a.resume_id = l.resume_id
+		left outer join member m on a.mem_id = m.mem_id
+        left outer join INTEREST n on a.mem_id = n.mem_id
+		WHERE m.MEM_STATUS =1 and RESUME_REPRESENTATIVE = 1
+        and n.com_id =#{comId}
+		ORDER BY a.resume_id DESC 	 
+	</select>
+	
+	<select id="selectProposalMember" resultMap="memberMap"
+		parameterType="String">
+		SELECT 
+			a.resume_id, a.resume_title, a.resume_status, a.resume_representative, a.mem_id, a.resume_photo,
+			b.act_id, b.act_content, b.act_category, b.act_institution, b.act_start, b.act_end, b.att_id,
+			c.award_id, c.award_name, c.award_content, c.award_date, c.award_institution,
+			d.career_id, d.career_category, d.career_cmp_name, d.career_cmp_dprtm, d.career_workfield, d.career_duties, d.career_position, d.career_join_date, d.career_resign_date, d.career_salary, d.att_id,
+			e.cert_id, e.cert_name, e.cert_date, e.cert_institution, e.att_id,
+			f.desired_id, f.desired_empl_form, f.desired_salary, f.desired_city1, f.desired_city2, f.desired_industry1, f.desired_industry2, f.desired_industry3, 
+			g.edu_id, g.edu_major1, g.edu_major2, g.edu_school_name, g.edu_start, g.edu_end, g.edu_score, g.edu_score_standard, g.edu_status, g.edu_school_type,
+			h.prfrn_id, h.prfrn_veterans, h.prfrn_subsidy, h.prfrn_disability, h.prfrn_military, h.prfrn_protection, h.prfrn_disability_grade, h.prfrn_military_type, h.prfrn_military_start, h.prfrn_military_end, h.prfrn_military_branch, h.prfrn_military_rank,
+			i.lang_id, i.lang_name, i.lang_test_name, i.lang_test_date, i.lang_test_score,
+			j.skill_id, j.skill_name, 
+			k.portfolio_id, k.portfolio_url, k.att_id,
+			l.workfield_id, l.workfield1, l.workfield2,
+			m.MEM_ID,m.MEM_name,m.MEM_BIRTH,m.MEM_GENDER,m.MEM_ZIP,m.MEM_ADDR1,m.MEM_ADDR2,m.MEM_EMAIL,m.MEM_TEL,m.MEM_EMAIL_APP,m.MEM_FREE,m.MEM_MSN,m.MEM_STATUS,
+            n.mem_id , n.com_Id ,n.anno_Id,
+            o.anno_title
+		FROM resume a
+		LEFT OUTER JOIN activity b ON a.resume_id = b.resume_id 
+		LEFT OUTER JOIN award c ON a.resume_id = c.resume_id
+		LEFT OUTER JOIN career d ON a.resume_id = d.resume_id
+		LEFT OUTER JOIN certification e ON a.resume_id = e.resume_id
+		LEFT OUTER JOIN desired_empl f ON a.resume_id = f.resume_id
+		LEFT OUTER JOIN education g ON a.resume_id = g.resume_id
+		LEFT OUTER JOIN employment_preferences h ON a.resume_id = h.resume_id
+		LEFT OUTER JOIN language i ON a.resume_id = i.resume_id
+		LEFT OUTER JOIN skill j ON a.resume_id = j.resume_id
+		LEFT OUTER JOIN portfolio k ON a.resume_id = k.resume_id
+		LEFT OUTER JOIN workfield l ON a.resume_id = l.resume_id
+		left outer join member m on a.mem_id = m.mem_id
+        left outer join proposal n on a.mem_id = n.mem_id
+        left outer join announcement o on n.anno_Id = o.anno_Id
+		WHERE m.MEM_STATUS =1 and RESUME_REPRESENTATIVE = 1
+        and n.com_id =#{comId}
+		ORDER BY a.resume_id DESC 
+	</select>
+
+
+	<select id="selectAnnoKeyword" resultType="annoKeyword">
+		select * from
+		ANNOKEYWORD
+	</select>
+
+
+
+	<insert id="insertCompany" parameterType="companyVO">
+
+		<selectKey keyProperty="companyId" resultType="int"
+			order="BEFORE">
+			select seq_comId.nextval from dual
+		</selectKey>
+
+		insert into company (
+		company_id, company_number, company_name,
+		company_representative,
+		company_business, company_zip,
+		company_phone,
+		company_email, company_establishment, company_small,
+		company_employees, company_average,
+		company_person, company_main,
+		company_check, company_intro, company_addr2,
+		company_cap, company_take,
+		company_profit, company_income,
+		company_addr1
+
+		) values (
+		#{companyId},#{companyNumber},#{companyName},#{companyRepresentative},#{companyBusiness},#{companyZip},
+		#{companyPhone},#{companyEmail},#{companyEstablishment},#{companySmall},#{companyEmployees},#{companyAverage},
+		#{companyPerson},#{companyMain},1,#{companyIntro},#{companyAddr2},
+		#{companyCap},#{companyTake},#{companyProfit},#{companyIncome},#{companyAddr1}
+		)
+
+
+
+	</insert>
+
+	<update id="insertFile" parameterType="companyVO">
+
+		update company set
+		company_logo = #{companyLogo}
+		where
+		company_id = #{companyId}
+
+	</update>
+
+	<insert id="insertReview" parameterType="reviewVO">
+
+		insert into review (
+		review_id,mem_id,com_id,review_coment,review_good,review_start,
+		review_hit,review_bad,review_score,review_vision,
+		review_welfare,review_balance,review_culture,review_manage
+
+		) values (
+		seq_reviewid.nextval,#{memId},#{comId},#{reviewComent},#{reviewGood},sysdate,
+		#{reviewHit},#{reviewBad},#{reviewScore},#{reviewVision},
+		#{reviewWelfare},#{reviewBalance},#{reviewCulture},#{reviewManage}
+		)
+
+
+	</insert>
+
+	<select id="getReviewList" parameterType="int"
+		resultType="reviewVO">
+
+		select
+		REVIEW_ID
+		, MEM_ID
+		, COM_ID
+		, REVIEW_COMENT
+		, REVIEW_GOOD
+		, REVIEW_START
+		,
+		REVIEW_UPDATE
+		, REVIEW_HIT
+		, REVIEW_BAD
+		, REVIEW_SCORE
+		, REVIEW_VISION
+		,
+		REVIEW_WELFARE
+		, REVIEW_BALANCE
+		, REVIEW_CULTURE
+		, REVIEW_MANAGE
+		from review
+		where com_id = #{comId}
+
+	</select>
+
+
+
+
+
+	<select id="noticeList" resultType="boardVO">
+		select
+		BOARD_ID
+		, MEM_ID
+		, BOARD_TITLE
+		, BOARD_CONTENT
+		, BOARD_START
+		, BOARD_HIT
+		,BOARD_WARN
+		, BOARD_CATEGORY
+		, RECNT
+		,BOARD_GOT
+		,BOARD_CAL
+		from board where BOARD_CATEGORY = 1
+	</select>
+	
+	<select id="noticeList5" resultType="boardVO">
+		select
+		BOARD_ID
+		, MEM_ID
+		, BOARD_TITLE
+		, BOARD_CONTENT
+		, BOARD_START
+		, BOARD_HIT
+		,BOARD_WARN
+		, BOARD_CATEGORY
+		, RECNT
+		,BOARD_GOT
+		,BOARD_CAL
+		from board where BOARD_CATEGORY = 1 and BOARD_GOT = 1
+		order by board_id 
+	</select>
+
+	<select id="annoCnt" parameterType="String" resultType="int">
+		select count(ANNO_TITLE) from ANNOUNCEMENT where com_id = #{companyId}
+	</select>
+	<select id="interCnt" parameterType="String" resultType="int">
+		select DISTINCT count(INTE_NO) from INTEREST where com_id = #{companyId}
+	</select>
+	<select id="applyCnt" parameterType="String" resultType="int">
+		select count(APPLY_ID) from apply a left outer join ANNOUNCEMENT b on
+		a.ANNO_ID = B.ANNO_ID where b.com_id =#{companyId}
+	</select>
+	<select id="reviewCnt" parameterType="String" resultType="int">
+		select count(REVIEW_ID) from review where com_id = #{companyId}
+	</select>
+
+	<select id="searchCompanyList" parameterType="String"
+		resultType="companyVO">
+		select
+		COMPANY_ID
+		, COMPANY_NUMBER
+		, COMPANY_NAME
+		, COMPANY_REPRESENTATIVE
+		, COMPANY_BUSINESS
+		, COMPANY_ZIP
+		, COMPANY_PHONE
+		, COMPANY_EMAIL
+		, COMPANY_ESTABLISHMENT
+		, COMPANY_SMALL
+		, COMPANY_EMPLOYEES
+		, COMPANY_AVERAGE
+		, COMPANY_PERSON
+		, COMPANY_MAIN
+		, COMPANY_CHECK
+		, COMPANY_INTRO
+		, COMPANY_LOGO
+		, COMPANY_ADDR2
+		, COMPANY_CAP
+		, COMPANY_TAKE
+		, COMPANY_PROFIT
+		, COMPANY_INCOME
+		, COMPANY_ADDR1
+		from company
+		where company_name like '%'||#{companyName}||'%'
+
+	</select>
+	<select id="searchCompany" parameterType="String"
+		resultType="companyVO">
+		select * from company
+		where company_name = #{companyName}
+
+	</select>
+
+
+
+
+	<resultMap type="annoVO" id="annoMap">
+		<result column="anno_title" property="annoTitle" />
+		<result column="com_id" property="comId" />
+		<result column="anno_id" property="annoId" />
+		<result column="anno_startDate" property="annoStartDate" />
+		<result column="anno_endDate" property="annoEndDate" />
+		<result column="anno_ud" property="annoUd" />
+		<result column="anno_jo" property="annoJo" />
+		<result column="anno_mb" property="annoMb" />
+		<result column="ANNO_DM1" property="annoDm1" />
+		<result column="ANNO_DM2" property="annoDm2" />
+		<collection property="reviewVO" resultMap="reviewMap" />
+		<collection property="companyVO" resultMap="companyMap" />
+	</resultMap>
+
+	<resultMap type="companyVO" id="companyMap">
+		<result column="company_logo" property="companyLogo" />
+		<result column="company_name" property="companyName" />
+		<result column="company_main" property="companyMain" />
+
+	</resultMap>
+
+	<resultMap type="reviewVO" id="reviewMap">
+		<result column="review_score" property="reviewScore" />
+		<result column="review_vision" property="reviewVision" />
+		<result column="review_balance" property="reviewBalance" />
+		<result column="review_welfare" property="reviewWelfare" />
+	</resultMap>
+
+
+
+	<select id="annoList" resultMap="annoMap">
+		SELECT
+		B.COM_ID,
+		avg(c.review_score) as review_score,
+		avg(c.review_vision) as review_vision,
+		avg(c.review_balance) as review_balance,
+		avg(c.review_welfare) as review_welfare,
+		b.anno_id,
+		b.anno_title,
+		b.anno_startDate,
+		b.anno_endDate,
+		b.anno_ud,
+		b.anno_jo,
+		b.anno_mb,
+		b.ANNO_DM1,
+		b.anno_dm2,
+		a.company_logo,
+		a.company_name
+
+		from company a, announcement b, review c
+		where a.company_id=b.com_id
+		and b.com_id = c.com_id
+
+		group by
+		B.COM_ID,
+		b.anno_id,
+		b.anno_title,
+		b.anno_startDate,
+		b.anno_endDate,
+		b.anno_ud,
+		b.anno_jo,
+		b.anno_mb,
+		b.anno_dm2,
+		b.ANNO_DM1,
+		a.company_logo,
+		a.company_name
+		order by anno_startDate desc
+
+	</select>
+
+	<select id="ajaxAnnoList" parameterType="String"
+		resultMap="annoMap">
+		SELECT
+		B.COM_ID,
+		avg(c.review_score) as review_score,
+		avg(c.review_vision) as review_vision,
+		avg(c.review_balance) as review_balance,
+		avg(c.review_welfare) as review_welfare,
+		b.anno_id,
+		b.anno_title,
+		b.anno_startDate,
+		b.anno_endDate,
+		b.anno_ud,
+		b.anno_jo,
+		b.anno_mb,
+		b.ANNO_DM1,
+		a.company_logo,
+		a.company_name
+
+		from company a, announcement b, review c
+		where a.company_id=b.com_id
+		and b.com_id = c.com_id
+
+		group by
+		B.COM_ID,
+		b.anno_id,
+		b.anno_title,
+		b.anno_startDate,
+		b.anno_endDate,
+		b.anno_ud,
+		b.anno_jo,
+		b.anno_mb,
+		b.ANNO_DM1,
+		a.company_logo,
+		a.company_name
+
+		<if test="searchType=='score'">
+			order by review_score desc
+		</if>
+		<if test="searchType=='new'">
+			order by anno_startDate desc
+		</if>
+
+	</select>
+
+	<select id="inquirylist" parameterType="String"
+		resultType="boardVO">
+		select * from board where BOARD_CATEGORY = 2 and mem_id= #{memId}
+	</select>
+
+	<select id="inquiry" parameterType="int" resultMap="boardMap">
+		select
+		b.board_id, b.mem_id, board_title, board_content, board_start, board_hit,
+		board_warn, board_category, recnt,
+		att_id, att_path, att_savename, att_filename, att_mime, att_filesize,
+		att_fancysize,
+		att_download, company_id, anno_id
+		from board b left outer join attach a on(b.board_id = a.board_id)
+		where b.board_id = #{boardId}
+	</select>
+
+	<insert id="insertInqu" parameterType="boardVO"
+		useGeneratedKeys="true">
+		<selectKey keyProperty="boardId" resultType="int"
+			order="BEFORE">
+			select seq_boardid.nextval from dual
+		</selectKey>
+		insert into board(
+		board_id, mem_id, board_title, board_content,board_start, board_category
+		)values(
+		#{boardId}, #{memId}, #{boardTitle}, #{boardContent}, sysdate, 2
+		)
+	</insert>
+
+	<insert id="insertBoardFile" parameterType="attVO">
+		insert into attach(
+		att_id, att_path, att_savename, att_filename, att_mime, att_filesize,
+		att_fancysize, att_download, board_id ,mem_id
+		)values(
+		seq_attid.nextval, #{attPath}, #{attSaveName}, #{attFileName},
+		#{attMime},
+		#{attFileSize}, #{attFancySize}, 0, #{boardId} ,#{memId}
+		)
+	</insert>
+
+	<update id="updateBoard" parameterType="boardVO">
+		update board
+		set
+		board_title = #{boardTitle},
+		board_content = #{boardContent},
+		board_start = sysdate
+		where board_id = #{boardId}
+	</update>
+
+	<delete id="deleteBoardFile" parameterType="int">
+		delete from attach
+		where board_id = #{boardId}
+	</delete>
+
+	<delete id="deleteBoardFileByBoardId" parameterType="int">
+		delete from
+		attach
+		where att_id = #{attId}
+	</delete>
+
+
+	<select id="selectBoardFile" parameterType="int"
+		resultType="attVO">
+		select
+		ATT_ID
+		, MEM_ID
+		, COMPANY_ID
+		, ANNO_ID
+		, BOARD_ID
+		, ATT_PATH
+		, ATT_SAVENAME
+		,
+		ATT_FILENAME
+		, ATT_MIME
+		, ATT_FILESIZE
+		, ATT_FANCYSIZE
+		, ATT_DOWNLOAD
+
+		from attach where board_Id = #{boardId}
+	</select>
+
+	<delete id="delete" parameterType="int">
+		delete from board where
+		board_Id = #{boardId}
+	</delete>
+
+	<select id="selectFaq" resultType="faqVO">
+		select *
+		from faq where faq_status =1
+	</select>
+
+	<insert id="insertHeart" parameterType="memberVO">
+		insert into INTEREST
+		values (SEQ_INTENO.nextval,#{memId},#{companyId})
+	</insert>
+	
+	<insert id="proposal" parameterType="memberVO">
+		insert into proposal (PROPOSAL_ID,MEM_ID,COM_ID,ANNO_ID)
+		values (SEQ_PROPOSALID.nextval,#{memId},#{comId},#{annoId})
+	</insert>
+
+	<select id="selectinter" resultType="memberVO"
+		parameterType="String">
+		select * from member a right outer join INTEREST b on a.mem_id = B.mem_id
+		where b.com_id =#{comId}
+	</select>
+
+	<delete id="deleteHeart" parameterType="memberVO">
+		delete from INTEREST
+		where mem_id=#{memId} and com_id=#{companyId}
+	</delete>
+
+	<select id="getCompanyInt" parameterType="int">
+		select
+		COMPANY_ID
+		, COMPANY_NUMBER
+		, COMPANY_NAME
+		, COMPANY_REPRESENTATIVE
+		, COMPANY_BUSINESS
+		, COMPANY_ZIP
+		, COMPANY_PHONE
+		, COMPANY_EMAIL
+		, COMPANY_ESTABLISHMENT
+		, COMPANY_SMALL
+		, COMPANY_EMPLOYEES
+		, COMPANY_AVERAGE
+		, COMPANY_PERSON
+		, COMPANY_MAIN
+		, COMPANY_CHECK
+		, COMPANY_INTRO
+		, COMPANY_LOGO
+		, COMPANY_ADDR2
+		, COMPANY_CAP
+		, COMPANY_TAKE
+		, COMPANY_PROFIT
+		, COMPANY_INCOME
+		, COMPANY_ADDR1
+		from company where company_id = #{companyId}
+	</select>
+
+
+	<select id="ajaxAnnoSearch" resultMap="annoMap">
+		SELECT
+		B.COM_ID,
+		avg(c.review_score) as review_score,
+		avg(c.review_vision) as review_vision,
+		avg(c.review_balance) as review_balance,
+		avg(c.review_welfare) as review_welfare,
+		b.anno_id,
+		b.anno_title,
+		b.anno_startDate,
+		b.anno_endDate,
+		b.anno_ud,
+		b.anno_jo,
+		b.anno_mb,
+		b.ANNO_DM1,
+		a.company_logo,
+		a.company_name,
+		a.company_main
+
+		from company a, announcement b, review c
+		where a.company_id=b.com_id
+		and b.com_id = c.com_id
+
+		<if test="searchList.size>1">
+			and a.company_main in
+
+			<foreach item="item" index="index" collection="searchList"
+				separator="," open="(" close=")">
+				#{item}
+			</foreach>
+		</if>
+
+		group by
+		B.COM_ID,
+		b.anno_id,
+		b.anno_title,
+		b.anno_startDate,
+		b.anno_endDate,
+		b.anno_ud,
+		b.anno_jo,
+		b.anno_mb,
+		b.ANNO_DM1,
+		a.company_logo,
+		a.company_name,
+		a.company_main
+		
+		<if test="searchList[0]=='new'">
+		order by anno_startDate desc
+		</if>
+		
+		<if test="searchList[0]=='score'">
+		order by review_score desc
+		</if>
+		
+		
+	</select>
+	
+	<select id="seleteComKeyword" parameterType="String" resultType="annoKeywordVO">
+		select * from anno a right outer join ANNOUNCEMENT b on a.ANNO_ID = b.anno_Id right outer join COMPANY c on b.COM_ID = c.COMPANY_ID where b.com_id = #{companyId}
+	</select>
+	
+	<select id="getReview" parameterType="String"
+		resultType="reviewVO">
+
+		select
+		REVIEW_ID
+		, MEM_ID
+		, COM_ID
+		, REVIEW_COMENT
+		, REVIEW_GOOD
+		, REVIEW_START
+		,
+		REVIEW_UPDATE
+		, REVIEW_HIT
+		, REVIEW_BAD
+		, REVIEW_SCORE
+		, REVIEW_VISION
+		,
+		REVIEW_WELFARE
+		, REVIEW_BALANCE
+		, REVIEW_CULTURE
+		, REVIEW_MANAGE
+		from review
+		where com_id = #{comId}
+
+	</select>
+	
+	<select id="notice" parameterType="int" resultType="boardVO">
+	select
+			*
+		from board 
+		where BOARD_CATEGORY = 1
+		and board_id =#{boardId}
+	</select>
+	
+	<select id="ajaxAnnoRegionSearch" resultMap="annoMap">
+		SELECT
+		B.COM_ID,
+		avg(c.review_score) as review_score,
+		avg(c.review_vision) as review_vision,
+		avg(c.review_balance) as review_balance,
+		avg(c.review_welfare) as review_welfare,
+		b.anno_id,
+		b.anno_title,
+		b.anno_startDate,
+		b.anno_endDate,
+		b.anno_ud,
+		b.anno_jo,
+		b.anno_mb,
+		b.ANNO_DM1,
+		a.company_logo,
+		a.company_name,
+		a.company_main
+
+		from company a, announcement b, review c
+		where a.company_id=b.com_id
+		and b.com_id = c.com_id
+
+		<if test="searchList.size>1">
+			and
+
+			<foreach item="item" index="index" collection="searchList"
+				 open="(" close=")" separator="or">
+				 b.anno_wd like '%'|| #{item} ||'%' 
+			</foreach>
+		</if>
+
+		group by
+		B.COM_ID,
+		b.anno_id,
+		b.anno_title,
+		b.anno_startDate,
+		b.anno_endDate,
+		b.anno_ud,
+		b.anno_jo,
+		b.anno_mb,
+		b.ANNO_DM1,
+		a.company_logo,
+		a.company_name,
+		a.company_main
+		
+		<if test="searchList[0]=='new'">
+		order by anno_startDate desc
+		</if>
+		
+		<if test="searchList[0]=='score'">
+		order by review_score desc
+		</if>
+		
+		
+	</select>
+	
+	<select id="ajaxAnnoJobSearch" resultMap="annoMap">
+		SELECT
+		B.COM_ID,
+		avg(c.review_score) as review_score,
+		avg(c.review_vision) as review_vision,
+		avg(c.review_balance) as review_balance,
+		avg(c.review_welfare) as review_welfare,
+		b.anno_id,
+		b.anno_title,
+		b.anno_startDate,
+		b.anno_endDate,
+		b.anno_ud,
+		b.anno_jo,
+		b.anno_mb,
+		b.ANNO_DM1,
+		a.company_logo,
+		a.company_name,
+		a.company_main
+
+		from company a, announcement b, review c
+		where a.company_id=b.com_id
+		and b.com_id = c.com_id
+
+		<if test="searchList.size>1">
+			and b.ANNO_DM1 in
+
+			<foreach item="item" index="index" collection="searchList"
+				separator="," open="(" close=")">
+				#{item}
+			</foreach>
+		</if>
+
+		group by
+		B.COM_ID,
+		b.anno_id,
+		b.anno_title,
+		b.anno_startDate,
+		b.anno_endDate,
+		b.anno_ud,
+		b.anno_jo,
+		b.anno_mb,
+		b.ANNO_DM1,
+		a.company_logo,
+		a.company_name,
+		a.company_main
+		
+		<if test="searchList[0]=='new'">
+		order by anno_startDate desc
+		</if>
+		
+		<if test="searchList[0]=='score'">
+		order by review_score desc
+		</if>
+		
+		
+	</select>
+	
+	<select id="selectAnnoList" resultType="annoVO">
+	select 
+	anno_id,
+	anno_title,
+	anno_enddate,
+	anno_mb,
+	anno_ud,
+	anno_salary
+	from announcement
+	
+	</select>
+	
+	<resultMap type="memberVO" id="memberMap">
+		<id property="annoId" column="ANNO_ID"/>
+		<id property="applyId" column="APPLY_ID"/>
+		<id property="memId" column="MEM_ID"/>
+		<result property="companyId" column="COMPANY_ID"/>
+		<result property="memPw" column="MEM_PW"/>
+		<result property="memName" column="MEM_NAME"/>
+		<result property="memNick" column="MEM_NICK"/>
+		<result property="memBirth" column="MEM_BIRTH"/>
+		<result property="memGender" column="MEM_GENDER"/>
+		<result property="memZip" column="MEM_ZIP"/>
+		<result property="memAddr1" column="MEM_ADDR1"/>
+		<result property="memAddr2" column="MEM_ADDR2"/>
+		<result property="memEmail" column="MEM_EMAIL"/>
+		<result property="memTel" column="MEM_TEL"/>
+		<result property="memMsn" column="MEM_MSN"/>
+		<result property="memEmailApp" column="MEM_EMAIL_APP"/>
+		<result property="memApp" column="MEM_APP"/>
+		<result property="memStart" column="MEM_START"/>
+		<result property="memStatus" column="MEM_STATUS"/>
+		<result property="memEnd" column="MEM_END"/>
+		<collection property="applyList" resultMap="applyMap"/>
+		<collection property="annoList" resultMap="annoMap"/>
+		<collection property="resumeList" resultMap="resumeMap"/>
+		<collection property="activityList" resultMap="activityMap"/>
+		<collection property="awardList" resultMap="awardMap"/>
+		<collection property="careerList" resultMap="careerMap"/>
+		<collection property="certList" resultMap="certMap"/>
+		<collection property="desiredList" resultMap="desiredMap"/>
+		<collection property="eduList" resultMap="eduMap"/>
+		<collection property="prfrnList" resultMap="prfrnMap"/>
+		<collection property="langList" resultMap="langMap"/>
+		<collection property="skillList" resultMap="skillMap"/>
+		<collection property="portfolioList" resultMap="portfolioMap"/>
+		<collection property="workfieldList" resultMap="workfieldMap"/>
+		
+	</resultMap>
+	
+	<resultMap type="applyVO" id="applyMap">
+		<id property="applyId" column="APPLY_ID"/>
+		<result property="applyStart" column="APPLY_START"/>
+		<result property="applyUpdate" column="APPLY_UPDATE"/>
+		<result property="applyDelete" column="APPLY_DELETE"/>
+		<result property="applyTotal" column="APPLY_TOTAL"/>
+		<result property="applyResult" column="APPLY_RESULT"/>
+		<result property="applyResultDate" column="APPLY_RESULT_DATE"/>
+		<result property="applyResultComment" column="APPLY_RESULT_COMMENT"/>
+		<result property="memId" column="MEM_ID"/>
+		<result property="annoId" column="ANNO_ID"/>
+		<result property="resumeNum" column="RESUME_NUM"/>
+		<result property="covltrItemId" column="INTRO_ID"/>
+		<result property="CompanyId" column="COMPANY_ID"/>
+		<result property="applyStatus" column="APPLY_STATUS"/>
+		<result property="applySchool" column="APPLY_SCHOOL"/>
+		<result property="applySkill" column="APPLY_SKILL"/>
+		<result property="applyCareer" column="APPLY_CAREER"/>
+		<result property="applyLicense" column="APPLY_LICENSE"/>
+		<result property="applyLanguage" column="APPLY_LANGUAGE"/>
+		<result property="applyActivities" column="APPLY_ACTIVITIES"/>
+		<result property="applyPortfolio" column="APPLY_PORTFOLIO"/>
+		<result property="applyPoint" column="APPLY_POINT"/>
+		
+		
+	
+	</resultMap>
+	
+	
+	<resultMap type="resumeVO" id="resumeMap">
+		<id property="resumeId" column="resume_id"/>
+		<result property="resumeId" column="resume_id"/>
+		<result property="resumeTitle" column="resume_title"/>
+		<result property="resumeStatus" column="resume_status"/>
+		<result property="resumeRepresentative" column="resume_representative"/>
+		<result property="resumePhoto" column="resume_photo"/>
+	</resultMap>
+	
+	<resultMap type="activityVO" id="activityMap">
+		<result property="actId" column="act_id"/>
+		<result property="actContent" column="act_content"/>
+		<result property="actCategory" column="act_category"/>
+		<result property="actInstitution" column="act_institution"/>
+		<result property="actStart" column="act_start"/>
+		<result property="actEnd" column="act_end"/>
+		<result property="attId" column="att_id"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="awardVO" id="awardMap">
+		<result property="awardId" column="award_id"/>
+		<result property="awardName" column="award_name"/>
+		<result property="awardContent" column="award_content"/>
+		<result property="awardCategory" column="award_category"/>
+		<result property="awardDate" column="award_date"/>
+		<result property="awardInstitution" column="award_institution"/>
+		<result property="attId" column="att_id"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="careerVO" id="careerMap">
+		<result property="careerId" column="career_id"/>
+		<result property="careerCategory" column="career_category"/>
+		<result property="careerCmpName" column="career_cmp_name"/>
+		<result property="careerCmpDprtm" column="career_cmp_dprtm"/>
+		<result property="careerWorkfield" column="career_workfield"/>
+		<result property="careerDuties" column="career_duties"/>
+		<result property="careerPosition" column="career_position"/>
+		<result property="careerJoinDate" column="career_join_date"/>
+		<result property="careerResignDate" column="career_resign_date"/>
+		<result property="careerSalary" column="career_salary"/>
+		<result property="attId" column="att_id"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="certificationVO" id="certMap">
+		<result property="certId" column="cert_id"/>
+		<result property="certName" column="cert_name"/>
+		<result property="certDate" column="cert_date"/>
+		<result property="certInstitution" column="cert_institution"/>
+		<result property="attId" column="att_id"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="desiredVO" id="desiredMap">
+		<result property="desiredId" column="desired_id"/>
+		<result property="desiredEmplForm" column="desired_empl_form"/>
+		<result property="desiredSalary" column="desired_salary"/>
+		<result property="desiredCity1" column="desired_city1"/>
+		<result property="desiredCity2" column="desired_city2"/>
+		<result property="desiredIndustry1" column="desired_industry1"/>
+		<result property="desiredIndustry2" column="desired_industry2"/>
+		<result property="desiredIndustry3" column="desired_industry3"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="educationVO" id="eduMap">
+		<result property="eduId" column="edu_id"/>
+		<result property="eduMajor1" column="edu_major1"/>
+		<result property="eduMajor2" column="edu_major2"/>
+		<result property="eduSchoolName" column="edu_school_name"/>
+		<result property="eduStart" column="edu_start"/>
+		<result property="eduEnd" column="edu_end"/>
+		<result property="eduScore" column="edu_score"/>
+		<result property="eduScoreStandard" column="edu_score_standard"/>
+		<result property="eduStatus" column="edu_status"/>
+		<result property="eduSchoolType" column="edu_school_type"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="prfrnVO" id="prfrnMap">
+		<result property="prfrnId" column="prfrn_id"/>
+		<result property="prfrnVeterans" column="prfrn_veterans"/>
+		<result property="prfrnSubsidy" column="prfrn_subsidy"/>
+		<result property="prfrnDisability" column="prfrn_disability"/>
+		<result property="prfrnMilitary" column="prfrn_military"/>
+		<result property="prfrnProtection" column="prfrn_protection"/>
+		<result property="prfrnDisabilityGrade" column="prfrn_disability_grade"/>
+		<result property="prfrnMilitaryType" column="prfrn_military_type"/>
+		<result property="prfrnMilitaryStart" column="prfrn_military_start"/>
+		<result property="prfrnMilitaryEnd" column="prfrn_military_end"/>
+		<result property="prfrnMilitaryBranch" column="prfrn_military_branch"/>
+		<result property="prfrnMilitaryRank" column="prfrn_military_rank"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="languageVO" id="langMap">
+		<result property="langId" column="lang_id"/>
+		<result property="langName" column="lang_name"/>
+		<result property="langTestName" column="lang_test_name"/>
+		<result property="langTestDate" column="lang_test_date"/>
+		<result property="langTestScore" column="lang_test_score"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="skillVO" id="skillMap">
+		<result property="skillId" column="skill_id"/>
+<!-- 		<result property="skill1" column="skill1"/> -->
+<!-- 		<result property="skill2" column="skill2"/> -->
+<!-- 		<result property="skill3" column="skill3"/> -->
+<!-- 		<result property="skill4" column="skill4"/> -->
+<!-- 		<result property="skill5" column="skill5"/> -->
+		<result property="skillName" column="skill_name"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="portfolioVO" id="portfolioMap">
+		<result property="portfolioId" column="portfolio_id"/>
+		<result property="portfolioUrl" column="portfolio_url"/>
+		<result property="attId" column="att_id"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="workfieldVO" id="workfieldMap">
+		<result property="workfieldId" column="workfield_id"/>
+		<result property="workfield1" column="workfield1"/>
+		<result property="workfield2" column="workfield2"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+	
+	<select id="detailMem" parameterType="String" resultMap="memberMap">
+	  SELECT 
+			a.resume_id, a.resume_title, a.resume_status, a.resume_representative, a.mem_id, a.resume_photo,
+			b.act_id, b.act_content, b.act_category, b.act_institution, b.act_start, b.act_end, b.att_id,
+			c.award_id, c.award_name, c.award_content, c.award_date, c.award_institution,
+			d.career_id, d.career_category, d.career_cmp_name, d.career_cmp_dprtm, d.career_workfield, d.career_duties, d.career_position, d.career_join_date, d.career_resign_date, d.career_salary, d.att_id,
+			e.cert_id, e.cert_name, e.cert_date, e.cert_institution, e.att_id,
+			f.desired_id, f.desired_empl_form, f.desired_salary, f.desired_city1, f.desired_city2, f.desired_industry1, f.desired_industry2, f.desired_industry3, 
+			g.edu_id, g.edu_major1, g.edu_major2, g.edu_school_name, g.edu_start, g.edu_end, g.edu_score, g.edu_score_standard, g.edu_status, g.edu_school_type,
+			h.prfrn_id, h.prfrn_veterans, h.prfrn_subsidy, h.prfrn_disability, h.prfrn_military, h.prfrn_protection, h.prfrn_disability_grade, h.prfrn_military_type, h.prfrn_military_start, h.prfrn_military_end, h.prfrn_military_branch, h.prfrn_military_rank,
+			i.lang_id, i.lang_name, i.lang_test_name, i.lang_test_date, i.lang_test_score,
+			j.skill_id, j.skill_Name, 
+			k.portfolio_id, k.portfolio_url, k.att_id,
+			l.workfield_id, l.workfield1, l.workfield2,
+			m.MEM_ID,m.MEM_name,m.MEM_BIRTH,m.MEM_GENDER,m.MEM_ZIP,m.MEM_ADDR1,m.MEM_ADDR2,m.MEM_EMAIL,m.MEM_TEL,m.MEM_EMAIL_APP,m.MEM_FREE,m.MEM_MSN
+		FROM resume a
+		LEFT OUTER JOIN activity b ON a.resume_id = b.resume_id 
+		LEFT OUTER JOIN award c ON a.resume_id = c.resume_id
+		LEFT OUTER JOIN career d ON a.resume_id = d.resume_id
+		LEFT OUTER JOIN certification e ON a.resume_id = e.resume_id
+		LEFT OUTER JOIN desired_empl f ON a.resume_id = f.resume_id
+		LEFT OUTER JOIN education g ON a.resume_id = g.resume_id
+		LEFT OUTER JOIN employment_preferences h ON a.resume_id = h.resume_id
+		LEFT OUTER JOIN language i ON a.resume_id = i.resume_id
+		LEFT OUTER JOIN skill j ON a.resume_id = j.resume_id
+		LEFT OUTER JOIN portfolio k ON a.resume_id = k.resume_id
+		LEFT OUTER JOIN workfield l ON a.resume_id = l.resume_id
+		left outer join member m on a.mem_id = m.mem_id
+		WHERE m.MEM_STATUS =1 and RESUME_REPRESENTATIVE = 1
+        and m.mem_id = #{memId}
+		ORDER BY a.resume_id DESC 	 
+	</select>
+	
+	<update id="updateApply" parameterType="applyVO">
+		update apply set 
+		APPLY_RESULT = #{applyResult},
+		APPLY_RESULT_DATE  = sysdate,
+		APPLY_RESULT_COMMENT = #{applyResultComment},
+		APPLY_SCHOOL = #{applySchool},
+		APPLY_SKILL = #{applySkill},
+		APPLY_CAREER = #{applyCareer},
+		APPLY_LICENSE = #{applyLicense},
+		APPLY_LANGUAGE = #{applyLanguage},
+		APPLY_ACTIVITIES = #{applyActivities},
+		APPLY_PORTFOLIO = #{applyPortfolio},
+		APPLY_POINT = #{applyPoint},
+		APPLY_TOTAL = (#{applySchool}+#{applySkill}+#{applyCareer}+#{applyLicense}+#{applyLanguage}+#{applyActivities}+#{applyPortfolio}+#{applyPoint})/8,
+		APPLY_STATUS  = 2
+		where APPLY_ID = #{applyId}
+		
+	</update>
+	
+	
+	<select id="detailMemInt" parameterType="int" resultMap="memberMap">
+	  SELECT 
+			a.resume_id, a.resume_title, a.resume_status, a.resume_representative, a.mem_id, a.resume_photo,
+			b.act_id, b.act_content, b.act_category, b.act_institution, b.act_start, b.act_end, b.att_id,
+			c.award_id, c.award_name, c.award_content, c.award_date, c.award_institution,
+			d.career_id, d.career_category, d.career_cmp_name, d.career_cmp_dprtm, d.career_workfield, d.career_duties, d.career_position, d.career_join_date, d.career_resign_date, d.career_salary, d.att_id,
+			e.cert_id, e.cert_name, e.cert_date, e.cert_institution, e.att_id,
+			f.desired_id, f.desired_empl_form, f.desired_salary, f.desired_city1, f.desired_city2, f.desired_industry1, f.desired_industry2, f.desired_industry3, 
+			g.edu_id, g.edu_major1, g.edu_major2, g.edu_school_name, g.edu_start, g.edu_end, g.edu_score, g.edu_score_standard, g.edu_status, g.edu_school_type,
+			h.prfrn_id, h.prfrn_veterans, h.prfrn_subsidy, h.prfrn_disability, h.prfrn_military, h.prfrn_protection, h.prfrn_disability_grade, h.prfrn_military_type, h.prfrn_military_start, h.prfrn_military_end, h.prfrn_military_branch, h.prfrn_military_rank,
+			i.lang_id, i.lang_name, i.lang_test_name, i.lang_test_date, i.lang_test_score,
+			j.skill_id, j.skill_name, 
+			k.portfolio_id, k.portfolio_url, k.att_id,
+			l.workfield_id, l.workfield1, l.workfield2,
+			m.MEM_ID,m.MEM_name,m.MEM_BIRTH,m.MEM_GENDER,m.MEM_ZIP,m.MEM_ADDR1,m.MEM_ADDR2,m.MEM_EMAIL,m.MEM_TEL,m.MEM_EMAIL_APP,m.MEM_FREE,m.MEM_MSN
+		FROM resume a
+		LEFT OUTER JOIN activity b ON a.resume_id = b.resume_id 
+		LEFT OUTER JOIN award c ON a.resume_id = c.resume_id
+		LEFT OUTER JOIN career d ON a.resume_id = d.resume_id
+		LEFT OUTER JOIN certification e ON a.resume_id = e.resume_id
+		LEFT OUTER JOIN desired_empl f ON a.resume_id = f.resume_id
+		LEFT OUTER JOIN education g ON a.resume_id = g.resume_id
+		LEFT OUTER JOIN employment_preferences h ON a.resume_id = h.resume_id
+		LEFT OUTER JOIN language i ON a.resume_id = i.resume_id
+		LEFT OUTER JOIN skill j ON a.resume_id = j.resume_id
+		LEFT OUTER JOIN portfolio k ON a.resume_id = k.resume_id
+		LEFT OUTER JOIN workfield l ON a.resume_id = l.resume_id
+		left outer join member m on a.mem_id = m.mem_id
+		WHERE m.MEM_STATUS =1 and RESUME_REPRESENTATIVE = 1
+        and a.resume_id = #{resumeId}
+			 
+	</select>
+	
+	<update id="updateApplyResult" parameterType="evaluationVO" >
+		update apply set
+			apply_result = #{applyResult},
+			apply_status = 3
+		where apply_id = #{applyId}
+	</update>
+	
+	<select id="getReviewAll" resultType="reviewVO">
+	select
+		a.REVIEW_ID
+		, a.MEM_ID
+		, a.COM_ID
+		, a.REVIEW_COMENT
+		, a.REVIEW_GOOD
+		, a.REVIEW_START
+		, a.REVIEW_UPDATE
+		, a.REVIEW_HIT
+		, a.REVIEW_BAD
+		, a.REVIEW_SCORE
+		, a.REVIEW_VISION
+		, a.REVIEW_WELFARE
+		, a.REVIEW_BALANCE
+		, a.REVIEW_CULTURE
+		, a.REVIEW_MANAGE
+        , B.COMPANY_NAME
+        
+        
+		from review a 
+        left outer join company b on (a.com_id = B.COMPANY_ID)
+	
+	
+	</select>
+	
+	
+	<select id="adList" parameterType="String" resultType="prodVO">
+	select * from prod where COMPANY_ID = #{companyId}
+	</select>
+	
+	
+	<select id="selectApplyMemList" parameterType="int" resultType="memberVO">
+	select 
+	    count(case when a.mem_gender = 'female'then 1 end ) as female_cnt,
+	    count(case when a.mem_gender = 'male' then 1 end ) as male_cnt,
+	    count(case when trunc(months_between(sysdate,a.mem_birth))/12 BETWEEN 0 AND 25 then 1 end) as two_cnt,
+	    count(case when trunc(months_between(sysdate,a.mem_birth))/12 BETWEEN 25 AND 39 then 1 end) as three_cnt,
+	    count(case when trunc(months_between(sysdate,a.mem_birth))/12 BETWEEN 39 AND 49 then 1 end) as four_cnt,
+	    count(case when trunc(months_between(sysdate,a.mem_birth))/12 BETWEEN 50 AND 200 then 1 end) as five_cnt
+	from apply b,member a
+	where b.anno_id = #{annoId} 
+	and a.mem_id = b.mem_id
+	</select>
+	
+	<select id="selectApplyMemId" parameterType="HashMap" resultType="memberVO">
+		select mem_id from apply 
+		where mem_id = #{memId}
+		and anno_id = #{annoId}
+	
+	</select>
+	
+	<select id="getAvgPay" parameterType="String" resultType="HashMap">
+		SELECT
+		    avg
+		(company_person) as avgpay FROM company
+		where company_main = #{companyMain}
+	</select>
+	
+	<select id="getComMemList" parameterType="String" resultType="memberVO">
+		select 
+			a.mem_id , 
+			a.mem_name 
+		from member a, company b
+		where a.company_id = b.company_id
+		and b.company_name = #{companyName}
+		
+	
+	</select>
+	
+	<select id="getApplyMemList" parameterType="String" resultType="memberVO">
+		select  
+			 c.mem_name,
+			 a.mem_id, 
+			 a.company_id 
+		from apply a, company b, member c 
+		where b.company_id = a.company_id
+		and c.mem_id = a.mem_id
+		and b.company_name = #{companyName}
+	
+	</select>
+	
+	
+	
+	
+</mapper>
+

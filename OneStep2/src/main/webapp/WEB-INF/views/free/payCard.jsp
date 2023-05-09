@@ -1,0 +1,107 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<div class="layout-px-spacing " style="margin-top: 3%">
+	<div class="row layout-spacing layout-top-spacing" id="cancel-row">
+		<div class="col-lg-12">
+			<div class="col-12" style="margin: 0 auto;">
+				<h1
+					style="background-color: #4165a7; text-align: center; color: white; font: bold; height: 80px; line-height: 80px;">프리랜서
+					관리서비스</h1>
+				<br> 
+				<c:if test="${member.memEnd eq 'N' }">
+				<a href="/free/pay" class="btn btn-soft-primary btn-rounded"
+					style="float: right; width: 200px;">관리 서비스 이용하기 </a> 
+				</c:if>	
+					<br> <br>
+				<br>
+
+				<div class="statbox widget box box-shadow">
+
+					<div
+						class="widget-content widget-content-area icon-accordion-content">
+						<div class="link-accordion" id="accordionExample">
+							<div class="card">
+								<div class="card-header" id="headingOne">
+									<h3 class="mb-0 p-3 d-flex">
+										<a data-toggle="collapse" data-target="#collapseOne"
+											aria-expanded="true" aria-controls="collapseOne"> 관리서비스란
+											무엇인가요 ? </a>
+									</h3>
+								</div>
+								<div id="collapseOne" class="collapse show"
+									aria-labelledby="headingOne" data-parent="#accordionExample">
+									<div class="card-body">
+										<h4>
+											너무 바빠서 업무를 혼자 처리하기 어려운 분들 <br> 프리랜서 전문 매니지먼트가 필요하신 분들 <br>
+											멋진 프리랜서로 성공하고 싶은 분들을 위한 프리랜서 맞춤 관리 서비스입니다
+										</h4>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header" id="headingTwo">
+									<h3 class="mb-0 p-3 d-flex">
+										<a class="collapsed" data-toggle="collapse"
+											data-target="#collapseTwo" aria-expanded="false"
+											aria-controls="collapseTwo"> 관리서비스는 어떤 서비스를 지원해주나요? </a>
+									</h3>
+								</div>
+								<div id="collapseTwo" class="collapse show"
+									aria-labelledby="headingTwo" data-parent="#accordionExample">
+									<div class="card-body">
+										<h4>
+											건강검진 세무관리 재무관리 법률 관리를 한번에 ! <br> 오직 프리랜서만을 위한 통합 서포팅 서비스<br>
+											번거롭게 찾을 필요없이 한번에 이용해보세요. <br>연간 멤버십 서비스로 편리하게 이용할 수
+											있습니다.<br> <br> 종합소득세 신고, 세무 상담 : 프리랜서, 1인 사업자를 위한
+											종합소득세 신고, 세무상담<br> 종합 건강검진 : 프리랜서의 건강을 지키는 종합건강검진 <br>
+											종합 자산관리 : 프리랜서의 불규칙한 수입 관리를 위한 종합재무설계<br> 표준계약서, 법률상담 :
+											프리랜서에게 꼭 필요한 계약서 및 법률상담 <br>
+										</h4>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header" id="headingThree">
+									<h3 class="mb-0 p-3 d-flex">
+										<a class="collapsed" data-toggle="collapse"
+											data-target="#collapseThree" aria-expanded="false"
+											aria-controls="collapseThree"> 어떻게 진행이 되나요? </a>
+									</h3>
+								</div>
+								<div id="collapseThree" class="collapse show"
+									aria-labelledby="headingThree" data-parent="#accordionExample">
+									<div class="card-body">
+										<h4>
+											STEP 1. 프로젝트 매칭 <br> 프로젝트에 직접 매칭 요청 or 매칭 매니저의 매칭 제안에
+											수락해주세요 <br> STEP 2. 지원서 검토 후 회신 <br> 클라이언트의 지원서 검토
+											후 미팅 진행 여부를 안내드려요. <br> STEP 3. 미팅 및 계약 <br>
+											클라이언트와의 미팅 및 안전한 계약 진행을 도와드려요. <br>
+										</h4>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header" id="headingfour">
+									<h3 class="mb-0 p-3 d-flex">
+										<a class="collapsed" data-toggle="collapse"
+											data-target="#headingfour" aria-expanded="false"
+											aria-controls="collapseThree"> 서비스는 이용기간이 어떻게 되나요? </a>
+									</h3>
+								</div>
+								<div id="headingfour" class="collapse show"
+									aria-labelledby="headingfour" data-parent="#accordionExample">
+									<div class="card-body">
+										<h4 style="font: bold;">ONESTEP에서는 서비스 이용기간을  1년 간 이용할 수 있습니다.</h4>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

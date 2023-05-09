@@ -1,0 +1,17 @@
+package kr.or.ddit.board.service;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import kr.or.ddit.vo.GoodVO;
+
+public interface IGoodService {
+
+//	public void insertGood(GoodVO goodVO);
+	public int likeUp(GoodVO goodVO);
+	public void likeDown(GoodVO goodVO);
+	public GoodVO findLike(int boardId, String memId);
+
+	
+
+}

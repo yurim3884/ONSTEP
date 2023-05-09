@@ -1,0 +1,21 @@
+package kr.or.ddit.manager.vo;
+
+import java.util.Date;
+import java.util.List;
+
+import kr.or.ddit.vo.AttVO;
+import lombok.Data;
+
+@Data
+public class ManageVO {
+
+	private int manageNum;
+	private String manageName;
+	private String manageContent;
+	private String manageService;
+	private Date manageDay;
+	private String memId;
+	private String manageId;
+	
+	private List<AttVO> manageFile;
+}

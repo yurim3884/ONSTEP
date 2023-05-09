@@ -1,0 +1,56 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!--  Navbar Starts  -->
+ <div class="header-container fixed-top">
+        <header class="header navbar navbar-expand-sm">
+            <ul class="navbar-item flex-row ml-md-0 ml-auto pl-3">
+<!--                 <li class="nav-item align-self-center search-animated"> -->
+<!--                     <i class="las la-search toggle-search"></i> -->
+<!--                     <form class="form-inline search-full form-inline search" action="pages_search_result.html" role="search"> -->
+<!--                         <div class="search-bar"> -->
+<!--                             <input type="text" class="form-control search-form-control  ml-lg-auto" placeholder="Search here"> -->
+<!--                         </div> -->
+<!--                     </form> -->
+<!--                 </li> -->
+            </ul>
+            <ul class="navbar-item flex-row ml-md-auto">
+                <li class="nav-item dropdown fullscreen-dropdown d-none d-lg-flex">
+                    <a class="nav-link full-screen-mode" href="javascript:void(0);">
+                        <i class="las la-compress" id="fullScreenIcon"></i>
+                    </a>
+                </li>
+                <li class="nav-item dropdown language-dropdown">
+                    <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="language-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="las la-language"></i>
+                    </a>
+                    <div class="dropdown-menu position-absolute" aria-labelledby="language-dropdown">
+                        <a class="dropdown-item d-flex" href="javascript:void(0);">
+                            <img src="${pageContext.request.contextPath }/resources/assets/img/flag/usa-flag.png" class="flag-width" alt="flag"> 
+                            <span class="align-self-center">&nbsp;English</span>
+                        </a>
+                        <a class="dropdown-item d-flex" href="javascript:void(0);">
+                            <img src="${pageContext.request.contextPath }/resources/assets/img/flag/spain-flag.png" class="flag-width" alt="flag"> 
+                            <span class="align-self-center">&nbsp;Spanish</span>
+                        </a>
+                        <a class="dropdown-item d-flex" href="javascript:void(0);">
+                            <img src="${pageContext.request.contextPath }/resources/assets/img/flag/france-flag.png" class="flag-width" alt="flag"> 
+                            <span class="align-self-center">&nbsp;French</span>
+                        </a>
+                        <a class="dropdown-item d-flex" href="javascript:void(0);">
+                            <img src="${pageContext.request.contextPath }/resources/assets/img/flag/saudi-arabia-flag.png" class="flag-width" alt="flag"> 
+                            <span class="align-self-center">&nbsp;Arabic</span>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-item flex-row">
+                <li class="nav-item dropdown header-setting">
+                    <a href="javascript:void(0);" class="nav-link dropdown-toggle rightbarCollapse" data-placement="bottom">
+                        <i class="las la-sliders-h"></i>
+                    </a>
+                </li>
+            </ul>
+            
+                     
+        </header>
+    </div>
+    <!--  Navbar Ends  -->

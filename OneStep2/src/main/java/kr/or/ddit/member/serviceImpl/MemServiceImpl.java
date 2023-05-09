@@ -1,0 +1,194 @@
+package kr.or.ddit.member.serviceImpl;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.company.vo.CompanyVO;
+import kr.or.ddit.mapper.MemMapper;
+import kr.or.ddit.member.service.IMemService;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.member.vo.SupportVO;
+import kr.or.ddit.myPage.vo.CoverletterItemVO;
+import kr.or.ddit.myPage.vo.CoverletterVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.vo.ApplyVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+
+
+
+@Service
+public class MemServiceImpl implements IMemService {
+
+	@Inject
+	private MemMapper memMapper;
+	
+	
+	
+	
+	@Override
+	public int join(MemberVO vo) {
+		System.out.println("12312 :"+vo);
+		return memMapper.join(vo);
+	}
+
+
+
+
+	@Override
+	public int companyJoin(MemberVO vo) {
+		// TODO Auto-generated method stub
+		return memMapper.companyJoin(vo);
+	}
+
+
+
+
+	@Override
+	public MemberVO memCheck(String memId) {
+		// TODO Auto-generated method stub
+		return memMapper.memCheck(memId);
+	}
+
+
+
+
+	@Override
+	public MemberVO idForget(MemberVO vo) {
+		// TODO Auto-generated method stub
+		return memMapper.idForget(vo);
+	}
+
+
+
+
+	@Override
+	public MemberVO pwForget(MemberVO vo) {
+		// TODO Auto-generated method stub
+		return memMapper.pwForget(vo);
+	}
+
+
+
+
+	@Override
+	public void changePw(MemberVO vo) {
+		 memMapper.changePw(vo);
+	}
+
+
+
+
+	@Override
+	public void changeInfo(MemberVO vo) {
+		memMapper.changeInfo(vo);
+	}
+
+
+
+
+	@Override
+	public void insertSupport(SupportVO supVO) {
+		// TODO Auto-generated method stub
+		memMapper.insertSupport(supVO);
+	}
+
+
+
+
+	@Override
+	public void delSupport(SupportVO supVO) {
+		// TODO Auto-generated method stub
+		memMapper.delSupport(supVO);
+	}
+
+
+
+
+	@Override
+	public List<SupportVO> getSupportList(String memId) {
+		// TODO Auto-generated method stub
+		return memMapper.getSupportList(memId);
+	}
+
+
+
+
+	@Override
+	public List<ResumeVO> selectResume(String memId) {
+		return memMapper.selectResume(memId);
+	}
+
+
+
+
+	@Override
+	public List<CoverletterVO> selectCoverletter(String memId) {
+		return memMapper.selectCoverletter(memId);
+	}
+
+
+
+
+	@Override
+	public void insertApply(ApplyVO applyVO) {
+		memMapper.insertApply(applyVO);
+	}
+
+
+
+	@Override
+	public List<ResumeVO> matchingResumeList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return memMapper.matchingResumeList(map);
+	}
+
+
+
+
+	@Override
+	public int cntApply(String memId) {
+		// TODO Auto-generated method stub
+		return memMapper.cntApply(memId);
+	}
+
+
+
+
+	@Override
+	public int cntPropo(String memId) {
+		// TODO Auto-generated method stub
+		return memMapper.cntPropo(memId);
+	}
+
+
+
+
+	@Override
+	public int cntResume(String memId) {
+		// TODO Auto-generated method stub
+		return memMapper.cntResume(memId);
+	}
+
+
+
+
+	@Override
+	public List<CompanyVO> getSupportComList(String memId) {
+		// TODO Auto-generated method stub
+		return memMapper.getSupportComList(memId);
+	}
+
+
+
+//
+//	@Override
+//	public MemberVO checkPw(String memId) {
+//		// TODO Auto-generated method stub
+//		return memMapper.checkPw(memId);
+//	}
+	
+}

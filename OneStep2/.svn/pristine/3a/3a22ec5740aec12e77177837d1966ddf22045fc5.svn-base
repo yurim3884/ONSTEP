@@ -1,0 +1,168 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!--  Sidebar Starts  -->
+<div class="sidebar-wrapper sidebar-theme">
+    <div>
+        <div class="sc-container">
+        </div>
+        <a href="javascript:void(0);" class="sidebarCollapse" data-placement="bottom">
+            <i class="las la-angle-left"></i>
+        </a>
+    </div>
+    <nav id="sidebar">
+        <ul class="navbar-item theme-brand flex-row  text-center">
+            <li class="nav-item theme-logo">
+                <a href="index.html">
+                    <img src="${pageContext.request.contextPath }/resources/assets/img/onestep.png" class="navbar-logo" alt="logo">
+                </a>
+            </li>
+            <li class="nav-item theme-text">
+                <a href="/member/main" class="nav-link"> ONESTEP </a>
+            </li>
+        </ul>
+        <ul class="list-unstyled menu-categories" id="accordionExample">
+            <li class="menu">
+                <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <div class="a">
+                        <i class="las la-home"></i>
+                        <span OnClick="location.href='/myPage/main'">MY HOME</span>
+                    </div>
+                    <div>
+                    </div>
+                </a>
+            </li>
+            
+            <li class="menu">
+                <a href="#app"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i class="lab la-medapps"></i>
+                        <span OnClick="location.href='/myPage/notification'">알림</span>
+                        <span class="menu-badge badge-danger">New</span>
+                    </div>
+                    <div>
+                    </div>
+                </a>
+            <li class="menu">
+                <a href="#authentication" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i class="lab la-medapps"></i>
+                        <span OnClick="location.href='/myPage/memInfo'">개인정보수정</span>
+                    </div>
+                </a>
+            </li>
+             <li class="menu-title"></li>
+            <li class="menu">
+                <a href="#components" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i class="las la-drafting-compass"></i>
+                        <span OnClick="location.href=">이력서</span>
+                    </div>
+                    <div>
+                        <i class="las la-angle-right sidemenu-right-icon"></i>
+                    </div>
+                </a>
+                <ul class="collapse submenu list-unstyled" id="components" data-parent="#accordionExample">
+                    <li>
+                        <a href="/myPage/resume/insert">이력서 등록</a>
+                    </li>
+                    <li>
+                        <a href="/myPage/resume/list"> 이력서 관리 </a>
+                    </li>
+                    <li>
+                        <a href="/myPage/resume/items"> 이력서 항목별 관리 </a>
+                    </li>
+                    </ul>
+                    </li>
+            
+                   
+                    
+                    <li class="menu">
+                <a href="#maps" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i class="las la-drafting-compass"></i>
+                        <span OnClick="location.href=">자기소개서</span>
+                    </div>
+                    <div>
+                        <i class="las la-angle-right sidemenu-right-icon"></i>
+                    </div>
+                </a>
+                <ul class="collapse submenu list-unstyled" id="maps" data-parent="#accordionExample">
+                    <li>
+                        <a href="/myPage/coverletter/insert">자기소개서 등록</a>
+                    </li>
+                    <li>
+                        <a href="/myPage/coverletter/items"> 자기소개서 항목 관리 </a>
+                    </li>
+                    <li>
+                        <a href="/myPage/coverletter/list"> 자기소개서 목록 </a>
+                    </li>
+                    </ul>
+                    </li>
+ 		<li class="menu-title"></li>
+            <li class="menu">
+                <a href="#pages" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i class="las la-file"></i>
+                        <span OnClick="location.href='#'">프리미엄</span>
+                    </div>
+            </li>
+            <li class="menu-title"></li>
+                <li class="menu">
+                <a href="#elements" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i class="las la-drafting-compass"></i>
+                        <span>받은 제안</span>
+                    </div>
+                    <div>
+                        <i class="las la-angle-right sidemenu-right-icon"></i>
+                    </div>
+                </a>
+                <ul class="collapse submenu list-unstyled" id="elements" data-parent="#accordionExample">
+                    <li>
+                        <a href="#">이력서 열람 현황</a>
+                    </li>
+                    <li>
+                        <a href="#"> 제안받기 설정 </a>
+                    </li>
+                    </ul>
+                    </li>
+            <li class="menu">
+                <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i class="las la-drafting-compass"></i>
+                        <span>지원내역</span>
+                    </div>
+                    <div>
+                        <i class="las la-angle-right sidemenu-right-icon"></i>
+                    </div>
+                </a>
+                <ul class="collapse submenu list-unstyled" id="forms" data-parent="#accordionExample">
+                    <li>
+                        <a href="basic_ui_dragitems.html">입사 지원 현황</a>
+                    </li>
+                    <li>
+                        <a href="basic_ui_accordion.html"> 구직활동 확인서  </a>
+                    </li>
+                </ul>
+            </li>
+ 		<li class="menu">
+                <a href="#app"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i class="lab la-medapps"></i>
+                        <span OnClick="location.href='#'">스크랩 /관심기업</span>
+                    </div>
+                    <div>
+                    </div>
+                </a>
+ 		<li class="menu">
+                <a href="#app"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i class="lab la-medapps"></i>
+                        <span OnClick="location.href='#'">면접 현황</span>
+                    </div>
+                    <div>
+                    </div>
+                </a>
+        </ul>
+    </nav>
+</div>
+<!--  Sidebar Ends  -->

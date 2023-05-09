@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.GoodMapper">
+
+	<select id="read" parameterType="HashMap" resultType="goodVO">
+		select good_num
+		  from good
+		 where board_id = #{boardId} and mem_id = #{memId}
+	</select>
+
+<!-- 좋아요 카운트 -->
+	<select id="countbyGood" parameterType="hashMap" resultType="int">
+		select count(good_num) as cnt
+		  from good
+		 where board_id= #{boardId} and mem_id = #{memId}
+	</select>
+
+	<insert id="create" parameterType="HashMap">
+		insert into good(
+			good_num, board_id, mem_id, good_check
+		)values(
+			(select NVL(MAX(good_num),0) + 1 as good_num from good)
+			,#{boardId}
+			,#{memId}
+			,0
+		)
+	</insert>
+
+	
+	<update id="good_check" parameterType="HashMap">
+	    UPDATE good
+	    SET good_check = good_check + 1 
+	    WHERE mem_id=#{memId} AND board_id=#{boardId}
+  	</update>
+  
+  
+	<update id="good_check_cancel" parameterType="HashMap">
+	    UPDATE good
+	    SET good_check = 0
+	    WHERE mem_id=#{memId} AND board_id=#{boardId}
+	</update>
+
+
+<!-- 	<delete id="deletebyBoardno" parameterType="int"> -->
+<!-- 	    DELETE FROM good -->
+<!-- 	    WHERE board_id=#{boardId} -->
+<!--  	</delete> -->
+  
+<!-- 	<delete id="deletebyMno" parameterType="int"> -->
+<!-- 		DELETE FROM good -->
+<!-- 		WHERE =#{mno} -->
+<!-- 	</delete> -->
+
+	<insert id="insert" parameterType="goodVO">
+		insert into good(
+			  good_id
+			, board_id
+			, mem_id
+			, good_check
+		)values(
+			  seq_goodid.nextval
+			, #{boardId}
+			, #{memId}
+			, #{goodCheck}
+		)
+	</insert>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,26 @@
+package kr.or.ddit.myPage.vo;
+
+import lombok.Data;
+
+@Data
+
+public class EmploymentPreferencesVO {
+	
+	/* 취업우대사항/병역 */
+	public int prfrnId;					// 우대사항ID
+	public String prfrnVeterans;		// 보훈대상
+	public String prfrnSubsidy;			// 고용지원금대상
+	public String prfrnDisability;		// 장애
+	public String prfrnMilitary;		// 병역
+	public String prfrnProtection;		// 취업보호대상
+	public String prfrnDisabilityGrade;	// 장애등급
+	public String prfrnMilitaryType;	// 병역구분
+	public String prfrnMilitaryStart;		// 입대일
+	public String prfrnMilitaryEnd;		// 제대일
+	public String prfrnMilitaryBranch;	// 군별
+	public String prfrnMilitaryRank;	// 제대계급
+	public String prfrnInsertDate;		// 작성날짜
+	public String prfrnDeleteDate;		// 삭제날짜
+	private int resumeId;				// 이력서번호
+	
+}

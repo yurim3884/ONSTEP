@@ -1,0 +1,22 @@
+package kr.or.ddit.manager.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping(value = "/manager")
+public class ManagerController {
+	
+	
+	@GetMapping("/main")
+	public String managerMain() {
+		return "manager/main";
+	}
+	
+	@GetMapping("/matching")
+	public String Matching(){
+		return "manager/matching";
+	}
+
+}

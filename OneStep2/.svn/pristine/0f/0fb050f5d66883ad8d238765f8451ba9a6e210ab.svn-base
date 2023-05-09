@@ -1,0 +1,21 @@
+.darkmode .table {
+    color: #ffffff;
+}
+.darkmode .widget-content-area {
+    background-color: #272727;
+}
+.darkmode .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #191919 !important;
+}
+.darkmode .table .thead-light th {
+    color: #ffffff;
+    background-color: #191919;
+}
+.darkmode .table > thead > tr > th {
+    color: #ffffff;
+}
+.darkmode .widget .dropdown-toggle {
+    border: 1px solid #272727;
+    background-color: #272727;
+    color: #ffffff !important;
+}

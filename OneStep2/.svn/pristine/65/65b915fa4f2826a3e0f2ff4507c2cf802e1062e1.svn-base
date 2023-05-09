@@ -1,0 +1,392 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
+<fmt:formatDate value="${now }" pattern="yyyy-MM-dd" var="today" />
+<div class="layout-px-spacing">
+	<div class="layout-top-spacing mb-2">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="container p-0">
+					<div class="row layout-top-spacing">
+						<div class="col-lg-12 layout-spacing">
+							<div class="statbox widget box box-shadow">
+								<div class="widget-content widget-content-area">
+									<div class="form-group row">
+										<div class="col-lg-12 col-md-12 col-sm-12">
+											<div class="card multiple-form-one px-0 pb-0 mb-3">
+												<h3 class="text-center">
+													<strong>공고 등록하기</strong>
+												</h3>
+												<p class="text-center">Fill all form field to go to next
+													step</p>
+												<div class="row">
+													<div class="col-md-12 mx-0">
+														<form id="msform" action="/company/insert" method="post"
+															enctype="multipart/form-data">
+															<ul id="progressbar">
+																<li class="active" id="account"><strong>공고
+																		기본 정보</strong></li>
+																<li id="personal"><strong>회사 및 담당자정보</strong></li>
+																<li id="payment"><strong>우대조건</strong></li>
+																<li id="confirm"><strong>finish</strong></li>
+															</ul>
+															<fieldset>
+																<div class="form-card">
+																	<h5 class="fs-title mb-4">공고 기본 정보</h5>
+																	<p>
+																		기본 정보를 입력해 주세요. <br>
+																	</p>
+																	<br> <br>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">공고
+																			제목</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control form-control-solid"
+																				type="text" name="annoTitle" value="${annoVO.annoTitle }" readonly="readonly">
+																		</div>
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">공고
+																			내용</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control form-control-solid"
+																				type="text" name="annoContent" value="${annoVO.annoContent }" readonly="readonly">
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">공고
+																			타입</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control form-control-solid"
+																				type="text" name="annoType" value="${annoVO.annoType }" readonly="readonly">
+																		</div>
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">고용형태</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<select class="form-control form-control-sm"
+																				id="exampleSelects" name="annoStaly" readonly="readonly">
+																				<option <c:if test="${annoVO.annoStaly eq '인턴' }">selected="selected" </c:if>>인턴</option>
+																				<option <c:if test="${annoVO.annoStaly eq '인턴' }">selected="selected" </c:if>>정규직</option>
+																				<option <c:if test="${annoVO.annoStaly eq '인턴' }">selected="selected" </c:if>>임원</option>
+																			</select>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">모집분야</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control form-control-solid"
+																				type="text" name="annoMb" value="${annoVO.annoMb }" readonly="readonly">
+																		</div>
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">모집인원</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control" type="number" value="${annoVO.annoMem }"
+																				id="example-number-input" name="annoMem" required>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">수습기간
+																			(개월)</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control" type="number" value="${annoVO.annoProbation }"
+																				id="example-number-input" name="annoProbation"
+																				required>
+																		</div>
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">급여
+																			(만원)</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control" type="number"
+																				value="${annoVO.annoSalary }" id="example-number-input"
+																				name="annoSalary" required>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">공고
+																			시작 날짜 </label>
+																			  <fmt:formatDate value="${annoVO.annoStartDate }" pattern="yyyy-MM-dd" var="annoStartDate" />
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control" type="date"
+																				value="${annoStartDate }" id="example-date-input"
+																				name="annoStartDate" required>
+																		</div>
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">공고
+																			종료 날짜 </label>
+																			<fmt:formatDate value="${annoVO.annoEndDate }" pattern="yyyy-MM-dd" var="annoEndDate" />
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control" type="date"
+																				value="${annoEndDate }" id="example-date-input"
+																				name="annoEndDate" required>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">공고
+																			이미지</label>
+																		<div class="col-9 ">
+																			<div class="widget-content widget-content-area">
+																				<div class="form-group row">
+																					<div class="col-lg-12 col-md-12 col-sm-12">
+																						<div class="attached-files">
+																							<img id="image-preview" width="320">
+																						</div>
+																						<label for="file-upload"
+																							class="custom-file-upload mb-0"> <a
+																							title="Attach a file"
+																							class="mr-2 pointer text-primary"> <i
+																								class="las la-paperclip font-20"></i> <span
+																								class="font-17">클릭하여 이미지를 넣어주세요</span>
+																						</a>
+																						</label> <input id="file-upload" name="attAnno"
+																							type="file" accept="image/*" value="${annoVO.attId }"
+																							style="display: none;">
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+
+
+																</div>
+
+																<input type="button" name="next"
+																	class="next action-button btn btn-primary"
+																	value="다음" />
+															</fieldset>
+
+															<fieldset>
+																<div class="form-card">
+																	<h5 class="fs-title mb-4">회사 및 담당자정보</h5>
+
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">담당자
+																			이름</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control form-control-solid"
+																				type="text" name="annoManager" value="${annoVO.annoManager }" required>
+																		</div>
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">담당자
+																			전화번호</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<div class="input-group input-group-solid">
+																				<div class="input-group-prepend">
+																					<span class="input-group-text"> <i
+																						class="la la-phone"></i>
+																					</span>
+																				</div>
+																				<input type="text"
+																					class="form-control form-control-solid"
+																					placeholder="Phone" value="${annoVO.annoTel }" name="annoTel"
+																					required>
+																			</div>
+																		</div>
+																	</div>
+
+
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">담당자
+																			이메일</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<div class="input-group input-group-solid">
+																				<div class="input-group-prepend">
+																					<span class="input-group-text"> <i
+																						class="la la-at"></i>
+																					</span>
+																				</div>
+																				<input type="text"
+																					class="form-control form-control-solid"
+																					placeholder="Email" value="${annoVO.annoEmail }" name="annoEmail"
+																					required>
+																			</div>
+																		</div>
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">근무
+																			환경</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control form-control-solid"
+																				type="text" name="annoWork" value="${annoVO.annoWork }" readonly="readonly">
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">담당업무</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control form-control-solid"
+																				type="text" name="annoDm1"  value="${annoVO.annoDm1 }" readonly="readonly">
+																			<input class="form-control form-control-solid"
+																				type="text" name="annoDm2"  value="${annoVO.annoDm2 }" readonly="readonly">
+																		</div>
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">근무부서</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control form-control-solid"
+																				type="text" name="annoGb" value="${annoVO.annoGb }" readonly="readonly">
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">근무요일</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<select class="form-control form-control-sm"
+																				id="exampleSelects" name="annoDay" required>
+																				<option <c:if test="${annoVO.annoDay eq '주 6일' }">selected="selected" </c:if>>주 6일</option>
+																				<option <c:if test="${annoVO.annoDay eq '주 5일' }">selected="selected" </c:if>>주 5일</option>
+																			</select>
+																		</div>
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">근무
+																			시간</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control" type="number" value="${annoVO.annoTime }"
+																				id="example-number-input" name="annoTime" required>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">업종</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control form-control-solid"
+																				type="text" name="industryCode" value="${annoVO.industryCode }" readonly="readonly">
+																		</div>
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">지역</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control form-control-solid"
+																				type="text" name="annoWd" value="${annoVO.annoWd }" readonly="readonly">
+																		</div>
+																	</div>
+
+
+																</div>
+																<input type="button" name="previous"
+																	class="previous action-button-previous btn btn-outline-primary"
+																	value="이전" /> <input type="button" name="next"
+																	class="next action-button btn btn-primary"
+																	value="다음" />
+															</fieldset>
+															<fieldset>
+																<div class="form-card">
+																	<h5 class="fs-title mb-4">우대조건</h5>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">연령
+																			제한</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control" type="number" value="${annoVO.annoAge }"
+																				id="example-number-input" name="annoAge" readonly="readonly">
+																		</div>
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">성별</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<select class="form-control form-control-sm"
+																				id="exampleSelects" name="annoGender" readonly="readonly">
+																				<option <c:if test="${annoVO.annoGender eq '남성' }">selected="selected" </c:if>>남성</option>
+																				<option <c:if test="${annoVO.annoGender eq '여성' }">selected="selected" </c:if>>여성</option>
+																				<option <c:if test="${annoVO.annoGender eq '상관없음' }">selected="selected" </c:if>>상관없음</option>
+																			</select>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">학력</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<select class="form-control form-control-sm"
+																				id="exampleSelects" name="annoStu" readonly="readonly">
+																				<option <c:if test="${annoVO.annoStu eq '석/박사' }">selected="selected" </c:if>>석/박사</option>
+																				<option <c:if test="${annoVO.annoStu eq '대학교 (4년제)' }">selected="selected" </c:if>>대학교 (4년제)</option>
+																				<option <c:if test="${annoVO.annoStu eq '대학 (2~3년제)' }">selected="selected" </c:if>>대학 (2~3년제)</option>
+																				<option <c:if test="${annoVO.annoStu eq '고등학교' }">selected="selected" </c:if>>고등학교</option>
+																			</select>
+																		</div>
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">경력</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<select class="form-control form-control-sm"
+																				id="exampleSelects" name="annoCareer" readonly="readonly">
+																				<option <c:if test="${annoVO.annoCareer eq '신입' }">selected="selected" </c:if>>신입</option>
+																				<option <c:if test="${annoVO.annoCareer eq '경력' }">selected="selected" </c:if>>경력</option>
+																				<option <c:if test="${annoVO.annoCareer eq '신입 경력' }">selected="selected" </c:if>>신입 경력</option>
+																			</select>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">지원조건</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control form-control-solid"
+																				type="text" name="annoJo" value="${annoVO.annoJo }" readonly="readonly">
+																		</div>
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">우대사항
+																		</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control form-control-solid"
+																				type="text" name="annoUd" value="${annoVO.annoUd }" required>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label
+																			class="col-form-label text-left col-lg-2 col-sm-12">자기소개서
+																			항목</label>
+																		<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+																			<input class="form-control form-control-solid"
+																				type="text" name="annoIntro" value="${annoVO.annoIntro }" required>
+																		</div>
+																	</div>
+
+
+																</div>
+																<input type="hidden" value="${comId }" name="comId">
+																<input type="button" name="previous"
+																	class="previous action-button-previous btn btn-outline-primary"
+																	value="이전" /> <input type="submit"
+																	name="make_payment"
+																	class="next action-button btn btn-primary"
+																	value="완료" />
+															</fieldset>
+															<fieldset>
+																<div class="form-card">
+																	<h5 class="fs-title mb-4 text-center">Congrats !</h5>
+																	<br>
+																	<div class="row justify-content-center">
+																		<div class="col-md-3">
+																			<svg class="checkmark"
+																				xmlns="http://www.w3.org/2000/svg"
+																				viewBox="0 0 52 52">
+                                                                                                <circle
+																					class="checkmark__circle" cx="26" cy="26" r="25"
+																					fill="none" />
+                                                                                                <path
+																					class="checkmark__check" fill="none"
+																					d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                                                                                            </svg>
+																		</div>
+																	</div>
+																	<br> <br>
+																</div>
+															</fieldset>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,35 @@
+package kr.or.ddit.manager.service;
+
+import java.util.List;
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.freelancer.vo.FreeVO;
+import kr.or.ddit.manager.vo.ManageVO;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.prod.vo.ProdVO;
+import kr.or.ddit.vo.AttVO;
+import kr.or.ddit.vo.CommendVO;
+
+public interface IManagerService {
+
+	void insertResume(CommendVO commendVO);
+
+	List<ProdVO> prodFree();
+
+	List<ProdVO> prodProj();
+
+	ResumeVO detail(String memId);
+
+	List<FreeVO> freedetail(String memId);
+
+	List<ManageVO> managerList(String memId);
+
+	AttVO manageDownload(int attId);
+
+	ServiceResult insertManage(ManageVO manageVO);
+
+	MemberVO memberdetail(String memId);
+
+
+}

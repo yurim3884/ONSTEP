@@ -1,0 +1,633 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
+<html>
+<head>
+<!--   <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
+<!--     <script src="https://d3js.org/d3.v3.min.js"></script> -->
+<!-- 	<script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js" type="text/JavaScript"></script> -->
+
+<!-- <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script> -->
+<!-- <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script> -->
+
+
+
+<style>
+/* body { */
+/*  font-family:"Lucida Grande","Droid Sans",Arial,Helvetica,sans-serif; */
+/*  } */
+/* .legend { */
+/*      border: 1px solid #555555; */
+/*       border-radius: 5px 5px 5px 5px; */
+/*       font-size: 0.8em; */
+/*       margin: 10px; */
+/*        padding: 10px; */
+/*  } */
+/* .bld { */
+/*       font-weight: bold; */
+/*  } */
+ 
+ 
+</style>
+
+
+</head>
+<body>
+<div class="sub-header-container">
+	<header class="header navbar navbar-expand-sm">
+		<ul class="navbar-nav flex-row">
+			<li>
+				<div class="page-header">
+					<nav class="breadcrumb-one" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="javascript:void(0);">Apps</a></li>
+							<li class="breadcrumb-item active" aria-current="page"><span>자유게시판</span></li>
+						</ol>
+					</nav>
+				</div>
+			</li>
+		</ul>
+		<ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+			<li class="">
+				<p class="current-time" id="currentTime"></p>
+				<p class="current-date" id="currentDate"></p>
+			</li>
+		</ul>
+	</header>
+</div>
+
+
+<!-- 워드 클라우드를 위한 공간 -->
+		<div id="demo" align="center" ></div>
+<!-- 워드 클라우드를 위한 공간 -->
+
+
+
+
+<!-- 리스트 뿌려주자  -->
+<div class="container">
+<div class="row">
+<div class="col-xl-5 col-lg-10 col-md-10 col-sm-10 col-10 layout-spacing">
+    <div class="widget dashboard-table">
+        <div class="widget-heading">
+            <h5 class="">자유 게시판</h5>
+        </div>
+        <div class="widget-content">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th><div class="th-content">No</div></th>
+                            <th><div class="th-content">제목</div></th>
+                            <th><div class="th-content">작성일</div></th>
+                            <th><div class="th-content">조회수</div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+						<c:choose>
+							<c:when test="${empty boardList }">
+								<tr>
+									<td>조회하실 게시글이 존재하지 않습니다.</td>
+<!-- 									<td colspan="1" class="d-flex">조회하신 게시글이 존재하지 않습니다.</td> -->
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<c:forEach items="${boardList }" var="board">
+									<tr>
+										<td>${board.boardId }</td>
+										<td>
+											<a href="/board/read?boardId=${board.boardId }">${board.boardId }
+												<c:if test="${board.recnt>0 }">
+													<span style="color:red;">(${board.recnt })</span>
+												</c:if>
+											</a>
+										</td>
+										<td><fmt:formatDate value="${board.boardStart }"/></td>
+										<td>${board.boardHit }</td>
+									</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="row"> -->
+<!-- <div class="col-xl-5 col-lg-10 col-md-10 col-sm-10 col-10 layout-spacing"> -->
+<!-- <div class="widget dashboard-table"> -->
+<!--         <div class="widget-heading"> -->
+<!--             <h5 class="">Seller Targets</h5> -->
+<!--             <div class="dropdown custom-dropdown-icon"> -->
+<!--                 <a class="dropdown-toggle" href="#" role="button" id="customDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Options</span> <i class="las la-angle-down"></i></a> -->
+<!--                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="customDropdown" style="will-change: transform;"> -->
+<!--                     <a class="dropdown-item" data-value="Mail" href="javascript:void(0);">Mail</a> -->
+<!--                     <a class="dropdown-item" data-value="Print" href="javascript:void(0);">Print</a> -->
+<!--                     <a class="dropdown-item" data-value="Download" href="javascript:void(0);">Download</a> -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--         <div class="widget-content"> -->
+<!--             <div class="table-responsive"> -->
+<!--                 <table class="table table-hover"> -->
+<!--                     <thead> -->
+<!--                         <tr> -->
+<!--                             <th><div class="th-content">Seller Info</div></th> -->
+<!--                             <th><div class="th-content">Progress</div></th> -->
+<!--                             <th><div class="th-content">Sales</div></th> -->
+<!--                         </tr> -->
+<!--                     </thead> -->
+<!--                     <tbody> -->
+<!--                         <tr> -->
+<!--                             <td> -->
+<!--                                 <div class="d-flex align-center"> -->
+<!--                                     <img src="assets/img/profile-6.jpg" class="avatar-sm rounded-circle border-width-2px border-solid border-light mr-3" alt="avatar"> -->
+<!--                                     <p class="mb-0">Connor Mcguere</p> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td> -->
+<!--                                 <div class="progress br-30"> -->
+<!--                                     <div class="progress-bar br-30 bg-warning" role="progressbar" style="width: 29.56%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td><span class="text-warning">29.56%</span></td> -->
+<!--                         </tr> -->
+<!--                         <tr> -->
+<!--                             <td> -->
+<!--                                 <div class="d-flex align-center"> -->
+<!--                                     <img src="assets/img/profile-5.jpg" class="avatar-sm rounded-circle border-width-2px border-solid border-light mr-3" alt="avatar"> -->
+<!--                                     <p class="mb-0">Johny Borja</p> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td> -->
+<!--                                 <div class="progress br-30"> -->
+<!--                                     <div class="progress-bar br-30 bg-success-teal" role="progressbar" style="width: 92.89%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td><span class="text-success-teal">92.89%</span></td> -->
+<!--                         </tr> -->
+<!--                         <tr> -->
+<!--                             <td> -->
+<!--                                 <div class="d-flex align-center"> -->
+<!--                                     <img src="assets/img/profile-3.jpg" class="avatar-sm rounded-circle border-width-2px border-solid border-light mr-3" alt="avatar"> -->
+<!--                                     <p class="mb-0">Dingo Hernandes</p> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td> -->
+<!--                                 <div class="progress br-30"> -->
+<!--                                     <div class="progress-bar br-30 bg-info" role="progressbar" style="width: 65.01%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td><span class="text-info">62.01%</span></td> -->
+<!--                         </tr> -->
+<!--                         <tr class="border-bottom border-light"> -->
+<!--                             <td> -->
+<!--                                 <div class="d-flex align-center"> -->
+<!--                                     <img src="assets/img/profile-13.jpg" class="avatar-sm rounded-circle border-width-2px border-solid border-light mr-3" alt="avatar"> -->
+<!--                                     <p class="mb-0">Kristopher Benny</p> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td> -->
+<!--                                 <div class="progress br-30"> -->
+<!--                                     <div class="progress-bar br-30 bg-danger" role="progressbar" style="width: 15.28%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td><span class="text-danger">15.28%</span></td> -->
+<!--                         </tr> -->
+<!--                     </tbody> -->
+<!--                 </table> -->
+<!--                 <p class="font-13 text-center mt-4 mb-1 text-muted"> -->
+<!--                     <a class="text-primary" href="javascript:void(0);">Click here</a> to see the full seller list -->
+<!--                 </p> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </div> -->
+<!-- </div> -->
+<!-- </div> -->
+<!-- </div> -->
+
+
+
+
+
+
+
+<!-- <div class="col-xl-5 col-lg-10 col-md-10 col-sm-10 col-10 layout-spacing"> -->
+<!--     <div class="widget dashboard-table"> -->
+<!--         <div class="widget-heading"> -->
+<!--             <h5 class="">Seller Targets</h5> -->
+<!--             <div class="dropdown custom-dropdown-icon"> -->
+<!--                 <a class="dropdown-toggle" href="#" role="button" id="customDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Options</span> <i class="las la-angle-down"></i></a> -->
+<!--                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="customDropdown" style="will-change: transform;"> -->
+<!--                     <a class="dropdown-item" data-value="Mail" href="javascript:void(0);">Mail</a> -->
+<!--                     <a class="dropdown-item" data-value="Print" href="javascript:void(0);">Print</a> -->
+<!--                     <a class="dropdown-item" data-value="Download" href="javascript:void(0);">Download</a> -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--         <div class="widget-content"> -->
+<!--             <div class="table-responsive"> -->
+<!--                 <table class="table table-hover"> -->
+<!--                     <thead> -->
+<!--                         <tr> -->
+<!--                             <th><div class="th-content">Seller Info</div></th> -->
+<!--                             <th><div class="th-content">Progress</div></th> -->
+<!--                             <th><div class="th-content">Sales</div></th> -->
+<!--                         </tr> -->
+<!--                     </thead> -->
+<!--                     <tbody> -->
+<!--                         <tr> -->
+<!--                             <td> -->
+<!--                                 <div class="d-flex align-center"> -->
+<!--                                     <img src="assets/img/profile-6.jpg" class="avatar-sm rounded-circle border-width-2px border-solid border-light mr-3" alt="avatar"> -->
+<!--                                     <p class="mb-0">Connor Mcguere</p> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td> -->
+<!--                                 <div class="progress br-30"> -->
+<!--                                     <div class="progress-bar br-30 bg-warning" role="progressbar" style="width: 29.56%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td><span class="text-warning">29.56%</span></td> -->
+<!--                         </tr> -->
+<!--                         <tr> -->
+<!--                             <td> -->
+<!--                                 <div class="d-flex align-center"> -->
+<!--                                     <img src="assets/img/profile-5.jpg" class="avatar-sm rounded-circle border-width-2px border-solid border-light mr-3" alt="avatar"> -->
+<!--                                     <p class="mb-0">Johny Borja</p> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td> -->
+<!--                                 <div class="progress br-30"> -->
+<!--                                     <div class="progress-bar br-30 bg-success-teal" role="progressbar" style="width: 92.89%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td><span class="text-success-teal">92.89%</span></td> -->
+<!--                         </tr> -->
+<!--                         <tr> -->
+<!--                             <td> -->
+<!--                                 <div class="d-flex align-center"> -->
+<!--                                     <img src="assets/img/profile-3.jpg" class="avatar-sm rounded-circle border-width-2px border-solid border-light mr-3" alt="avatar"> -->
+<!--                                     <p class="mb-0">Dingo Hernandes</p> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td> -->
+<!--                                 <div class="progress br-30"> -->
+<!--                                     <div class="progress-bar br-30 bg-info" role="progressbar" style="width: 65.01%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td><span class="text-info">62.01%</span></td> -->
+<!--                         </tr> -->
+<!--                         <tr class="border-bottom border-light"> -->
+<!--                             <td> -->
+<!--                                 <div class="d-flex align-center"> -->
+<!--                                     <img src="assets/img/profile-13.jpg" class="avatar-sm rounded-circle border-width-2px border-solid border-light mr-3" alt="avatar"> -->
+<!--                                     <p class="mb-0">Kristopher Benny</p> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td> -->
+<!--                                 <div class="progress br-30"> -->
+<!--                                     <div class="progress-bar br-30 bg-danger" role="progressbar" style="width: 15.28%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div> -->
+<!--                                 </div> -->
+<!--                             </td> -->
+<!--                             <td><span class="text-danger">15.28%</span></td> -->
+<!--                         </tr> -->
+<!--                     </tbody> -->
+<!--                 </table> -->
+<!--                 <p class="font-13 text-center mt-4 mb-1 text-muted"> -->
+<!--                     <a class="text-primary" href="javascript:void(0);">Click here</a> to see the full seller list -->
+<!--                 </p> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </div> -->
+<!-- </div> -->
+<!-- </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div align="left">
+					<h5>일반 게시판</h5>
+				</div>
+				<form action="" method="post">
+					<div>
+						<div class="text-right">
+							<span class="badge badge-success">전체 0 건</span>
+						</div>
+					</div>
+					<div style="padding-top: 50px">
+						<table class="table">
+							<tr class="table-dark">
+								<th>번호</th>
+								<th>제목</th>
+								<th>작성일</th>
+							</tr>
+							<c:choose>
+								<c:when test="${empty boardList }">
+									<tr>
+									<td colspan="3">조회하신 게시글이 존재하지 않습니다.</td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+									<c:forEach items="${boardList }"  var="board">
+										<tr>
+										<td>${board.boardId }</td>
+										<td>${board.boardTitle }</td>
+										<td>${board.boardStart }</td>
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</table>
+					</div>
+				</form>
+				<a href="/board/list.do" onclick="" class="btn btn-outline-primary">&laquo;더보기</a>
+			</div>
+			<div class="col-md-6">
+				<div align="left">
+					<h5>공지사항</h5>
+				</div>
+				<form action="" method="post">
+					<div>
+						<div class="text-right">
+							<span class="badge badge-success">전체 0건</span>
+						</div>
+					</div>
+					<div style="padding-top: 50px">
+						<table class="table">
+							<tr class="table-dark">
+								<th>번호</th>
+								<th>제목</th>
+								<th>작성일</th>
+							</tr>
+							<c:choose>
+								<c:when test="${empty noticeList }">
+									<tr>
+										<td colspan="3">조회하신 게시글이 존재하지 않습니다.</td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+									<c:forEach items="${noticeList }" var="notice">
+										<tr>
+											<td>${notice.noticeNo }</td>
+											<td><a href="/notice/detail.do?noticeno=${notice.noticeNo }">
+													${notice.noticeTitle }
+												</a>
+											</td>
+											<td>${notice.noticeDate }</td>
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</table>
+					</div>
+				</form>
+				<a href="/notice/list.do" onclick="" class="btn btn-outline-primary">&laquo;더보기</a>
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-md-6">
+				<div align="left">
+					<h5>자유 게시판</h5>
+				</div>
+				<form action="" method="post">
+					<div>
+						<div class="text-right">
+							<span class="badge badge-success">전체 0건</span>
+						</div>
+					</div>
+					<div style="padding-top: 50px">
+						<table class="table">
+							<tr class="table-dark">
+								<th>번호</th>
+								<th>제목</th>
+								<th>작성일</th>
+							</tr>
+							<c:choose>
+								<c:when test="${empty freeList }">
+									<tr>
+										<td colspan="3">조회하신 게시글이 존재하지 않습니다.</td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+									<c:forEach items="${freeList }" var="free">
+										<tr>
+											<td>${free.freeNo }</td>
+											<td>${free.freeTitle }</td>
+											<td>${free.freeDate }</td>
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</table>
+					</div>
+				</form>
+				<a href="free/list.do" onclick="" class="btn btn-outline-primary">&laquo;더보기</a>
+			</div>
+			<div class="col-md-6"></div>
+		</div>
+		<br/>
+	</div>
+<!-- </main> -->
+<script type="text/javascript">
+
+// var wordcloudlist = 
+	
+// 	$.ajax({
+	
+// 	type: "GET",
+//     url: "/board/wordcloudtest",
+//     dataType: "json",
+//     contentType: "application/json; charset:UTF-8", 
+//     async: false
+// 	}).responseText; 
+
+// var wordcloudtest = [{"board_title":"1","cnt":1}
+// 					,{"board_title":"2","cnt":2}
+// 					,{"board_title":"3","cnt":4}
+// 					,{"board_title":"4","cnt":6}
+// 					,{"board_title":"5","cnt":8}
+// 					,{"board_title":"6","cnt":10}];
+
+//   var x = JSON.parse(wordcloudlist);
+//   var y = wordcloudtest   
+
+// console.log("Json데이터 ",x)
+// console.log("11",y)
+
+
+
+// var color = d3.scale.linear() //선형적인 스케일로 표준화를 시킨다.
+//         .domain([0,1,2,3,4,5,6,10,15,20,100])//데이터의 범위, 입력 크기
+//         .range([0.50]);//표시할 범위, 출력 크기
+//         //ex)"#ddd", "#ccc", "#bbb", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"
+
+// console.log("color", color)
+        
+// d3.layout.cloud().size([250, 250]) //[width,height]
+//         .words(x)
+//         .rotate(0)
+//         .fontSize(function(d) { return d.cnt; })
+//         .on("end", draw)
+//         .start();
+
+// function draw(words) {
+//     d3.select("#wordcloud").append("svg")//wordcloud 테이블에 svg를 붙이고
+//             .attr("width", 250)
+//             .attr("height", 250)
+//             .attr("class", "wordcloud")
+//             .append("g")
+//             .attr("transform", "translate(320,200)")
+//             .selectAll("text")
+//             .data(words)
+//             .enter().append("text")
+//             .style("font-size", function(d) { return d.cnt + "px"; })
+//             .style("fill", function(d, i) { return color(i); })
+//             .attr("transform", function(d) {
+//                 return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+//             })
+//             .text(function(d) { return d.board_title; });
+// }
+
+
+
+
+
+
+
+
+/* anychart.onDocumentReady(function () {
+    var data = [
+        {
+            "x": "IT",
+            "value": 590000000,
+            category: "Sino-Tibetan"
+        },
+        {
+            "x": "Python",
+            "value": 283000000,
+            category: "Indo-European"
+        },
+        {
+            "x": "소프트웨어",
+            "value": 544000000,
+            category: "Indo-European"
+        },
+        {
+            "x": "JAVA",
+            "value": 527000000,
+            category: "Indo-European"
+        }, {
+            "x": "C++",
+            "value": 422000000,
+            category: "Afro-Asiatic"
+        }, {
+            "x": "HTML",
+            "value": 620000000,
+            category: "Afro-Asiatic"
+        }
+    ];
+    var chart = anychart.tagCloud(data);
+    chart.angles([0]);
+    chart.container("container");
+    // chart.getCredits().setEnabled(false);
+    chart.draw();
+}); */
+
+
+
+$(document).ready(function ($) {
+
+var words = [
+	  {text: "취업", weight: 20},
+	  {text: "면접", weight: 15.5},
+	  {text: "자기소개서", weight: 9.4},
+	  {text: "퇴직", weight: 8},
+	  {text: "JAVA", weight: 6.2},
+	  {text: "SPRING", weight: 15},
+	  {text: "임주완", weight: 45},
+	  {text: "대덕인재개발원", weight: 85},
+	  {text: "304호", weight: 65},
+	  {text: "프론트", weight: 25},
+	  {text: "백앤드", weight: 5},
+	  {text: "한국전력공사", weight: 8},
+	  /* ... */
+	];
+
+	let some_words = $("#demo").jQCloud(words, {
+	    width: 1500,
+	    height: 350,
+	  });
+	});
+
+// let weight = [[15,14,13],[12,12,12],[12,11,11],[11,10,10],[10,10,10],[9,9,9]];
+// names = [];
+// for(let i=0; i<6; i++){
+// 	let lis = changeArrayOrder(company_Name[prediction[i].className],Number(endNum[i]));
+// 	for (let j=0; j<3; j++){
+// 		name.push({'text':list[j],'weight':weight[i][j], 'link':''});
+// 	}
+// }
+// return names;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

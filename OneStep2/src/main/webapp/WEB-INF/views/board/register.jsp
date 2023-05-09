@@ -1,0 +1,234 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<section class="content-header">
+	<c:set value="등록" var="name" />
+	<c:if test="${status eq 'u' }">
+		<c:set value="수정" var="name" />
+	</c:if>
+	<div class="sub-header-container">
+		<header class="header navbar navbar-expand-sm">
+			<ul class="navbar-nav flex-row">
+				<li>
+					<div class="page-header">
+						<nav class="breadcrumb-one" aria-label="breadcrumb">
+							<ol class="breadcrumb">
+								<c:if test="${status eq 'u' }">
+									<c:set value="수정" var="name" />
+									<li class="breadcrumb-item active" aria-current="page"><span>자유게시판${name }</span></li>
+								</c:if>
+							</ol>
+						</nav>
+					</div>
+				</li>
+			</ul>
+			<ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+				<li class="">
+					<p class="current-time" id="currentTime"></p>
+					<p class="current-date" id="currentDate"></p>
+				</li>
+			</ul>
+		</header>
+	</div>
+</section>
+<div class="container-fluid px-2 px-md-4">
+	<div class="page-header min-height-300 border-radius-xl mt-4"
+		style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
+		<span class="mask  bg-gradient-secondary opacity-6"></span>
+	</div>
+	<div class="card card-body mx-3 mx-md-4 mt-n6">
+		<form class="row gx-4 mb-2" id="insertForm"
+			action="/board/insert/${boardCategory}" method="post"
+			enctype="multipart/form-data">
+
+
+			<div  class="col-11" style="margin: 0 auto;">
+				<!-- status 주는 부분  -->
+				<c:if test="${status eq 'u' }">
+					<input type="hidden" name="boardId" value="${boardVO.boardId }">
+					<input type="hidden" name="memId" value="${boardVO.memId }">
+				</c:if>
+				<!-- status 주는 부분  -->
+				<div class="input-group input-group-outline mb-4">
+<!-- 					<label for="#boardTitle" class="col-2 col-form-label">제목</label> -->
+					<!-- 			  <label class="form-label">제목을 입력해주세요.</label> -->
+					<input type="text" id="boardTitle" name="boardTitle"
+						value="${boardVO.boardTitle }" class="form-control" placeholder="제목을 입력하세요">
+				</div>
+			</div>
+			<div class="col-11" style="margin: 0 auto;">
+				<div class="input-group input-group-outline col-12">
+					<textarea class="form-control" rows="20" name="boardContent" 
+						id="boardContent">${boardVO.boardContent }</textarea>
+				</div>
+			</div>
+			<div class="col-11" style="margin: 0 auto;">
+			<br>
+			</div>
+			<div  class="col-11" style="margin: 0 auto;" >
+				<div class="mb-5 ps-3">
+					<h6 class="mb-1">첨부파일</h6>
+					<p class="text-sm">파일을 선택해주세요.</p>
+					<div class="input-group input-group-outline">
+						<input type="file" id="boardFile" name="boardFile"
+							class="form-control" multiple="multiple">
+					</div>
+				</div>
+				<div class="card-footer bg-white">
+					<ul class="mailbox-attachments d-flex align-items-stretch clearfix">
+						<!-- 파일데이터를 출력하기 위한 공간 -->
+						<c:if test="${not empty boardVO.boardFileList }">
+							<c:forEach items="${boardVO.boardFileList }" var="boardFile">
+								<li><span class="mailbox-attachment-icon"> <i
+										class="far fa-file-pdf"></i>
+								</span>
+									<div class="mailbox-attachment-info">
+										<a href="#" class="mailbox-attachment-name"> <i
+											class="fas fa-paperclip"></i>${boardFile.attFileName }-
+										</a> <span class="mailbox-attachment-size clearfix mt-1"> <span>${boardFile.attFancySize }</span>
+											<span
+											class="btn btn-default btn-sm float-right attachmentFileDel"
+											id="span_${boardFile.attId }"> <i
+												class="fas fa-times"></i>
+										</span> <%-- 											<a href="" id="span_${boardFile.attId}"  --%>
+											<!-- 											class="bs-tooltip font-5 attachmentFileDel"  -->
+											<!-- 											title="Delete" data-original-title="Delete"><i class="las la-trash"></i></a>&emsp; -->
+
+										</span>
+									</div></li>
+							</c:forEach>
+						</c:if>
+					</ul>
+				</div>
+				</div>
+				<div class="col-md-12">
+					<input type="button" value=${name } id="insertBtn"
+						class="btn btn-primary float-right">
+					<c:if test="${status eq 'u' }">
+						<input type="button" value="취소" id="cancelBtn"
+							class="btn btn-success float-right">
+					</c:if>
+					<c:if test="${status ne 'u' }">
+						<input type="button" value="목록" id="listBtn"
+							class="btn btn-success float-right">
+					</c:if>
+
+					<!-- 		    <button type="button" class="btn btn-primary" id="insertBtn">등록</button> -->
+					<!-- 		    <button type="button" class="btn btn-danger" id="cancelBtn">취소</button> -->
+					<!-- 		    <button type="button" class="btn btn-info" id="listBtn">목록</button> -->
+				</div>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+		CKEDITOR.replace("boardContent", {
+			   width : '1500px',  // 입력창의 넓이, 넓이는 config.js 에서 % 로 제어
+		      startupFocus : false
+		});
+
+		var insertBtn = $("#insertBtn");
+		var cancelBtn = $("#cancelBtn");
+		var listBtn = $("#listBtn");
+		var insertForm = $("#insertForm");
+
+		cancelBtn.on("click", function() {
+			location.href = "/board/read?boardId=${board.boardId}";
+		});
+
+		listBtn.on("click", function() {
+			location.href = "/board/list/02";
+		})
+
+		insertBtn.on("click", function() {
+			if ($("#boardTitle").val() == "") {
+				alert("제목을 입력해주세요!");
+				return false;
+			}
+
+			if (CKEDITOR.instances.boardContent.getData() == "") {
+				alert("내용을 입력해주세요!");
+				return false;
+			}
+
+			if ($(this).val() == "수정") {
+				insertForm.attr("action", "/board/update.do");
+			}
+
+			insertForm.submit();
+
+		});
+
+		$(".attachmentFileDel")
+				.on(
+						"click",
+						function() {
+							var id = $(this).prop("id"); //id를 얻어와서 id에 세팅하고 
+							var idx = id.indexOf("_");
+							var attId = id.substring(idx + 1);
+							var ptrn = "<input type='text' name='delBoardId' value='%V' hidden='hidden'/>";
+							$("#insertForm").append(ptrn.replace("%V", attId));
+							$(this).parents("li:first").hide(); //li요소에 있는 첫번째 요소를 가린다.
+						});
+	});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

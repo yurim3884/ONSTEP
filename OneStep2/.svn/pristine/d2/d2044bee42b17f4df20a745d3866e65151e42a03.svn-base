@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.PayMapper">
+
+<insert id="insert" parameterType="pay">
+insert into pay values (seq_payid.nextval,#{prodId},#{memId},#{payContent})
+</insert>
+<insert id="insertDatail" parameterType="pay">
+insert into PAYDETAIL values (seq_payid.currval,'Y',sysdate,sysdate,#{payPay})
+</insert>
+
+
+
+</mapper>

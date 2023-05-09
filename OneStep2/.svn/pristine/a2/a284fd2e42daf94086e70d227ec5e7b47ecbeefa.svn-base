@@ -1,0 +1,113 @@
+package kr.or.ddit.comment.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.comment.service.ICommentService;
+import kr.or.ddit.comment.vo.CommentVO;
+import kr.or.ddit.member.vo.MemberVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RestController
+@RequestMapping("/comment")
+public class CommentController {
+
+	@Inject
+	private ICommentService commentService;
+	
+	
+	@RequestMapping(value="/insert", method = RequestMethod.POST)
+	public void commentInsert(
+			@RequestBody CommentVO commVO
+			, HttpServletRequest req
+			, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO =(MemberVO) session.getAttribute("memberVO");
+		commVO.setCommMem(memberVO.getMemId());
+		log.info("memId>>>>>", commVO.getCommMem());
+		model.addAttribute("commVO",commVO);
+		commentService.insertComment(commVO);
+	}
+	
+	@RequestMapping(value="/list", method=RequestMethod.POST)
+	public Model commentList(Model model, @RequestBody int boardId) {
+		List<CommentVO> list = commentService.commentList(boardId);
+		model.addAttribute("list",list);
+		log.info("나오냐?",list);
+		return model;
+	}
+	
+//	@RequestMapping(value="/list", method = RequestMethod.GET)
+//	public List<CommentVO> list(@RequestBody int boardId){
+//		List<CommentVO> list = commentService.commentList(boardId);
+//		log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", list);
+//		return list;
+//	}
+
+//	@ResponseBody
+//	@RequestMapping(value="/list/{boardId}", method = RequestMethod.POST)
+//	public Map<String, Object> list(@RequestBody int boardId, Model model){
+//		System.out.println("댓글 목록 컨트롤러 동작하느냐?");
+//		List<CommentVO> list = commentService.commentList(boardId);
+//		ModelAndView view = new ModelAndView();
+//		view.setViewName("/board/list");
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("list", list);
+//		
+//		return map;
+//	}
+//	
+
+//	@RequestMapping(value="")
+//	public Map<String, Object> commentList(CommentVO commentVO){
+//		List<CommentVo> commentList= 
+//	}
+	
+	
+	
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

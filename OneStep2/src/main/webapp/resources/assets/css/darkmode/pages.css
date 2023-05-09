@@ -1,0 +1,163 @@
+.darkmode .error-number {
+    font-size: 180px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.darkmode .error-right-section .nav-link {
+    color: #ffffff;
+}
+.darkmode .faq .faq-container {
+    background: #343434;
+    box-shadow: none;
+}
+.darkmode .faq .faq-container .accordion .card {
+    border: 1px solid #343434;
+}
+.darkmode .faq .faq-container .accordion .card .card-header div .faq-q-title {
+    color: #ffffff;
+}
+.darkmode .notifications-table-widget .widget-heading {
+    background: #343434;
+}
+.darkmode .notifications-table-widget .widget-heading h5 {
+    color: #ffffff;
+}
+.darkmode .notifications-table-widget {
+    border: 1px solid #3a3a3a;
+}
+.darkmode .plan-left p {
+    color: #333333;
+}
+.darkmode .profile-left {
+    background: #343434;
+}
+.darkmode .single-number span.number {
+    color: #ffffff;
+}
+.darkmode .profile-tabs .nav-pills .nav-link {
+    color: #ffffff;
+    background-color: #343434;
+}
+.darkmode .profile-tabs .nav-pills .nav-link.active {
+    color: #ffffff;
+    background-color: #545454;
+}
+.darkmode .profile-shadow {
+    box-shadow: 1px 1px 20px rgb(0 0 0 / 17%);
+    background: #343434;
+}
+.darkmode .profile-info {
+    background: #343434;
+}
+.darkmode .single-profile-info p a {
+    color: #c1c1c1;
+}
+.darkmode .profile-shadow .progress-list .progress {
+    border-radius: 16px;
+    background-color: #191919;
+}
+.darkmode .card-box {
+    background-color: #343434;
+}
+.darkmode .searchable-items.grid .items .item-content {
+    background-color: #1b1b1c;
+}
+.darkmode .table > thead > tr > th {
+    color: #ffffff;
+    border: 1px solid #505050;
+}
+.darkmode .general-info {
+    background-color: #343434;
+}
+.darkmode .profile-edit-left::before {
+    border-right: 5px solid #191919;
+    top: -40px;
+}
+.darkmode .profile-edit-left .nav-pills a {
+    color: #ffffff;
+}
+.darkmode .profile-edit-left .nav-pills a:hover {
+    background-color: #191919;
+}
+.darkmode .general-info .info label {
+    color: #9c9c9c;
+    background: #343434;
+}
+.darkmode .form-control {
+    border: 1px solid #191919 !important;
+}
+.darkmode .profile-edit-right .img-thumbnail {
+    background-color: #191919;
+    border: 1px solid #4a4a4a;
+}
+.darkmode .general-info .info .upload {
+    border-right: 1px solid transparent;
+}
+.darkmode .general-info .info .upload p {
+    color: #ffffff;
+}
+.darkmode .widget-content-area {
+    background-color: #343434;
+}
+.darkmode .animated-underline-content .tab-content {
+    background: #191919;
+}
+.darkmode .searchable-items.list .items .user-meta-info .product-name {
+    color: #ffffff;
+}
+.darkmode .searchable-items.list .items .product-price p {
+    color: #ffffff;
+}
+.darkmode .searchable-items.list .items .user-meta-info .product-category {
+    color: #949494;
+}
+.darkmode .searchable-items.list .items .user-meta-info .user-name {
+    color: #ffffff;
+}
+.darkmode .searchable-items.list .items .user-meta-info .user-work {
+    color: #949494;
+}
+.darkmode .result-single-option p:nth-child(2) {
+    color: #ffffff;
+}
+.darkmode .sitemap a {
+    color: #ffffff;
+}
+.darkmode .timeline .timeline-box {
+    background: #343434;
+}
+.darkmode .timeline-item.timeline-item-left .timeline-desk .arrow-alt {
+    border-left: 12px solid #343434!important;
+}
+.darkmode blockquote.blockquote {
+    background-color: #343434;
+    border: 1px solid #343434;
+    border-left: 2px solid #4165a7;
+}
+.darkmode .timeline-item .timeline-desk .arrow {
+    border-right: 12px solid #343434!important;
+}
+.darkmode .faq .card-header div i {
+    color: #ffffff;
+}
+.darkmode .faq .faq-container {
+    background: transparent;
+    box-shadow: unset;
+}
+.darkmode .notifications-table-widget {
+    background: #191919;
+}
+.darkmode .switch-outer-container .switch input:empty ~ span:after {
+    background-color: #343434;
+}
+.faq .tab-content .accordion .card .card-header div .faq-q-title {
+    color: #ffffff;
+}
+.faq .tab-content .accordion .card .card-header span.round-dot {
+    background-color: #ffffff;
+}
+.darkmode .single-helpdesk-option:hover, .darkmode .single-helpdesk-option.active, .single-helpdesk-option {
+    background-color: #252525;
+}

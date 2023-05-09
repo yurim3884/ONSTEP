@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.PayMapper">
+
+	<insert id="insertMem" parameterType="prodVO">
+		insert into prod (Prod_id , prod_status, prod_content,prod_day,
+		prod_start,prod_end,prod_cs,prod_price,mem_id)
+		values
+		(seq_prodid.nextval,#{prodStatus},#{prodContent},sysdate,#{prodStart},#{prodEnd},1,#{prodPrice},#{memId})
+	</insert>
+	
+	<insert id="insertComp" parameterType="prodVO">
+		insert into prod (Prod_id , prod_status, prod_content,prod_day,
+		prod_start,prod_end,prod_cs,prod_price,mem_id,company_id)
+		values
+		(seq_prodid.nextval,#{prodStatus},#{prodContent},sysdate,#{prodStart},#{prodEnd},1,#{prodPrice},#{memId},#{companyId})
+	</insert>
+
+	<insert id="insertCom" parameterType="prodVO">
+		<selectKey keyProperty="prodId" resultType="int"
+			order="BEFORE">
+			select seq_prodid.nextval from dual
+		</selectKey>
+		insert into prod (Prod_id , prod_status, prod_content,prod_day,
+		prod_start,prod_end,prod_cs,prod_price,mem_Id,company_Id ,ADVERT_Name)
+		values
+		(#{prodId},#{prodStatus},#{prodContent},sysdate,#{prodStart},#{prodEnd},1,#{prodPrice},#{memId}
+		,#{companyId},#{advertName})
+	</insert>
+
+	<update id="insertAttFile" parameterType="prodVO">
+
+		update prod set
+		Prod_att = #{prodAtt}
+		where
+		Prod_id = #{prodId}
+
+	</update>
+	
+	<update id="updateMem" parameterType="prodVO">
+		update member set 
+		mem_end = 'Y'
+		where mem_id = #{memId}
+	</update>
+
+
+
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.ManagerMapper">
+	
+<insert id="insertResume" parameterType="commendVO">
+insert into commend (commend_id, resume_id, mem_id, anno_id, commend_date)
+values 
+(SEQ_COMMEND.nextval,#{resumeId},#{memId},#{annoId},sysdate)
+</insert>
+	
+
+
+
+
+</mapper>

@@ -1,0 +1,120 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+            <!--  Navbar Starts / Breadcrumb Area  -->
+            <div class="sub-header-container">
+                <header class="header navbar navbar-expand-sm">
+                    
+                </header>
+            </div>
+            <!--  Navbar Ends / Breadcrumb Area  -->
+            <!-- Main Body Starts -->
+            <div class="layout-px-spacing">
+                <div class="layout-top-spacing mb-2">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="container p-0">
+                                <div class="row layout-top-spacing date-table-container">
+                                    
+                                    <!-- Datatable single column searching -->
+                                    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                                        <div class="widget-content widget-content-area br-6">
+                                            <div class="table-responsive mb-4">
+                                                <table id="single-column-search" class="table table-hover" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>회원분류</th>
+                                                            <th>상품명</th>
+                                                            <th>상품분류</th>
+                                                            <th>상세</th>
+                                                            <th>상태</th>
+                                                            <th>가격</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>회원분류</th>
+                                                            <th>상품명</th>
+                                                            <th>상품분류</th>
+                                                            <th>상세</th>
+                                                            <th>상태</th>
+                                                            <th>가격</th>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Position</th>
+                                                            <th>Office</th>
+                                                            <th>Age</th>
+                                                            <th>Start date</th>
+                                                            <th>Salary</th>
+                                                            <th>Salary</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+									<div class="widget-content widget-content-area">
+									    <div class="row">
+									        <div class="col-lg-12 col-md-12 col-sm-12">
+									            <div id="content_1" class="tabcontent"> 
+									                <div id="basicLineChart2"></div>
+									            </div>
+									        </div>
+									    </div>
+									</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<script type="text/javascript">
+$(document).ready(function() {
+	var coin = [10, 41, 35, 51, 49, 62, 69, 91, 148, 10, 11, 12];
+	
+var basicLineChartOptions = {
+	    series: [{
+	      data: coin,
+	      name: "원"
+	    }],
+	    chart: {
+	        fontFamily: 'Poppins, sans-serif',
+	        height: 400,
+	        type: 'line',
+	        zoom: {
+	        enabled: false
+	    }
+	    },
+	    dataLabels: {
+	        enabled: false
+	    },
+	    stroke: {
+	        curve: 'straight'
+	    },
+	    title: {
+	        text: '패스',
+	        align: 'left'
+	    },
+	    grid: {
+	        row: {
+	        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+	        opacity: 0.5
+	        },
+	    },
+	    xaxis: {
+	        categories: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	    }
+	  };
+
+var basicLineChart2 = new ApexCharts(
+	    document.querySelector("#basicLineChart2"),
+	    basicLineChartOptions
+	  );
+	  basicLineChart2.render();
+});
+</script>

@@ -1,0 +1,154 @@
+package kr.or.ddit.fullcalendar.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.or.ddit.fullcalendar.service.IComFullService;
+import kr.or.ddit.fullcalendar.vo.FullcalendarVO;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.vo.AnnoVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@RequestMapping("/companyFullcal")
+public class ComFullController {
+
+	@Inject
+	private IComFullService service;
+	
+	public String comFullcalednarList() {
+		return "company/cal";
+	}
+	
+	@RequestMapping(value="/list", method=RequestMethod.GET)
+	public String comFullcalendar() throws Exception {
+		return "company/cal";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/list", method=RequestMethod.POST)
+	public JSONArray Comfullcal(
+			HttpServletRequest req,
+			Model model) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		
+//		fullcalendarVO.setMemId(memberVO.getMemId());
+		AnnoVO annoVO = new AnnoVO();
+		annoVO.setComId(memberVO.getCompanyId());
+		log.info("companyId : " + annoVO );
+		List<AnnoVO> list = service.comList(annoVO);
+		
+		
+		model.addAttribute("list",list);
+		
+		log.info("컴데이터" + list);
+		JSONObject jsonObj = new JSONObject();
+		JSONArray jsonArr = new JSONArray();
+		
+		Map<String, Object> comMap = new HashMap<String, Object>();
+		
+		for(int i =0; i<list.size(); i++) {
+			comMap.put("no", list.get(i).getAnnoId());
+			comMap.put("title", list.get(i).getAnnoTitle());
+			comMap.put("content", list.get(i).getAnnoContent());
+			comMap.put("start", list.get(i).getAnnoStartDate());
+			comMap.put("end", list.get(i).getAnnoEndDate());
+			comMap.put("comId", list.get(i).getComId());
+			comMap.put("annoId", list.get(i).getAnnoId());
+			
+			jsonObj = new JSONObject(comMap);
+			jsonArr.add(jsonObj);
+		}
+		log.info("JSON:{}" + jsonArr);
+		return jsonArr;
+	}
+	
+	
+	@RequestMapping(value="/insert", method = RequestMethod.GET)
+	public String fullCalendarRegister(FullcalendarVO calendar, Model model) {
+		log.info("기업공고 뜨는지 체크 : ");
+		model.addAttribute("calendar", calendar);
+		return "calendar/register";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/insert",method=RequestMethod.POST)
+	public String fullCalendarInsert(
+//			@Validated FullcalendarVO calendar
+			@RequestBody FullcalendarVO calendar
+			, BindingResult result
+			, HttpServletRequest req
+			, Model model) {
+
+		log.info("아이디 값이 오는가?: "  );
+		log.info("calendar()>>>" + calendar);
+		log.info("title>>>"+ calendar.getCalTitle());
+		log.info("날짜>>>>>>> :  " + calendar.getCalStart()) ;
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		calendar.setMemId(memberVO.getMemId());
+		service.comCalInsert(calendar);
+		log.info("LABEL이 들어갔다가 나오냐?  : " + calendar);
+		if(calendar.getCalId()>0) {
+			return "redirect:/fullcalendar/list";
+		}
+		model.addAttribute("msg","등록성공");
+		return "calednar";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	public String update(
+			@RequestBody FullcalendarVO calendar
+			, HttpServletRequest req
+			, Model model) {
+		
+		log.info("update()");
+		log.info("데이터가 들어오는가?" + calendar);
+		
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		
+		calendar.setMemId(memberVO.getMemId());
+		
+		service.comCalUpdate(calendar);
+		model.addAttribute("calendar",calendar);
+		log.info("아이디가 왜 안들어오냐? " + calendar.getCalId());
+		log.info("memId는? " + calendar.getMemId());
+		return "calendar";
+		
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="/del", method=RequestMethod.POST)
+	public String remove(FullcalendarVO calendar, Model model) {
+		log.info("remove()");
+		log.info("기업 달력 삭제 체크 " + calendar);
+		
+		service.comCalDel(calendar);
+		model.addAttribute("msg", "삭제완료");
+		return "calendar";
+				
+	}
+	
+	
+	
+}

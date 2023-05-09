@@ -1,0 +1,148 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<div class="sub-header-container">
+	<header class="header navbar navbar-expand-sm">
+		<ul class="navbar-nav flex-row">
+			<li>
+				<div class="page-header">
+					<nav class="breadcrumb-one" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item active" aria-current="page"><span>자기소개서 항목 관리</span></li>
+						</ol>
+					</nav>
+				</div>
+			</li>
+		</ul>
+		<ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+			<li class="">
+				<p class="current-time" id="currentTime"></p>
+				<p class="current-date" id="currentDate"></p>
+			</li>
+		</ul>
+	</header>
+</div>
+<!--  Navbar Ends / Breadcrumb Area  -->
+<!-- Main Body Starts -->
+<div class="layout-px-spacing">
+	<div class="layout-top-spacing mb-2">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="container p-0">
+					<div class="row layout-top-spacing date-table-container">
+						<div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+		                   <div class="button-list"></br>
+		                       <button type="button" id="btnDelete" class="btn btn-outline-primary" ">선택 삭제</button>
+		                       <button type="button" id="btnModify" class="btn btn-outline-primary" ">선택 수정</button>
+		                       <button type="button" id="btnInsertItem" class="btn btn-outline-primary" >항목 추가</button>
+		                       <button type="button" id="btnList" class="btn btn-primary" data-toggle="modal" data-target="#writeCovltr">자기소개서 작성</button>
+                               <!-- Modal -->
+                               <div class="modal fade" id="writeCovltr" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                   <div class="modal-dialog modal-dialog-centered" role="document">
+                                       <div class="modal-content">
+                                           <div class="modal-header">
+                                               <h5 class="modal-title" id="exampleModalCenterTitle">자기소개서 작성</h5>
+                                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                   <i class="las la-times"></i>
+                                               </button>
+                                           </div>
+                                           <div class="modal-body">
+                                               <h4 class="modal-heading mb-4 mt-2">자기소개서 제목을 입력해 주세요.</h4>
+                                               <input class="form-control"  type="text" style="width:100%;" id="covltrTitle"/>
+                                                   <p class="modal-text"></p>
+                                           </div>
+                                           <div class="modal-footer">
+                                               <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> 취소</button>
+                                               <button type="button" id="btnInsert" class="btn btn-primary">등록</button>
+                                           </div>
+                                       </div>
+                                   </div>
+		                   </div>
+							<div class="widget-content widget-content-area br-6">
+								<div class="card card-body mt-3">
+									<h5 class="card-title"><input type="checkbox" name="Checkboxes3_1">&nbsp&nbsp성장 과정 및 학창 시절</h5>
+                                    <p class="card-text">'우물 안 개구리'가 되지 않기 위해, 그리고 발전하는 삶을 위해 '도전정신'을 잃지 않았습니다. 새로움에 대한 욕심이 많았던 저이기에 학업과 아르바이트를 병행하며 용돈을 모아 여행, 영어, 컴퓨터, 드럼 등 내면과 외면의 성장을 위해 아낌없이 투자하였습니다. 그리고 성당, 동아리, 학과생활, 여행, 연수, 아르바이트 등 다양한 경험을 쌓는 것도 게을리하지 않았습니다.</p>
+                                    <p class="card-text">
+                                        <small class="text-muted"></small>
+                                        <small class="text-muted">2023-04-17</small>
+                                    </p>
+                                </div>	
+							</div>
+							
+							<div class="widget-content widget-content-area br-6">
+								<div class="card card-body mt-3">
+									<h5 class="card-title"><input type="checkbox" name="Checkboxes3_1">&nbsp&nbsp성격의 장단점 및 대인관계</h5>
+                                    <p class="card-text">학업과 일을 병행하면서 기쁨과 보람이 있었지만 체력적, 정신적 고통도 공존하였습니다. 하지만 스스로의 힘으로 원하는 것을 얻고자 선택한 일이었고 언제나 목표가 있었기에 절대 포기하지 않았습니다. 여러 분야의 사람을 만나며 인연의 소중함을 느껴 지속적으로 유지해 왔고, 사람이 곧 재산이라는 말을 실감할 만큼 위로와 힘을 얻을 수 있었습니다. </p>
+                                    <p class="card-text">
+                                        <small class="text-muted"></small>
+                                        <small class="text-muted">2023-04-17</small>
+                                    </p>
+                                </div>	
+							</div>
+							
+							<div class="widget-content widget-content-area br-6">
+								<div class="card card-body mt-3">
+									<h5 class="card-title"><input type="checkbox" name="Checkboxes3_1">&nbsp&nbsp인생관 및 좌우명</h5>
+                                    <p class="card-text">무라카미 류의 소설 '식스티나인'에 '즐겁게 사는 게 이기는 거야!'라는 말이 나옵니다. 즐겁고 긍정적인 마음은 긍정적인 결과를 가져온다고 생각합니다. 저는 언제나 즐기면서 일을 하고, 힘든 일이 있을수록 더욱 더 웃으려고 노력합니다. 또한 즐거움과 웃음 바이러스로 주위 사람들에게 엔도르핀을 주는 효과를 일으키는 것은 자신을 더욱 빛나게 합니다. </p>
+                                    <p class="card-text">
+                                        <small class="text-muted"></small>
+                                        <small class="text-muted">2023-04-17</small>
+                                    </p>
+                                </div>	
+							</div>
+							
+						
+							
+							
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Main Body Ends -->
+<!-- <div class="responsive-msg-component"> -->
+<!--     <p> -->
+<!--         <a class="close-msg-component"><i class="las la-times"></i></a> -->
+<!--         Please reload the page when you change the viewport size to view the responsive functionalities correctly -->
+<!--     </p> -->
+<!-- </div> -->
+<!--  </div> -->
+<!--  Content Area Ends  -->
+
+<script>
+$(document).ready(function() {
+    $('#export-dt').DataTable( {
+        dom: '<"row"<"col-md-6"B><"col-md-6"f> ><""rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>>',
+        buttons: {
+            buttons: [
+                { extend: 'excel', className: 'btn btn-rounded btn-success' },
+                { extend: 'pdf', className: 'btn btn-rounded btn-warning' },
+                { extend: 'print', className: 'btn btn-rounded btn-info' }
+            ]
+        },
+        "language": {
+            "paginate": {
+                "previous": "<i class='las la-angle-left'></i>",
+                "next": "<i class='las la-angle-right'></i>"
+            }
+        },
+        "lengthMenu": [7, 10, 20, 50],
+        "pageLength": 7 
+    } );
+} );
+
+
+var btnDelete = $("#btnDelete");
+var btnModify = $("#btnModify");
+var btnList = $("#btnList");
+var btnInsertItem = $("#btnInsertItem");
+
+btnInsertItem.on("click", function(){
+	location.href = '/myPage/coverletter/insert';
+});
+
+btnList.on("click", function() {
+	location.href = '/myPage/coverletter/items';
+})
+</script>

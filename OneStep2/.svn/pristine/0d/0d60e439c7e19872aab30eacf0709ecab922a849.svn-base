@@ -1,0 +1,18 @@
+package kr.or.ddit.freelancer.service;
+
+import java.util.List;
+
+import kr.or.ddit.freelancer.vo.FreeVO;
+import kr.or.ddit.vo.AnnoVO;
+
+public interface IFreeService {
+
+	void insertFree(FreeVO free);
+
+	List<FreeVO> freeList();
+
+	void insertProject(AnnoVO anno);
+
+	List<AnnoVO> projList();
+
+}

@@ -1,0 +1,18 @@
+package kr.or.ddit.manager.service;
+
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.prod.vo.ProdVO;
+import kr.or.ddit.vo.CommendVO;
+
+public interface IManagerService {
+
+	void insertResume(CommendVO commendVO);
+
+	List<ProdVO> prodFree();
+
+	List<ProdVO> prodProj();
+
+}

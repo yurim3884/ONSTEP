@@ -1,0 +1,16 @@
+package kr.or.ddit.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.alarm.vo.NotificationVO;
+
+@Mapper
+public interface AlarmMapper {
+
+	List<NotificationVO> list() throws Exception;
+
+	NotificationVO count() throws Exception;
+
+}

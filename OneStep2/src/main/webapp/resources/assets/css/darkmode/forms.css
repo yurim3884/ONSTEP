@@ -1,0 +1,82 @@
+.darkmode .widget-content-area {
+    background-color: #272727;
+}
+.darkmode .form-group label, label {
+    color: #ffffff;
+}
+.darkmode .widget.box .widget-footer {
+    background-color: #272727;
+    border-top: 1px solid #464646;
+}
+.darkmode .input-group .input-group-prepend .input-group-text,
+.darkmode .input-group .input-group-append .input-group-text {
+    background-color: #3a3a3a;
+    border: 1px solid #3a3a3a;
+    color: white;
+}
+.darkmode .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+    color: #ffffff;
+}
+.darkmode .select2-container .select2-selection--single .select2-selection__rendered {
+    color: #ffffff!important;
+    background-color: transparent;
+}
+.darkmode .select2-container--default .select2-selection--single {
+    background-color:transparent;
+}
+.darkmode .irs--round .irs-min, 
+.darkmode .irs--round .irs-max {
+    color: #fff;
+    background-color: rgb(90 90 90);
+}
+.darkmode .captcha h2 {
+    color: #696969 !important;
+}
+.darkmode .validation-container .text-black {
+    color: #fff !important;
+}
+.darkmode .CodeMirror {
+    border: 1px solid #343434;
+    background: #191919;
+    color: white;
+}
+.darkmode .editor-toolbar {
+    background: #191919;
+    border: 1px solid #343434 !important;
+}
+.darkmode .editor-toolbar i.separator {
+    border-left: 1px solid #616161;
+    border-right: 1px solid #616161;
+}
+.darkmode .editor-toolbar a {
+    color: #ffffff!important;
+}
+.darkmode .ql-toolbar.ql-snow {
+    background: #191919;
+    border: 1px solid #343434 !important;
+}
+.darkmode .ql-toolbar.ql-snow + .ql-container.ql-snow {
+    border: 1px solid #343434;
+    background: #191919;
+}
+.darkmode .ql-toolbar.ql-snow .ql-formats {
+    background: white;
+    border-radius: 5px;
+}
+.darkmode .multiple-form-one #msform fieldset .form-card,
+.darkmode .multiple-form-two #msform fieldset .form-card {
+    background: #191919;
+    border: 1px solid rgba(0, 0, 0, 0.078);
+}
+.darkmode .multiple-form-one,
+.darkmode .multiple-form-two {
+    background-color: #272727;
+    border: 0px;
+}
+.darkmode .multiple-form-one #msform fieldset,
+.darkmode .multiple-form-two #msform fieldset {
+    background: #191919;
+}
+.darkmode .multiple-form-one #progressbar .active {
+    color: #ffffff;
+}

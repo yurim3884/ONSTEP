@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.GoodMapper">
+
+<!-- 좋아요 클릭시 카운트 1 증가 -->
+	<update id="incrementGood" parameterType="int">
+		update good
+		   set 
+		       good_num = good_num +1
+		where  board_id = #{boardId}
+	</update>
+	
+<!-- 	<insert id="likeUp"> -->
+<!-- 		insert into vegan_like (like_no ,board_no , user_no, freeboard_like) -->
+<!-- 		values((select * from (select max(like_no)+1 from vegan_like) next), #{board_no},#{user_no},1) -->
+<!-- 	</insert> -->
+</mapper>

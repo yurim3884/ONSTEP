@@ -1,0 +1,106 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<div class="layout-px-spacing ">
+	<div class="row layout-spacing layout-top-spacing" id="cancel-row">
+		<div class="col-lg-12">
+			<div class="col-12" style="margin: 0 auto;">
+				<h1
+					style="background-color: #4165a7; text-align: center; color: white; font: bold; height: 80px; line-height: 80px;">프리미엄
+					배너 광고</h1>
+
+				<br>
+				<a href="/company/pay" class="btn btn-soft-primary btn-rounded"
+							style="float: right; width: 200px;">광고 등록하기</a>
+				 <br><br><br>
+
+				<div class="statbox widget box box-shadow">
+
+					<div
+						class="widget-content widget-content-area icon-accordion-content">
+						<div class="link-accordion" id="accordionExample">
+							<div class="card">
+								<div class="card-header" id="headingOne">
+									<h3 class="mb-0 p-3 d-flex">
+										<a data-toggle="collapse" data-target="#collapseOne"
+											aria-expanded="true" aria-controls="collapseOne"> 배너 광고란
+											무엇인가요 ? </a>
+									</h3>
+								</div>
+								<div id="collapseOne" class="collapse show"
+									aria-labelledby="headingOne" data-parent="#accordionExample">
+									<div class="card-body">
+										<h4>
+											간단히 말해서 배너 광고는 배너라고 하는 크리에이티브 광고를 통한 디지털 광고의 한 유형입니다. <br>
+											<br> 배너는 광고주의 독점 사이트로 트래픽을 유도하고, 인지도를 높이며, 전반적인 브랜드 고려도를
+											늘리기 위해 웹사이트의 상단, 측면 또는 하단에 표시되는 크리에이티브 사각형 광고입니다. <br>
+											<br> 이러한 유형의 시각적 배너 스타일 온라인 광고는 디스플레이 광고의 한 형태입니다.
+										</h4>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header" id="headingTwo">
+									<h3 class="mb-0 p-3 d-flex">
+										<a class="collapsed" data-toggle="collapse"
+											data-target="#collapseTwo" aria-expanded="false"
+											aria-controls="collapseTwo"> 배너 광고는 어떻게 작동하나요? </a>
+									</h3>
+								</div>
+								<div id="collapseTwo" class="collapse show"
+									aria-labelledby="headingTwo" data-parent="#accordionExample">
+									<div class="card-body">
+										<h4>
+											배너 광고는 소비자의 관심을 끌기 위해 웹사이트에 전략적으로 배치되는 정적 또는 동적 광고일 수 있습니다. <br>
+											<br> 브랜드는 배너 광고를 통해 브랜드를 프로모션할 뿐만 아니라 시청자가 브랜드 웹사이트를
+											방문하도록 유도할 수 있습니다. <br>
+											<br> 다른 형태의 온라인 광고와 마찬가지로 브랜드는 여러 가지 이유로 배너 광고를 활용합니다. <br>
+											<br> 브랜드 목표가 브랜드 인지도 높이기, 더 많은 클릭수 창출, 브랜드 웹사이트로 트래픽 유도인
+											경우 배너 광고는 효과적으로 브랜드의 비즈니스 목표를 충족할 수 있습니다.
+										</h4>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header" id="headingThree">
+									<h3 class="mb-0 p-3 d-flex">
+										<a class="collapsed" data-toggle="collapse"
+											data-target="#collapseThree" aria-expanded="false"
+											aria-controls="collapseThree"> 배너 광고는 효과적인가요? </a>
+									</h3>
+								</div>
+								<div id="collapseThree" class="collapse show"
+									aria-labelledby="headingThree" data-parent="#accordionExample">
+									<div class="card-body">
+										<h4>
+											배너 광고는 고객 트래픽을 늘리고, 상품을 판매하거나, 고객의 관심을 사로잡을 수 있는 효과적인 수단입니다.<br>
+											<br> 브랜드는 과거 캠페인 퍼포먼스 또는 기타 인사이트를 확인하여 클릭률을 개선할 수 있습니다.
+										</h4>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header" id="headingfour">
+									<h3 class="mb-0 p-3 d-flex">
+										<a class="collapsed" data-toggle="collapse"
+											data-target="#headingfour" aria-expanded="false"
+											aria-controls="collapseThree"> 배너 광고 권장 크기 </a>
+									</h3>
+								</div>
+								<div id="headingfour" class="collapse show"
+									aria-labelledby="headingfour" data-parent="#accordionExample">
+									<div class="card-body">
+										<h4 style="font: bold;">ONESTEP에서는 배너 광고 크기를 고객에게 가장 효과적으로 다가가는 데 도움이 되는 0000
+											* 0000로 권장합니다.</h4>
+											
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

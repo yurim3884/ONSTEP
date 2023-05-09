@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.MypageMapper">
+
+	<sql id="resumeSearch">
+		<if test="searchType != null and searchType == 'title'">
+			AND (resume_title like '%'||{searchWord}||'%')
+		</if>
+	</sql>
+	
+	
+	<select id="selectNotificationCount" parameterType="pagingVO" resultType="int">
+		SELECT COUNT (notification_id)
+		FROM notification
+	</select>
+
+	<select id="selectNotificationList" parameterType="pagingVO" resultType="notificationVO">
+		SELECT 
+			b.*
+		FROM (
+			SELECT
+				a.*, ROW_NUMBER() OVER (ORDER BY a.notification_id DESC) rnum
+			FROM (
+				SELECT 
+					notification_id, notification_content, notification_date, notification_read, mem_id, notification_url, notification_type
+				FROM notification
+				ORDER BY notification_id DESC
+			) a
+		) b
+	</select>
+	
+	<select id="selectNotification" parameterType="int" resultType="notificationVO">
+		SELECT 
+			notification_id, notification_content, notification_date, notification_read, mem_id, notification_url, notification_type
+		FROM notification
+		WHERE notification_id = #{notificationId}
+	</select>
+	
+	
+	<delete id="deleteNotification" parameterType="int">
+		DELETE FROM notification
+		WHERE notification_id = #{notificationId}	
+	</delete>
+	
+	<select id="selectResumeCount" parameterType="pagingVO" resultType="int">
+		SELECT COUNT (resume_num)
+		FROM resume
+		WHERE 1 = 1
+		<include refid="resumeSearch"/>
+	</select>
+	
+	<select id="selectResumeList" parameterType="pagingVO" resultType="resumeVO">
+		SELECT 
+			b.*
+		FROM (
+			SELECT
+				a.*, ROW_NUMBER() OVER (ORDER BY a.resume_id DESC) rnum
+			FROM (
+				SELECT 
+					resume_id, resume_title, resume_start, resume_end, mem_id
+				FROM resume
+				ORDER BY resume_id DESC
+			) a
+		) b
+	</select>	
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

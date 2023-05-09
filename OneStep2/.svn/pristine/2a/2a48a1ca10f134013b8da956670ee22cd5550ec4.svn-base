@@ -1,0 +1,128 @@
+package kr.or.ddit.alarm.controller;
+
+import java.util.HashMap;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.or.ddit.alarm.service.IAlarmService;
+import kr.or.ddit.alarm.vo.NotificationVO;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.vo.PaginationInfoVO;
+
+@Controller
+@RequestMapping("/alarm")
+public class AlarmController {
+
+	@Inject
+	private IAlarmService alarmService;
+	
+	// 알림 오는 부분
+	@ResponseBody
+	@RequestMapping(value = "/read", method = RequestMethod.GET)
+	public HashMap<String, Object> read(HttpServletRequest req,Model model) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		String memId = memberVO.getMemId();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		if(memId != null) {
+			List<NotificationVO> postList = alarmService.postList(memId);   // 보낸 알림 전체
+			List<NotificationVO> getList = alarmService.getList(memId);     // 받은 알림 전체
+			List<NotificationVO> getListOK = alarmService.getListOK(memId); // 받은 알림 중에 안읽은 알림
+			NotificationVO count = alarmService.count(memId);               // 받은 안읽은 알림 수
+			
+			map.put("postList", postList);
+			map.put("getList", getList);
+			map.put("count", count);
+			map.put("getListOK",getListOK);
+			
+		}else {
+			map.put("msg", "로그인하고 들어오시오");
+		}
+		
+		return map;
+	}
+	
+	// 전체 알림 시 안읽은 알림 변경
+	@ResponseBody
+	@RequestMapping(value = "/change", method = RequestMethod.GET)
+	public HashMap<String, Object> change(HttpServletRequest req,Model model) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		String memId = memberVO.getMemId();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		if(memId != null) {
+			alarmService.change(memId);                                     // 알림 전체 읽음 표시로 변경
+			List<NotificationVO> postList = alarmService.postList(memId);   // 보낸 알림 전체
+			List<NotificationVO> getList = alarmService.getList(memId);     // 받은 알림 전체
+			List<NotificationVO> getListOK = alarmService.getListOK(memId); // 받은 알림 중에 안읽은 알림
+			NotificationVO count = alarmService.count(memId);               // 받은 안읽은 알림 수
+			
+			map.put("postList", postList);
+			map.put("getList", getList);
+			map.put("count", count);
+			map.put("getListOK",getListOK);
+			
+		}else {
+			map.put("msg", "로그인하고 들어오시오");
+		}
+		
+		return map;
+	}
+	
+	// 알람 페이지로 이동
+	@RequestMapping(value = "/alarmRead", method = RequestMethod.GET)
+	public String alarmRead(Model model, HttpServletRequest req,
+			@RequestParam(name="page", required = false, defaultValue = "1") int currentPage
+			) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		String goPage = "";
+		String memId = memberVO.getMemId();
+		String memStatus = memberVO.getMemStatus();
+		PaginationInfoVO<NotificationVO> pagingVO1 = new PaginationInfoVO<NotificationVO>(); // 받은 알림
+		PaginationInfoVO<NotificationVO> pagingVO2 = new PaginationInfoVO<NotificationVO>(); // 보낸 알림
+		
+		if(memId != null) {
+			pagingVO1.setMemId(memId);
+			pagingVO1.setCurrentPage(currentPage);
+			int totalRecord1 = alarmService.getListcount(pagingVO1); // 받은 알림 전체 숫자
+			pagingVO1.setTotalRecord(totalRecord1);
+			
+			List<NotificationVO> getListPage1 = alarmService.getListPage(pagingVO1);
+			pagingVO1.setDataList(getListPage1);
+			
+			pagingVO2.setMemId(memId);
+			pagingVO2.setCurrentPage(currentPage);
+			int totalRecord2 = alarmService.postListcount(pagingVO2); // 보낸 알림 전체 숫자
+			pagingVO2.setTotalRecord(totalRecord2);
+			
+			List<NotificationVO> getListPage2 = alarmService.postListPage(pagingVO2);
+			pagingVO2.setDataList(getListPage2);
+			
+			model.addAttribute("pagingVO1",pagingVO1);
+			model.addAttribute("pagingVO2",pagingVO2);
+			
+			if(memStatus.equals("1")) {
+				goPage = "myPage/alarm";
+			}else if(memStatus.equals("2")) {
+				goPage = "company/alarm";
+			}else if(memStatus.equals("3")) {
+				goPage = "manager/alarm";
+			}
+		}
+		
+		return goPage;
+		
+	}
+
+}

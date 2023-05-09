@@ -1,0 +1,40 @@
+package kr.or.ddit.vo;
+
+import java.util.Date;
+import java.util.List;
+
+import lombok.Data;
+
+@Data
+public class ApplyVO {
+
+	private int applyId;
+	private Date applyStart;
+	private Date applyUpdate;
+	private Date applyDelete;
+	private double applyTotal;
+	private String applyResult;
+	private Date applyResultDate;
+	private String applyResultComment;
+	private String memId;
+	private int annoId;
+	private int resumeNum;
+	private int covltrItemId;
+	private String CompanyId;
+	private int applyStatus;
+	private int applySchool;
+	private int applySkill;
+	private int applyCareer;
+	private int applyLicense;
+	private int applyLanguage;
+	private int applyActivities;
+	private int applyPortfolio;
+	private int applyPoint;
+
+	// 사람들을 평가 후, 업데이트를 처리하기 위한 컬렉션
+	private List<EvaluationVO> evaluationList;
+	private List<AnnoVO> annoVO;
+	
+
+
+}

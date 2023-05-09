@@ -1,0 +1,61 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<div class="layout-px-spacing">
+	<div class="row layout-top-spacing">
+		<div class="apps-ticket col-xl-12 col-lg-12 col-md-12">
+			<div class="row">
+				<div class="col-xl-12 col-md-12 layout-spacing">
+					<div class="notifications-table-widget">
+						<div class="widget-heading">
+							<h5 class="">채용 현황</h5>
+							<div class="d-none d-md-flex switch-outer-container">
+								Do not disturb <span class="switch"> <label> <input
+										type="checkbox" checked="checked" name="select"> <span></span>
+								</label>
+								</span>
+							</div>
+						</div>
+						<div class="widget-content">
+							<div class="table-responsive" id="parentDiv">
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th><div class="th-content">공고명</div></th>
+											<th><div class="th-content">지원자이름</div></th>
+											<th><div class="th-content">결과</div></th>
+										</tr>
+									</thead>
+									   
+									<tbody id="tbody">
+										<c:forEach items="${member}" var="member" varStatus="stat">
+											
+										<c:if test="${member.applyList[0].applyStatus==3}">
+											<tr>
+												<td>${member.annoList[0].annoTitle} <input type="hidden" value="${member.applyList[0].applyId}" name="evaluationList[${stat.index }].applyId"> </td>
+												<td>${member.memName}</td>
+												<td>${member.applyList[0].applyResult}</td>
+												</tr>
+										</c:if>
+									</c:forEach>
+
+
+									</tbody>
+
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+
+	
+</script>
+
+

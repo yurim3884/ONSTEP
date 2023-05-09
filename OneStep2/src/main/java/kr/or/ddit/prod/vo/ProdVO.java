@@ -1,0 +1,36 @@
+package kr.or.ddit.prod.vo;
+
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
+
+import lombok.Data;
+
+@Data
+public class ProdVO {
+
+	private int prodId;       // 상품번호 
+	private String memId;     // 회원 id
+	private String companyId; // 회사 id
+	private String prodStatus;// 상품분류
+	private String prodContent;   // 상품기능
+	private Date prodDay;     // 결제일
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date prodStart;   // 상품 시작일
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date prodEnd;     // 상품 종료일
+	private String prodCs;    // 상품cs상태(결제완료,환불,취소)
+	private int prodPrice;    // 상품 가격
+	private String advertName;     // 광고 자리
+	private String companyName;
+	
+	private String prodAtt;
+	private MultipartFile attProd; 
+	  
+	private String prodMonth; // 월
+	private int prodSum;      // 합계금액 
+	
+	private String memName;
+	private String memEmail;
+}

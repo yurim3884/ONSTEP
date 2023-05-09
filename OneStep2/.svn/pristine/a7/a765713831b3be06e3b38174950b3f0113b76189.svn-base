@@ -1,0 +1,16 @@
+package kr.or.ddit.myPage.vo;
+
+import lombok.Data;
+
+@Data
+public class WorkfieldVO {
+
+	/* 희망직무 */
+	private String workfieldId;					// 희망직무ID
+	private String workfield1;					// 직무 대분류
+	private String workfield2;					// 직무 소분류
+	private String memId;						// 회원ID
+	private String workfieldInsertDate;			// 작성날짜
+	private String workfieldDeleteDate;			// 삭제날짜
+	
+}

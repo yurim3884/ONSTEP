@@ -1,0 +1,19 @@
+package kr.or.ddit.myPage.vo;
+
+import lombok.Data;
+@Data
+public class ActivityVO {
+	
+	/* 활동 */
+	private int actId;			// 활동ID
+	private String actContent;		// 활동내용
+	private String actCategory;		// 활동구분
+	private String actInstitution;	// 활동기관
+	private String actStart;		// 활동시작일
+	private String actEnd;			// 활동종료일
+	private int attId;			// 첨부파일ID
+	private String actInsertDate;	// 작성날짜
+	private String actDeleteDate;	// 삭제날짜
+	private int resumeId;		// 이력서번호
+	
+}

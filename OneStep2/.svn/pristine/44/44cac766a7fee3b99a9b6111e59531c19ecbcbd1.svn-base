@@ -1,0 +1,11 @@
+package kr.or.ddit.manager.service;
+
+import java.util.Map;
+
+import kr.or.ddit.vo.CommendVO;
+
+public interface IManagerService {
+
+	void insertResume(CommendVO commendVO);
+
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.ChatMapper">
+	<resultMap type="chatVO" id="chatMap">
+		<id property="chatId" column="chat_id"/>
+		<result property="memId" column="mem_id"/>
+		<result property="chatContent" column="chat_content"/>
+		<result property="chatDate" column="chat_date"/>
+	</resultMap>
+
+	<insert id = "insertChat" parameterType="map">
+		INSERT INTO chat (
+			chat_id, chat_content, chat_date, mem_id
+		) VALUES (
+			seq_chatid.nextval, #{chatContent}, sysdate, #{memId}
+		)
+	</insert>
+	
+	<select id = "chatDetail" parameterType="map" resultMap="chatMap">
+		SELECT
+			a.chat_id, a.mem_id, a.chat_content, a.chat_date, b.mem_status
+		FROM chat a
+		JOIN member b on a.mem_id = b.mem_id
+		ORDER BY a.chat_date ASC
+	</select>
+	
+	
+</mapper>

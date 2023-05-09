@@ -1,0 +1,58 @@
+package kr.or.ddit.myPage.service;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.myPage.vo.CoverletterItemVO;
+import kr.or.ddit.myPage.vo.CoverletterVO;
+import kr.or.ddit.myPage.vo.NotificationVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.vo.PaginationInfoVO;
+
+public interface IMypageService {
+
+
+	public int selectNotificationCount(PaginationInfoVO<NotificationVO> pagingVO);
+
+	public List<NotificationVO> selectNotificationList(PaginationInfoVO<NotificationVO> pagingVO);
+
+	public ServiceResult deleteNotification(int notificationId);
+
+	public int selectResumeCount(PaginationInfoVO<ResumeVO> pagingVO);
+
+	public List<ResumeVO> selectResumeList(PaginationInfoVO<ResumeVO> pagingVO);
+
+	public void insertResume(HttpServletRequest req, ResumeVO resume);
+
+	public ResumeVO resumeDetail(HttpServletRequest req, int resumeId);
+
+	public void modifyResume(HttpServletRequest req, ResumeVO resume);
+
+	public MemberVO getMemberByResumeId(int resumeId);
+
+	public void deleteResume(HttpServletRequest req, int resumeId);
+
+//	public void insertCovltrItems(HttpServletRequest req, CoverletterItemVO covltrItem);
+//
+//	public CoverletterItemVO coverletterDetail(HttpServletRequest req, int covltrItemId);
+//
+//	public void modifyCoverletterItems(HttpServletRequest req, CoverletterItemVO covltrItem);
+//
+//	public List<CoverletterItemVO> selectCovltrItemList(HttpServletRequest req, String memId);
+//
+//	public void insertCoverletter(String checkedIds, String covltrTitle);
+
+	public void insertCoverletter(HttpServletRequest req, CoverletterVO covltr);
+
+	public CoverletterVO coverletterDetail(HttpServletRequest req, int covltrId);
+
+	public void modifyCoverletter(HttpServletRequest req, CoverletterVO covltr);
+
+	public void deleteCoverletter(HttpServletRequest req, int covltrId);
+
+	public List<CoverletterVO> selectCoverletterList(HttpServletRequest req, String memId);
+
+}

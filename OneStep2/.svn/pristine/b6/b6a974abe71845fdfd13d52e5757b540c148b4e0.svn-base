@@ -1,0 +1,151 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<div class="sub-header-container">
+	<header class="header navbar navbar-expand-sm">
+		<ul class="navbar-nav flex-row">
+			<li>
+				<div class="page-header">
+					<nav class="breadcrumb-one" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item active" aria-current="page"><span>여기 이름 바꾸기!</span></li>
+						</ol>
+					</nav>
+				</div>
+			</li>
+		</ul>
+		<ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+			<li class="">
+				<p class="current-time" id="currentTime"></p>
+				<p class="current-date" id="currentDate"></p>
+			</li>
+		</ul>
+	</header>
+</div>
+
+<div class="layout-px-spacing">
+    <div class="row layout-spacing pt-4">
+        <div class="col-xl-3 col-lg-4 col-md-4 mb-4">
+            <div class="profile-left">
+                <div class="image-area">
+                    <img class="user-image" src="assets/img/profile-16.jpg">
+                    <a href="pages_profile_edit.html" class="follow-area">
+                        <i class="las la-pen"></i>
+                    </a>
+                </div>
+                <div class="info-area">
+                    <h6>Sara Williamson</h6>
+                    <p>Data Analyst</p>
+                    <button>Follow</button>
+                </div>
+                <div class="profile-numbers">
+                    <div class="single-number">
+                        <a>
+                            <span class="number">42</span>
+                            <span class="number-detail">Projects</span>
+                        </a>
+                    </div>
+                    <div class="single-number">
+                        <a>
+                            <span class="number">9.5K</span>
+                            <span class="number-detail">Products</span>
+                        </a>
+                    </div>
+                    <div class="single-number">
+                        <a>
+                            <span class="number">04</span>
+                            <span class="number-detail">Tasks</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="profile-tabs">
+                    <div class="nav flex-column nav-pills mb-sm-0 mb-3 mx-auto" id="v-border-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link active" id="v-border-pills-home-tab" data-toggle="pill" href="#v-border-pills-home" role="tab" aria-controls="v-border-pills-home" aria-selected="true">Home</a>
+                        <a class="nav-link" id="v-border-pills-team-tab" data-toggle="pill" href="#v-border-pills-team" role="tab" aria-controls="v-border-pills-team" aria-selected="false">Team</a>
+                        <a class="nav-link" id="v-border-pills-work-tab" data-toggle="pill" href="#v-border-pills-work" role="tab" aria-controls="v-border-pills-work" aria-selected="false">Work in progress</a>
+                        <a class="nav-link" id="v-border-pills-products-tab" data-toggle="pill" href="#v-border-pills-products" role="tab" aria-controls="v-border-pills-products" aria-selected="false">Products</a>
+                        <a class="nav-link" id="v-border-pills-orders-tab" data-toggle="pill" href="#v-border-pills-orders" role="tab" aria-controls="v-border-pills-orders" aria-selected="false">Orders</a>
+                        <a class="nav-link" id="v-border-pills-settings-tab" data-toggle="pill" href="#v-border-pills-settings" role="tab" aria-controls="v-border-pills-settings" aria-selected="false">Settings</a>
+                    </div>
+                </div>
+                <div class="highlight-info">
+                    <img src="assets/img/company-1.jpg" />
+                    <div class="highlight-desc">
+                        <p>WS Retailer</p>
+                        <p>Top seller of the month</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-9 col-lg-8 col-md-8">
+            <div class="cover-image-area">
+                <img src="assets/img/1.jpg" class="cover-img"/>
+            </div>
+            <div class="row tab-area-content">
+                <div class="col-xl-5 col-lg-12 col-md-12">
+                    <div class="profile-info">
+                        <h5>General Information</h5>
+                        <div class="single-profile-info">
+                            <h6>Bio</h6>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
+                        </div>
+                        <div class="single-profile-info">
+                            <h6>Website</h6>
+                            <p><a href="https://www.demowebsite.com" target="_blank">www.demowebsite.com</a></p>
+                        </div>
+                        <div class="single-profile-info">
+                            <h6>Email</h6>
+                            <p><a href="mailto:info@demowebsite.com">info@demowebsite.com</a></p>
+                        </div>
+                        <div class="single-profile-info">
+                            <h6>Contact Us</h6>
+                            <p>(+1) 1024 2014</p>
+                        </div>
+                        <div class="single-profile-info">
+                            <h6>Skills</h6>
+                            <span class="badge badge-primary"> UI/UX </span>
+                            <span class="badge badge-info"> Photoshop </span>
+                            <span class="badge badge-secondary"> Angular </span>
+                            <span class="badge outline-badge-danger"> Java </span>
+                        </div>
+                        <div class="single-profile-info social">
+                            <h6>Social</h6>
+                            <a href="https://www.facebook.com" target="_blank"><i class="lab la-facebook text-primary"></i></a>
+                            <a href="https://www.twitter.com" target="_blank"><i class="lab la-twitter text-info"></i></a>
+                            <a href="https://www.linkedin.com" target="_blank"><i class="lab la-linkedin text-primary"></i></a>
+                            <a href="https://www.instagram.com" target="_blank"><i class="lab la-instagram text-danger"></i></a>
+                            <a href="https://www.github.com" target="_blank"><i class="lab la-github text-black"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+<div class="col-xl-7 col-lg-12 col-md-12 mb-4">
+      <div class="tab-content" id="v-border-pills-tabContent">
+          <div class="tab-pane fade show active" id="v-border-pills-home" role="tabpanel" aria-labelledby="v-border-pills-home-tab">
+         
+         	
+         
+          </div>
+      </div>
+</div>
+        
+        
+        
+        
+    </div>
+</div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            

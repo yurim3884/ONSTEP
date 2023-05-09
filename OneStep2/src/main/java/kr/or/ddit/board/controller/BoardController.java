@@ -1,0 +1,462 @@
+package kr.or.ddit.board.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.View;
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.board.service.IBoardService;
+import kr.or.ddit.board.service.IGoodService;
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.comment.service.ICommentService;
+import kr.or.ddit.comment.vo.CommentVO;
+import kr.or.ddit.master.service.IMasterAdvertService;
+import kr.or.ddit.master.vo.AdvertVO;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.vo.AttVO;
+import kr.or.ddit.vo.GoodVO;
+import kr.or.ddit.vo.PaginationInfoVO;
+import kr.or.ddit.vo.ReportVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@RequestMapping("/board")
+public class BoardController {
+	
+	@Inject
+	private IBoardService boardService;
+	
+	@Inject
+	private ICommentService commentService;
+	
+	@Inject
+	private IGoodService goodService;
+	
+	@Inject
+	private IMasterAdvertService advertService;
+	
+//리스트	
+	@RequestMapping(value="/list/{boardCategory}", method=RequestMethod.GET)
+	public String boardList(
+			@RequestParam(name="page", required=false, defaultValue = "1") int currentPage,
+			@RequestParam(required=false, defaultValue = "title") String searchType,
+			@RequestParam(required=false) String searchWord,
+			@PathVariable int boardCategory,
+			Model model) {
+		
+		BoardVO boardVO = new BoardVO();
+		PaginationInfoVO<BoardVO> pagingVO = new PaginationInfoVO<BoardVO>();
+		log.info("서치워드와 서치타입이 들어오는가? " + pagingVO);
+		if(StringUtils.isNotBlank(searchWord)) {
+			pagingVO.setSearchType(searchType);
+			pagingVO.setSearchWord(searchWord);
+			model.addAttribute("searchWord", searchWord);
+			model.addAttribute("searchType", searchType);
+		}
+		log.info("서치워드와 서치타입이 들어오는가22222222? " + pagingVO);
+		boardVO.setBoardCategory(boardCategory);
+		pagingVO.setCurrentPage(currentPage);
+		int totalRecord = boardService.selectBoardCount(pagingVO);
+		pagingVO.setTotalRecord(totalRecord);
+		List<BoardVO> boardList = boardService.selectBoardList(pagingVO);
+		log.info("여기서 데이터 어떻게 나오는가? " + boardList);
+		pagingVO.setDataList(boardList);
+		
+		model.addAttribute("boardVO",boardVO);
+		model.addAttribute("pagingVO",pagingVO);
+		log.info("나오냐?" + boardVO );
+		log.info("나오냐2?" + pagingVO);
+		return "board/list"+boardCategory;
+	}
+	
+	@RequestMapping(value="/form/{boardCategory}", method=RequestMethod.GET)
+	public String boardForm(@PathVariable int boardCategory) {
+		return "board/register";
+		
+	}
+
+//등록	
+	@RequestMapping(value="/insert/{boardCategory}", method= RequestMethod.POST)
+	public String boardInsert(
+			HttpServletRequest req,
+			BoardVO boardVO,
+			@PathVariable int boardCategory,
+			Model model){
+		String goPage = "";
+		HttpSession session = req.getSession();
+//로그인할떄 세션값을 유지하려고 했는데 이미 있었다. 
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		boardVO.setBoardCategory(boardCategory);
+		model.addAttribute("boardVO", boardVO);
+//		System.out.println(("넒어와지나? memberVO : " + memberVO));
+//		System.out.println("야야야야야야야" + AttVO);
+		log.info("session : " + session);
+		if(memberVO!=null) {
+			boardVO.setMemId(memberVO.getMemId());
+			ServiceResult result = boardService.insertBoard(req, boardVO);
+			if(result.equals(ServiceResult.OK)) {
+				goPage="redirect:/board/list/{boardCategory}";
+			}else {
+				goPage = "board/register/{boardCategory}";
+			}
+			
+		}else {
+			goPage = "redirect:/member/login";
+		}
+		
+		return goPage;
+	}
+
+	
+//상세	
+	@RequestMapping(value="/read",method=RequestMethod.GET)
+	public String boardDetail(int boardId, Model model, HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		 
+	    BoardVO boardVO = boardService.selectBoard(boardId);
+	    log.info("멤버아이디가 들어오냐? : " + boardVO);
+		GoodVO goodVO = new GoodVO();
+		goodVO.setBoardId(boardId);
+		goodVO.setMemId(memberVO.getMemId());
+	    List<CommentVO> list = commentService.commentList(boardId);
+	    List<GoodVO> goodList = goodService.goodList(goodVO);
+	    List<AdvertVO> advertList = advertService.advertList();
+//	    GoodVO like = (GoodVO)goodService.findLike(boardId, memberVO.getMemId());
+//	    log.info("좋아요 들어오나요? : " + like );
+//	    like.setBoardId(boardId);
+//	    like.setMemId(memberVO.getMemId());
+//	    log.info("들어갔다가 나온값은 ? : " + like);
+//	    model.addAttribute("like", like);
+	    
+	    model.addAttribute("board", boardVO);
+		model.addAttribute("list",list);
+		model.addAttribute("goodList",goodList);
+		model.addAttribute("advertList",advertList);
+		log.info("코맨 : " + list);
+		
+		return "board/read2";
+	}
+	
+	
+//수정
+	@RequestMapping(value="/update", method=RequestMethod.GET)
+	public String boardUpdate(int boardId, Model model) {
+		BoardVO boardVO = boardService.selectBoard(boardId);
+		model.addAttribute("boardVO",boardVO);
+		model.addAttribute("status","u");
+		
+		return "board/register";
+	}
+	
+	@RequestMapping(value="/update.do",method=RequestMethod.POST)
+	public String boardUpdatDO(
+			HttpServletRequest req,
+			BoardVO boardVO, Model model) {
+		String goPage = "";
+		ServiceResult result = boardService.updateBoard(req, boardVO);
+//		MemberVO memberVO = session.getAttribute("memberVO");
+		if(result.equals(ServiceResult.OK)) {
+			goPage = "redirect:/board/read?boardId="+boardVO.getBoardId();
+		}else {
+			model.addAttribute("message", "수정에 실패했습니다.");
+			model.addAttribute("boardVO", boardVO);
+			model.addAttribute("status","u");
+			goPage="board/register";
+		}
+		return goPage;
+	}
+	
+//삭제	
+	@RequestMapping(value="/delete/{boardCategory}",method=RequestMethod.POST)
+	public String boardDelete(
+			HttpServletRequest req,
+			@PathVariable int boardCategory,
+			int boardId, Model model) {
+		String goPage ="";
+		ServiceResult result = boardService.deleteBoard(req,boardId);
+		if(result.equals(ServiceResult.OK)) {
+			goPage = "redirect:/board/list/{boardCategory}";
+		}else {
+			goPage = "redirect:/board/read?boardId="+boardId;
+		}
+		return goPage;
+		
+	}
+	
+	
+//파일 다운로드 
+	@RequestMapping(value="/download")
+	public View boardDownload(
+			int attId, Model model) {
+		AttVO attVO = boardService.boardDownload(attId);
+		Map<String, Object> boardFileMap = new HashMap<String, Object>();
+		boardFileMap.put("fileName", attVO.getAttFileName());
+		boardFileMap.put("fileSize", attVO.getAttFileSize());
+		boardFileMap.put("fileSavepath",attVO.getAttPath());
+		model.addAttribute("boardFileMap",boardFileMap);
+		
+		return new BoardDownloadView();
+	}
+	
+
+//신고하기
+	@PostMapping(value = "/report", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public String report(@RequestBody ReportVO reportVO) {
+		
+		log.debug("리포트브이오 : " + reportVO);
+		
+		boardService.insertReport(reportVO);
+		
+		return "SUCCESS";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

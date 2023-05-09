@@ -1,0 +1,14 @@
+package kr.or.ddit.board.service;
+
+import java.util.Map;
+
+import kr.or.ddit.vo.GoodVO;
+
+public interface IGoodService {
+
+	public void findGood(GoodVO goodVO);
+	
+	//상세페이지에서 체크 0,1을
+	public Map<String, Object> goodCheck(int boardId);
+
+}

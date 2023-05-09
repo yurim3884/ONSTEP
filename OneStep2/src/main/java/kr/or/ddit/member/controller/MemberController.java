@@ -1,0 +1,776 @@
+package kr.or.ddit.member.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import javax.inject.Inject;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.collections.map.HashedMap;
+import org.apache.http.Consts;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.omg.CORBA.PUBLIC_MEMBER;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.company.service.ICompanyService;
+import kr.or.ddit.company.vo.CompanyVO;
+import kr.or.ddit.freelancer.service.IFreeService;
+import kr.or.ddit.master.service.IinquiryService;
+import kr.or.ddit.master.vo.AnswerVO;
+import kr.or.ddit.member.service.IMemService;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.member.vo.SupportVO;
+import kr.or.ddit.myPage.service.IMypageService;
+import kr.or.ddit.myPage.vo.CoverletterItemVO;
+import kr.or.ddit.myPage.vo.CoverletterVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.vo.AnnoVO;
+import kr.or.ddit.vo.ApplyVO;
+import kr.or.ddit.vo.AttVO;
+import kr.or.ddit.vo.FaqVO;
+import kr.or.ddit.vo.MailVO;
+import kr.or.ddit.vo.ReviewVO;
+import kr.or.ddit.vo.keywordAnnoVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@RequestMapping("/member")
+public class MemberController { // 일반회원가입페이지로이동
+
+	@Inject
+	private IinquiryService inquiryService;
+	// 메일전송
+	@Autowired
+	private JavaMailSenderImpl mailSender;
+	// Service연결
+	@Inject
+	private IMemService memService;
+	@Inject
+	private ICompanyService comService;
+	@Inject
+	private IMypageService myService;
+	@Inject
+	private IFreeService freeService;
+
+	// 일반회원가입
+	@RequestMapping(value = "/join", method = RequestMethod.GET)
+	public String join() {
+
+		return "loginjoin/join";
+	}
+
+	// 기업회원가입
+	@RequestMapping(value = "/companyjoin", method = RequestMethod.GET)
+	public String companyjoin() {
+
+		return "loginjoin/companyjoin";
+	}
+
+	// 로그인페이지
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String loginPage(Model model) {
+
+		return "loginjoin/login";
+	}
+
+	// 인증메일 전송
+	@RequestMapping(value = "/sendJoin", produces = "text/plain; charset=utf-8")
+	@ResponseBody
+	public ResponseEntity<String> sendjoinMail(@RequestBody MailVO mvo, HttpSession session) throws Exception {
+		Random random = new Random();
+
+		int ranNum = random.nextInt(100000);
+
+		session.setAttribute("ranNum", ranNum);
+		session.setMaxInactiveInterval(300);
+
+		String from = "ehdgur534@gmail.com";
+
+		try {
+			MimeMessage mail = mailSender.createMimeMessage();
+
+			MimeMessageHelper mailHelper = new MimeMessageHelper(mail, "UTF-8");
+
+			mailHelper.setFrom(from);
+			// 빈에 아이디 설정한 것은 단순히 smtp 인증을 받기 위해 사용 따라서 보내는이(setFrom())반드시 필요
+			// 보내는이와 메일주소를 수신하는이가 볼때 모두 표기 되게 원하신다면 아래의 코드를 사용하시면 됩니다.
+			// mailHelper.setFrom("보내는이 이름 <보내는이 아이디@도메인주소>");
+			mailHelper.setTo(mvo.getTo());
+			mailHelper.setSubject("인증번호입니다");
+			mailHelper.setText("회원가입 인증번호는 " + ranNum + "입니다", true);
+			// true는 html을 사용하겠다는 의미입니다.
+
+			/*
+			 * 단순한 텍스트만 사용하신다면 다음의 코드를 사용하셔도 됩니다. mailHelper.setText(content);
+			 */
+
+			mailSender.send(mail);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("FAILED", HttpStatus.OK);
+		}
+
+		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/numberCheck", produces = "text/plain; charset=utf-8")
+	@ResponseBody
+	public ResponseEntity<String> numCheck(@RequestBody MailVO mvo, HttpSession session) throws Exception {
+		int ranNum;
+		System.out.println(mvo.getJoinNum());
+		if (session.getAttribute("ranNum") != null) {
+			ranNum = (int) session.getAttribute("ranNum");
+		} else {
+			ranNum = 0;
+		}
+
+		if (mvo.getJoinNum().equals(String.valueOf(ranNum))) {
+
+			return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<String>("FAILED", HttpStatus.OK);
+		}
+
+	}
+
+	// 일반회원 회원가입 DB연동
+	@RequestMapping(value = "/join", method = RequestMethod.POST)
+	public String joinGo(MemberVO vo, RedirectAttributes rttr) {
+
+		System.out.println(vo);
+		vo.setMemTel(vo.getMemTel().replaceAll(",", "-"));
+		int cnt = memService.join(vo);
+		System.out.println(cnt);
+		rttr.addFlashAttribute("msg", "회원가입 성공!");
+		return "redirect:/member/login";
+	}
+
+	// 기업회원 회원가입 DB연동
+	@RequestMapping(value = "/companyjoin", method = RequestMethod.POST)
+	public String companyjoinGo(MemberVO vo, RedirectAttributes rttr) {
+
+		System.out.println(vo);
+		vo.setMemTel(vo.getMemTel().replaceAll(",", "-"));
+		int cnt = memService.companyJoin(vo);
+		System.out.println(cnt);
+		rttr.addFlashAttribute("msg", "회원가입 성공!");
+		return "redirect:/member/login";
+	}
+
+	// 비동기 ID중복확인
+	@RequestMapping(value = "/memCheck", method = RequestMethod.GET)
+	public ResponseEntity<String> memCheck(String memId) {
+
+		System.out.println("멤버아이디: " + memId);
+		MemberVO vo = memService.memCheck(memId);
+		if (vo == null) {
+			return new ResponseEntity<String>("FAILED", HttpStatus.OK);
+
+		}
+		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String loginGo(MemberVO vo, RedirectAttributes rttr, HttpServletRequest req, Model model) {
+
+		System.out.println("넘어온값" + vo);
+		MemberVO vo2 = memService.memCheck(vo.getMemId());
+		System.out.println("조회값" + vo2);
+		if (vo2 == null) {
+			rttr.addFlashAttribute("msg", "해당 ID를 찾을수 없습니다.");
+
+			return "redirect:/member/login";
+		} else {
+			if (vo.getMemPw().equals(vo2.getMemPw())) {
+				HttpSession session = req.getSession();
+				session.setAttribute("memberVO", vo2);
+				rttr.addFlashAttribute("msg", "로그인 성공");
+				if (vo2.getMemStatus().equals("1")) {
+					List<AnnoVO> annoList = comService.annoList();
+					model.addAttribute("annoList", annoList);
+					return "redirect:/member/mainn";
+				} else if (vo2.getMemStatus().equals("2")) {
+					return "redirect:/company/main";
+				} else if (vo2.getMemStatus().equals("3")) {
+					return "redirect:/manager/main";
+				} else if (vo2.getMemStatus().equals("4")) {
+					return "redirect:/master/member";
+				} else if (vo2.getMemStatus().equals("5")) {
+					model.addAttribute("msg", "차단당한 사용자 입니다.");
+					return "redirect:/master/login";
+				} else if (vo2.getMemStatus().equals("6")) {
+					model.addAttribute("msg", "승인 대기중인 기업회원입니다.");
+					return "redirect:/master/login";
+				} else {
+					return "redirect:/member/login";
+				}
+
+			} else {
+				rttr.addFlashAttribute("msg", "비밀번호가 틀렸습니다.");
+				return "redirect:/member/login";
+			}
+
+		}
+
+	}
+
+	// 카카오톡 로그인 컨트롤러
+	@RequestMapping(value = "kakao", method = RequestMethod.GET)
+	public String kakao(@RequestParam String code, Model model, HttpServletRequest req) throws Exception {
+
+		System.out.println(code);
+
+		HttpPost httpPost = new HttpPost("https://kauth.kakao.com/oauth/token");
+		httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+		List<NameValuePair> nameValuePairs = new ArrayList<>();
+		nameValuePairs.add(new BasicNameValuePair("grant_type", "authorization_code"));
+		nameValuePairs.add(new BasicNameValuePair("client_id", "302f45b1d45faa5060f5c8aaa0f81418"));
+		nameValuePairs.add(new BasicNameValuePair("redirect_uri", "http://localhost/member/kakao"));
+		nameValuePairs.add(new BasicNameValuePair("code", code));
+		httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, Consts.UTF_8));
+
+		HttpClient httpClient = HttpClientBuilder.create().build();
+		HttpResponse response = httpClient.execute(httpPost);
+		String body = EntityUtils.toString(response.getEntity());
+
+		System.out.println(body);
+
+		JSONParser parser = new JSONParser();
+		JSONObject jsonObject = (JSONObject) parser.parse(body);
+
+		System.out.println("인증키 :" + jsonObject.get("access_token"));
+
+		HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
+		HttpPost postRequest = new HttpPost("https://kapi.kakao.com/v2/user/me"); // POST 메소드 URL 새성
+		postRequest.setHeader("Authorization", "Bearer " + (String) jsonObject.get("access_token"));
+		// postRequest.addHeader("Authorization", token); // token 이용시
+
+		response = client.execute(postRequest);
+
+		// Response 출력
+		if (response.getStatusLine().getStatusCode() == 200) {
+			ResponseHandler<String> handler = new BasicResponseHandler();
+			body = handler.handleResponse(response);
+			System.out.println("사용자정보 :" + body);
+			jsonObject = (JSONObject) parser.parse(body);
+			System.out.println("JSON :" + jsonObject.get("id"));
+		} else {
+			System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+		}
+
+		String id = jsonObject.get("id").toString();
+
+		MemberVO vo = memService.memCheck(id);
+		if (vo != null) {
+			// 멤버VO 세션
+			HttpSession session = req.getSession();
+			session.setAttribute("memberVO", vo);
+
+			return "redirect:/member/main";
+		}
+
+		model.addAttribute("kakaoInfo", jsonObject);
+		return "loginjoin/kakaojoin";
+
+	}
+
+	// 아이디 비밀번호 찾기
+
+	@RequestMapping(value = "/forget", method = RequestMethod.GET)
+	public String forget() {
+
+		return "loginjoin/forget";
+	}
+
+	// 아이디찾기
+	@RequestMapping(value = "/idForget", method = RequestMethod.GET)
+	public ResponseEntity<String> idForget(String memName, String memEmail) {
+
+		MemberVO vo = new MemberVO();
+		vo.setMemName(memName);
+		vo.setMemEmail(memEmail);
+		MemberVO vo2 = memService.idForget(vo);
+		System.out.println(vo2);
+		if (vo2 != null) {
+
+			String name = vo2.getMemId();
+			return new ResponseEntity<String>(name, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("FAILED", HttpStatus.OK);
+	}
+
+	// 비밀번호찾기
+	@RequestMapping(value = "/pwForget", method = RequestMethod.GET)
+	public ResponseEntity<String> pwForget(String memId, String memEmail) {
+
+		MemberVO vo = new MemberVO();
+		vo.setMemId(memId);
+		vo.setMemEmail(memEmail);
+		System.out.println(vo);
+		MemberVO vo2 = memService.pwForget(vo);
+		System.out.println(vo2);
+		if (vo2 != null) {
+
+			Random random = new Random();
+
+			int ranNum = random.nextInt(100000);
+
+			String from = "ehdgur534@gmail.com";
+
+			try {
+				MimeMessage mail = mailSender.createMimeMessage();
+
+				MimeMessageHelper mailHelper = new MimeMessageHelper(mail, "UTF-8");
+
+				mailHelper.setFrom(from);
+				// 빈에 아이디 설정한 것은 단순히 smtp 인증을 받기 위해 사용 따라서 보내는이(setFrom())반드시 필요
+				// 보내는이와 메일주소를 수신하는이가 볼때 모두 표기 되게 원하신다면 아래의 코드를 사용하시면 됩니다.
+				// mailHelper.setFrom("보내는이 이름 <보내는이 아이디@도메인주소>");
+				mailHelper.setTo(memEmail);
+				mailHelper.setSubject("임시비밀번호입니다");
+				mailHelper.setText("회원가입 임시비밀번호는 " + "a" + ranNum + "입니다", true);
+				// true는 html을 사용하겠다는 의미입니다.
+
+				/*
+				 * 단순한 텍스트만 사용하신다면 다음의 코드를 사용하셔도 됩니다. mailHelper.setText(content);
+				 */
+
+				mailSender.send(mail);
+				vo2.setMemPw("a" + ranNum);
+				memService.changePw(vo2);
+				return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<String>("MAILFAILED", HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<String>("FAILED", HttpStatus.OK);
+	}
+
+	// 회원정보 수정
+	@RequestMapping(value = "/updateInfo", method = RequestMethod.POST)
+	public String updateInfo(MemberVO vo, RedirectAttributes rttr, HttpServletRequest req) {
+		System.out.println(vo);
+
+		memService.changeInfo(vo);
+		rttr.addFlashAttribute("msg", "회원정보수정을 완료했습니다.");
+		HttpSession session = req.getSession();
+		MemberVO vo2 = memService.memCheck(vo.getMemId());
+		session.setAttribute("memberVO", vo2);
+		return "redirect:/myPage/memInfo";
+	}
+
+	// 비밀번호 변경
+	@RequestMapping(value = "/changePw", method = RequestMethod.GET)
+	public ResponseEntity<String> pwChange(String memId, String beforePw, String afterPw) {
+
+		System.out.println(memId);
+		System.out.println(beforePw);
+		System.out.println(afterPw);
+
+		MemberVO vo = memService.memCheck(memId);
+		if (beforePw.equals(vo.getMemPw())) {
+			vo.setMemPw(afterPw);
+			memService.changePw(vo);
+			return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+
+		}
+
+		return new ResponseEntity<String>("FAILED", HttpStatus.OK);
+
+	}
+
+	// 기업비교
+
+	@GetMapping("/companyCompare")
+	public String companyCompare(HttpServletRequest req,Model model) {
+		HttpSession session = req.getSession();
+		MemberVO memVO = (MemberVO)session.getAttribute("memberVO");
+		List<CompanyVO> comList = memService.getSupportComList(memVO.getMemId());
+		
+		log.debug("comList :" + comList); 
+		
+		model.addAttribute("comList", comList);
+		
+		return "member/companyCompare";
+	}
+
+	// 리뷰등록
+	@GetMapping("reviewInsert/{companyId}")
+	public String reviewInsert(@PathVariable("companyId") String companyId, Model model) {
+		CompanyVO vo = comService.getCompany(companyId);
+		List<AnnoVO> annoVo = comService.selectAnno(companyId);
+		model.addAttribute("companyVO", vo);
+		model.addAttribute("annoVO", annoVo);
+
+		System.out.println(companyId);
+		return "member/reviewInsert";
+	}
+
+	// 리뷰등록
+	@PostMapping("/reviewInsert")
+	public String reviewInsertGo(ReviewVO vo) {
+		System.out.println(vo);
+
+		comService.insertReview(vo);
+
+		return "success";
+	}
+
+	// 회사디테일
+	@RequestMapping(value = "/detail/{companyId}", method = RequestMethod.GET)
+	public String companyDetail(@PathVariable("companyId") String companyId, Model model) {
+
+		CompanyVO vo = comService.getCompany(companyId);
+		List<AnnoVO> annoVo = comService.selectAnno(companyId);
+		List<ReviewVO> reviewVO = comService.getReviewList(Integer.parseInt(companyId));
+		
+		Map<String, Object> avgPay = comService.getAvgPay(vo.getCompanyMain());
+		
+		model.addAttribute("avgPay",avgPay.get("AVGPAY"));
+		model.addAttribute("companyVO", vo);
+		model.addAttribute("annoVO", annoVo);
+		model.addAttribute("reviewVO", reviewVO);
+
+		return "member/detail";
+	}
+
+	// 관심기업 추가
+	@GetMapping("/companyLike")
+	public ResponseEntity<String> companyLike(SupportVO supVO) {
+
+		memService.insertSupport(supVO);
+
+		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+	}
+
+	// 관심기업 삭제
+	@GetMapping("/companyDelLike")
+	public ResponseEntity<String> companyDelLike(SupportVO supVO) {
+
+		memService.delSupport(supVO);
+
+		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+	}
+
+	// 개인정보활용동의
+	@GetMapping("PrivacyPolicy")
+	public String PrivacyPolicy() {
+		return "loginjoin/PrivacyPolicy";
+	}
+
+	// 공고 디테일
+	@GetMapping(value = "/detailAnno/{annoId}")
+	public String detail(HttpServletRequest req, @PathVariable("annoId") int annoId, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+
+		System.out.println("annoId" + annoId);
+		AnnoVO anno = comService.selectAnnoOne(annoId);
+		anno.setMemId(memberVO.getMemId());
+		List<keywordAnnoVO> keyword = comService.seleteKeyword(annoId);
+
+		List<ResumeVO> resumeList = memService.selectResume(memberVO.getMemId());
+		model.addAttribute("resumeList", resumeList);
+		
+		List<MemberVO> memList = comService.selectApplyMemList(annoId);
+		
+		//이미 지원한 지원자인지?
+		Map<String, Object> memApplyMap = new HashMap<String, Object>();
+		memApplyMap.put("annoId", annoId);
+		memApplyMap.put("memId", memberVO.getMemId());
+		MemberVO memFlag = comService.selectApplyMemId(memApplyMap);
+		
+		if(memFlag!=null) {
+			model.addAttribute("memFlag", true);
+		}else {
+			model.addAttribute("memFlag", false);
+		}
+		
+		List<CoverletterVO> coverletterList = memService.selectCoverletter(memberVO.getMemId());
+		model.addAttribute("coverletterList", coverletterList);
+
+		model.addAttribute("keyword", keyword);
+		System.out.println("anno" + anno);
+		model.addAttribute("anno", anno);
+		
+		
+		log.debug("지원회원들 통계 : " + memList);
+		model.addAttribute("memCnt",memList);
+		
+		return "member/detailAnno";
+	}
+
+	@PostMapping(value = "apply")
+	public String detail(ApplyVO applyVO) {
+		memService.insertApply(applyVO);
+		return "redirect:/myPage/myApply";
+	}
+	
+	@GetMapping(value = "/notice")
+	public String notice(Model model) {
+		List<BoardVO> noticeList = comService.noticeList();
+		model.addAttribute("notice", noticeList);
+		return "member/notice";
+	}
+	@GetMapping("noticeDetail/{boardId}")
+	public String noticeDatail (Model model, @PathVariable("boardId") int boardId) {
+		BoardVO board = comService.notice(boardId);
+		model.addAttribute("board",board);
+		return "member/noticeDetail";
+	}
+	
+	@RequestMapping(value="/resume/detail", method=RequestMethod.GET)
+	public String resumeDetail(HttpServletRequest req, int resumeId, Model model) {
+		System.out.println("fdkhfsjkdfhas"+resumeId);
+		MemberVO member = myService.getMemberByResumeId(resumeId);
+		ResumeVO resume = myService.resumeDetail(req, resumeId);
+		model.addAttribute("resume", resume);
+		model.addAttribute("member", member);
+		return "member/resumeDetail";
+	}
+	
+	@RequestMapping(value="/coverletter/detail", method=RequestMethod.GET)
+	public String coverletterDetail (HttpServletRequest req, int covltrId, Model model) {
+		
+		MemberVO member = myService.getMemberByCovltrId(covltrId);
+		log.info("member >> ", member);
+		
+		CoverletterVO covltr = myService.coverletterDetail(req, covltrId);
+		log.info("covltr >> ", covltr);
+		
+//		List<CoverletterItemVO> covltrItemList = covltr.getCovltrItemList();
+		
+		model.addAttribute("covltr", covltr);
+//		model.addAttribute("covltrItemList", covltrItemList);
+		model.addAttribute("member", member);
+		return "member/coverletterDetail";
+	}
+	
+	@PostMapping("updateApply")
+	public String updateApply (ApplyVO applyVO,HttpServletRequest req, Model model) {
+		System.out.println("dfkdjflkasjdf;lkadjsfkl;" +applyVO);
+		comService.updateApply(applyVO);
+		
+		
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		String companyId = memberVO.getCompanyId();
+		
+		List<MemberVO> member = comService.selectApplymem(companyId);
+		
+		System.out.println(member);
+		
+		model.addAttribute("member", member);
+		
+		return "member/annoMem";
+	}
+	
+	@GetMapping("/qna")
+	public String qna() {
+		return "member/qna";
+	}
+	
+	@RequestMapping(value = "/qna/{boardId}" , method = RequestMethod.GET)
+	public String inquiryDetail(@PathVariable("boardId") int boardId, Model model) throws Exception {
+		BoardVO board = freeService.inquiry(boardId);
+		AnswerVO answer = inquiryService.answerSelect(board.getBoardId());
+		model.addAttribute("board",board);
+		model.addAttribute("answer",answer);
+		return "member/qna";
+	}
+	
+	@RequestMapping(value = "/insertInqu" , method = RequestMethod.POST)
+	public String insertInqu(HttpServletRequest req,BoardVO board,Model model) {
+		String goPage = "";
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		if(memberVO!=null) {
+			board.setMemId(memberVO.getMemId());
+			ServiceResult result = freeService.insertInqu(req, board);
+			if(result.equals(ServiceResult.OK)) {
+				goPage="redirect:/member/inquirylist";
+			}else {
+				goPage = "member/insertInqu";
+			}
+			
+		}else {
+			goPage = "redirect:/member/login";
+		}
+		
+		return goPage;
+	}
+	
+	@GetMapping("/faq")
+	public String faq(Model model) {
+		List<FaqVO> faqList= freeService.selectFaq();
+		model.addAttribute("faqList",faqList);
+		return "member/faq";
+	}
+	@RequestMapping(value = "/insertInquForm" , method = RequestMethod.GET)
+	public String insertInquForm(Model model) {
+		return "member/insertInqu";
+	}
+	
+	@RequestMapping(value = "/updateInquForm/{boardId}" , method = RequestMethod.GET)
+	public String updateInquForm(@PathVariable("boardId")int boardId,Model model) {
+		BoardVO board = freeService.inquiry(boardId);
+		List<AttVO> attVO = freeService.selectBoardFile(boardId);
+		model.addAttribute("board",board);
+		model.addAttribute("att",attVO);
+		return "member/updateInqu";
+	}
+	
+	@RequestMapping(value="/updateInqu",method=RequestMethod.POST)
+	public String boardUpdatDO(
+			HttpServletRequest req,
+			BoardVO boardVO, Model model) {
+		String goPage = "";
+		ServiceResult result = freeService.updateBoard(req, boardVO);
+		
+//		MemberVO memberVO = session.getAttribute("memberVO");
+		if(result.equals(ServiceResult.OK)) {
+			goPage = "redirect:/member/qna/"+boardVO.getBoardId();
+		}else {
+			model.addAttribute("boardVO", boardVO);
+			goPage="member/updateInquForm";
+		}
+		return goPage;
+	}
+	
+	@RequestMapping(value = "/deleteInqu/{boardId}" , method = RequestMethod.GET)
+	public String deleteInqu(@PathVariable("boardId")int boardId,Model model) {
+		freeService.delete(boardId);
+		return "redirect:/member/inquirylist";
+	}
+	
+
+
+	@PostMapping(value = "/selectResume", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public List<ResumeVO> selectResume(@RequestBody Map<String, Object> map) {
+
+		String annoSalary = (String) map.get("annoSalary");
+		String annoMb = (String) map.get("annoMb");
+		System.out.println("아아" + annoSalary);
+		System.out.println("음" + annoMb);
+		System.out.println(map);
+		List<ResumeVO> resumeList = memService.matchingResumeList(map);
+
+		return resumeList;
+	}
+	@RequestMapping(value = "/inquirylist", method = RequestMethod.GET)
+	public String inquirylist(HttpServletRequest req ,Model model) throws Exception {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		String memId=memberVO.getMemId();
+		List<BoardVO> inquirylist = freeService.inquirylist(memId);
+		model.addAttribute("inquirylist",inquirylist);
+		return "member/inquiryList";
+	}
+
+	@GetMapping("/lock")
+	public String rock(HttpServletRequest req,Model model) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		
+		model.addAttribute("member" ,memberVO);
+		return "lock/lock";
+	}
+	
+	@RequestMapping(value = "/checkPw", method = RequestMethod.POST)
+	public String checkPw (MemberVO vo, RedirectAttributes rttr, HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		System.out.println("넘어온값" + vo);
+		MemberVO vo2 = memService.memCheck(memberVO.getMemId());
+		System.out.println("조회값" + vo2);
+		
+		String goPage="";
+		if (vo.getMemPw().equals(vo2.getMemPw())) {
+			goPage ="redirect:/myPage/memInfo";
+
+		} else {
+			rttr.addFlashAttribute("msg", "비밀번호가 틀렸습니다.");
+			goPage ="redirect:/member/lock";
+		}
+		return goPage;
+	}
+	
+	
+	@GetMapping("review")
+	public String review ( Model model) {
+		List<ReviewVO> reviewVO = comService.getReviewAll();
+		model.addAttribute("review",reviewVO);
+		return "member/review";
+	}
+	
+	@PostMapping("ajaxReview")
+	@ResponseBody
+	public List<ReviewVO> ajaxReview(@RequestBody ReviewVO reviewVO){
+		List<ReviewVO> reviewList = comService.getReviewAll();
+		int reviewScore = reviewVO.getReviewScore();
+		List<ReviewVO> reviewList2 = new ArrayList<ReviewVO>();
+		for(int i=0; i<reviewList.size(); i++) {
+			if(reviewList.get(i).getReviewScore()>=reviewVO.getReviewScore()) {
+				reviewList2.add(reviewList.get(i));
+			}
+			
+		}
+		return reviewList2 ;
+	}
+	
+	
+	@GetMapping("/logout")
+	public String logout(HttpServletRequest req) throws ServletException {
+		HttpSession session = req.getSession();
+		session.invalidate();
+		req.logout();
+		return "loginjoin/login";
+	}
+	
+	
+	
+	
+	
+
+}

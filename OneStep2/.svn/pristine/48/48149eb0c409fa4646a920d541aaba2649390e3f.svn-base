@@ -1,0 +1,18 @@
+package kr.or.ddit.mapper;
+
+import java.util.List;
+
+import kr.or.ddit.myPage.vo.NotificationVO;
+import kr.or.ddit.vo.PaginationInfoVO;
+
+public interface MypageMapper {
+
+	public int selectNotificationCount(PaginationInfoVO<NotificationVO> pagingVO);
+
+	public List<NotificationVO> selectNotificationList(PaginationInfoVO<NotificationVO> pagingVO);
+
+	public NotificationVO selectNotification(int notificationId);
+
+	public int deleteNotification(int notificationId);
+
+}

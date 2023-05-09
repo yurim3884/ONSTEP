@@ -1,0 +1,7 @@
+package kr.or.ddit.board.service;
+
+public interface IGoodService {
+
+	public int incrementGood(int boardId);
+
+}

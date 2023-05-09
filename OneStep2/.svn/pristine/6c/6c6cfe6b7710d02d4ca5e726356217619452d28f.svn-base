@@ -1,0 +1,733 @@
+package kr.or.ddit.company.controller;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
+
+import org.apache.commons.collections.map.HashedMap;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.company.service.ICompanyService;
+import kr.or.ddit.company.vo.CompanyVO;
+import kr.or.ddit.master.service.IinquiryService;
+import kr.or.ddit.master.vo.AnswerVO;
+import kr.or.ddit.member.service.IMemService;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.member.vo.SupportVO;
+import kr.or.ddit.myPage.service.IMypageService;
+import kr.or.ddit.pay.service.IPayService;
+import kr.or.ddit.prod.vo.ProdVO;
+import kr.or.ddit.vo.AnnoKeywordVO;
+import kr.or.ddit.vo.AnnoVO;
+import kr.or.ddit.vo.ApplyVO;
+import kr.or.ddit.vo.AttVO;
+import kr.or.ddit.vo.FaqVO;
+import kr.or.ddit.vo.ProposalVO;
+import kr.or.ddit.vo.ReviewVO;
+import kr.or.ddit.vo.keywordAnnoVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j // lombok 추가 후 사용 가능 // SLF4J(Simple Logging Facade for Java)는 이름에서 확인할 수 있듯이.
+		// java.util.logging, logback 및 log4j와 같은 다양한 로깅 프레임 워크에 대한 추상화(인터페이스) 역할을 하는
+		// 라이브러리
+@Controller
+@RequestMapping("/company")
+public class companyController {
+
+	@Inject
+	private IPayService service;
+
+	@Inject
+	private IinquiryService inquiryService;
+
+	@Inject
+	private ICompanyService comService;
+	@Inject
+	private IMemService memService;
+	
+	@Inject
+	private IMypageService mypageService;
+	
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	public String listGet(HttpServletRequest req, Model model) {
+		String goPage = "";
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		String companyId = memberVO.getCompanyId();
+		if (memberVO != null) {
+			CompanyVO vo = comService.getCompany(companyId);
+			List<BoardVO> noticeList = comService.noticeList5();
+			int annoCnt = comService.annoCnt(companyId);
+			int insterstCnt = comService.interCnt(companyId);
+			int applyCnt = comService.applyCnt(companyId);
+			int reviewCnt = comService.reviewCnt(companyId);
+			model.addAttribute("annoCnt", annoCnt);
+			model.addAttribute("insterstCnt", insterstCnt);
+			model.addAttribute("applyCnt", applyCnt);
+			model.addAttribute("reviewCnt", reviewCnt);
+			model.addAttribute("notice", noticeList);
+			model.addAttribute("vo", vo);
+			model.addAttribute("companyId", companyId);
+			goPage = "company/main";
+		} else {
+			goPage = "redirect:/member/login";
+		}
+		return goPage;
+	}
+
+	@GetMapping("/insertForm")
+	public String insertForm(HttpServletRequest req, Model model) {
+		List<AnnoKeywordVO> keyword = comService.selectAnnoKeyword();
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		Date now = new Date();
+		model.addAttribute("now", now);
+		System.out.println("fdkjdjkdjkdjkdjk" + memberVO);
+		String comId = memberVO.getCompanyId();
+		model.addAttribute("comId", comId);
+
+		System.out.println("keyword : " + keyword);
+		model.addAttribute("keyword", keyword);
+		return "company/insertAnno";
+	}
+
+	@GetMapping("/insertForm/{annoId}")
+	public String insertFormNO(HttpServletRequest req, Model model, @PathVariable("annoId") int annoId) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		Date now = new Date();
+		model.addAttribute("now", now);
+		System.out.println("fdkjdjkdjkdjkdjk" + memberVO);
+		String comId = memberVO.getCompanyId();
+		model.addAttribute("comId", comId);
+		List<keywordAnnoVO> keyword = comService.seleteKeyword(annoId);
+		model.addAttribute("keyword", keyword);
+		AnnoVO anno = comService.selectAnnoOne(annoId);
+		model.addAttribute("anno", anno);
+
+		return "company/Annoinsert";
+	}
+
+	@PostMapping(value = "/insert")
+	public String insert(Model model, AnnoVO anno, HttpServletRequest req, String comId) throws Exception {
+		log.info("anno {}", anno);
+		anno.setComId(comId);
+		comService.insertAnno(req, anno);
+
+		if (!anno.getKeyword().equals("")) {
+			String[] tags = anno.getKeyword().split(",");
+			for (int i = 0; i < tags.length; i++) {
+				keywordAnnoVO tagVO = new keywordAnnoVO();
+				tagVO.setAnnoId(anno.getAnnoId());
+				;
+				tagVO.setAnnoKwname(tags[i]);
+				comService.createTag(tagVO);
+			}
+		}
+
+		return "redirect:/company/main";
+	}
+
+	@GetMapping(value = "/myAnno")
+	public String myAnno(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		String companyId = memberVO.getCompanyId();
+		Date now = new Date();
+		System.out.println("now nownownownow" + now);
+		System.out.println("asdfhaslkjdfhasl;dfj" + companyId);
+		List<AnnoVO> annoList = comService.selectAnno(companyId);
+		model.addAttribute("now", now);
+		System.out.println("annoList" + annoList);
+		model.addAttribute("annoList", annoList);
+		return "company/myAnno";
+	}
+
+	@GetMapping(value = "/detailAnno")
+	public String detail(HttpServletRequest req,int annoId, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		System.out.println("annoId" + annoId);
+		AnnoVO anno = comService.selectAnnoOne(annoId);
+		List<keywordAnnoVO> keyword = comService.seleteKeyword(annoId);
+		model.addAttribute("keyword", keyword);
+		List<MemberVO> member = comService.selectApplyAnno(annoId);
+		model.addAttribute("member", member);
+		System.out.println("anno" + anno);
+		model.addAttribute("anno", anno);
+		return "company/detailAnno";
+	}
+
+	@GetMapping(value = "/cal")
+	public String cal() {
+		return "company/cal";
+	}
+
+	@GetMapping(value = "/annoMem")
+	public String annoMem(HttpServletRequest req, Model model) {
+
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		String companyId = memberVO.getCompanyId();
+		
+		List<MemberVO> member = comService.selectApplymem(companyId);
+		
+		System.out.println(member);
+		
+		model.addAttribute("member", member);
+		
+		return "company/annoMem";
+		
+	}
+	
+	@GetMapping(value = "/annoMem2")
+	public String annoMem2(HttpServletRequest req, Model model) {
+
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		String companyId = memberVO.getCompanyId();
+		
+		List<MemberVO> member = comService.selectApplymem(companyId);
+		
+		System.out.println("확인 : " +member);
+		
+		model.addAttribute("member", member);
+		
+		return "company/annoMem2";
+		
+	}
+	
+	@GetMapping(value = "/annoMem3")
+	public String annoMem3(HttpServletRequest req, Model model) {
+		
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		String companyId = memberVO.getCompanyId();
+		
+		List<MemberVO> member = comService.selectApplymem(companyId);
+		
+		System.out.println("확인 : " +member);
+		
+		model.addAttribute("member", member);
+		
+		return "company/annoMem3";
+		
+	}
+
+	@GetMapping(value = "/mem")
+	public String mem(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO1 = (MemberVO) session.getAttribute("memberVO");
+		String companyId = memberVO1.getCompanyId();
+		Date now = new Date();
+		model.addAttribute("now", now);
+		List<MemberVO> member = comService.selectMember();
+		List<MemberVO> memberVO = comService.selectinter(companyId);
+		List<AnnoVO> annoList = comService.selectAnno(companyId);
+		model.addAttribute("annoList", annoList);
+		model.addAttribute("member", member);
+		model.addAttribute("memberVO", memberVO);
+		return "company/memSearch";
+	}
+
+	@GetMapping(value = "/heart")
+	public String heart(HttpServletRequest req, Model model) {
+
+		HttpSession session = req.getSession();
+		MemberVO memberVO1 = (MemberVO) session.getAttribute("memberVO");
+		String companyId = memberVO1.getCompanyId();
+		List<AnnoVO> annoList = comService.selectAnno(companyId);
+		model.addAttribute("annoList", annoList);
+		List<MemberVO> member = comService.selectinterMember(companyId);
+		System.out.println("dsfafasdfasdf" + member);
+		model.addAttribute("member", member);
+		return "company/memHeart";
+	}
+
+	@GetMapping(value = "/payCard")
+	public String payCard(Model model) {
+		Date now = new Date();
+		model.addAttribute("now", now);
+		return "company/payCard";
+	}
+
+	@GetMapping("/pay")
+	public String pay(HttpServletRequest req,Model model) throws ParseException {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		model.addAttribute("member",memberVO);
+		Date now = new Date();
+		model.addAttribute("now", now);
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		Calendar rightNow = Calendar.getInstance(); 
+		rightNow.add(Calendar.MONTH, 1);
+		System.out.println("dfdddd"+rightNow);
+		String strNowDate = simpleDateFormat.format(rightNow.getTime()); 
+		Date date = simpleDateFormat.parse(strNowDate);
+		System.out.println("strNowDate"+strNowDate);
+		model.addAttribute("now30",date);
+		return "company/pay";
+	}
+
+	@RequestMapping(value = "/payss", method = RequestMethod.POST)
+	public String pay(HttpServletRequest req,ProdVO pay, Model model) throws Exception {
+		log.info("crudRegisterForm()");
+		System.out.println(pay);
+		service.insertCom(req,pay);
+		return "redirect:/company/adList";
+	}
+
+	@GetMapping(value = "/notice")
+	public String notice(Model model) {
+		List<BoardVO> noticeList = comService.noticeList();
+		model.addAttribute("notice", noticeList);
+		return "company/notice";
+	}
+
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public String delete(int annoId, Model model) {
+		System.out.println("annoId" + annoId);
+		String gopage = "";
+		ServiceResult result = comService.deleteAnno(annoId);
+		if (result.equals(ServiceResult.OK)) {
+			gopage = "redirect:/company/myAnno";
+		}
+		return gopage;
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public String updateForm(int annoId, Model model) {
+		AnnoVO annoVO = comService.selectAnnoOne(annoId);
+		model.addAttribute("annoVO", annoVO);
+		return "company/updateAnno";
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String update(HttpServletRequest req, AnnoVO annoVO, Model model) throws Exception {
+		System.out.println("annoId" + annoVO.getAnnoId());
+		String gopage = "";
+		ServiceResult result = comService.updateAnno(req, annoVO);
+		if (result.equals(ServiceResult.OK)) {
+			gopage = "redirect:/company/myAnno";
+		}
+		return gopage;
+	}
+
+	// 기업정보등록
+	@GetMapping("/insertInfo")
+	public String companyInsert() {
+		return "company/comInsert";
+	}
+
+	@PostMapping("/insertInfo")
+	public String companyInsertGo(CompanyVO vo, HttpServletRequest req) throws Exception {
+		System.out.println(vo);
+		comService.insertCompany(vo, req);
+		return "success";
+	}
+
+	@RequestMapping(value = "/searchCompanyList", method = RequestMethod.GET)
+	public ResponseEntity<List<CompanyVO>> searchCompanyList(String companyName) {
+
+		List<CompanyVO> comList = comService.searchCompanyList(companyName);
+
+		return new ResponseEntity<List<CompanyVO>>(comList, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/searchCompany", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> searchCompany(String companyName) {
+
+		CompanyVO companyVO = comService.searchCompany(companyName);
+		List<ReviewVO> reviewList = comService.getReviewList(companyVO.getCompanyId());
+
+		Map<String, Object> resultMap = new HashedMap();
+		resultMap.put("companyVO", companyVO);
+		resultMap.put("reviewList", reviewList);
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+	}
+
+	@GetMapping("/memCompare")
+	public String companyCompare() {
+		return "company/memCompare";
+	}
+
+	@GetMapping("/qna")
+	public String qna() {
+		return "company/qna";
+	}
+
+	@RequestMapping(value = "/inquirylist", method = RequestMethod.GET)
+	public String inquirylist(HttpServletRequest req, String memId, Model model) throws Exception {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		List<BoardVO> inquirylist = comService.inquirylist(memberVO.getMemId());
+		model.addAttribute("inquirylist", inquirylist);
+		return "company/inquiryList";
+	}
+
+	@RequestMapping(value = "/qna/{boardId}", method = RequestMethod.GET)
+	public String inquiryDetail(@PathVariable("boardId") int boardId, Model model) throws Exception {
+		BoardVO board = comService.inquiry(boardId);
+		AnswerVO answer = inquiryService.answerSelect(board.getBoardId());
+		model.addAttribute("board", board);
+		model.addAttribute("answer", answer);
+		return "company/qna";
+	}
+
+	@GetMapping("/faq")
+	public String faq(Model model) {
+		List<FaqVO> faqList = comService.selectFaq();
+		model.addAttribute("faqList", faqList);
+		return "company/faq";
+	}
+
+	@RequestMapping(value = "/insertInqu", method = RequestMethod.POST)
+	public String insertInqu(HttpServletRequest req, BoardVO board, Model model) {
+		String goPage = "";
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+
+		if (memberVO != null) {
+			board.setMemId(memberVO.getMemId());
+			ServiceResult result = comService.insertInqu(req, board);
+			if (result.equals(ServiceResult.OK)) {
+				goPage = "redirect:/company/inquirylist";
+			} else {
+				goPage = "company/insertInqu";
+			}
+
+		} else {
+			goPage = "redirect:/member/login";
+		}
+
+		return goPage;
+	}
+
+	@RequestMapping(value = "/insertInquForm", method = RequestMethod.GET)
+	public String insertInquForm(Model model) {
+		return "company/insertInqu";
+	}
+
+	@RequestMapping(value = "/updateInquForm/{boardId}", method = RequestMethod.GET)
+	public String updateInquForm(@PathVariable("boardId") int boardId, Model model) {
+		BoardVO board = comService.inquiry(boardId);
+		List<AttVO> attVO = comService.selectBoardFile(boardId);
+		model.addAttribute("board", board);
+		model.addAttribute("att", attVO);
+		return "company/updateInqu";
+	}
+
+	@RequestMapping(value = "/updateInqu", method = RequestMethod.POST)
+	public String boardUpdatDO(HttpServletRequest req, BoardVO boardVO, Model model) {
+		String goPage = "";
+		ServiceResult result = comService.updateBoard(req, boardVO);
+
+//		MemberVO memberVO = session.getAttribute("memberVO");
+		if (result.equals(ServiceResult.OK)) {
+			goPage = "redirect:/company/qna/" + boardVO.getBoardId();
+		} else {
+			model.addAttribute("boardVO", boardVO);
+			goPage = "company/updateInquForm";
+		}
+		return goPage;
+	}
+
+	@RequestMapping(value = "/deleteInqu/{boardId}", method = RequestMethod.GET)
+	public String deleteInqu(@PathVariable("boardId") int boardId, Model model) {
+		comService.delete(boardId);
+		return "redirect:/company/inquirylist";
+	}
+
+	@RequestMapping(value = "/ajaxAnnoList", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> ajaxAnnoList(String searchType, HttpServletRequest req) {
+
+		System.out.println("검색 :" + searchType);
+
+		List<AnnoVO> annoList = comService.ajaxAnnoList(searchType);
+		HttpSession session = req.getSession();
+		MemberVO vo = (MemberVO) session.getAttribute("memberVO");
+		List<SupportVO> supList = memService.getSupportList(vo.getMemId());
+		String comId = "";
+		for (int i = 0; i < supList.size(); i++) {
+			comId += supList.get(i).getComId();
+			if (i != supList.size() - 1) {
+				comId += ",";
+			}
+		}
+
+		Map<String, Object> resultMap = new HashedMap();
+		resultMap.put("annoList", annoList);
+		resultMap.put("comIdGroup", comId);
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+
+	}
+
+	@GetMapping("/heart/{memId}")
+	public String heart(@PathVariable("memId") String memId, HttpServletRequest req, Model model) {
+		System.out.println("dfadgfasdfasdf" + memId);
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		memberVO.setMemId(memId);
+		comService.insertHeart(memberVO);
+		model.addAttribute("member", memberVO);
+		return "redirect:/company/heart";
+	}
+	
+	@PostMapping("/proposal")
+	public String proposal(ProposalVO proposalVO ,HttpServletRequest req, Model model) {
+		System.out.println("dfadgfasdfasdf" + proposalVO);
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		proposalVO.setComId(memberVO.getCompanyId());
+		System.out.println("dsfkasdhfkjasebhflkja"+proposalVO.getComId());
+		comService.proposal(proposalVO);
+		model.addAttribute("member", memberVO);
+		return "redirect:/company/proposalList";
+	}
+	
+	@GetMapping("/proposalList")
+	public String proposalList(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO1 = (MemberVO) session.getAttribute("memberVO");
+		String companyId = memberVO1.getCompanyId();
+		List<MemberVO> member = comService.selectProposalMember(companyId);
+		System.out.println("dsfafasdfasdf" + member);
+		model.addAttribute("member", member);
+		return "company/proposalList";
+	}
+
+	@GetMapping("/deleteHeart/{memId}")
+	public String heartdel(@PathVariable("memId") String memId, HttpServletRequest req, Model model) {
+		System.out.println("dfadgfasdfasdf" + memId);
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		memberVO.setMemId(memId);
+		comService.deleteHeart(memberVO);
+		model.addAttribute("member", memberVO);
+		return "redirect:/company/heart";
+	}
+
+	// 회사디테일
+	@RequestMapping(value = "/detail/{companyId}", method = RequestMethod.GET)
+	public String companyDetail(@PathVariable("companyId") String companyId, Model model) {
+
+		CompanyVO vo = comService.getCompany(companyId);
+		List<AnnoVO> annoVo = comService.selectAnno(companyId);
+		List<ReviewVO> reviewVO = comService.getReviewList(Integer.parseInt(companyId));
+		List<keywordAnnoVO> keywordVO = comService.seleteComKeyword(companyId);
+		model.addAttribute("keywordVO",keywordVO);
+		model.addAttribute("companyVO", vo);
+		model.addAttribute("annoVO", annoVo);
+		model.addAttribute("reviewVO", reviewVO);
+
+		return "company/detail";
+	}
+
+	@PostMapping(value = "/ajaxAnnoSearch", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> ajaxAnnoSearch(@RequestBody List<String> jsonObj,
+			HttpServletRequest req) {
+
+		log.debug("ww :" + jsonObj);
+		List<AnnoVO> annoList = comService.ajaxAnnoSearch(jsonObj);
+		HttpSession session = req.getSession();
+		MemberVO vo = (MemberVO) session.getAttribute("memberVO");
+		List<SupportVO> supList = memService.getSupportList(vo.getMemId());
+		String comId = "";
+		for (int i = 0; i < supList.size(); i++) {
+			comId += supList.get(i).getComId();
+			if (i != supList.size() - 1) {
+				comId += ",";
+			}
+		}
+
+		
+
+		Map<String, Object> resultMap = new HashedMap();
+		/* resultMap.put("annoList",annoList); resultMap.put("comIdGroup", comId); */
+		resultMap.put("comIdGroup", comId);
+		resultMap.put("annoList", annoList);
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+
+	}
+	@PostMapping(value = "/ajaxAnnoRegionSearch", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> ajaxAnnoRegionSearch(@RequestBody List<String> jsonObj,
+			HttpServletRequest req) {
+		
+		log.debug("ww :" + jsonObj);
+		List<AnnoVO> annoList = comService.ajaxAnnoRegionSearch(jsonObj);
+		HttpSession session = req.getSession();
+		MemberVO vo = (MemberVO) session.getAttribute("memberVO");
+		List<SupportVO> supList = memService.getSupportList(vo.getMemId());
+		String comId = "";
+		for (int i = 0; i < supList.size(); i++) {
+			comId += supList.get(i).getComId();
+			if (i != supList.size() - 1) {
+				comId += ",";
+			}
+		}
+		
+		
+		
+		Map<String, Object> resultMap = new HashedMap();
+		/* resultMap.put("annoList",annoList); resultMap.put("comIdGroup", comId); */
+		resultMap.put("comIdGroup", comId);
+		resultMap.put("annoList", annoList);
+		
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		
+	}
+	@PostMapping(value = "/ajaxAnnoJobSearch", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> ajaxAnnoJobSearch(@RequestBody List<String> jsonObj,
+			HttpServletRequest req) {
+		
+		log.debug("ww :" + jsonObj);
+		List<AnnoVO> annoList = comService.ajaxAnnoJobSearch(jsonObj);
+		HttpSession session = req.getSession();
+		MemberVO vo = (MemberVO) session.getAttribute("memberVO");
+		List<SupportVO> supList = memService.getSupportList(vo.getMemId());
+		String comId = "";
+		for (int i = 0; i < supList.size(); i++) {
+			comId += supList.get(i).getComId();
+			if (i != supList.size() - 1) {
+				comId += ",";
+			}
+		}
+		
+		
+		
+		Map<String, Object> resultMap = new HashedMap();
+		/* resultMap.put("annoList",annoList); resultMap.put("comIdGroup", comId); */
+		resultMap.put("comIdGroup", comId);
+		resultMap.put("annoList", annoList);
+		
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("review")
+	public String review(HttpServletRequest req,Model model ) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		String companyId = memberVO.getCompanyId();
+		List<ReviewVO> reviewVO = comService.getReview(companyId);
+		model.addAttribute("review",reviewVO);
+		return "company/review";
+	}
+	
+	@GetMapping("noticeDetail/{boardId}")
+	public String noticeDatail (Model model, @PathVariable("boardId") int boardId) {
+		BoardVO board = comService.notice(boardId);
+		model.addAttribute("board",board);
+		return "company/noticeDetail";
+	}
+	
+	@GetMapping("detailMem/{memId}")
+	public String detailMem (Model model, @PathVariable("memId") String memId) {
+		MemberVO member = comService.detailMem(memId);		
+		
+		model.addAttribute("member",member);
+		return "company/detailMem";
+	}
+	
+	@GetMapping("detailMemInt/{resumeId}")
+	public String detailMemInt (Model model, @PathVariable("resumeId") int resumeId) {
+		MemberVO member = comService.detailMemInt(resumeId);		
+		
+		model.addAttribute("member",member);
+		return "new/detailMemInt";
+	}
+	
+	@PostMapping("updateApply")
+	public String updateApply (ApplyVO applyVO,HttpServletRequest req, Model model) {
+		System.out.println("dfkdjflkasjdf;lkadjsfkl;" +applyVO);
+		comService.updateApply(applyVO);
+		
+		
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		String companyId = memberVO.getCompanyId();
+		
+		List<MemberVO> member = comService.selectApplymem(companyId);
+		
+		System.out.println(member);
+		
+		model.addAttribute("member", member);
+		
+		return "company/annoMem2";
+	}
+	
+	
+	@PostMapping("applyResultUpdate")
+	public String applyResultUpdate(ApplyVO applyVO,HttpServletRequest req, Model model) {
+		
+		System.out.println("음 :" +applyVO.getEvaluationList());
+		
+		for(int i=0; i<applyVO.getEvaluationList().size(); i++) {
+			if(applyVO.getEvaluationList().get(i).getApplyResult()!=null) {
+				if(!applyVO.getEvaluationList().get(i).getApplyResult().equals("대기중")) {
+					comService.updateApplyResult(applyVO.getEvaluationList().get(i));
+				}
+			}
+		}
+		
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		String companyId = memberVO.getCompanyId();
+		
+		List<MemberVO> member = comService.selectApplymem(companyId);
+		
+		System.out.println("확인 : " +member);
+		
+		model.addAttribute("member", member);
+		
+		
+		return "company/annoMem3";
+	}
+	@GetMapping("adList")
+	public String adList (HttpServletRequest req,Model model) {
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		List<ProdVO> prod = comService.adList(memberVO.getCompanyId());		
+		Date now = new Date();
+		model.addAttribute("now", now);
+		
+		model.addAttribute("prod",prod);
+		return "company/prodList";
+	}
+	@GetMapping("font")
+	public String font () {
+		
+		return "company/font";
+	}
+	
+	
+	
+
+}

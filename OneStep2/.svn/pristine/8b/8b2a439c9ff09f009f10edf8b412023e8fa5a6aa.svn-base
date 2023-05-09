@@ -1,0 +1,15 @@
+package kr.or.ddit.myPage.vo;
+
+import lombok.Data;
+
+@Data
+public class CoverletterItemVO {
+	
+	/* 자기소개서 항목 */
+	private int covltrItemId; 			// 자기소개서항목번호
+	private String covltrItemTitle;		// 자기소개서제목
+	private String covltrItemContent;	// 자기소개서내용
+	private int covltrLtrcnt;			// 자기소개서 글자 수
+	private String memId;					// 회원번호
+	
+}

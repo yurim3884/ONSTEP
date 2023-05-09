@@ -1,0 +1,11 @@
+package kr.or.ddit.mapper;
+
+import java.util.List;
+
+import kr.or.ddit.fullcalendar.vo.FullcalendarVO;
+
+public interface AnnoFullcalendarMapper {
+
+	List<FullcalendarVO> selectfullList();
+
+}

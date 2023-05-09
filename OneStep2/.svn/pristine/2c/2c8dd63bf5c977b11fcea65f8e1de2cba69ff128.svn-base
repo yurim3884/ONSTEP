@@ -1,0 +1,140 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+            <!--  Navbar Starts / Breadcrumb Area  -->
+            <div class="sub-header-container">
+                <header class="header navbar navbar-expand-sm">
+                    
+                </header>
+            </div>
+            <!--  Navbar Ends / Breadcrumb Area  -->
+            <!-- Main Body Starts -->
+            <div class="layout-px-spacing">
+                <div class="layout-top-spacing mb-2">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="container p-0">
+                                <div class="row layout-top-spacing date-table-container">
+                                    
+                                    <!-- Datatable single column searching -->
+                                    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                                        <div class="widget-content widget-content-area br-6">
+                                            <div class="table-responsive mb-4">
+                                                <table id="basic-dt" class="table table-hover" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>회원</th>
+                                                            <th>회사</th>
+                                                            <th>상품명</th>
+                                                            <th>상품분류</th>
+                                                            <th>결제일</th>
+                                                            <th>cs상태</th>
+                                                            <th>가격</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <c:forEach items="${prodList }" var="prodList">
+                                                        <tr>
+                                                            <th>${prodList.memId }</th>
+                                                            <th>${prodList.companyId }</th>
+                                                            <th>${prodList.prodFun }</th>
+                                                            <th>${prodList.prodStatus }</th>
+                                                            <th>${prodList.prodDay }</th>
+                                                            <th>${prodList.prodCs }</th>
+                                                            <th>${prodList.prodPrice }</th>
+                                                        </tr>
+                                                    </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+									<div class="widget-content widget-content-area">
+									    <div class="row">
+									        <div class="col-lg-12 col-md-12 col-sm-12">
+									        	<div id="yearprice">
+									        		<select id="year" class="form-control" style="width:150px; " name="year">
+									        		<c:forEach step="1" begin="2000" end="2050" var="year">
+									        		<option value="${year }"<c:if test="${year == 2023 }">selected="selected"</c:if>>${year }
+									        		</c:forEach>
+									        		</select>
+									        		<span>월별합계</span>
+									        	</div>
+									            <div id="content_1" class="tabcontent"> 
+									                <div id="prodchart"></div>
+									            </div>
+									        </div>
+									    </div>
+									</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<script type="text/javascript">
+$(document).ready(function() {
+	var coin = [10, 41, 35, 51, 49, 62, 69, 91, 148, 10, 11, 12];
+// 	$("#yearprice").on("change", "#year", function(){
+// 		var year = $(this).val();
+// 	});
+// 	$.ajax({
+// 		url : "/master/prodyear",
+// 		type : 'post',
+// 		data : {
+// 			"year" : year
+// 		}
+// 	});
+	
+	
+var basicLineChartOptions = {
+        series: [{
+            name: '매출액',
+            data: coin
+          }],
+            chart: {
+            type: 'bar',
+            height: 350
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: '55%',
+              endingShape: 'rounded'
+            },
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+          },
+          xaxis: {
+            categories: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+          },
+          yaxis: {
+            title: {
+              text: '만원'
+            }
+          },
+          fill: {
+            opacity: 1
+          },
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                return + val + " 만원"
+              }
+            }
+          }
+          };
+
+var basicLineChart2 = new ApexCharts(
+	    document.querySelector("#prodchart"),
+	    basicLineChartOptions
+	  );
+	  basicLineChart2.render();
+});
+</script>

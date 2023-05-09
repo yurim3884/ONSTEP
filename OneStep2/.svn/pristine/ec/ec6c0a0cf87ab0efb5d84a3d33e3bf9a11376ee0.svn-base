@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.CompanyMapper">
+
+	<insert id="insertAnno" parameterType="annoVO" >
+	<selectKey keyProperty="annoId" resultType="int"
+			order="BEFORE">
+			select seq_ANNOID.nextval from dual
+		</selectKey>
+	
+		insert into ANNOUNCEMENT (
+		ANNO_ID
+		, COM_ID
+		, ANNO_TITLE
+		, ANNO_CONTENT
+		, ANNO_STARTDATE
+		, ANNO_ENDDATE
+		, ANNO_HIT
+		, ANNO_START
+		, ANNO_STATE
+		, ANNO_TYPE
+		, ANNO_MANAGER
+		, ANNO_TEL
+		, ANNO_EMAIL
+		, ANNO_WORK
+		, ANNO_AGE
+		, ANNO_PROBATION
+		, ANNO_SALARY
+		, INDUSTRY_CODE
+		, ANNO_MB
+		, ANNO_MEM
+		, ANNO_CAREER
+		, ANNO_DM
+		, ANNO_GB
+		, ANNO_JO
+		, ANNO_UD
+		, ANNO_GENDER
+		, ANNO_DAY
+		, ANNO_TIME
+		, ANNO_WD
+		, ANNO_STU
+		, ANNO_STALY
+		, ANNO_STATUS
+		, ANNO_INTRO)
+		values
+		(#{annoId},1,#{annoTitle},#{annoContent},#{annoStartDate},#{annoEndDate},0,sysdate,
+		0,#{annoType},#{annoManager},#{annoTel},#{annoEmail},#{annoWork},#{annoAge},#{annoProbation},
+		#{annoSalary},#{industryCode},#{annoMb},#{annoMem},#{annoCareer},#{annoDm},
+		#{annoGb},#{annoJo},#{annoUd},#{annoGender},#{annoDay},#{annoTime},#{annoWd},#{annoStu},#{annoStaly},
+		1,#{annoIntro})
+	</insert>
+	
+	<update id="insertAnnoFile" parameterType="annoVO">
+		
+		update ANNOUNCEMENT set
+		att_Id = #{attId}
+		where
+		ANNO_ID = #{annoId}
+
+	</update>
+	
+
+	<select id="selectAnno" parameterType="int" resultType="annoVO">
+		select 
+			ANNO_ID
+			, COM_ID
+			, ANNO_TITLE
+			, ANNO_CONTENT
+			, ANNO_STARTDATE
+			, ANNO_ENDDATE
+			, ANNO_HIT
+			, ANNO_START
+			, ANNO_STATE
+			, ANNO_TYPE
+			, ANNO_MANAGER
+			, ANNO_TEL
+			, ANNO_EMAIL
+			, ANNO_WORK
+			, ANNO_AGE
+			, ANNO_PROBATION
+			, ANNO_SALARY
+			, INDUSTRY_CODE
+			, ANNO_MB
+			, ANNO_MEM
+			, ANNO_CAREER
+			, ANNO_DM
+			, ANNO_GB
+			, ANNO_JO
+			, ANNO_UD
+			, ANNO_GENDER
+			, ANNO_DAY
+			, ANNO_TIME
+			, ANNO_WD
+			, ANNO_STU
+			, ANNO_STALY
+			, ANNO_STATUS
+			, ANNO_INTRO
+			, ATT_ID
+		from ANNOUNCEMENT
+		where com_id = #{comId}
+		and ANNO_STATUS = 1
+	</select>
+	
+	<select id="getCompany" parameterType="String" resultType="companyVO">
+		select 
+			  COMPANY_ID
+			, COMPANY_NUMBER
+			, COMPANY_NAME
+			, COMPANY_REPRESENTATIVE
+			, COMPANY_BUSINESS
+			, COMPANY_ZIP
+			, COMPANY_PHONE
+			, COMPANY_EMAIL
+			, COMPANY_ESTABLISHMENT
+			, COMPANY_SMALL
+			, COMPANY_EMPLOYEES
+			, COMPANY_AVERAGE
+			, COMPANY_PERSON
+			, COMPANY_MAIN
+			, COMPANY_CHECK
+			, COMPANY_INTRO
+			, COMPANY_LOGO
+			, COMPANY_ADDR2
+			, COMPANY_CAP
+			, COMPANY_TAKE
+			, COMPANY_PROFIT
+			, COMPANY_INCOME
+			, COMPANY_ADDR1
+		from company where company_id = #{companyId}
+	</select>
+
+	<delete id="deleteAnno" parameterType="int">
+		delete from
+		ANNOUNCEMENT where anno_id = #{annoId}
+	</delete>
+
+	<select id="selectAnnoOne" parameterType="int" resultType="annoVO">
+		select 
+			ANNO_ID
+			, COM_ID    
+			, ANNO_TITLE
+			, ANNO_CONTENT
+			, ANNO_STARTDATE
+			, ANNO_ENDDATE
+			, ANNO_HIT
+			, ANNO_START
+			, ANNO_STATE
+			, ANNO_TYPE
+			, ANNO_MANAGER
+			, ANNO_TEL
+			, ANNO_EMAIL
+			, ANNO_WORK
+			, ANNO_AGE
+			, ANNO_PROBATION
+			, ANNO_SALARY
+			, INDUSTRY_CODE
+			, ANNO_MB
+			, ANNO_MEM
+			, ANNO_CAREER
+			, ANNO_DM
+			, ANNO_GB
+			, ANNO_JO
+			, ANNO_UD
+			, ANNO_GENDER
+			, ANNO_DAY
+			, ANNO_TIME
+			, ANNO_WD
+			, ANNO_STU
+			, ANNO_STALY
+			, ANNO_STATUS
+			, ANNO_INTRO
+			, ATT_ID
+		from ANNOUNCEMENT where anno_id = #{annoId}
+	</select>
+
+	<update id="updateAnno" parameterType="annoVO">
+		update ANNOUNCEMENT
+		set
+		ANNO_TITLE =#{annoTitle},
+		ANNO_CONTENT=#{annoContent},
+		ANNO_STARTDATE=#{annoStartDate},
+		ANNO_ENDDATE=#{annoEndDate},
+		ANNO_TYPE=#{annoType},
+		ANNO_MANAGER=#{annoManager},
+		ANNO_TEL=#{annoTel},
+		ANNO_EMAIL=#{annoEmail},
+		ANNO_WORK=#{annoWork},
+		ANNO_AGE=#{annoAge},
+		ANNO_PROBATION=#{annoProbation},
+		ANNO_SALARY=#{annoSalary},
+		INDUSTRY_CODE=#{industryCode},
+		ANNO_MB=#{annoMb},
+		ANNO_MEM=#{annoMem},
+		ANNO_CAREER=#{annoCareer},
+		ANNO_DM=#{annoDm},
+		ANNO_GB=#{annoGb},
+		ANNO_JO=#{annoJo},
+		ANNO_UD=#{annoUd},
+		ANNO_GENDER=#{annoGender},
+		ANNO_DAY=#{annoDay},
+		ANNO_TIME=#{annoTime},
+		ANNO_WD=#{annoWd},
+		ANNO_STU=#{annoStu},
+		ANNO_STATUS=#{annoStaly},
+		ANNO_INTRO=#{annoIntro}
+		where anno_id = #{annoId}
+	</update>
+	
+	<select id="selectApplyMem" resultType="memberVO" parameterType="int">
+	select * from member a left outer join apply b on a.mem_Id = b.mem_Id left outer join ANNOUNCEMENT c on B.ANNO_ID = c.ANNO_ID where c.com_id = #{com_id}
+	</select>
+	
+
+	<select id="selectMember" resultType="memberVO">
+		select * from member where MEM_STATUS = 1
+	</select>
+	
+	<select id="selectinterMember" resultType="memberVO" parameterType="int">
+		select * from member a left outer join INTEREST b on a.mem_Id = b.mem_Id2 where b.com_id = #{comId}
+	</select>
+	
+	
+	<select id="selectAnnoKeyword" resultType="annoKeyword">
+		select 
+			ANNO_KW
+			, ANNO_KWNAME
+			, ANNO_KWSUM
+			, ANNO_ID
+			, COM_ID
+ 		from anno 
+	</select>
+
+
+
+	<insert id="insertCompany" parameterType="companyVO">
+
+		<selectKey keyProperty="companyId" resultType="int"
+			order="BEFORE">
+			select seq_comId.nextval from dual
+		</selectKey>
+
+		insert into company (
+		company_id, company_number, company_name, company_representative,
+		company_business, company_zip,
+		company_phone, company_email, company_establishment, company_small,
+		company_employees, company_average,
+		company_person, company_main, company_check, company_intro, company_addr2,
+		company_cap, company_take, company_profit, company_income,
+		company_addr1
+
+		) values (
+		#{companyId},#{companyNumber},#{companyName},#{companyRepresentative},#{companyBusiness},#{companyZip},
+		#{companyPhone},#{companyEmail},#{companyEstablishment},#{companySmall},#{companyEmployees},#{companyAverage},
+		#{companyPerson},#{companyMain},1,#{companyIntro},#{companyAddr2},
+		#{companyCap},#{companyTake},#{companyProfit},#{companyIntro},#{companyAddr1}
+		)
+
+
+
+	</insert>
+
+	<update id="insertFile" parameterType="companyVO">
+
+		update company set
+		company_logo = #{companyLogo}
+		where
+		company_id = #{companyId}
+
+	</update>
+	
+	<insert id="insertReview" parameterType="reviewVO">
+	
+	insert into review (
+		review_id,mem_id,com_id,review_coment,review_good,review_start,
+		review_hit,review_bad,review_score,review_vision,
+		review_welfare,review_balance,review_culture,review_manage
+	
+	) values (
+		seq_reviewid.nextval,#{memId},#{comId},#{reviewComent},#{reviewGood},sysdate,
+		#{reviewHit},#{reviewBad},#{reviewScore},#{reviewVision},
+		#{reviewWelfare},#{reviewBalance},#{reviewCulture},#{reviewManage}
+	)
+	
+	
+	</insert>
+	
+	<select id="getReviewList" parameterType="int" resultType="reviewVO">
+	
+	select 
+		REVIEW_ID
+		, MEM_ID
+		, COM_ID
+		, REVIEW_COMENT
+		, REVIEW_GOOD
+		, REVIEW_START
+		, REVIEW_UPDATE
+		, REVIEW_HIT
+		, REVIEW_BAD
+		, REVIEW_SCORE
+		, REVIEW_VISION
+		, REVIEW_WELFARE
+		, REVIEW_BALANCE
+		, REVIEW_CULTURE
+		, REVIEW_MANAGE
+	from review
+	where com_id = #{comId}
+	
+	</select>
+	
+	
+	
+	
+	
+	<select id="noticeList" resultType="boardVO">
+		select 
+		BOARD_ID
+		, MEM_ID
+		, BOARD_TITLE
+		, BOARD_CONTENT
+		, BOARD_START
+		, BOARD_HIT
+		, BOARD_WARN
+		, BOARD_CATEGORY
+		, RECNT
+		from board where BOARD_CATEGORY = 1
+	</select>
+	
+	<select id="annoCnt" parameterType="int" resultType="int">
+	select count(ANNO_TITLE) from ANNOUNCEMENT where com_id = #{comId}
+	</select>
+	<select id="interCnt" parameterType="int" resultType="int">
+	select count(INTE_NO) from INTEREST where com_id = #{comId}
+	</select>
+	<select id="applyCnt" parameterType="int" resultType="int">
+	select count(APPLY_ID) from apply a left outer join ANNOUNCEMENT b on a.ANNO_ID = B.ANNO_ID where b.com_id =#{comId}
+	</select>
+	<select id="reviewCnt" parameterType="int" resultType="int">
+	select count(REVIEW_ID) from review where com_id = #{comId}
+	</select>
+	
+	<select id="searchCompanyList" parameterType="String" resultType="companyVO">
+	select 
+			COMPANY_ID
+			, COMPANY_NUMBER
+			, COMPANY_NAME
+			, COMPANY_REPRESENTATIVE
+			, COMPANY_BUSINESS
+			, COMPANY_DEFAULT_ADRESS
+			, COMPANY_ZIP
+			, COMPANY_PHONE
+			, COMPANY_EMAIL
+			, COMPANY_ESTABLISHMENT
+			, COMPANY_SMALL
+			, COMPANY_EMPLOYEES
+			, COMPANY_AVERAGE
+			, COMPANY_PERSON
+			, COMPANY_MAIN
+			, COMPANY_CHECK
+			, COMPANY_INTRO
+			, COMPANY_LOGO
+			, COMPANY_ADDR2
+			, COMPANY_CAP
+			, COMPANY_TAKE
+			, COMPANY_PROFIT
+			, COMPANY_INCOME
+			, COMPANY_ADDR1
+	 from company
+	where company_name like '%'||#{companyName}||'%' 
+	
+	</select>
+	<select id="searchCompany" parameterType="String" resultType="companyVO">
+	select * from company
+	where company_name = #{companyName}
+	
+	</select>
+	
+
+</mapper>
+

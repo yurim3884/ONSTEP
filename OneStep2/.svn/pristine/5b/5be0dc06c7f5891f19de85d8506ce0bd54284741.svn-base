@@ -1,0 +1,26 @@
+package kr.or.ddit.vo;
+
+import java.util.Date;
+
+import lombok.Data;
+
+@Data
+public class ApplyVO {
+	
+	private int applyId;
+	private Date applyStart;
+	private Date applyUpdate;
+	private Date applyDelete;
+	private int applyTotal;
+	private String applyResult;
+	private Date applyResultDate;
+	private String applyResultComment;
+	private String memId;
+	private int annoId;
+	private int resumeNum;
+	private int covltrItemId;
+	private String CompanyId;
+	private int applyStatus;
+	
+
+}

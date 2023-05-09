@@ -1,0 +1,493 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<!-- <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> -->
+<!-- <mapper namespace="blank"> -->
+
+<!-- 	<resultMap type="resumeVO" id="resumeListMap"> -->
+<!-- 		<id property="resumeId" column="resume_id"/> -->
+<!-- 		<result property="resumeId" column="resume_id"/> -->
+<!-- 		<result property="resumeTitle" column="resume_title"/> -->
+<!-- 		<result property="resumeStatus" column="resume_status"/> -->
+<!-- 		<result property="resumeRepresentative" column="resume_representative"/> -->
+<!-- 		<result property="resumeInsertDate" column="resume_insert_date"/> -->
+<!-- 		<result property="attId" column="att_id"/> -->
+<!-- 		<result property="memId" column="mem_id"/> -->
+<!-- 		<collection property="desiredList" resultMap="desiredMap"/> -->
+<!-- 		<collection property="workfieldList" resultMap="workfieldMap"/> -->
+<!-- 	</resultMap> -->
+	
+<!-- 	<resultMap type="resumeVO" id="resumeMap"> -->
+<!-- 		<id property="resumeId" column="resume_id"/> -->
+<!-- 		<result property="resumeId" column="resume_id"/> -->
+<!-- 		<result property="resumeTitle" column="resume_title"/> -->
+<!-- 		<result property="resumeStatus" column="resume_status"/> -->
+<!-- 		<result property="resumeRepresentative" column="resume_representative"/> -->
+<!-- 		<result property="attId" column="att_id"/> -->
+<!-- 		<collection property="activityList" resultMap="activityMap"/> -->
+<!-- 		<collection property="awardList" resultMap="awardMap"/> -->
+<!-- 		<collection property="careerList" resultMap="careerMap"/> -->
+<!-- 		<collection property="certList" resultMap="certMap"/> -->
+<!-- 		<collection property="desiredList" resultMap="desiredMap"/> -->
+<!-- 		<collection property="eduList" resultMap="eduMap"/> -->
+<!-- 		<collection property="prfrnList" resultMap="prfrnMap"/> -->
+<!-- 		<collection property="langList" resultMap="langMap"/> -->
+<!-- 		<collection property="skillList" resultMap="skillMap"/> -->
+<!-- 		<collection property="portfolioList" resultMap="portfolioMap"/> -->
+<!-- 		<collection property="workfieldList" resultMap="workfieldMap"/> -->
+<!-- 	</resultMap> -->
+	
+<!-- 	<resultMap type="activityVO" id="activityMap"> -->
+<!-- 		<result property="actId" column="act_id"/> -->
+<!-- 		<result property="actContent" column="act_content"/> -->
+<!-- 		<result property="actCategory" column="act_category"/> -->
+<!-- 		<result property="actInstitution" column="act_institution"/> -->
+<!-- 		<result property="actStart" column="act_start"/> -->
+<!-- 		<result property="actEnd" column="act_end"/> -->
+<!-- 		<result property="attId" column="att_id"/> -->
+<!-- 		<result property="resumeId" column="resume_id"/> -->
+<!-- 	</resultMap> -->
+
+<!-- 	<resultMap type="awardVO" id="awardMap"> -->
+<!-- 		<result property="awardId" column="award_id"/> -->
+<!-- 		<result property="awardName" column="award_name"/> -->
+<!-- 		<result property="awardContent" column="award_content"/> -->
+<!-- 		<result property="awardCategory" column="award_category"/> -->
+<!-- 		<result property="awardDate" column="award_date"/> -->
+<!-- 		<result property="awardInstitution" column="award_institution"/> -->
+<!-- 		<result property="attId" column="att_id"/> -->
+<!-- 		<result property="resumeId" column="resume_id"/> -->
+<!-- 	</resultMap> -->
+
+<!-- 	<resultMap type="careerVO" id="careerMap"> -->
+<!-- 		<result property="careerId" column="career_id"/> -->
+<!-- 		<result property="careerCategory" column="career_category"/> -->
+<!-- 		<result property="careerCmpName" column="career_cmp_name"/> -->
+<!-- 		<result property="careerCmpDprtm" column="career_cmp_dprtm"/> -->
+<!-- 		<result property="careerWorkfield" column="career_workfield"/> -->
+<!-- 		<result property="careerDuties" column="career_duties"/> -->
+<!-- 		<result property="careerPosition" column="career_position"/> -->
+<!-- 		<result property="careerJoinDate" column="career_join_date"/> -->
+<!-- 		<result property="careerResignDate" column="career_resign_date"/> -->
+<!-- 		<result property="careerSalary" column="career_salary"/> -->
+<!-- 		<result property="attId" column="att_id"/> -->
+<!-- 		<result property="resumeId" column="resume_id"/> -->
+<!-- 	</resultMap> -->
+
+<!-- 	<resultMap type="certificationVO" id="certMap"> -->
+<!-- 		<result property="certId" column="cert_id"/> -->
+<!-- 		<result property="certName" column="cert_name"/> -->
+<!-- 		<result property="certDate" column="cert_date"/> -->
+<!-- 		<result property="certInstitution" column="cert_institution"/> -->
+<!-- 		<result property="attId" column="att_id"/> -->
+<!-- 		<result property="resumeId" column="resume_id"/> -->
+<!-- 	</resultMap> -->
+
+<!-- 	<resultMap type="desiredVO" id="desiredMap"> -->
+<!-- 		<result property="desiredId" column="desired_id"/> -->
+<!-- 		<result property="desiredEmplForm" column="desired_empl_form"/> -->
+<!-- 		<result property="desiredSalary" column="desired_salary"/> -->
+<!-- 		<result property="desiredCity1" column="desired_city1"/> -->
+<!-- 		<result property="desiredCity2" column="desired_city2"/> -->
+<!-- 		<result property="desiredIndustry1" column="desired_industry1"/> -->
+<!-- 		<result property="desiredIndustry2" column="desired_industry2"/> -->
+<!-- 		<result property="desiredIndustry3" column="desired_industry3"/> -->
+<!-- 		<result property="resumeId" column="resume_id"/> -->
+<!-- 	</resultMap> -->
+
+<!-- 	<resultMap type="educationVO" id="eduMap"> -->
+<!-- 		<result property="eduId" column="edu_id"/> -->
+<!-- 		<result property="eduMajor1" column="edu_major1"/> -->
+<!-- 		<result property="eduMajor2" column="edu_major2"/> -->
+<!-- 		<result property="eduSchoolName" column="edu_school_name"/> -->
+<!-- 		<result property="eduStart" column="edu_start"/> -->
+<!-- 		<result property="eduEnd" column="edu_end"/> -->
+<!-- 		<result property="eduScore" column="edu_score"/> -->
+<!-- 		<result property="eduScoreStandard" column="edu_score_standard"/> -->
+<!-- 		<result property="eduStatus" column="edu_status"/> -->
+<!-- 		<result property="eduSchoolType" column="edu_school_type"/> -->
+<!-- 		<result property="resumeId" column="resume_id"/> -->
+<!-- 	</resultMap> -->
+
+<!-- 	<resultMap type="prfrnVO" id="prfrnMap"> -->
+<!-- 		<result property="prfrnId" column="prfrn_id"/> -->
+<!-- 		<result property="prfrnVeterans" column="prfrn_veterans"/> -->
+<!-- 		<result property="prfrnSubsidy" column="prfrn_subsidy"/> -->
+<!-- 		<result property="prfrnDisability" column="prfrn_disability"/> -->
+<!-- 		<result property="prfrnMilitary" column="prfrn_military"/> -->
+<!-- 		<result property="prfrnProtection" column="prfrn_protection"/> -->
+<!-- 		<result property="prfrnDisabilityGrade" column="prfrn_disability_grade"/> -->
+<!-- 		<result property="prfrnMilitaryType" column="prfrn_military_type"/> -->
+<!-- 		<result property="prfrnMilitaryStart" column="prfrn_military_start"/> -->
+<!-- 		<result property="prfrnMilitaryEnd" column="prfrn_military_end"/> -->
+<!-- 		<result property="prfrnMilitaryBranch" column="prfrn_military_branch"/> -->
+<!-- 		<result property="prfrnMilitaryRank" column="prfrn_military_rank"/> -->
+<!-- 		<result property="resumeId" column="resume_id"/> -->
+<!-- 	</resultMap> -->
+
+<!-- 	<resultMap type="languageVO" id="langMap"> -->
+<!-- 		<result property="langId" column="lang_id"/> -->
+<!-- 		<result property="langName" column="lang_name"/> -->
+<!-- 		<result property="langTestName" column="lang_test_name"/> -->
+<!-- 		<result property="langTestDate" column="lang_test_date"/> -->
+<!-- 		<result property="langTestScore" column="lang_test_score"/> -->
+<!-- 		<result property="resumeId" column="resume_id"/> -->
+<!-- 	</resultMap> -->
+
+<!-- 	<resultMap type="skillVO" id="skillMap"> -->
+<!-- 		<result property="skillId" column="skill_id"/> -->
+<!-- 		<result property="skill1" column="skill1"/>  -->
+<!-- 		<result property="skill2" column="skill2"/>  -->
+<!-- 		<result property="skill3" column="skill3"/>  -->
+<!-- 		<result property="skill4" column="skill4"/>  -->
+<!-- 		<result property="skill5" column="skill5"/> -->
+<!-- 		<result property="resumeId" column="resume_id"/> -->
+<!-- 	</resultMap> -->
+
+<!-- 	<resultMap type="portfolioVO" id="portfolioMap"> -->
+<!-- 		<result property="portfolioId" column="portfolio_id"/> -->
+<!-- 		<result property="portfolioUrl" column="portfolio_url"/> -->
+<!-- 		<result property="attId" column="att_id"/> -->
+<!-- 		<result property="resumeId" column="resume_id"/> -->
+<!-- 	</resultMap> -->
+
+<!-- 	<resultMap type="workfieldVO" id="workfieldMap"> -->
+<!-- 		<result property="workfieldId" column="workfield_id"/> -->
+<!-- 		<result property="workfield1" column="workfield1"/> -->
+<!-- 		<result property="workfield2" column="workfield2"/> -->
+<!-- 		<result property="resumeId" column="resume_id"/> -->
+<!-- 	</resultMap> -->
+	
+<!-- 	<sql id="resumeSearch"> -->
+<!-- 		<if test="searchType != null and searchType == 'title'"> -->
+<!-- 			AND (resume_title like '%'||{searchWord}||'%') -->
+<!-- 		</if> -->
+<!-- 	</sql> -->
+	
+	
+<!-- 	<select id="selectNotificationCount" parameterType="pagingVO" resultType="int"> -->
+<!-- 		SELECT COUNT (notification_id) -->
+<!-- 		FROM notification -->
+<!-- 	</select> -->
+
+<!-- 	<select id="selectNotificationList" parameterType="pagingVO" resultType="notificationVO"> -->
+<!-- 		SELECT  -->
+<!-- 			b.* -->
+<!-- 		FROM ( -->
+<!-- 			SELECT -->
+<!-- 				a.*, ROW_NUMBER() OVER (ORDER BY a.notification_id DESC) rnum -->
+<!-- 			FROM ( -->
+<!-- 				SELECT  -->
+<!-- 					notification_id, notification_content, notification_date, notification_read, mem_id, notification_url, notification_type -->
+<!-- 				FROM notification -->
+<!-- 			) a -->
+<!-- 		) b -->
+<!-- 		<![CDATA[ -->
+<!-- 			WHERE b.rnum >= #{startRow} AND b.rnum <= #{endRow} -->
+<!-- 		]]> -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="selectNotification" parameterType="int" resultType="notificationVO"> -->
+<!-- 		SELECT  -->
+<!-- 			notification_id, notification_content, notification_date, notification_read, mem_id, notification_url, notification_type -->
+<!-- 		FROM notification -->
+<!-- 		WHERE notification_id = #{notificationId} -->
+<!-- 	</select> -->
+	
+	
+<!-- 	<delete id="deleteNotification" parameterType="int"> -->
+<!-- 		DELETE FROM notification -->
+<!-- 		WHERE notification_id = #{notificationId}	 -->
+<!-- 	</delete> -->
+	
+<!-- 	<select id="selectResumeCount" parameterType="pagingVO" resultType="int"> -->
+<!-- 		SELECT COUNT (resume_id) -->
+<!-- 		FROM resume -->
+<!-- 		WHERE 1 = 1 -->
+<!-- 		<include refid="resumeSearch"/> -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="selectResumeList" parameterType="pagingVO" resultMap="resumeListMap"> -->
+<!-- 		SELECT  -->
+<!-- 			e.* -->
+<!-- 		FROM ( -->
+<!-- 			SELECT -->
+<!-- 				d.*, ROW_NUMBER() OVER (ORDER BY resume_id DESC) rnum -->
+<!-- 			FROM ( -->
+<!-- 				SELECT  -->
+<!-- 					a.resume_id, a.resume_title, a.resume_status, a.resume_representative, a.mem_id, a.resume_photo, a.resume_insert_date, -->
+<!-- 					b.desired_id, b.desired_empl_form, b.desired_salary, b.desired_city1, b.desired_city2, b.desired_industry1, b.desired_industry2, b.desired_industry3,  -->
+<!-- 					c.workfield_id, c.workfield1, c.workfield2 -->
+<!-- 				FROM resume a -->
+<!-- 				LEFT OUTER JOIN desired_empl b ON a.resume_id = b.resume_id -->
+<!-- 				LEFT OUTER JOIN workfield c ON a.resume_id = c.resume_id -->
+<!-- 				ORDER BY a.resume_id DESC -->
+<!-- 			) d -->
+<!-- 		) e -->
+<!-- 	</select> -->
+	
+<!-- 	<insert id="insertResume" parameterType="resumeVO" useGeneratedKeys="true"> -->
+<!-- 		<selectKey keyProperty="resumeId" order="BEFORE" resultType="int"> -->
+<!-- 			SELECT seq_resumeid.nextval FROM DUAL -->
+<!-- 		</selectKey> -->
+<!-- 		INSERT INTO resume ( -->
+<!-- 			resume_id, resume_title, resume_status, resume_representative, mem_id, resume_insert_date, resume_delete_date -->
+<!-- 		) VALUES ( -->
+<!-- 			#{resumeId}, #{resumeTitle}, '0', 0, #{memId }, sysdate, null -->
+<!-- 		) -->
+<!-- 	</insert> -->
+	
+<!-- 	<insert id="insertActivity" parameterType="activityVO"> -->
+<!-- 		INSERT INTO activity ( -->
+<!-- 			act_id, act_content, act_category, act_institution, act_start, act_end, -->
+<!-- 			att_id, resume_id, act_insert_date, act_delete_date -->
+<!-- 		) VALUES ( -->
+<!-- 			seq_actid.nextval, #{actContent}, #{actCategory}, #{actInstitution}, #{actStart}, #{actEnd}, -->
+<!-- 			null, #{resumeId}, sysdate, null -->
+<!-- 		) -->
+<!-- 	</insert> -->
+	
+<!-- 	<insert id="insertAward" parameterType="awardVO"> -->
+<!-- 		INSERT INTO award ( -->
+<!-- 			award_id, award_name, award_content, award_institution, att_id, -->
+<!-- 			resume_id, award_insert_date, award_delete_date  -->
+<!-- 		) VALUES ( -->
+<!-- 			seq_awardid.nextval, #{awardName}, #{awardContent}, #{awardInstitution}, null, -->
+<!-- 			#{resumeId}, sysdate, null -->
+<!-- 		) -->
+<!-- 	</insert> -->
+	
+<!-- 	<insert id="insertCareer" parameterType="careerVO"> -->
+<!-- 		INSERT INTO career ( -->
+<!-- 			career_id, career_category, career_cmp_name, career_cmp_dprtm, career_workfield, career_duties, -->
+<!-- 			career_position, career_join_date, career_resign_date, career_salary, att_id, resume_id, -->
+<!-- 			career_insert_date, career_delete_date		 -->
+<!-- 		) VALUES ( -->
+<!-- 			seq_careerid.nextval, null, #{careerCmpName}, #{careerCmpDprtm}, #{careerWorkfield}, #{careerDuties}, -->
+<!-- 			#{careerPosition}, #{careerJoinDate}, #{careerResignDate}, #{careerSalary}, null, #{resumeId}, -->
+<!-- 			sysdate, null -->
+<!-- 		) -->
+<!-- 	</insert> -->
+	
+<!-- 	<insert id="insertCertification" parameterType="certificationVO"> -->
+<!-- 		INSERT INTO certification ( -->
+<!-- 			cert_id, cert_name, cert_date, cert_institution, att_id, resume_id, -->
+<!-- 			cert_insert_date, cert_delete_date -->
+<!-- 		) VALUES ( -->
+<!-- 			seq_certid.nextval, #{certName}, #{certDate}, #{certInstitution}, null, #{resumeId}, -->
+<!-- 			sysdate, null -->
+<!-- 		) -->
+<!-- 	</insert> -->
+	
+<!-- 	<insert id="insertDesired" parameterType="desiredVO"> -->
+<!-- 		INSERT INTO desired_empl ( -->
+<!-- 			desired_id, desired_empl_form, desired_salary, desired_city1, desired_industry1,  -->
+<!-- 			 resume_id, desired_insert_date, desired_delete_date -->
+<!-- 		) VALUES ( -->
+<!-- 			seq_desiredid.nextval, #{desiredEmplForm}, #{desiredSalary}, #{desiredCity1},  #{desiredIndustry1}, -->
+<!-- 			 #{resumeId}, sysdate, null -->
+<!-- 		) -->
+<!-- 	</insert> -->
+	
+<!-- 	<insert id="insertEducation" parameterType="educationVO"> -->
+<!-- 		INSERT INTO education ( -->
+<!-- 			edu_id, edu_major1, edu_major2, edu_school_name, edu_start, edu_end, -->
+<!-- 			edu_score, edu_score_standard, edu_status, edu_school_type, resume_id, edu_insert_date, -->
+<!-- 			edu_delete_date  -->
+<!-- 		) VALUES ( -->
+<!-- 			seq_eduid.nextval, #{eduMajor1}, null, #{eduSchoolName}, #{eduStart}, #{eduEnd}, -->
+<!-- 			#{eduScore}, #{eduScoreStandard}, #{eduStatus}, #{eduSchoolType}, #{resumeId}, sysdate, -->
+<!-- 			null -->
+			
+<!-- 		) -->
+<!-- 	</insert> -->
+	
+<!-- 	<insert id="insertPrfrn" parameterType="prfrnVO"> -->
+<!-- 		INSERT INTO employment_preferences ( -->
+<!-- 			prfrn_id, prfrn_veterans, prfrn_subsidy, prfrn_disability, prfrn_military, prfrn_protection, -->
+<!-- 			prfrn_disability_grade, prfrn_military_type, prfrn_military_start, prfrn_military_end, prfrn_military_branch, prfrn_military_rank, -->
+<!-- 			resume_id, prfrn_insert_date, prfrn_delete_date  -->
+<!-- 		) VALUES ( -->
+<!-- 			seq_prfrnid.nextval, #{prfrnVeterans}, #{prfrnSubsidy}, #{prfrnDisability}, #{prfrnMilitary}, #{prfrnProtection}, -->
+<!-- 			#{prfrnDisabilityGrade}, #{prfrnMilitaryType}, #{prfrnMilitaryStart}, #{prfrnMilitaryEnd}, #{prfrnMilitaryBranch}, #{prfrnMilitaryRank}, -->
+<!-- 			#{resumeId}, sysdate, null -->
+<!-- 		) -->
+<!-- 	</insert> -->
+	
+<!-- 	<insert id="insertLanguage" parameterType="languageVO"> -->
+<!-- 		INSERT INTO language ( -->
+<!-- 			lang_id, lang_name, lang_test_name, lang_test_date, lang_test_score, resume_id, -->
+<!-- 			lang_insert_date, lang_delete_date -->
+<!-- 		) VALUES ( -->
+<!-- 			seq_langid.nextval, #{langName}, #{langTestName}, #{langTestDate}, #{langTestScore}, #{resumeId}, -->
+<!-- 			sysdate, null -->
+<!-- 		) -->
+<!-- 	</insert> -->
+	
+<!-- 	<insert id="insertSkill" parameterType="skillVO"> -->
+<!-- 		INSERT INTO skill ( -->
+<!-- 			skill_id, skill1,  -->
+<!-- 			resume_id, skill_insert_date, skill_delete_date -->
+<!-- 		) VALUES ( -->
+<!-- 			seq_skillid.nextval, #{skill1}, -->
+<!-- 			#{resumeId}, sysdate, null -->
+<!-- 		) -->
+<!-- 	</insert> -->
+	
+<!-- 	<insert id="insertPortfolio" parameterType="portfolioVO"> -->
+<!-- 		INSERT INTO portfolio ( -->
+<!-- 			portfolio_id, portfolio_url, resume_id, portfolio_insert_date, portfolio_delete_date -->
+<!-- 		) VALUES ( -->
+<!-- 			seq_portfolioid.nextval, #{portfolioUrl}, #{resumeId}, sysdate, null -->
+<!-- 		) -->
+<!-- 	</insert> -->
+	
+<!-- 	<insert id="insertWorkfield" parameterType="workfieldVO"> -->
+<!-- 		INSERT INTO workfield ( -->
+<!-- 			workfield_id, workfield1,resume_id, workfield_insert_date, workfield_delete_date -->
+<!-- 		) VALUES ( -->
+<!-- 			seq_workfieldid.nextval, #{workfield1}, #{resumeId}, sysdate, null -->
+<!-- 		) -->
+<!-- 	</insert> -->
+	
+<!-- 	<select id="resumeDetail" parameterType="int" resultMap="resumeMap"> -->
+<!-- 		SELECT  -->
+<!-- 			a.resume_id, a.resume_title, a.resume_status, a.resume_representative, a.mem_id, a.resume_photo, -->
+<!-- 			b.act_id, b.act_content, b.act_category, b.act_institution, b.act_start, b.act_end, b.att_id, -->
+<!-- 			c.award_id, c.award_name, c.award_content, c.award_date, c.award_institution, -->
+<!-- 			d.career_id, d.career_category, d.career_cmp_name, d.career_cmp_dprtm, d.career_workfield, d.career_duties, d.career_position, d.career_join_date, d.career_resign_date, d.career_salary, d.att_id, -->
+<!-- 			e.cert_id, e.cert_name, e.cert_date, e.cert_institution, e.att_id, -->
+<!-- 			f.desired_id, f.desired_empl_form, f.desired_salary, f.desired_city1, f.desired_city2, f.desired_industry1, f.desired_industry2, f.desired_industry3,  -->
+<!-- 			g.edu_id, g.edu_major1, g.edu_major2, g.edu_school_name, g.edu_start, g.edu_end, g.edu_score, g.edu_score_standard, g.edu_status, g.edu_school_type, -->
+<!-- 			h.prfrn_id, h.prfrn_veterans, h.prfrn_subsidy, h.prfrn_disability, h.prfrn_military, h.prfrn_protection, h.prfrn_disability_grade, h.prfrn_military_type, h.prfrn_military_start, h.prfrn_military_end, h.prfrn_military_branch, h.prfrn_military_rank, -->
+<!-- 			i.lang_id, i.lang_name, i.lang_test_name, i.lang_test_date, i.lang_test_score, -->
+<!-- 			j.skill_id, j.skill1, j.skill2, j.skill3, j.skill4, j.skill5,  -->
+<!-- 			k.portfolio_id, k.portfolio_url, k.att_id, -->
+<!-- 			l.workfield_id, l.workfield1, l.workfield2 -->
+<!-- 		FROM resume a -->
+<!-- 		LEFT OUTER JOIN activity b ON a.resume_id = b.resume_id  -->
+<!-- 		LEFT OUTER JOIN award c ON a.resume_id = c.resume_id -->
+<!-- 		LEFT OUTER JOIN career d ON a.resume_id = d.resume_id -->
+<!-- 		LEFT OUTER JOIN certification e ON a.resume_id = e.resume_id -->
+<!-- 		LEFT OUTER JOIN desired_empl f ON a.resume_id = f.resume_id -->
+<!-- 		LEFT OUTER JOIN education g ON a.resume_id = g.resume_id -->
+<!-- 		LEFT OUTER JOIN employment_preferences h ON a.resume_id = h.resume_id -->
+<!-- 		LEFT OUTER JOIN language i ON a.resume_id = i.resume_id -->
+<!-- 		LEFT OUTER JOIN skill j ON a.resume_id = j.resume_id -->
+<!-- 		LEFT OUTER JOIN portfolio k ON a.resume_id = k.resume_id -->
+<!-- 		LEFT OUTER JOIN workfield l ON a.resume_id = l.resume_id -->
+<!-- 		WHERE a.resume_id = #{resumeId} -->
+<!-- 		ORDER BY a.resume_id DESC 			 -->
+<!-- 	</select> -->
+
+<!-- 	<select id="getMemberByResumeId" parameterType="int" resultType="memberVO"> -->
+<!-- 		SELECT a.mem_id, a.mem_name, a.mem_birth, a.mem_gender, a.mem_tel, a.mem_email, a.mem_addr1, a.mem_addr2 -->
+<!-- 		FROM member a, resume b -->
+<!-- 		WHERE a.mem_id = b.mem_id -->
+<!-- 		AND b.resume_id = #{resumeId} -->
+<!-- 	</select> -->
+
+<!-- 	<update id="modifyResume" parameterType="resumeVO" > -->
+<!-- 		UPDATE resume -->
+<!-- 		SET -->
+<!-- 			resume_title = #{resumeTitle} -->
+<!-- 			, resume_insert_date = sysdate -->
+<!-- 		WHERE resume_id = #{resumeId} -->
+<!-- 	</update> -->
+	
+<!-- 	<delete id="deleteActivity" parameterType="int"> -->
+<!-- 		DELETE FROM activity -->
+<!-- 		WHERE resume_id = #{resumeId} -->
+<!-- 	</delete> -->
+<!-- 	<delete id="deleteAward" parameterType="int"> -->
+<!-- 		DELETE FROM award -->
+<!-- 		WHERE resume_id = #{resumeId} -->
+<!-- 	</delete> -->
+<!-- 	<delete id="deleteCareer" parameterType="int"> -->
+<!-- 		DELETE FROM career -->
+<!-- 		WHERE resume_id = #{resumeId} -->
+<!-- 	</delete> -->
+<!-- 	<delete id="deleteCertification" parameterType="int"> -->
+<!-- 		DELETE FROM certification -->
+<!-- 		WHERE resume_id = #{resumeId} -->
+<!-- 	</delete> -->
+<!-- 	<delete id="deleteDesired" parameterType="int"> -->
+<!-- 		DELETE FROM desired_empl -->
+<!-- 		WHERE resume_id = #{resumeId} -->
+<!-- 	</delete> -->
+<!-- 	<delete id="deleteEducation" parameterType="int"> -->
+<!-- 		DELETE FROM education -->
+<!-- 		WHERE resume_id = #{resumeId} -->
+<!-- 	</delete> -->
+<!-- 	<delete id="deletePrfrn" parameterType="int"> -->
+<!-- 		DELETE FROM employment_preferences -->
+<!-- 		WHERE resume_id = #{resumeId} -->
+<!-- 	</delete> -->
+<!-- 	<delete id="deleteLanguage" parameterType="int"> -->
+<!-- 		DELETE FROM language -->
+<!-- 		WHERE resume_id = #{resumeId} -->
+<!-- 	</delete> -->
+<!-- 	<delete id="deletePortfolio" parameterType="int"> -->
+<!-- 		DELETE FROM portfolio -->
+<!-- 		WHERE resume_id = #{resumeId} -->
+<!-- 	</delete> -->
+<!-- 	<delete id="deleteSkill" parameterType="int"> -->
+<!-- 		DELETE FROM skill -->
+<!-- 		WHERE resume_id = #{resumeId} -->
+<!-- 	</delete> -->
+<!-- 	<delete id="deleteWorkfield" parameterType="int"> -->
+<!-- 		DELETE FROM workfield -->
+<!-- 		WHERE resume_id = #{resumeId} -->
+<!-- 	</delete> -->
+<!-- 	<delete id="deleteResume" parameterType="int"> -->
+<!-- 		DELETE FROM resume -->
+<!-- 		WHERE resume_id = #{resumeId} -->
+<!-- 	</delete> -->
+	
+<!-- 	<insert id="insertCovltrItems" parameterType="covltrItemVO"> -->
+<!-- 		INSERT INTO coverletter_item ( -->
+<!-- 			covltr_item_id, covltr_item_title, covltr_item_content, covltr_item_ltrcnt, mem_id -->
+<!-- 		) VALUES ( -->
+<!-- 			seq_covltritemid.nextval, #{covltrItemTitle}, #{covltrItemContent}, 500, 'hyerimk' -->
+<!-- 		) -->
+<!-- 	</insert> -->
+
+<!-- 	<select id="coverletterDetail" parameterType="int" resultType="covltrItemVO"> -->
+<!-- 		SELECT -->
+<!-- 			covltr_item_id, covltr_item_title, covltr_item_content, covltr_item_ltrcnt, mem_id -->
+<!-- 		FROM coverletter_item -->
+<!-- 		WHERE covltr_item_id = #{covltrItemId} -->
+<!-- 	</select> -->
+	
+<!-- 	<update id="modifyCoverletterItems" parameterType="covltrItemVO"> -->
+<!-- 		UPDATE coverletter_item -->
+<!-- 		SET  -->
+<!-- 			covltr_item_title = #{covltrItemTitle} -->
+<!-- 			, covltr_item_content = #{covltrItemContent} -->
+<!-- 		WHERE covltr_item_id = #{covltrItemId} -->
+<!-- 	</update> -->
+	
+<!-- 	<select id="selectCovltrItemList" parameterType="String" resultType="covltrItemVO"> -->
+<!-- 		SELECT covltr_item_id, covltr_item_title, covltr_item_content, covltr_item_ltrcnt, mem_id -->
+<!-- 		FROM coverletter_item -->
+<!-- 		WHERE mem_id = #{memId} -->
+<!-- 	</select> -->
+	
+<!-- 	<insert id="insertCoverletter" parameterType="String"> -->
+<!-- 		INSERT INTO coverletter ( -->
+<!-- 			covltr_id, covltr_title, covltr_insert_date, mem_id, covltr_item_id  -->
+<!-- 		) VALUES ( -->
+<!-- 			seq_covltrid.nextval, #{covltrTitle}, sysdate, 'hyerimk', #{checkedIds} -->
+<!-- 		) -->
+<!-- 	</insert> -->
+
+<!-- </mapper> -->
+
+
+
+
+
+
+
+
+
+
+

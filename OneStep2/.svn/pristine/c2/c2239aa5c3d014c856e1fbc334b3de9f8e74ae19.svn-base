@@ -1,0 +1,17 @@
+package kr.or.ddit.mapper;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import kr.or.ddit.vo.GoodVO;
+
+public interface GoodMapper {
+	public GoodVO read(HashMap<String, Object> hashMap);
+	public int countbyGood(HashMap<String, Object> hashMap);
+	public Object create(HashMap<String, Object> hashMap);
+	public void good_check(HashMap<String, Object> hashMap);
+	public Map<String, Object> good_cnt_up(int boardId);
+	public void good_check_cancel(HashMap<String, Object> hashMap);
+
+
+}

@@ -1,0 +1,33 @@
+package kr.or.ddit.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.member.vo.SupportVO;
+
+@Mapper
+public interface MemMapper {
+
+	int join(MemberVO vo);
+
+	int companyJoin(MemberVO vo);
+
+	MemberVO memCheck(String memId);
+
+	MemberVO idForget(MemberVO vo);
+
+	MemberVO pwForget(MemberVO vo);
+
+	int changePw(MemberVO vo);
+
+	int changeInfo(MemberVO vo);
+
+	void insertSupport(SupportVO supVO);
+
+	void delSupport(SupportVO supVO);
+
+	List<SupportVO> getSupportList(String memId);
+
+}

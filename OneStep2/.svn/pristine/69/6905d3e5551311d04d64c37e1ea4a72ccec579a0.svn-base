@@ -1,0 +1,523 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!--  Navbar Starts / Breadcrumb Area  -->
+<div class="sub-header-container">
+    <header class="header navbar navbar-expand-sm">
+        <ul class="navbar-nav flex-row">
+            <li>
+                <div class="page-header">
+                    <nav class="breadcrumb-one" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page"><span>자기소개서 항목 등록</span></li>
+                        </ol>
+                    </nav>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+            <li class="">
+                <p class="current-time" id="currentTime"></p>
+                <p class="current-date" id="currentDate"></p>
+            </li>
+        </ul>
+    </header>
+</div>
+<!--  Navbar Ends / Breadcrumb Area  -->
+
+<form:form action="/myPage/coverletter/insert" method="post" modelAttribute="covltr">
+	<input type="hidden" name="memId" value="${sessionScope.memberVO.memId }" />
+	<c:if test="${status eq 'u' }">
+		<input type="hidden" name="covltrId" value="${covltr.covltrId }" />
+	</c:if>
+
+<!-- Main Body Starts -->
+
+<div class="layout-px-spacing">
+    <div class="layout-top-spacing mb-2">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="container p-0">
+                    <div class="row layout-top-spacing">
+                        <div class="col-lg-9 layout-spacing" id="covltrDiv">
+							
+                            <div class="widget-content widget-content-area">            
+                                 <button type="button" class="btn btn-primary mb-2 mr-2" data-toggle="modal" data-target="#scrollableModal">자기소개서 항목 예시</button>
+                                 <div id="scrollableModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" >
+                                   <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"  role="document">
+                                     <div class="modal-content">
+                                         <div class="modal-header">
+                                             <h5 class="modal-title" id="">자기소개서 항목별 제목</h5>
+                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                 <i class="las la-times"></i>
+                                             </button>
+                                         </div>
+                                         <div class="modal-body">
+                                         	<table class="table table-bordered mb-0">
+	                                        	<tbody>
+		                                             <tr>
+		                                                 <td rowspan="12" style="width: 50%"><p>기본형</p>(기본항목 위주로 표현할 때)</td>
+		                                                 <td style="width:50%">가족소개</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>성장과정</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>교외활동</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>전공선택 이유와 적성</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>성격의 장단점</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>생활신조</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>동아리/봉사활동</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>사회경험</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>좌우명</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>장래포부</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>지원동기</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>입사 후 희망업무</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td rowspan="13" style="width: 40%"><p>개성형</p>(개성만점!! 나만의 표현법)</td>
+		                                                 <td style="width:60%">햇살을 머금고 태어난 아이</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>지칠 줄 모르는 강인한 체력</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>세상과 소통하는 눈과 귀</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>잊지못할 소중한 경험들</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>나를 빛나게 하는 사람들</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>자랑하고 싶은 나만의 꿈</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>세상에 첫 발을 내딛다.</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>인간성이 밥 먹여준다!</td>
+		                                             </tr>
+		                                             <tr>
+		                                             	<td>걸음이 느린 아이</td>
+		                                             </tr>
+		                                             <tr>
+		                                             	<td>1+1 = 3 의 공식이 나의 목표</td>
+		                                             </tr>
+		                                             <tr>
+		                                             	<td>대자연에게 배운 넓은 시각 (성장과정)</td>
+		                                             </tr>
+		                                             <tr>
+		                                             	<td>리더의 기본과 원만한 인간관계 (성격소개) </td>
+		                                             </tr>
+		                                             <tr>
+		                                             	<td> 기업, 너를 내 품에! </td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td rowspan="7" style="width: 50%;"><p>경력형</p>(경력자를 위한 자기소개서)</td>
+		                                                 <td style="width:50%">전문보유기술</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>주요실적 및 세부내용</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>이직/전직 사유</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>희망부서 및 직급</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>프로젝트경험</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>지원동기</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>입사 후 계획</td>
+		                                             </tr>
+		                                             
+		                                             <tr>
+		                                                 <td rowspan="6" style="width: 50%;"><p>공채형</p>(최신 트렌드가 반영된 대기업의 공채 자기소개서 항목</td>
+		                                                 <td style="width:50%">가장 열정을 바쳐서 일했던 경험</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>성격의 장점을 발휘해서 문제를 해결했던 경험</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>성격의 단점을 극복하고 성공했던 경험</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>다른 사람을 감동시켰던 경험</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>기존의 틀을 깨는 새로운 시도를 했던 경험</td>
+		                                             </tr>
+		                                             <tr>
+		                                                 <td>옳은 일을 위해 소신을 지켰던 경험</td>
+		                                             </tr>
+	                                             </tbody>
+	                                         </table>
+                                         </div>
+                                         
+                                         </div>
+                                     </div>
+                                   </div>
+                            </div>
+                        
+                            <div class="statbox widget box box-shadow">
+	                            <label for="covltrTitle">자기소개서 제목 
+	                            <span class="text-danger">*</span></label>
+	                            <input type="text" name="covltrTitle" class="form-control" value="${covltr.covltrTitle }" placeholder="자기소개서 제목을 입력하세요.">
+							</div>	                        
+                        	
+                        	<c:forEach items="${covltr.covltrItemList }" var = "covltrItem" varStatus="status">
+                        		<div class="statbox widget box box-shadow" id="item">
+	                                <div class="widget-content widget-content-area" >
+	                                    <div class="form-group row">
+		                                    <label for="covltrItemTitle">항목 제목
+		                                    <span class="text-danger">*</span></label>
+		                                    <input type="text" name="covltrItemList[${status.index }].covltrItemTitle" value="${covltrItem.covltrItemTitle }" id="covltrItemTitle" class="form-control" placeholder="항목 제목을 입력하세요.">
+		                                </div>
+		                                
+	        	                        <div class="form-group row">
+	                                        <label for="covltrItemContent">항목 내용 
+	                                        <span class="text-danger">*</span></label>
+	                                        <textarea class="form-control" id="itemContent"  onkeyup="keyPressed(this)" name="covltrItemList[${status.index }].covltrItemContent" rows="6" placeholder="내용을 입력하세요.">${covltrItem.covltrItemContent }</textarea>
+		                                	<span id="ltrcnt">글자수: (공백 포함) 자 </span>
+		                                </div>
+		                                <div class="form-group row">
+	                                   		<button type="button" id="btnDeleteItem" class="btn btn-outline-warning btn-rounded" >삭제</button>
+	                                	</div>
+	                                </div>
+	                            </div>
+                        	</c:forEach>
+                        	
+                            
+                            
+<!--                             <div class="statbox widget box box-shadow"> -->
+                            	<button type="button" id="addBtn" class="btn btn-outline-primary" style="width:100%;"><i class="far fa-plus-square fa-lg"></i> 추가</button><br>
+<!--                             </div> -->
+                        </div>
+
+						<!-- 자소서 사이드바 시작 -->
+                        <div class="col-lg-3 layout-spacing">
+                        <br><br><br>
+                        	<!-- ONGOING TASK -->
+<!-- 		                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" style="position:sticky; top:77px;" > -->
+<!-- 		                        <div class="widget widget-three add-project"> -->
+<!-- 		                            <div class="widget-heading mb-0"> -->
+<!-- 		                                <h5>채용공고 자소서 작성</h5> -->
+<!-- 		                            </div> -->
+<!-- 		                            <div class="widget-content"> -->
+<!-- 		                                <ul class="task-lists m-0 p-0 mt-4"> -->
+<!-- 		                                    <li class="d-flex mb-4 align-items-center"> -->
+<!-- 		                                    	<p>(주)경남은행 2023 상반기 신입행원 채용</p><br> -->
+<!-- <!-- 		                                    	<button type="button" class="btn btn-success">작성</button> --> 
+<!-- 		                                    </li> -->
+<!-- 		                                    <li class="d-flex mb-4 align-items-center"> -->
+<!-- 		                                    	<p class="mb-0">CJ제일제당(주) 하반기 신입 품질관리자</p> -->
+<!-- 		                                    </li> -->
+<!-- 		                                    <li class="d-flex mb-4 align-items-center"> -->
+<!-- 		                                        <p class="mb-0">(주)코웨이 2022 하반기 신입 해외영업</p> -->
+<!-- 		                                    </li> -->
+<!-- 		                                    <li class="d-flex mb-4 align-items-center"> -->
+<!-- 		                                        <p class="mb-0">삼성전자(주) 하반기 신입 제품디자이너</p> -->
+<!-- 		                                    </li> -->
+<!-- 		                                    <li class="d-flex mb-4 align-items-center"> -->
+<!-- 		                                        <p class="mb-0">NE능률 2023 상반기 신입 교재개발/교수설계</p> -->
+<!-- 		                                    </li> -->
+<!-- 		                                    <li class="d-flex mb-4 align-items-center"> -->
+<!-- 		                                        <p class="mb-0">(주)GS글로벌 2022 하반기 신입 해외영업</p> -->
+<!-- 		                                    </li> -->
+<!-- 		                                </ul> -->
+<!-- 		                           </div> -->
+<!-- 		                       </div> -->
+		                       <c:set value="등록" var="btn" />
+		                       <c:if test="${status eq 'u' }">
+		                       		<c:set value="수정" var="btn"/>
+		                       </c:if>
+			                   <div class="button-list"  style="position:sticky; top:77px;" ></br>
+			                       <button type="button" id="btnGetItem" class="btn btn-outline-primary" style="width:100%;"data-toggle="modal" data-target="#itemModal">저장된 항목 불러오기</button><br><br>
+			                       <button type="button" id="btnList" class="btn btn-outline-primary" style="width:100%;">목록</button><br><br>
+			                       <button type="button" id="btnInsert" class="btn btn-primary" style="width:100%;">${btn }</button><br>
+			                   </div>
+		                   </div>
+		                   <!-- ONGOING TASK ENDS-->
+                        </div>
+						<!-- 자소서 사이드바 끝 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="itemModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="itemModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+		<div class="modal-content">
+        	<div class="modal-header">
+            	<h5 class="modal-title" id="">저장된 자기소개서 항목 리스트</h5>
+            	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	               <span aria-hidden="true">&times;</span>
+    	        </button>
+        	</div>
+        	<div class="modal-body">
+          		<form id="itemForm">
+    			<div class="layout-px-spacing">                
+	                <div class="row layout-spacing layout-top-spacing" id="cancel-row">
+	                    <div class="col-lg-12">
+	                        <div class="">
+	                            <div class="widget-content searchable-container grid">
+	                                <div class="card-box">
+	                                    <div class="row">
+	<!--                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-7 filtered-list-search align-self-center"> -->
+	                                        <div class="col-12 filtered-list-search align-self-center">
+<%-- 	                                            <form class="form-inline my-2 my-lg-0"> --%>
+<!-- 	                                                <div class=""> -->
+<!-- 	                                                    <i class="las la-search toggle-search"></i><input  style="width:100%" type="text" id="input-search-seller" class="form-control search-form-control  ml-lg-auto" placeholder="검색어를 입력해 주세요."> -->
+<!-- 	                                                </div> -->
+<%-- 	                                            </form> --%>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                
+	                               	<div class="card single-seller">
+	                               		 <c:choose>
+					                   		<c:when test="${empty covltrItemList }">
+					                   			<br><br><h4 style="text-align: center;">작성한 자기소개서 항목이 존재하지 않습니다.</h4><br><br>
+					                   		</c:when>
+					                   		<c:otherwise>
+					                   			<c:forEach items="${covltrItemList }" var="item">
+				                   					<div class="widget-content widget-content-area br-6" id="itemList">
+				                   						<input type="hidden" value="${item.covltrItemId }" />
+														<div class="card card-body mt-3">
+															<h5 class="card-title mt-3"><input type="checkbox" id="chk">&nbsp&nbsp ${item.covltrItemTitle }</h5>
+						                                    <p class="card-text">${item.covltrItemContent } </p>
+						                                </div>	
+													</div>
+					                   			</c:forEach>
+					                   		</c:otherwise>
+					                   </c:choose>
+	                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    	
+	        	
+        	
+        	
+       			</form>
+			</div>
+       		<div class="modal-footer">
+         	   <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i>닫기</button>
+         	   <button type="button" id="itemSelect" class="btn btn-primary">선택</button>
+    	    </div>
+		</div>
+	</div>
+</div>
+
+<!-- Main Body Ends -->
+</form:form>	
+
+
+<script type="text/javascript">
+function keyPressed(e){
+	var textLeng = e.textLength;
+	var maxLength = 500;
+	
+	var element;
+	for(var i = 0; i < e.parentElement.childNodes.length; i++){
+		if(e.parentElement.childNodes[i].localName == "span" && e.parentElement.childNodes[i].id == "ltrcnt"){
+			element = e.parentElement.childNodes[i];
+		}
+	}
+	
+	element.innerHTML = "글자 수: (공백 포함) " + textLeng + " 자 / 최대 " + maxLength + "자";
+	if (textLeng > maxLength) {
+		element.innerHTML = "(500자 / 최대 " + maxLength + "자)";
+		alert("최대 " + maxLength + "자까지 입력 가능합니다.");
+		e.value = e.value.substring(0, maxLength);
+		element.innerHTML = "글자 수: (공백 포함) " + maxLength + " 자 / 최대 " + maxLength + "자";
+	}
+}
+
+$(function(){
+	
+	// 서류사항 textarea 체크.
+// 	$('textarea').keyup(function (e) {
+// 		var ee = e;
+// 		console.log(e);
+// 		var content = $(this).val();
+// 		var maxLength = 500;
+// 		$('#ltrcnt').html("글자 수: (공백 포함) " + content.length + " 자 / 최대 " + maxLength + "자");    //글자수 실시간 카운팅
+	
+// 		if (content.length > maxLength) {
+// 			$('#ltrcnt').html("(500자 / 최대 " + maxLength + "자)");
+// 			alert("최대 " + maxLength + "자까지 입력 가능합니다.");
+// 			$(this).val(content.substring(0, maxLength));
+// 			$('#ltrcnt').html("글자 수: (공백 포함) " + maxLength + " 자 / 최대 " + maxLength + "자");
+// 		}
+// 	});
+
+	var covltr = $("#covltr");
+	var btnInsert = $("#btnInsert");
+	var btnPreview = $("#btnPreview");
+	var btnList = $("#btnList");
+	var itemSelect = $("#itemSelect");
+	
+	btnList.on("click", function(){
+		location.href = '/myPage/coverletter/list';
+	});
+	
+	btnInsert.on("click", function() {
+	//		if ($("#coverletterTitle").val() == null || $("#coverletterTitle").val() == "") {
+	//			alert("항목 제목을 입력해 주세요.");
+	//			return false;
+	//		}
+		if (btnInsert.text() == "수정") {
+			covltr.attr("action", "/myPage/coverletter/modify");
+		}
+		covltr.submit();	
+	});
+	
+	
+	// 방법 1) .clone => div가 다 삭제되면 복제 안 됨 
+	// var itemIndex = 1; // 기존 item div가 1개이므로 인덱스 번호는 1부터 시작
+	// $('#addBtn').click(function() { 
+	// 	var newItem = $('#item').clone(); // item div 복제
+	// 	newItem.attr('id', ''); // 새로 생성된 item div의 id를 삭제
+	// 	newItem.find('input[type="text"], textarea').val(''); // 새로 생성된 item div의 input, textarea 내용 초기화
+	// 	newItem.find('input[name="covltrItemList[0].covltrItemTitle"]').attr('name', 'covltrItemList['+itemIndex+'].covltrItemTitle'); // 인덱스 번호에 맞게 input name 속성 변경
+	// 	newItem.find('textarea[name="covltrItemList[0].covltrItemContent"]').attr('name', 'covltrItemList['+itemIndex+'].covltrItemContent'); // 인덱스 번호에 맞게 textarea name 속성 변경
+	// 	newItem.find('#counter').text('(0 / 최대 200자)'); // 글자수 표시 초기화
+	// 	$('#item').after(newItem); // item div 뒤에 새로 생성된 item div 추가
+	// });
+	
+	
+	// 방법 2) html 추가
+	$(document).on('click', '#addBtn', function(){
+	    var itemIndex = $('.item').length + 1;
+	    var newItem =
+	    	'<div class="statbox widget box box-shadow item" id="item' + itemIndex + '">'+
+			    '<div class="widget-content widget-content-area" >' +
+			        '<div class="form-group row">'+
+			            '<label for="covltrItemTitle">항목 제목' +
+			                '<span class="text-danger">*</span>' +
+			            '</label>' +
+			            '<input type="text" name="covltrItemList['+ itemIndex + '].covltrItemTitle" class="form-control" placeholder="항목 제목을 입력하세요.">'+
+			        '</div>' +
+			        '<div class="form-group row">'+
+			            '<label for="covltrItemContent">항목 내용' +
+			                '<span class="text-danger">*</span>' +
+			            '</label>'+
+			            '<textarea class="form-control" id="itemContent" onkeyup="keyPressed(this)" name="covltrItemList[' + itemIndex + '].covltrItemContent" rows="6" placeholder="내용을 입력하세요."></textarea>'+
+			            '<span id="ltrcnt">글자수: (공백 포함) 자 </span>' +
+			        '</div>' +
+			        '<div class="form-group row">' +
+			            '<button type="button" id="btnDeleteItem" class="btn btn-outline-warning btn-rounded">삭제</button>'+
+			        '</div>' +
+			    '</div>' +
+			'</div>';
+	    $('#addBtn').before(newItem);
+	});
+	
+	
+	// '삭제' 버튼 클릭 시, 해당 항목을 삭제하는 함수
+	$(document).on('click', '#btnDeleteItem', function() {
+		$(this).closest('.statbox').remove();
+	// 	$(this).closest('div[id^=item]').remove();
+	});
+	
+	
+	// 저장된 항목 불러오기 모달창에서 체크박스 선택 시 이벤트
+	var checkedIds = [];
+	$("input[type='checkbox']").on('change', function() {
+		checkedIds = [];
+	    $("input[type='checkbox']:checked").each(function() {
+			var id = $(this).closest("#itemList").find("input[type='hidden']").val();
+	        if (id) {
+	            checkedIds.push(id);
+	        }
+	    });
+	    console.log(checkedIds);
+	});
+	
+	// 저장된 항목 불러오기 모달창에서 선택 클릭 시 이벤트
+	$('#itemSelect').click(function() {
+		if (checkedIds.length > 0) {
+			var ids = "";
+			for (var i = 0; i < checkedIds.length; i++) {
+				ids += checkedIds[i] + ",";
+			}
+			var data = {
+				data : ids
+			}
+			$.ajax({
+				type: 'GET',
+				url: '/myPage/coverletter/getCovltrItem',
+	  			dataType: "json",
+				contentType: "application/json; charset=UTF-8",
+				data: data,
+				success: function(data) {
+					console.log(data);
+					$.each(data, function(index, item) {
+						
+					    var newItem =
+					    	'<div class="statbox widget box box-shadow item" id="item' + index + '">'+
+			                    '<div class="widget-content widget-content-area" >' +
+			                        '<div class="form-group row">'+
+			                            '<label for="covltrItemTitle">항목 제목' +
+			                                '<span class="text-danger">*</span>' +
+			                            '</label>' +
+			                            '<input type="text" value="'+item.covltrItemTitle+'" name="covltrItemList['+ index + '].covltrItemTitle" class="form-control" placeholder="항목 제목을 입력하세요.">'+
+			                        '</div>' +
+			                        '<div class="form-group row">'+
+			                            '<label for="covltrItemContent">항목 내용' +
+			                                '<span class="text-danger">*</span>' +
+			                            '</label>'+
+			                            '<textarea class="form-control"  onkeyup="keyPressed(this)"  id="itemContent" name="covltrItemList[' + index + '].covltrItemContent" rows="6" placeholder="내용을 입력하세요.">'+item.covltrItemContent+'</textarea>'+
+			                            '<span id="ltrcnt">글자수: (공백 포함) 자 </span>' +
+			                        '</div>' +
+			                        '<div class="form-group row">' +
+			                            '<button type="button" id="btnDeleteItem" class="btn btn-outline-warning btn-rounded">삭제</button>'+
+			                        '</div>' +
+			                    '</div>' +
+			                '</div>';
+		                $('#addBtn').before(newItem);
+					});
+					
+					// 체크박스 체크 해제
+					$("input[type='checkbox']:checked").prop('checked', false);
+	
+					// 모달 종료
+					$('.modal').modal('hide');
+				}
+			});
+		}
+	});
+
+});
+</script>
+
+
+

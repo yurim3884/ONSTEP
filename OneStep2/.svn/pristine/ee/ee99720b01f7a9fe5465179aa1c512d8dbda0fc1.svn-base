@@ -1,0 +1,29 @@
+package kr.or.ddit.pay.serviceImpl;
+
+import java.util.UUID;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.company.vo.CompanyVO;
+import kr.or.ddit.mapper.PayMapper;
+import kr.or.ddit.pay.service.IPayService;
+import kr.or.ddit.pay.vo.PayVO;
+
+@Service
+public class PayServiceImpl implements IPayService {
+	
+	@Inject
+	private PayMapper mapper;
+
+	@Override
+	public void insert(PayVO pay) {
+		mapper.insert(pay);
+		mapper.insertDatail(pay);
+	}
+
+	
+
+}

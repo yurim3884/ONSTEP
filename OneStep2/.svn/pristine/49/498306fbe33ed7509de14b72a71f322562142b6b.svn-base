@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.MasterMapper">
+
+<resultMap type="memberVO" id="memberMap">
+<id property="memId" column="mem_id"/>
+<result property="companyId" column="company_id"/>
+<result property="memPw" column="mem_pw"/>
+<result property="memName" column="mem_name"/>
+<result property="memNick" column="mem_nick"/>
+<result property="memBirth" column="mem_birth"/>
+<result property="memGender" column="mem_gender"/>
+<result property="memZip" column="mem_zip"/>
+<result property="memAddr1" column="mem_addr1"/>
+<result property="memAddr2" column="mem_addr2"/>
+<result property="memEmail" column="mem_email"/>
+<result property="memTel" column="mem_tel"/>
+<result property="memMsn" column="mem_msn"/>
+<result property="memEmailApp" column="mem_email_app"/>
+<result property="memApp" column="mem_app"/>
+<result property="memStart" column="mem_start"/>
+<result property="memStatus" column="mem_status"/>
+<result property="memEnd" column="mem_end"/>
+<result property="memFree" column="mem_free"/>
+<result property="profileId" column="profile_id"/>
+<collection property="companyList" resultMap="companyMap"/>
+</resultMap>
+
+<resultMap type="companyVO" id="companyMap">
+<id property="companyId" column="company_id"/>
+<result property="companyNumber" column="company_number"/>
+<result property="companyName" column="company_name"/>
+<result property="companyRepresentative" column="company_representative"/>
+<result property="companyBusiness" column="company_business"/>
+<result property="companyZip" column="company_zip"/>
+<result property="companyPhone" column="company_phone"/>
+<result property="companyEmail" column="company_email"/>
+<result property="companyEstablishment" column="company_establishment"/>
+<result property="companySmall" column="company_small"/>
+<result property="companyEmployees" column="company_employees"/>
+<result property="companyAverage" column="company_average"/>
+<result property="companyPerson" column="company_person"/>
+<result property="companyMain" column="company_main"/>
+<result property="companyCheck" column="company_check"/>
+<result property="companyIntro" column="company_intro"/>
+<result property="companyLogo" column="company_logo"/>
+<result property="companyAddr2" column="company_addr2"/>
+<result property="companyCap" column="company_cap"/>
+<result property="companyTake" column="company_take"/>
+<result property="companyProfit" column="company_profit"/>
+<result property="companyIncome" column="company_income"/>
+<result property="companyAddr1" column="company_addr1"/>
+</resultMap>
+
+<select id="list" resultType="memberVO">
+select a.mem_id, company_id, mem_pw, 
+		mem_name, mem_nick, mem_birth, 
+		mem_gender, mem_zip, mem_addr1, 
+		mem_addr2, mem_email, mem_tel, 
+		mem_msn, mem_email_app, mem_app, 
+		mem_start, mem_status, mem_end, mem_free, blacklist_start, blacklist_check, blacklist_id 
+from member a left outer join blacklist b
+on a.mem_id = b.mem_id
+where mem_status = '1'
+or mem_status = '5'
+</select>
+
+<update id="status" parameterType="String">
+	update member 
+	set mem_status = #{memStatus}
+	where mem_id = #{memId}
+</update>
+
+<select id="reportList" resultType="reportVO">
+select report_id, report_mem, report_date, 
+		report_content, report_status, comm_id, 
+		a.board_id, a.mem_id, b.board_category, b.board_title, b.board_content
+from report a join board b
+on a.board_id = b.board_id
+</select>
+
+<select id="reportCnt" resultType="memberVO">
+select a.mem_id, count(b.report_mem) as cnt
+from member a join report b
+on a.mem_id = b.report_mem
+where b.report_status = 0
+group by a.mem_id, b.report_mem,b.report_status
+</select>
+
+<select id="reportAllCnt" resultType="memberVO">
+select a.mem_id, count(b.report_mem) as cnt
+from member a join report b
+on a.mem_id = b.report_mem
+group by a.mem_id, b.report_mem
+</select>
+
+<insert id="insertBlack" parameterType="String">
+insert into blacklist (blacklist_id, blacklist_start, blacklist_content, blacklist_check, mem_id)
+values (seq_blacklistid.nextval, sysdate, '차단', '1', #{memId})
+</insert>
+
+<update id="updateBlack1" parameterType="String">
+update blacklist 
+set blacklist_start = sysdate,
+	blacklist_content = '정상',
+	blacklist_check = '0'
+where mem_id = #{memId}
+</update>
+
+<update id="updateBlack2" parameterType="String">
+update blacklist 
+set blacklist_start = sysdate,
+	blacklist_content = '차단',
+	blacklist_check = '1'
+where mem_id = #{memId}
+</update>
+
+<select id="selectOneId" parameterType="String" resultType="String">
+select mem_id
+from blackList
+where mem_id = #{memId}
+</select>
+
+<update id="reportStatus" parameterType="int">
+	update report
+	set report_status = 1
+	where report_id = #{reportId}
+</update>
+
+<!-- 구인자 -->
+<select id="companyList" resultMap="memberMap">
+select mem_id, a.company_id, mem_pw, mem_name, mem_nick, mem_birth, mem_gender, mem_zip, mem_addr1, mem_addr2, mem_email, mem_tel, mem_msn, mem_email_app, mem_app, mem_start, mem_status, mem_end, mem_free, profile_id,
+b.company_id,company_number, company_name, company_representative, company_business, company_zip, company_phone, company_email, company_establishment, company_small, company_employees, company_average, company_person, company_main, company_check, company_intro, company_logo, company_addr2, company_cap, company_take, company_profit, company_income, company_addr1
+from member a join company b
+on a.company_id = b.company_id
+</select>
+
+<select id="selectYearData" parameterType="String" resultType="kr.or.ddit.master.vo.SeoVO">
+	select 
+		count(case when mem_start LIKE '%'|| #{date} || '/01/' ||'%' and mem_status = 1  then 1 end) as a,
+		count(case when mem_start LIKE '%'|| #{date} || '/02/'||'%' and mem_status = 1  then 1 end) as b,
+		count(case when mem_start LIKE '%'|| #{date} || '/03/'||'%' and mem_status = 1  then 1 end) as c,
+		count(case when mem_start LIKE '%'|| #{date} || '/04/'||'%' and mem_status = 1  then 1 end) as d,
+		count(case when mem_start LIKE '%'|| #{date} || '/05/'||'%' and mem_status = 1  then 1 end) as e,
+		count(case when mem_start LIKE '%'|| #{date} || '/06/'||'%' and mem_status = 1  then 1 end) as f,
+		count(case when mem_start LIKE '%'|| #{date} || '/07/'||'%' and mem_status = 1  then 1 end) as g,
+		count(case when mem_start LIKE '%'|| #{date} || '/08/'||'%' and mem_status = 1  then 1 end) as h,
+		count(case when mem_start LIKE '%'|| #{date} || '/09/'||'%' and mem_status = 1  then 1 end) as i,
+		count(case when mem_start LIKE '%'|| #{date} || '/10/'||'%' and mem_status = 1  then 1 end) as j,
+		count(case when mem_start LIKE '%'|| #{date} || '/11/'||'%' and mem_status = 1  then 1 end) as k,
+		count(case when mem_start LIKE '%'|| #{date} || '/12/'||'%' and mem_status = 1  then 1 end) as l
+	from member
+
+<!--  select substr(mem_start,6,2)  as months, -->
+<!-- 		count(mem_id) as cnt -->
+<!-- from member -->
+<!-- where substr(mem_start,0,4) = '2023' -->
+<!-- group by substr(mem_start,6,2) -->
+
+</select>
+<!-- 		title like '%' ||  #{keyword} || '%' -->
+
+</mapper>

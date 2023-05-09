@@ -1,0 +1,14 @@
+package kr.or.ddit.master.service;
+
+import java.util.List;
+
+import kr.or.ddit.member.vo.MemberVO;
+
+public interface IMasterService {
+
+	public List<MemberVO> list() throws Exception;
+
+	public void status(String memStatus,String memId) throws Exception;
+
+
+}

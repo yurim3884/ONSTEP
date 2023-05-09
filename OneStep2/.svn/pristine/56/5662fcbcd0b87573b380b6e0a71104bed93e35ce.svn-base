@@ -1,0 +1,90 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<div class="col-xl-12 col-lg-12 col-md-12" style=" margin: 0 auto; margin-top: 3%">
+	받은제안
+	<br>
+	<div class="searchable-items grid card-box " >
+		<div id="card" class="row w-100 m-0">
+			<c:forEach var="annoList" items="${annoList}">
+				<div class="col-xl-3 col-lg-3 col-md-3 mb-4">
+					<div class="card single-seller"
+						style="border-radius: 3%; z-index: 33;">
+						<div style="position: relative;">
+							<p id="annoId" hidden="true">${annoList.annoId}</p>
+							<p id="comId" hidden="true">${annoList.comId}</p>
+							<img height="100px;"
+								src="/resources/upload/${annoList.companyVO.companyLogo}"
+								class="card-img-top" alt="widget-card-2"> <a
+								style="position: absolute; top: 5px; right: 12px; cursor: pointer;" id="deleteBtn">삭제하기</a>
+						</div>
+						<div class="card-body">
+							<h5 class="card-title mt-3">
+								<a href="/member/detailAnno/${annoList.annoId} ">${annoList.annoTitle}</a>
+							</h5>
+							<h5 class="card-title mt-3">
+								<a href="/member/detail/${annoList.comId}">${annoList.companyVO.companyName}</a>
+								<i class="fa-solid fa-star" style="color: #f5d400;"></i>${annoList.reviewVO.reviewScore}
+							</h5>
+							<p class="card-text">지원조건 :${annoList.annoJo}</p>
+							<p class="card-text">우대사항 :${annoList.annoUd}</p>
+							<p class="card-text">모집분야 :${annoList.annoMb}</p>
+							<p class="card-text">담당업무 :${annoList.annoDm1} ${annoList.annoDm2}</p>
+							<p class="card-text">
+								복지 및 급여 : <i class="fa-solid fa-star" style="color: #6bf80d;"></i>${annoList.reviewVO.reviewWelfare}</p>
+							<p class="card-text">
+								업무와 삶의 균형 : <i class="fa-solid fa-star" style="color: #6bf80d;"></i>${annoList.reviewVO.reviewBalance}</p>
+							<p class="card-text">
+								승진 및 가능성 : <i class="fa-solid fa-star" style="color: #6bf80d;"></i>${annoList.reviewVO.reviewVision}</p>
+							<div class="team"></div>
+							<div class="meta-info">
+								<div class="meta-action">
+									<div class="meta-bottom-info">
+										<span class="strong" style="color: #db1414;">마감일</span><span
+											class="strong" style="color: #db1414;"> <fmt:formatDate value="${annoList.annoEndDate}" pattern="yyyy-MM-dd"/> </span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$('#card').on("click","#deleteBtn",function(event){
+		console.log("삭제버튼");
+		console.log(event.target.parentNode.parentNode.childNodes[1].childNodes[1].innerText);
+		var annoId = event.target.parentNode.parentNode.childNodes[1].childNodes[1].innerText;
+		var memId = "${sessionScope.memberVO.memId}";
+		var obj = {annoId : annoId, memId : memId }
+		var jsonObj = JSON.stringify(obj);
+		
+		console.log("annoId : " + annoId , "memId : " + memId);
+
+		
+		$.ajax({
+			url : "/myPage/ajaxProposalDel",
+			type : "post",
+			data : jsonObj,
+			contentType : "application/json; charset=UTF-8",
+			dataType : "text",
+			success : function(res){
+				console.log(res);
+				event.target.parentNode.parentNode.parentNode.remove();
+				
+				}
+			
+			});
+
+		
+		
+		});
+})
+</script>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+</head>
+<body>
+
+
+
+
+
+
+<!-- Main Body Starts -->
+<div class="layout-px-spacing">
+    <div class="layout-top-spacing">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12">
+                <div class="widget-content searchable-container grid">
+                    <div class="card-box">
+                        <div class="chat-container">
+                            <div class="hamburger">
+                                <i class="las la-bars fadeIn"></i>
+                            </div>
+                            <div class="user-container">
+                                <div class="own-details">
+                                    <img src="assets/img/profile-16.jpg" />
+                                    <h3>Sara Williamson</h3>
+                                    <p>Sara@companyname.com</p>
+                                    <div class="dropdown chat-own-setting mt-1">
+                                        <a class="dropdown-toggle" href="#" role="button" id="customDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="las la-cog font-20"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="customDropdown" style="will-change: transform;">
+                                            <a class="dropdown-item" href="javascript:void(0);">Profile</a>
+                                            <a class="dropdown-item" href="javascript:void(0);">Chats</a>
+                                            <a class="dropdown-item" href="javascript:void(0);">Notifications</a>
+                                            <a class="dropdown-item" href="javascript:void(0);">Add People</a>
+                                            <a class="dropdown-item" href="javascript:void(0);">Help</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="teams">
+                                    <h5 class="chat-headings">Teams <span>Online 4</span></h5>
+                                    <div class="team-container">
+                                        <div class="single-team">
+                                            <span class="team-user-img">
+                                                <img src="assets/img/profile-15.jpg" />
+                                            </span>
+                                            <span class="online"></span>
+                                        </div>
+                                        <div class="single-team">
+                                            <span class="team-user-img">
+                                                AP
+                                            </span>
+                                            <span class="offline"></span>
+                                        </div>
+                                        <div class="single-team">
+                                            <span class="team-user-img">
+                                                <img src="assets/img/profile-17.jpg" />
+                                            </span>
+                                            <span class="online"></span>
+                                        </div>
+                                        <div class="single-team">
+                                            <span class="team-user-img">
+                                                <img src="assets/img/profile-18.jpg" />
+                                            </span>
+                                            <span class="online"></span>
+                                        </div>
+                                        <div class="single-team">
+                                            <span class="team-user-img">
+                                                SR
+                                            </span>
+                                            <span class="offline"></span>
+                                        </div>
+                                        <div class="single-team">
+                                            <span class="team-user-img">
+                                                <img src="assets/img/profile-12.jpg" />
+                                            </span>
+                                            <span class="online"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="user-list-box">
+                                    <div class="search">
+                                        <i class="las la-search toggle-search"></i>
+                                        <input type="text" class="form-control" placeholder="Search" />
+                                    </div>
+                                    <div class="people">
+                                        <div class="person" data-chat="person6">
+                                            <div class="user-info">
+                                                <div class="user-head mr-2">
+                                                    <img src="assets/img/profile-22.jpg" alt="avatar">
+                                                </div>
+                                                <div class="user-body">
+                                                    <h5 class="text-truncate strong mb-0 mt-1 chat-user-name" data-name="Amanda Winston">Amanda Winston</h5>
+                                                    <p class="text-muted font-11 text-truncate mb-0">Askla sasasajs asja saisa sasa sah </p>
+                                                </div>
+                                                <div class="user-footer ml-2 text-right">
+                                                    <span class="chat-time font-10 text-success-teal">12:25</span>
+                                                    <div>
+                                                        <span class="pinned"><i class="las la-thumbtack"></i></span>
+                                                        <span class="chat-count">99</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="person" data-chat="person1">
+                                            <div class="user-info">
+                                                <div class="user-head mr-2">
+                                                    <img src="assets/img/profile-32.jpg" alt="avatar">
+                                                </div>
+                                                <div class="user-body">
+                                                    <h5 class="text-truncate strong mb-0 mt-1 chat-user-name" data-name="Nijel Jonas">Nijel Jonas</h5>
+                                                    <p class="text-muted font-11 text-truncate mb-0">Askla sasasajs asja saisa sasa sah </p>
+                                                </div>
+                                                <div class="user-footer ml-2 text-right">
+                                                    <span class="chat-time font-10 text-success-teal">12:25</span>
+                                                    <div>
+                                                        <span class="pinned"><i class="las la-thumbtack"></i></span>
+                                                        <span class="chat-count">2</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="person" data-chat="person2">
+                                            <div class="user-info">
+                                                <div class="user-head mr-2">
+                                                    <img src="assets/img/profile-29.jpg" alt="avatar">
+                                                </div>
+                                                <div class="user-body">
+                                                    <h5 class="text-truncate strong mb-0 mt-1 chat-user-name" data-name="Jennifer Clarke">Jennifer Clarke</h5>
+                                                    <p class="text-muted font-11 text-truncate mb-0">Askla sasasajs asja saisa sasa sah </p>
+                                                </div>
+                                                <div class="user-footer ml-2 text-right">
+                                                    <span class="chat-time font-10 text-success-teal">12:25</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="person" data-chat="person3">
+                                            <div class="user-info">
+                                                <div class="user-head mr-2">
+                                                    <img src="assets/img/profile-19.jpg" alt="avatar">
+                                                </div>
+                                                <div class="user-body">
+                                                    <h5 class="text-truncate strong mb-0 mt-1 chat-user-name" data-name="Dolph Green">Dolph Green</h5>
+                                                    <p class="text-muted font-11 text-truncate mb-0">Askla sasasajs asja saisa sasa sah </p>
+                                                </div>
+                                                <div class="user-footer ml-2 text-right">
+                                                    <span class="chat-time font-10 text-success-teal">12:25</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="person" data-chat="person4">
+                                            <div class="user-info">
+                                                <div class="user-head mr-2">
+                                                    <img src="assets/img/profile-9.jpg" alt="avatar">
+                                                </div>
+                                                <div class="user-body">
+                                                    <h5 class="text-truncate strong mb-0 mt-1 chat-user-name" data-name="Shee Huang Tee">Shee Huang Tee</h5>
+                                                    <p class="text-muted font-11 text-truncate mb-0">Askla sasasajs asja saisa sasa sah </p>
+                                                </div>
+                                                <div class="user-footer ml-2 text-right">
+                                                    <span class="chat-time font-10 text-success-teal">12:25</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="person" data-chat="person5">
+                                            <div class="user-info">
+                                                <div class="user-head mr-2">
+                                                    <img src="assets/img/profile-26.jpg" alt="avatar">
+                                                </div>
+                                                <div class="user-body">
+                                                    <h5 class="text-truncate strong mb-0 mt-1 chat-user-name" data-name="Rocky">Rocky</h5>
+                                                    <p class="text-muted font-11 text-truncate mb-0">Askla sasasajs asja saisa sasa sah </p>
+                                                </div>
+                                                <div class="user-footer ml-2 text-right">
+                                                    <span class="chat-time font-10 text-success-teal">12:25</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="person" data-chat="person7">
+                                            <div class="user-info">
+                                                <div class="user-head mr-2">
+                                                    <img src="assets/img/profile-28.jpg" alt="avatar">
+                                                </div>
+                                                <div class="user-body">
+                                                    <h5 class="text-truncate strong mb-0 mt-1 chat-user-name" data-name="Eerie Johnson">Eerie Johnson</h5>
+                                                    <p class="text-muted font-11 text-truncate mb-0">Askla sasasajs asja saisa sasa sah </p>
+                                                </div>
+                                                <div class="user-footer ml-2 text-right">
+                                                    <span class="chat-time font-10 text-success-teal">12:25</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="person" data-chat="person8">
+                                            <div class="user-info">
+                                                <div class="user-head mr-2">
+                                                    <img src="assets/img/profile-5.jpg" alt="avatar">
+                                                </div>
+                                                <div class="user-body">
+                                                    <h5 class="text-truncate strong mb-0 mt-1 chat-user-name" data-name="John Obi Mikel">John Obi Mikel</h5>
+                                                    <p class="text-muted font-11 text-truncate mb-0">Askla sasasajs asja saisa sasa sah </p>
+                                                </div>
+                                                <div class="user-footer ml-2 text-right">
+                                                    <span class="chat-time font-10 text-success-teal">12:25</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="person" data-chat="person9">
+                                            <div class="user-info">
+                                                <div class="user-head mr-2">
+                                                    <img src="assets/img/profile-7.jpg" alt="avatar">
+                                                </div>
+                                                <div class="user-body">
+                                                    <h5 class="text-truncate strong mb-0 mt-1 chat-user-name" data-name="Xavier Doherty">Xavier Doherty</h5>
+                                                    <p class="text-muted font-11 text-truncate mb-0">Askla sasasajs asja saisa sasa sah </p>
+                                                </div>
+                                                <div class="user-footer ml-2 text-right">
+                                                    <span class="chat-time font-10 text-success-teal">12:25</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="person" data-chat="person10">
+                                            <div class="user-info">
+                                                <div class="user-head mr-2">
+                                                    <img src="assets/img/profile-9.jpg" alt="avatar">
+                                                </div>
+                                                <div class="user-body">
+                                                    <h5 class="text-truncate strong mb-0 mt-1 chat-user-name" data-name="Mitchell Clarke">Mitchell Clarke</h5>
+                                                    <p class="text-muted font-11 text-truncate mb-0">Askla sasasajs asja saisa sasa sah </p>
+                                                </div>
+                                                <div class="user-footer ml-2 text-right">
+                                                    <span class="chat-time font-10 text-success-teal">12:25</span>
+                                                </div>
+                                            </div>
+                                        </div>                                     
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chat-details">
+                                <div class="search mb-3">
+                                    <i class="las la-search toggle-search"></i>
+                                    <input type="text" class="form-control" placeholder="Search for a message" />
+                                </div>
+                                <div class="chat-details-header">
+                                    <div class="chat-with">
+                                        <p>Chat With</p>
+                                        <h3>Amanda Winston</h3>
+                                    </div>
+                                    <div class="chat-with-options">
+                                        <span class="start-video-call" title="Video Call"><i class="las la-video"></i></span>
+                                        <span class="start-call" title="Call"><i class="las la-phone"></i></span>
+                                        <div class="dropdown chat-with-op mt-1">
+                                            <a class="dropdown-toggle" href="#" role="button" id="customDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="las la-ellipsis-v"></i></a>
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="customDropdown" style="will-change: transform;">
+                                                <a class="dropdown-item" href="javascript:void(0);">Mute</a>
+                                                <a class="dropdown-item" href="javascript:void(0);">Pin to top</a>
+                                                <a class="dropdown-item" href="javascript:void(0);">Report</a>
+                                                <a class="dropdown-item" href="javascript:void(0);">Export Chat</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chatting-container">
+                                    <div class="chatting-time">
+                                        <p>
+                                            <span>Today</span>
+                                        </p>
+                                    </div>
+                                    <div class="own-chat-container slideInRight">
+                                        <div class="own-chat">
+                                            <p>Hey Amanda, Can we get on a quick call ?</p>
+                                        </div>
+                                        <span class="own-time">11:25</span>
+                                    </div>
+                                    <div class="other-chat-container slideInLeft">
+                                        <div class="other-chat">
+                                            <p>Sorry, I'm busy right now. Please call me after 3 PM</p>
+                                        </div>
+                                        <span class="other-time">11:28</span>
+                                    </div>
+                                    <p class="text-center">
+                                        <span class="calling-info">Last call duration 16:32</span>
+                                    </p>
+                                    <div class="own-chat-container slideInRight">
+                                        <div class="own-chat">
+                                            <p>You need to make 3 designs for the project. I'm sending you the reference</p>
+                                        </div>
+                                        <span class="own-time">15:25</span>
+                                    </div>
+                                    <div class="own-chat-container slideInRight has-file">
+                                        <div class="has-file">
+                                            <div class="own-file-container">
+                                                <span><i class="las la-file-alt"></i></span>
+                                                <div>
+                                                    <p class="file-name">Reference.zip</p>
+                                                    <p class="file-msg">unzip it to view the pdfs</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span class="own-time">15:25</span>
+                                    </div>
+                                    <div class="other-chat-container slideInRight">
+                                        <div class="other-chat">
+                                            <p>Ok</p>
+                                        </div>
+                                        <span class="other-time">15:30</span>
+                                    </div>
+                                    <div class="other-chat-container slideInLeft">
+                                        <div class="other-chat">
+                                            <p>Got It. I will send you the designs by tomorrow</p>
+                                        </div>
+                                        <span class="other-time">15:31</span>
+                                    </div>
+                                    <div class="own-chat-container slideInRight">
+                                        <div class="own-chat">
+                                            <p>Sounds good!</p>
+                                        </div>
+                                        <span class="own-time">11:25</span>
+                                    </div>
+                                </div>
+                                <div class="chat-input-container">
+                                    <div class="cic pointer">
+                                        <i class="las la-grin-beam"></i>
+                                        <input class="chat-text-input" placeholder="Write something here"/>
+                                    </div>
+                                    <label for="file-input" class="mb-0">
+                                        <a class="send" title="Attach a file"><i class="las la-paperclip"></i></a>
+                                    </label>
+                                    <input id="file-input" type="file" style="display: none;"/>
+                                    <a class="send chat-send" title="Send"><i class="las la-paper-plane"></i></a>
+                                </div>
+                            </div>
+                            <div class="chat-details empty">
+                                <p>Please select a user to start chatting</p>
+                            </div>
+                            <div class="chat-user-details">
+                                <div class="hide-chat-user-details">
+                                    <i class="las la-arrow-left"></i>
+                                </div>
+                                <div class="other-details">
+                                    <img src="assets/img/profile-22.jpg" />
+                                    <h3>Amanda Winston</h3>
+                                    <p>Amanda@companyname.com</p>
+                                </div>
+                                <div class="other-section">
+                                    <h5 class="chat-headings">Shared Files <span class="pointer">View All</span></h5>
+                                    <div class="single-file">
+                                        <span><i class="las la-file-alt"></i></span>
+                                        <div>
+                                            <p class="file-name">Reference.zip</p>
+                                            <p class="file-msg">Today 15:25</p>
+                                        </div>
+                                    </div>
+                                    <div class="single-file">
+                                        <span><i class="las la-file-alt"></i></span>
+                                        <div>
+                                            <p class="file-name">tax-slip-2020.zip</p>
+                                            <p class="file-msg">Yesterday 18:38</p>
+                                        </div>
+                                    </div>
+                                    <div class="single-file">
+                                        <span><i class="las la-file-alt"></i></span>
+                                        <div>
+                                            <p class="file-name">Tender_requirement.pdf</p>
+                                            <p class="file-msg">Yesterday 21:38</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="single-chat-option">
+                                    <a><i class="las la-envelope"></i> Send Email</a>
+                                </div>
+                                <div class="single-chat-option">
+                                    <a><i class="las la-volume-mute"></i> Mute Notificatios</a>
+                                </div>
+                                <div class="single-chat-option">
+                                    <a><i class="las la-eye-slash"></i> Hide Medias</a>
+                                </div>
+                                <div class="single-chat-option">
+                                    <a><i class="las la-thumbtack"></i> Pin to top</a>
+                                </div>
+                                <div class="single-chat-option">
+                                    <a><i class="las la-cloud-download-alt"></i> Export Chat</a>
+                                </div>
+                                <div class="single-chat-option">
+                                    <a class="text-danger"><i class="las la-eraser"></i> Clear All Messages</a>
+                                </div>
+                                <div class="single-chat-option">
+                                    <a class="text-danger"><i class="las la-trash-alt"></i> Delete User</a>
+                                </div>
+                                <div class="single-chat-option">
+                                    <a class="text-danger"><i class="las la-ban"></i> Block User</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="chat-calling-div">
+    <div class="small-call-window-container">
+        <div class="small-call-window">
+            <div class="call-user">
+                <img src="assets/img/profile-22.jpg" class="scw-image">
+                <div class="scw-nl-container">
+                    <p class="scw-name">Amanda</p>
+                    <p class="scw-call-type blinking"> 
+                        <span>video</span> 
+                        calling . . .
+                    </p>
+                    <p class="accepted-call-timer">00:05</p>
+                </div>
+            </div>
+            <div class="video-user">
+                <img src="assets/img/video-chat-2.jpg" class="client-image">
+                <img src="assets/img/profile-16.jpg" class="own-video-image">
+                <div class="scw-nl-container">
+                    <p class="scw-name">Amanda</p>
+                    <p class="scw-call-type blinking"> 
+                        <span>video</span> 
+                        calling . . .
+                    </p>
+                    <p class="accepted-call-timer">00:05</p>
+                </div>
+            </div>
+            <div class="scw-flex">
+                <div class="scw-btn-container">
+                    <button class="accept-call" title="Accept Call">
+                        <i class="las la-phone"></i>
+                    </button>
+                    <button class="accept-video-call" title="Accept Call">
+                        <i class="las la-video"></i>
+                    </button>
+                    <button class="mute-call" title="Mute Call">
+                        <i class="las la-microphone-slash" style="display: none;"></i>
+                        <i class="las la-microphone"></i>
+                    </button>
+                    <button class="reject-call" title="Reject Call">
+                        <i class="las la-phone-slash rotate-call"></i>
+                    </button>
+                </div>
+            </div> 
+        </div>
+      </div>
+</div>
+<!-- Main Body Ends -->
+</body>
+</html>
+</body>
+</html>

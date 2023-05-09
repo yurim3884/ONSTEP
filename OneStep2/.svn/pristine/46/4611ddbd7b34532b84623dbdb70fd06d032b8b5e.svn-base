@@ -1,0 +1,39 @@
+package kr.or.ddit.board.service;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import kr.or.ddit.vo.GoodVO;
+
+public interface IGoodService {
+
+//
+//	//상세페이지에서 체크 0,1을
+//	public Map<String, Object> goodCheck(Map<String, Object> goodMap);
+//	//좋아요 테이블 인서트
+//	public void insertGoodBtn(Map<String, Object> goodMap);
+//	//board 테이블 업데이트 +1
+//	public void updateGoodCntPlus(Map<String, Object> goodMap);
+//	//좋아요 테이블 업데이트
+//	public void updateGoodCheck(Map<String, Object> goodMap);
+//	// bbs테이블 +1
+//	public void updateGoodCntMinus(Map<String, Object> goodMap);
+//
+//	public Map<String, Object> getGoodCnt(Map<String, Object> goodMap);
+
+	////2
+//	public GoodVO read(HashMap<String, Object> hashMap);
+//	public int countbyGood(HashMap<String, Object> hashMap);
+//	public void create(HashMap<String, Object> hashMap);
+//	public void good_check(HashMap<String, Object> hashMap);
+//	public Map<String, Object> good_cnt_up(int boardId);
+//	public void good_check_cancel(HashMap<String, Object> hashMap);
+
+	public void insertGood(GoodVO goodVO);
+	public void likeUp(GoodVO goodVO);
+	public void likeDown(GoodVO goodVO);
+	public GoodVO findLike(int boardId, int memId);
+
+	
+
+}

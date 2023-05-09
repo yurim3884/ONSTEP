@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.FreeMapper">
+
+	<resultMap type="boardVO" id="boardMap">
+		<id property="boardId" column="board_id"/>
+		<result property="boardId" column="board_id"/>
+		<result property="memId" column="mem_id"/>
+		<result property="boardTitle" column="board_title"/>
+		<result property="boardContent" column="board_content"/>
+		<result property="boardStart" column="board_start"/>
+		<result property="boardHit" column="board_hit"/>
+		<result property="boardWarn" column="board_warn"/>
+		<result property="boardCategory" column="board_category"/>
+		<result property="recnt" column="recnt"/>
+		<collection property="boardFileList" resultMap="attachMap"/>
+	</resultMap>
+	
+	<resultMap type="attVO" id="attachMap">
+		<id property="attId" column="att_id"/>
+		<result property="attId" column="att_id"/>
+		<result property="attPath" column="att_path"/>
+		<result property="attSaveName" column="att_savename"/>
+		<result property="attFileName" column="att_filename"/>
+		<result property="attMime" column="att_mime"/>
+		<result property="attFileSize" column="att_filesize"/>
+		<result property="attFancySize" column="att_fancysize"/>
+		<result property="attDownload" column="att_download"/>
+		<result property="memId" column="mem_id"/>
+		<result property="companyId" column="company_id"/>
+		<result property="annoId" column="anno_id"/>
+		<result property="boardId" column="board_id"/>
+	</resultMap>
+
+	<insert id="insertFree" parameterType="freeVO">
+		insert into free 
+			(FREE_NUM
+			, MEM_ID
+			, FREE_START
+			, FREE_CAREER
+			, FREE_SALARY
+			, FREE_WORK
+			, FREE_STALY
+			, FREE_COMPANY
+			, FREE_TYPE
+			, FREE_EXPER
+			, FREE_SKILL)
+			values (
+			seq_free_num.nextval
+			,#{memId}
+			,#{freeStart}
+			,#{freeCareer}
+			,#{freeSalary}
+			,#{freeWork}
+			,#{freeStaly}
+			,#{freeCompany}
+			,#{freeType}
+			,#{freeExper}
+			,#{freeSkill}
+			)
+	</insert>
+	
+	<update id="updateMemFree" parameterType="freeVO">
+	update  member set mem_free='Y' where mem_id = #{memId}
+	
+	</update>
+	
+	<select id="freeList" resultType="freeVO">
+	select * from free a LEFT OUTER join member b on a.MEM_ID = b.MEM_ID
+	</select>
+	
+	<insert id="insertProject" parameterType="annoVO">
+		<selectKey keyProperty="annoId" resultType="int"
+			order="BEFORE">
+			select seq_ANNOID.nextval from dual
+		</selectKey>
+		insert into ANNOUNCEMENT  
+		(ANNO_ID
+		, ANNO_TITLE
+		, INDUSTRY_CODE
+		, ANNO_UD
+		, ANNO_MEM
+		, ANNO_CAREER
+		, ANNO_STARTDATE
+		, ANNO_PROBATION
+		, ANNO_SALARY
+		, ANNO_WORK
+		, ANNO_STATUS
+		, ANNO_MANAGER
+		, ANNO_TEL
+		, ANNO_EMAIL ) 
+		values ( #{annoId},#{annoTitle},#{industryCode},#{annoUd},#{annoMem},#{annoCareer},#{annoStartDate}
+		,#{annoProbation},#{annoSalary},#{annoWork},2,#{annoManager},#{annoTel},#{annoEmail} )
+	</insert>
+	
+	<update id="insertAnnoFile" parameterType="annoVO">
+		
+		update ANNOUNCEMENT set
+		att_Id = #{attId}
+		where
+		ANNO_ID = #{annoId}
+
+	</update>
+	
+	<select id="projList" resultType="annoVO">
+		select 
+		ANNO_ID
+		, ANNO_TITLE
+		, INDUSTRY_CODE
+		, ANNO_UD
+		, ANNO_MEM
+		, ANNO_CAREER
+		, ANNO_STARTDATE
+		, ANNO_PROBATION
+		, ANNO_SALARY
+		, ANNO_WORK
+		, ANNO_STATUS
+		, ANNO_MANAGER
+		, ANNO_TEL
+		, ANNO_EMAIL
+		from ANNOUNCEMENT
+		where ANNO_STATUS = 2
+	</select>
+	
+	<select id="projDetail" resultType="annoVO" parameterType="int">
+		select * from ANNOUNCEMENT where anno_id =#{annoId}
+	</select>
+	<select id="freeDetail" resultType="freeVO" parameterType="int">
+		select * from free where free_Num =#{freeNum}
+	</select>
+	
+	<select id="inquirylist" parameterType="String" resultType="boardVO">
+	select * from board where BOARD_CATEGORY = 2 and mem_id= #{memId}
+	</select>
+
+	<select id="inquiry" parameterType="int" resultMap="boardMap" >
+		select
+			  b.board_id, b.mem_id, board_title, board_content, board_start, board_hit,
+			  board_warn, board_category, recnt,
+			  att_id, att_path, att_savename, att_filename, att_mime, att_filesize, att_fancysize,
+			  att_download, company_id, anno_id
+		  from board b left outer join attach a on(b.board_id = a.board_id)
+		 where b.board_id = #{boardId}
+	</select>
+	
+	<insert id="insertInqu" parameterType="boardVO" useGeneratedKeys="true">
+		<selectKey keyProperty="boardId" resultType="int" order="BEFORE">
+			select seq_boardid.nextval from dual
+		</selectKey>
+		insert into board(
+			board_id, mem_id, board_title, board_content,board_start, board_category
+		)values(
+			#{boardId}, #{memId}, #{boardTitle}, #{boardContent}, sysdate, 2
+		)
+	</insert>
+	
+	<insert id="insertBoardFile" parameterType="attVO">
+		insert into attach(
+			att_id, att_path, att_savename, att_filename, att_mime, att_filesize,
+			att_fancysize, att_download,  board_id ,mem_id
+		)values(
+			seq_attid.nextval, #{attPath}, #{attSaveName}, #{attFileName}, #{attMime}, 
+			#{attFileSize}, #{attFancySize}, 0, #{boardId} ,#{memId}
+		)
+	</insert>
+	
+	<update id="updateBoard" parameterType="boardVO">
+		update board
+		   set 
+		   	   board_title = #{boardTitle},
+		       board_content = #{boardContent},
+		       board_start = sysdate
+		 where board_id = #{boardId}
+	</update>
+	
+	<delete id="deleteBoardFile" parameterType="int">
+		delete from attach
+		 where board_id = #{boardId}
+	</delete>
+	
+	<delete id="deleteBoardFileByBoardId" parameterType="int">
+		delete from attach
+		 where att_id = #{attId}
+	</delete>
+	
+	
+	<select id="selectBoardFile" parameterType="int" resultType= "attVO" >
+	select * from attach where board_Id = #{boardId}
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		delete from board where board_Id = #{boardId}
+	</delete>
+	
+	<select id="selectFaq" resultType="faqVO">
+		select * from faq where faq_status =0
+	</select>
+	
+	<select id="member" parameterType="String" resultType="memberVO">
+	select * from member where mem_Id= #{memId}
+	</select>
+	
+	
+</mapper>

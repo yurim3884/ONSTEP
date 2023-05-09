@@ -1,0 +1,129 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+ 
+
+ <div class="layout-px-spacing">                
+                <div class="row layout-spacing layout-top-spacing" id="cancel-row">
+                    <div class="col-lg-12">
+                        <div class="">
+                            <div class="widget-content searchable-container grid">
+                                <div class="card-box product-details">
+                                    <div class="row">
+                                        <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12">
+                                            <div class="tab-content pt-0">
+                                                    <img src="/upload/${anno.attId}" alt="" class="img-fluid mx-auto d-block rounded" >
+                                            </div>
+                                            
+                                        </div> 
+                                        <div class="col-xl-7 col-lg-12 col-md-12 col-sm-12">
+                                            <div class="mt-3 mt-xl-0">
+                                                <a href="/company/myAnno" class="text-primary mb-3 d-block"><i class="las la-arrow-left"></i> Back to AnnoList</a>
+                                                <h4 class="mb-3 text-black strong"> ${anno.annoTitle }</h4>
+                                                <h4>
+                                                    <span class="text-success mb-4 font-13"><fmt:formatDate value="${anno.annoStart }" pattern="yyyy-MM-dd"/></span>
+                                                </h4>
+                                                <p class="text-muted mb-4">${anno.annoContent }</p>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <p class="text-muted strong font-13">정보</p>
+                                                        <div>
+                                                            <p class="text-muted">
+                                                            <fmt:formatDate value="${anno.annoStartDate }" pattern="yyyy-MM-dd" var="annoStartDate" />
+                                                             	시작날짜 : ${annoStartDate }
+                                                             </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>&nbsp;</p>
+                                                        <div>
+                                                            <p class="text-muted"><i class="lar la-check-circle"></i> 업종 : ${anno.industryCode } </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        
+                                    </div>
+                                    <!-- end row -->
+                                    <div class="w-100 animated-underline-content mt-2 details-tab-area">
+                                        <ul class="nav nav-tabs  mb-3" id="lineTab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="underline-specification-tab" data-toggle="tab" href="#underline-specification" role="tab" aria-controls="underline-specification" aria-selected="false">정보</a>
+                                            </li>
+                                            <li class="nav-item">
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content" id="lineTabContent-3">
+                                            <!-- SPECIFICATION -->
+                                            <div class="tab-pane fade show active" id="underline-specification" role="tabpanel" aria-labelledby="underline-specification-tab">
+                                                <div class="d-flex flex-wrap p-2">
+                                                    <p class="text-muted mb-4">${anno.annoContent }</p>
+                                                    <div class="row mb-3 w-100">
+                                                        <div class="col-md-4">
+                                                            <p class="text-muted strong font-13">상세 정보</p>
+                                                            <div>
+                                                                <p class="text-muted"><i class="lar la-check-circle"></i> 모집인원 : ${anno.annoMem }</p>
+                                                                <p class="text-muted"><i class="lar la-check-circle"></i>근무환경 : ${anno.annoWork }</p>
+                                                                <p class="text-muted"><i class="lar la-check-circle"></i>기간 : ${anno.annoProbation }</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <p>&nbsp;</p>
+                                                            <div>
+                                                                <p class="text-muted"><i class="lar la-check-circle"></i> 급여 : ${anno.annoSalary } </p>
+                                                            </div>
+                                                        </div>
+                                                          <div class="accordion" id="accordion2">
+                                                        <div class="accordion-group">
+                                                            <div class="accordion-heading">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                                                			                    담당자 정보 <span class="float-right"><i class="las la-angle-down"></i></span>
+                                                                </a>
+                                                            </div>
+                                                            <div id="collapseOne" class="accordion-body collapse show">
+                                                                <div class="accordion-inner">
+                                                                  	 담당자 이름 : ${anno.annoManager } <br>
+                                                                  	 담당자 전화번호 : ${anno.annoTel }<br>
+                                                                  	 담당자 이메일 : ${anno.annoEmail }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="accordion-group">
+                                                            <div class="accordion-heading">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                                                                   		근무환경  <span class="float-right"><i class="las la-angle-down"></i></span>
+                                                                </a>
+                                                            </div>
+                                                            <div id="collapseTwo" class="accordion-body collapse show">
+                                                                <div class="accordion-inner">
+                                                                    	근무환경 : ${anno.annoWork } <br>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="accordion-group">
+                                                            <div class="accordion-heading">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                                                                   	지원자 필수 정보 <span class="float-right"><i class="las la-angle-down"></i></span>
+                                                                </a>
+                                                            </div>
+                                                            <div id="collapseThree" class="accordion-body collapse show">
+                                                                <div class="accordion-inner">
+                                                                    	경력 : ${anno.annoCareer } <br>
+                                                                    	우대사항 : ${anno.annoUd } <br>
+                                                                    	
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>         
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>

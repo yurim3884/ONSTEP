@@ -1,0 +1,117 @@
+package kr.or.ddit.myPage.controller;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import kr.or.ddit.board.service.IMainService;
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.company.service.ICompanyService;
+import kr.or.ddit.master.service.IMasterAdvertService;
+import kr.or.ddit.master.vo.AdvertVO;
+import kr.or.ddit.member.service.IMemService;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.member.vo.SupportVO;
+import kr.or.ddit.myPage.service.IMypageService;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.vo.AnnoVO;
+import kr.or.ddit.vo.ApplyVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@RequestMapping("/mypage")
+public class MyProfileController {
+
+	@Inject
+	private ICompanyService comService;
+	
+	@Inject
+	private IMemService memService;
+	
+	@Inject
+	private IMypageService mypageService;
+	
+	@Inject
+	private IMainService mainService;
+	
+	@Inject
+	private IMasterAdvertService advertService;
+	
+	@RequestMapping(value="/profile", method=RequestMethod.GET)
+	public String myProfile(Model model, HttpServletRequest req) {
+		
+		List<AnnoVO> annoList = comService.annoList();
+		model.addAttribute("annoList",annoList);
+		
+		HttpSession session = req.getSession();
+		MemberVO memberVO = (MemberVO)session.getAttribute("memberVO");
+		
+		List<SupportVO> supList = memService.getSupportList(memberVO.getMemId());
+		model.addAttribute("supList",supList);
+		String comId = "";
+		for(int i=0; i<supList.size(); i++) {
+			comId += supList.get(i).getComId();
+			if(i != supList.size() -1) {
+				comId += ",";
+			}
+		}
+		List<BoardVO> noticeList = comService.noticeList();
+		List<BoardVO> myBoardList = mainService.myBoardList(memberVO.getMemId());
+		List<ResumeVO> resumeList = mypageService.myResumeList(memberVO.getMemId());
+		List<AnnoVO> applyList = mypageService.myApplyList(memberVO.getMemId());
+		List<ApplyVO> apply = mypageService.getApply(memberVO.getMemId());
+		List<AdvertVO> advertList = advertService.advertList();
+		
+		model.addAttribute("apply", apply);
+		int cntApply = memService.cntApply(memberVO.getMemId());
+		int cntPropo = memService.cntPropo(memberVO.getMemId());
+		int cntResume = memService.cntResume(memberVO.getMemId());
+		model.addAttribute("memberVO" ,memberVO);
+		model.addAttribute("cntApply",cntApply);
+		model.addAttribute("cntPropo",cntPropo);
+		model.addAttribute("notice", noticeList);
+		model.addAttribute("comIdGroup", comId);
+		model.addAttribute("supList", supList);
+		model.addAttribute("cntResume",cntResume);
+		model.addAttribute("boardList",myBoardList);
+		model.addAttribute("resumeList",resumeList);
+		model.addAttribute("applyList",applyList);
+		model.addAttribute("advertList",advertList);
+
+		List<AnnoVO> annoSupList = mypageService.mySupList(memberVO.getMemId());
+		model.addAttribute("annoSupList",annoSupList);
+		log.info("좋아요 공고 리스트만 뽑기 위한것 : " + annoSupList);
+		
+		return "myPage/myPageMain";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

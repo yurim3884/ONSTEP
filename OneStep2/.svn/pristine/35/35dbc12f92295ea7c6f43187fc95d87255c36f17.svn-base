@@ -1,0 +1,52 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+  <div class="sub-header-container">
+                <header class="header navbar navbar-expand-sm">
+                    <ul class="navbar-nav flex-row">
+                        <li>
+                            <div class="page-header">
+                                <nav class="breadcrumb-one" aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Apps</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page"><span>notice</span></li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+                        <li class="">
+                            <p class="current-time" id="currentTime"></p>
+                            <p class="current-date" id="currentDate"></p>
+                        </li>
+                    </ul>
+                </header>
+            </div>
+              <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                                        <div class="widget-content widget-content-area br-6">
+                                            <div class="table-responsive mb-4">
+                                                <table id="basic-dt" class="table table-hover" style="width:100%">
+                                                    <thead>
+                                                        <tr style="text-align: center;">
+                                                            <th width="10%">분야</th>
+                                                            <th width="60">제목</th>
+                                                            <th width="15%">작성일</th>
+                                                            <th width="15%">작성자</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <c:forEach items="${notice}" var="notice">
+                                                        <tr>
+                                                            <td>${notice.boardCal }</td>
+                                                            <td>${notice.boardTitle }</td>
+                                                            <fmt:formatDate value="${notice.boardStart }" pattern="yyyy-MM-dd" var="boardStart"/>
+                                                            <td style="text-align: center;">${boardStart }</td>
+                                                            <td>${notice.memId }</td>
+                                                        </tr>
+                                                       </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>

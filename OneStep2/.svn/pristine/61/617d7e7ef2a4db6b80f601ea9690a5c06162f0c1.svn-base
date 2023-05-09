@@ -1,0 +1,12 @@
+package kr.or.ddit.board.service;
+
+import java.util.List;
+
+import kr.or.ddit.board.vo.BoardVO;
+
+public interface IMainService {
+
+	public List<BoardVO> selectBoardMainList();
+//	public List<BoardVO> wordCloudList(BoardVO boardVO);
+
+}

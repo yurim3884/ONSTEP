@@ -1,0 +1,28 @@
+.darkmode .table > tfoot > tr > th {
+    color: #ffffff;
+}
+.darkmode .widget-content-area {
+    background-color: #343434;
+}
+.darkmode div.dataTables_wrapper div.dataTables_length label {
+    color: #ffffff;
+}
+.darkmode .date-table-container .widget-content-area .table-header {
+    border-bottom: 1px solid #484848;
+}
+.darkmode .table td, .darkmode .table th {
+    border: 1px solid #5a5a5a;
+}
+.darkmode .table > thead > tr > th {
+    color: #ffffff;
+}
+.darkmode div.dataTables_wrapper div.dataTables_info {
+    color: #ffffff;
+}
+.darkmode .form-control {
+    border: 1px solid #ffffff !important;
+    color: #ffffff;
+}
+.darkmode div.dataTables_wrapper div.dataTables_filter label {
+    color: #ffffff;
+}

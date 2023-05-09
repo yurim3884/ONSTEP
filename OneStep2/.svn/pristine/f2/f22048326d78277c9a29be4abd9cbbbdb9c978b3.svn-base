@@ -1,0 +1,426 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<div class="sub-header-container">
+	<header class="header navbar navbar-expand-sm">
+		<ul class="navbar-nav flex-row">
+			<li>
+				<div class="page-header">
+					<nav class="breadcrumb-one" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item active" aria-current="page"><span>바로 실무 가능한 경험 많은 인재입니다. </span></li>
+						</ol>
+					</nav>
+				</div>
+			</li>
+		</ul>
+		<ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+			<li class="">
+				<p class="current-time" id="currentTime"></p>
+				<p class="current-date" id="currentDate"></p>
+			</li>
+		</ul>
+	</header>
+</div>
+<!--  Navbar Ends / Breadcrumb Area  -->
+
+
+
+
+<div class="layout-px-spacing">
+    <div class="layout-top-spacing mb-2">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="container p-0">
+                    <div class="row layout-top-spacing">
+                        <div class="col-lg-9 layout-spacing">
+                        	<h4>김구직</h4>
+                        	<br>
+                        	<div class="row">
+				    			<div class="col-lg-4">
+					    			<label>성별:</label>
+									남자
+								</div>
+				    			<div class="col-lg-4">
+					    			<label>생년월일:</label>
+									1998-01-01 (25세)
+								</div>
+				    			<div class="col-lg-4">
+					    			<label>성별:</label>
+									남자
+								</div>
+							</div>
+							<br>
+							<div class="row">
+				    			<div class="col-lg-4">
+					    			<label>이메일:</label>
+									kkj@gmail.com
+								</div>
+				    			<div class="col-lg-4">
+					    			<label>전화번호:</label>
+									010-1234-5678
+								</div>
+				    			<div class="col-lg-4">
+					    			<label>휴대폰번호:</label>
+									010-9876-5432
+								</div>
+							</div>
+							<br>
+							<div class="row">
+				    			<div class="col-lg-5">
+					    			<label>주소:</label>
+									서울시 종로구 명륜2가
+								</div>
+							</div>
+                    		<br><br>
+                    	
+                    	
+	                    	<div class="w-100 animated-underline-content mt-2 details-tab-area">
+	                           <ul class="nav nav-tabs  mb-3" id="lineTab" role="tablist">
+	                               <li class="nav-item">
+	                                   <a class="nav-link active" id="underline-specification-tab" data-toggle="tab" href="#underline-specification" role="tab" aria-controls="underline-specification" aria-selected="false">학력</a>
+	                               </li>
+	                           </ul>
+	                           <div class="tab-content" id="lineTabContent-3">
+	                               <div class="tab-pane fade show active" id="underline-specification" role="tabpanel" aria-labelledby="underline-specification-tab">
+	                                   <div class="d-flex flex-wrap p-2">
+	                                       <p class="text-muted mb-4">서울대학교 약학과</p>
+	                                       <div class="row mb-3 w-100">
+	                                           <div class="col-md-4">
+	                                               <p class="text-muted strong font-13">졸업</p>
+	                                               <div>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 2016.03. ~ 2022.02. │ 졸업</p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 학점 4.5 / 4.5</p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 졸업</p>
+	                                               </div>
+	                                           </div>
+	                                           <div class="col-md-4">
+	                                               <p>&nbsp;</p>
+	                                               <div>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> </p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> </p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> </p>
+	                                               </div>
+	                                           </div>
+	                                           <div class="col-md-4">
+	                                               <p>&nbsp;</p>
+	                                               <div>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> </p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> Multiple Color</p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> Suitable for everyone</p>
+	                                               </div>
+	                                           </div>
+	                                       </div>
+	                                   </div>         
+	                               </div>
+		           				</div>
+		           			</div>	
+							<br>
+                    	
+	                    	<div class="w-100 animated-underline-content mt-2 details-tab-area">
+	                           <ul class="nav nav-tabs  mb-3" id="lineTab" role="tablist">
+	                               <li class="nav-item">
+	                                   <a class="nav-link active" id="underline-specification-tab" data-toggle="tab" href="#underline-specification" role="tab" aria-controls="underline-specification" aria-selected="false">경력</a>
+	                               </li>
+	                           </ul>
+	                           <div class="tab-content" id="lineTabContent-3">
+	                               <div class="tab-pane fade show active" id="underline-specification" role="tabpanel" aria-labelledby="underline-specification-tab">
+	                                   <div class="d-flex flex-wrap p-2">
+	                                       <p class="text-muted mb-4">로레알코리아</p>
+	                                       <div class="row mb-3 w-100">
+	                                           <div class="col-md-4">
+	                                               <p class="text-muted strong font-13">재직 중</p>
+	                                               <div>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 2022.03. ~ </p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 신사업기획팀</p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 주임</p>
+	                                               </div>
+	                                           </div>
+	                                           <div class="col-md-4">
+	                                               <p>&nbsp;</p>
+	                                               <div>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 프로젝트1</p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 프로젝트2</p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 프로젝트3</p>
+	                                               </div>
+	                                           </div>
+	                                           <div class="col-md-4">
+	                                               <p>&nbsp;</p>
+	                                               <div>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> </p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> Multiple Color</p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> Suitable for everyone</p>
+	                                               </div>
+	                                           </div>
+	                                       </div>
+	                                   </div>         
+	                               </div>
+		           				</div>
+		           			</div>	
+							<br>
+                    	
+	                    	<div class="w-100 animated-underline-content mt-2 details-tab-area">
+	                           <ul class="nav nav-tabs  mb-3" id="lineTab" role="tablist">
+	                               <li class="nav-item">
+	                                   <a class="nav-link active" id="underline-specification-tab" data-toggle="tab" href="#underline-specification" role="tab" aria-controls="underline-specification" aria-selected="false">자격증</a>
+	                               </li>
+	                           </ul>
+	                           <div class="tab-content" id="lineTabContent-3">
+	                               <div class="tab-pane fade show active" id="underline-specification" role="tabpanel" aria-labelledby="underline-specification-tab">
+	                                   <div class="d-flex flex-wrap p-2">
+	                                       <div class="row mb-3 w-100">
+	                                           <div class="col-md-4">
+	                                               <p class="text-muted strong font-13">정보처리기사</p>
+	                                               <div>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 2023.04.</p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 한국산업인력공단</p>
+	                                               </div>
+	                                           </div>
+	                                           <div class="col-md-4">
+	                                               <p class="text-muted strong font-13">컴퓨터활용능력 1급</p>
+	                                               <div>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 2023.05.</p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 대한상공회의소</p>
+	                                               </div>
+	                                           </div>
+	                                           <div class="col-md-4">
+	                                               <p class="text-muted strong font-13">한국사능력검정시험</p>
+	                                               <div>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 2022.06.</p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 국사편찬위원회</p>
+	                                               </div>
+	                                           </div>
+	                                           
+	                                       </div>
+	                                   </div>         
+	                               </div>
+		           				</div>
+		           			</div>	
+							<br>
+                    	
+	                    	<div class="w-100 animated-underline-content mt-2 details-tab-area">
+	                           <ul class="nav nav-tabs  mb-3" id="lineTab" role="tablist">
+	                               <li class="nav-item">
+	                                   <a class="nav-link active" id="underline-specification-tab" data-toggle="tab" href="#underline-specification" role="tab" aria-controls="underline-specification" aria-selected="false">어학</a>
+	                               </li>
+	                           </ul>
+	                           <div class="tab-content" id="lineTabContent-3">
+	                               <div class="tab-pane fade show active" id="underline-specification" role="tabpanel" aria-labelledby="underline-specification-tab">
+	                                   <div class="d-flex flex-wrap p-2">
+	                                       <p class="text-muted mb-4">영어</p>
+	                                       <div class="row mb-3 w-100">
+	                                           <div class="col-md-4">
+	                                               <p class="text-muted strong font-13">TOEIC</p>
+	                                               <div>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 2022.03.26. </p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 990점</p>
+	                                               </div>
+	                                           </div>
+	                                           <div class="col-md-4">
+	                                               <p class="text-muted strong font-13">TOEIC Speaking</p>
+	                                               <div>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 2022.03.26. </p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> level 8 </p>
+	                                               </div>
+	                                           </div>    
+	                                           <div class="col-md-4">
+	                                               <p class="text-muted strong font-13">TOEFL</p>
+	                                               <div>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 2022.03.26. </p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 120점</p>
+	                                               </div>
+	                                           </div>
+	                                       </div>
+	                                   </div>
+	                               </div>
+	                                        
+	                               <div class="tab-pane fade show active" id="underline-specification" role="tabpanel" aria-labelledby="underline-specification-tab">
+	                                   <div class="d-flex flex-wrap p-2">
+	                                       <p class="text-muted mb-4">중국어</p>
+	                                       <div class="row mb-3 w-100">
+	                                           <div class="col-md-4">
+	                                               <p class="text-muted strong font-13">HSK</p>
+	                                               <div>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 2022.03.26. </p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 6급 / 260점</p>
+	                                               </div>
+	                                           </div>
+	                                       </div>
+	                                   </div>         
+	                               </div>
+		           				</div>
+		           			</div>	
+							<br>
+                    	
+	                    	<div class="w-100 animated-underline-content mt-2 details-tab-area">
+	                           <ul class="nav nav-tabs  mb-3" id="lineTab" role="tablist">
+	                               <li class="nav-item">
+	                                   <a class="nav-link active" id="underline-specification-tab" data-toggle="tab" href="#underline-specification" role="tab" aria-controls="underline-specification" aria-selected="false">희망근무조건</a>
+	                               </li>
+	                           </ul>
+	                           <div class="tab-content" id="lineTabContent-3">
+	                               <div class="tab-pane fade show active" id="underline-specification" role="tabpanel" aria-labelledby="underline-specification-tab">
+	                                   <div class="d-flex flex-wrap p-2">
+<!-- 	                                       <p class="text-muted mb-4">로레알코리아</p> -->
+	                                       <div class="row mb-3 w-100">
+	                                           <div class="col-md-8">
+<!-- 	                                               <p class="text-muted strong font-13">재직 중</p> -->
+	                                               <div>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 고용 형태	│	정규직, 계약직, 파견대행, 인턴</p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 희망근무지	│	서울 전체, 대전 서구</p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 희망연봉	│	면접 후 결정</p>
+	                                                   <p class="text-muted"><i class="lar la-check-circle"></i> 지원 분야	│	백엔드 개발자, 웹 개발자</p>
+	                                               </div>
+	                                           </div>
+	                                           
+	                                       </div>
+	                                   </div>         
+	                               </div>
+		           				</div>
+		           			</div>	
+							<br>
+                        
+                        
+                        
+<!--                             <div class="statbox widget box box-shadow"> -->
+<!--                                 <div class="widget-header"> -->
+<!--                                     <div class="row"> -->
+<!--                                         <div class="col-xl-12 col-md-12 col-sm-12 col-12"> -->
+<!--                                             <h4>인적사항</h4> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                                 <div class="widget-content widget-content-area"> -->
+<!-- 	                            	<div class="form-group row"> -->
+<!-- 		                            	<div class="col-lg-2"> -->
+<!-- 											<div class="statbox widget box box-shadow"> -->
+<!-- 	                                            <div class="widget-content widget-content-area" > -->
+<!-- 	                                                <div class="form-group row" style="height:50px"> -->
+<!-- 	                                                    <div class="col-lg-12 col-md-12 col-sm-12"> -->
+<!-- 	                                                        <div class="attached-files"> -->
+<!-- 	                                                            <img id="image-preview" width="320"> -->
+<!-- 	                                                        </div> -->
+<!-- 	                                                        <label for="file-upload" class="custom-file-upload mb-0"> -->
+<!-- 	                                                            <a title="Attach a file" class="mr-2 pointer text-primary"> -->
+<!-- <!-- 	                                                                <i class="las la-paperclip font-20"></i> -->
+<!-- 	                                                                <span class="font-17">사진</span> -->
+<!-- 	                                                            </a> -->
+<!-- 	                                                        </label> -->
+<!-- <!-- 	                                                        <input id="file-upload" name='upload_cont_img' type="file" accept="image/*" style="display:none;" onchange="handleFileChange()"> -->
+<!-- 	                                                    </div> -->
+<!-- 	                                                </div> -->
+<!-- 	                                            </div> -->
+<!-- 	                                        </div> -->
+<!-- 										</div> -->
+<!-- 										<div class="col-lg-10"> -->
+<!-- 											<div class="row"> -->
+<!-- 								    			<div class="col-lg-4"> -->
+<!-- 									    			<label>이름:</label> -->
+<!-- 													김구직 -->
+<!-- 												</div> -->
+<!-- 								    			<div class="col-lg-4"> -->
+<!-- 									    			<label>생년월일:</label> -->
+<!-- 													2000-01-01 -->
+<!-- 												</div> -->
+<!-- 								    			<div class="col-lg-4"> -->
+<!-- 									    			<label>성별:</label> -->
+<!-- 													남자 -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+<!-- 											<br> -->
+<!-- 											<div class="row"> -->
+<!-- 								    			<div class="col-lg-4"> -->
+<!-- 									    			<label>이메일:</label> -->
+<!-- 													kkj@gmail.com -->
+<!-- 												</div> -->
+<!-- 								    			<div class="col-lg-4"> -->
+<!-- 									    			<label>전화번호:</label> -->
+<!-- 													010-1234-5678 -->
+<!-- 												</div> -->
+<!-- 								    			<div class="col-lg-4"> -->
+<!-- 									    			<label>휴대폰번호:</label> -->
+<!-- 													010-9876-5432 -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+<!-- 											<br> -->
+<!-- 											<div class="row"> -->
+<!-- 								    			<div class="col-lg-5"> -->
+<!-- 									    			<label>주소:</label> -->
+<!-- 													서울시 종로구 명륜2가 -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+<!-- 			                            </div> -->
+<!-- 			                        </div> -->
+<!-- 								</div> -->
+<!--    	                        </div> -->
+<!-- 							<br><br>  -->
+											                         
+   	                   </div>
+   	                   
+   	                   
+						
+						
+											   
+                        <!-- 이력서 보기 사이드바 시작 -->
+                        <div class="col-lg-3 layout-spacing">
+                        	<!-- ONGOING TASK -->
+		                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" style="position:sticky; top:77px;" >
+		                        <div class="widget widget-three add-project">
+		                            <div class="widget-heading mb-0">
+		                                <h5>이력서 항목</h5>
+		                            </div>
+		                            <br><br>
+		                           <div class="track-order-list">
+                                        <ul class="list-unstyled">
+                                            <li class="completed">
+                                                <h6 class="mt-0 mb-1 font-13">인적사항</h6>
+                                            </li>
+                                            <li class="completed">
+                                                <h6 class="mt-0 mb-1 font-13">스킬</h6>
+                                            </li>
+                                            <li>
+                                                <span class="active-dot dot"></span>
+                                                <h6 class="mt-0 mb-1 font-13">학력</h6>
+                                            </li>
+                                            <li>
+                                                <h6 class="mt-0 mb-1 font-13">경력</h6>
+                                            </li>
+                                        </ul>
+                                    </div>
+		                       </div>
+			                   <div class="button-list"></br>
+			                       <button type="button" class="btn btn-outline-primary" style="width:100%;">오늘 날짜로 업데이트</button><br>
+			                       <button type="button" class="btn btn-primary" style="width:100%;">이력서 수정</button><br>
+			                   </div>
+			               </div>
+		                   <!-- ONGOING TASK ENDS-->
+                        </div>
+                        <!-- 이력서 보기 항목 사이드바 끝 -->
+						
+
+
+
+
+
+<script>
+        $(document).ready(function() {
+            $('#export-dt').DataTable( {
+                dom: '<"row"<"col-md-6"B><"col-md-6"f> ><""rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>>',
+                buttons: {
+                    buttons: [
+//                         { extend: 'copy', className: 'btn btn-primary' },
+//                         { extend: 'csv', className: 'btn btn-primary' },
+                        { extend: 'excel', className: 'btn btn-rounded btn-success' },
+                        { extend: 'pdf', className: 'btn btn-rounded btn-warning' },
+                        { extend: 'print', className: 'btn btn-rounded btn-info' }
+                    ]
+                },
+                "language": {
+                    "paginate": {
+                        "previous": "<i class='las la-angle-left'></i>",
+                        "next": "<i class='las la-angle-right'></i>"
+                    }
+                },
+                "lengthMenu": [7, 10, 20, 50],
+                "pageLength": 7 
+            } );
+        } );
+    </script>

@@ -1,0 +1,57 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<div class="col-11" style="margin: 0 auto;">
+	<div class="card-box">
+	<h2 align="center"> ID : 000</h2>
+		<div class="w-100 animated-underline-content">
+			<ul class="nav nav-tabs  mb-3" id="lineTab" role="tablist">
+				<li class="nav-item"><a class="nav-link active"
+					id="underline-about-tab" data-toggle="tab" href="#underline-about"
+					role="tab" aria-controls="underline-about" aria-selected="true">이력서</a>
+				</li>
+				<li class="nav-item"><a class="nav-link"
+					id="underline-project-tab" data-toggle="tab"
+					href="#underline-project" role="tab"
+					aria-controls="underline-project" aria-selected="false">프리랜서</a>
+				</li>
+				<li class="nav-item"><a class="nav-link"
+					id="underline-team-tab" data-toggle="tab" href="#underline-team"
+					role="tab" aria-controls="underline-team" aria-selected="false">지원내역</a></li>
+				
+				<li class="nav-item"><a class="nav-link"
+					id="underline-team-tab" data-toggle="tab" href="#underline-manage"
+					role="tab" aria-controls="underline-manage" aria-selected="false">관리현황</a></li>
+			</ul>
+			<div class="tab-content" id="lineTabContent-3">
+				<div class="tab-pane fade show active" id="underline-about"
+					role="tabpanel" aria-labelledby="underline-about-tab">
+					<div class="d-flex flex-wrap">
+						여기에 이력서 
+					</div>
+				</div>
+				<!-- 프리랜서 -->
+				<div class="tab-pane fade" id="underline-project" role="tabpanel"
+					aria-labelledby="underline-project-tab">
+					<div class="row w-100 m-0">
+						여기에 프리랜서
+					</div>
+				</div>
+				<!-- 지원내역 -->
+				<div class="tab-pane fade" id="underline-team" role="tabpanel"
+					aria-labelledby="underline-team-tab">
+					<div class="row w-100 m-0">
+						여기에 지원내역
+					</div>
+				</div>
+				<!-- 관리현황 -->
+				<div class="tab-pane fade" id="underline-manage" role="tabpanel"
+					aria-labelledby="underline-manage-tab">
+					<div class="row w-100 m-0">
+						여기에 관리 현황
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

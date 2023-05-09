@@ -1,0 +1,71 @@
+package kr.or.ddit.vo;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import kr.or.ddit.company.vo.CompanyVO;
+import lombok.Data;
+import sun.reflect.generics.visitor.Reifier;
+
+@Data
+public class AnnoVO {
+	private int annoId;					 //공고 id
+	private String comId;                //회사 id
+	private String annoTitle;            //제목
+	private String annoContent;          //내용
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date annoStartDate;          //공고 시작날짜
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date annoEndDate;            //공고 종료날짜
+	private Date annoStart;              //작성일
+	private String annoState;            //글상태
+	private String annoType;             //공고타입
+	private String annoManager;          //담당자이름
+	private String annoTel;              //담당자 전화번호
+	private String annoEmail;            //담당자이메일
+	private String annoWork;             //근무환경
+	private String annoAge;              //연령 제한
+	private String annoProbation;        //수습기간
+	private String annoSalary;           //급여
+	private String industryCode;         //업종
+	private String annoMb;               //모집분야
+	private int annoMem;                 //모집인원
+	private String annoCareer;           //경력
+	private String annoDm1;               //담당업무
+	private String annoDm2;               //담당업무
+	private String annoGb;               //근무부서
+	private String annoJo;               //지원조건
+	private String annoUd;               //우대사항
+	private String annoGender;           //성별
+	private String annoDay;              //근무요일
+	private String annoTime;             //근무시간
+	private String annoWd;               //지역
+	private String annoStu;              //학력
+	private String annoStaly;            //고용형태
+	private String annoStatus;           //공고상태
+	private String annoIntro;            //자기소개서 항목
+
+	private String attId;                  //첨부파일 id
+	private MultipartFile attAnno; 
+	
+	private ReviewVO reviewVO; //annoVO 
+	private CompanyVO companyVO; //companyVO
+	
+	private String keyword;
+	private List<AnnoKeywordVO> annoKeywordList;
+	
+	private String memId;
+	
+	private String companyName;
+	
+//	private List<ApplyVO> applyVO;
+	private ApplyVO applyVO;
+//	private String applyResultDate;
+	
+}

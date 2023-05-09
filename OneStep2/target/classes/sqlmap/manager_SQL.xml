@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.ManagerMapper">
+	
+
+	<resultMap type="resumeVO" id="resumeListMap">
+		<id property="resumeId" column="resume_id"/>
+		<result property="resumeId" column="resume_id"/>
+		<result property="resumeTitle" column="resume_title"/>
+		<result property="resumeStatus" column="resume_status"/>
+		<result property="resumeRepresentative" column="resume_representative"/>
+		<result property="resumeInsertDate" column="resume_insert_date"/>
+		<result property="resumePhoto" column="resume_photo"/>
+		<result property="memId" column="mem_id"/>
+		<collection property="desiredList" resultMap="desiredMap"/>
+		<collection property="workfieldList" resultMap="workfieldMap"/>
+	</resultMap>
+	
+	<resultMap type="resumeVO" id="resumeMap">
+		<id property="resumeId" column="resume_id"/>
+		<result property="resumeId" column="resume_id"/>
+		<result property="resumeTitle" column="resume_title"/>
+		<result property="resumeStatus" column="resume_status"/>
+		<result property="resumeRepresentative" column="resume_representative"/>
+		<result property="resumePhoto" column="resume_photo"/>
+		<result property="memId" column="mem_id"/>
+		<collection property="activityList" resultMap="activityMap"/>
+		<collection property="awardList" resultMap="awardMap"/>
+		<collection property="careerList" resultMap="careerMap"/>
+		<collection property="certList" resultMap="certMap"/>
+		<collection property="desiredList" resultMap="desiredMap"/>
+		<collection property="eduList" resultMap="eduMap"/>
+		<collection property="prfrnList" resultMap="prfrnMap"/>
+		<collection property="langList" resultMap="langMap"/>
+		<collection property="skillList" resultMap="skillMap"/>
+		<collection property="portfolioList" resultMap="portfolioMap"/>
+		<collection property="workfieldList" resultMap="workfieldMap"/>
+	</resultMap>
+	
+	<resultMap type="activityVO" id="activityMap">
+		<result property="actId" column="act_id"/>
+		<result property="actContent" column="act_content"/>
+		<result property="actCategory" column="act_category"/>
+		<result property="actInstitution" column="act_institution"/>
+		<result property="actStart" column="act_start"/>
+		<result property="actEnd" column="act_end"/>
+		<result property="attId" column="att_id"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="awardVO" id="awardMap">
+		<result property="awardId" column="award_id"/>
+		<result property="awardName" column="award_name"/>
+		<result property="awardContent" column="award_content"/>
+		<result property="awardCategory" column="award_category"/>
+		<result property="awardDate" column="award_date"/>
+		<result property="awardInstitution" column="award_institution"/>
+		<result property="attId" column="att_id"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="careerVO" id="careerMap">
+		<result property="careerId" column="career_id"/>
+		<result property="careerCategory" column="career_category"/>
+		<result property="careerCmpName" column="career_cmp_name"/>
+		<result property="careerCmpDprtm" column="career_cmp_dprtm"/>
+		<result property="careerWorkfield" column="career_workfield"/>
+		<result property="careerDuties" column="career_duties"/>
+		<result property="careerPosition" column="career_position"/>
+		<result property="careerJoinDate" column="career_join_date"/>
+		<result property="careerResignDate" column="career_resign_date"/>
+		<result property="careerSalary" column="career_salary"/>
+		<result property="attId" column="att_id"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="certificationVO" id="certMap">
+		<result property="certId" column="cert_id"/>
+		<result property="certName" column="cert_name"/>
+		<result property="certDate" column="cert_date"/>
+		<result property="certInstitution" column="cert_institution"/>
+		<result property="attId" column="att_id"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="desiredVO" id="desiredMap">
+		<result property="desiredId" column="desired_id"/>
+		<result property="desiredEmplForm" column="desired_empl_form"/>
+		<result property="desiredSalary" column="desired_salary"/>
+		<result property="desiredCity1" column="desired_city1"/>
+		<result property="desiredCity2" column="desired_city2"/>
+		<result property="desiredIndustry1" column="desired_industry1"/>
+		<result property="desiredIndustry2" column="desired_industry2"/>
+		<result property="desiredIndustry3" column="desired_industry3"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="educationVO" id="eduMap">
+		<result property="eduId" column="edu_id"/>
+		<result property="eduMajor1" column="edu_major1"/>
+		<result property="eduMajor2" column="edu_major2"/>
+		<result property="eduSchoolName" column="edu_school_name"/>
+		<result property="eduStart" column="edu_start"/>
+		<result property="eduEnd" column="edu_end"/>
+		<result property="eduScore" column="edu_score"/>
+		<result property="eduScoreStandard" column="edu_score_standard"/>
+		<result property="eduStatus" column="edu_status"/>
+		<result property="eduSchoolType" column="edu_school_type"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="prfrnVO" id="prfrnMap">
+		<result property="prfrnId" column="prfrn_id"/>
+		<result property="prfrnVeterans" column="prfrn_veterans"/>
+		<result property="prfrnSubsidy" column="prfrn_subsidy"/>
+		<result property="prfrnDisability" column="prfrn_disability"/>
+		<result property="prfrnMilitary" column="prfrn_military"/>
+		<result property="prfrnProtection" column="prfrn_protection"/>
+		<result property="prfrnDisabilityGrade" column="prfrn_disability_grade"/>
+		<result property="prfrnMilitaryType" column="prfrn_military_type"/>
+		<result property="prfrnMilitaryStart" column="prfrn_military_start"/>
+		<result property="prfrnMilitaryEnd" column="prfrn_military_end"/>
+		<result property="prfrnMilitaryBranch" column="prfrn_military_branch"/>
+		<result property="prfrnMilitaryRank" column="prfrn_military_rank"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="languageVO" id="langMap">
+		<result property="langId" column="lang_id"/>
+		<result property="langName" column="lang_name"/>
+		<result property="langTestName" column="lang_test_name"/>
+		<result property="langTestDate" column="lang_test_date"/>
+		<result property="langTestScore" column="lang_test_score"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="skillVO" id="skillMap">
+		<result property="skillId" column="skill_id"/>
+		<result property="skillName" column="skill_name"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="portfolioVO" id="portfolioMap">
+		<result property="portfolioId" column="portfolio_id"/>
+		<result property="portfolioUrl" column="portfolio_url"/>
+		<result property="attId" column="att_id"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="workfieldVO" id="workfieldMap">
+		<result property="workfieldId" column="workfield_id"/>
+		<result property="workfield1" column="workfield1"/>
+		<result property="workfield2" column="workfield2"/>
+		<result property="resumeId" column="resume_id"/>
+	</resultMap>
+
+	<resultMap type="covltrVO" id="covltrMap">
+		<id property="covltrId" column="covltr_id"/>
+		<result property="covltrId" column="covltr_id"/>
+		<result property="covltrTitle" column="covltr_title"/>
+		<result property="covltrInsertDate" column="covltr_insert_date"/>
+		<result property="memId" column="mem_id"/>
+		<collection property="covltrItemList" resultMap="covltrItemMap"/>
+	</resultMap>
+	
+	<resultMap type="covltrItemVO" id="covltrItemMap">
+		<result property="covltrItemId" column="covltr_item_id"/>
+		<result property="covltrItemTitle" column="covltr_item_title"/>
+		<result property="covltrItemContent" column="covltr_item_content"/>
+		<result property="covltrItemLtrcnt" column="covltr_item_ltrcnt"/>
+		<result property="covltrId" column="covltr_id"/>
+	</resultMap>
+	
+
+	<resultMap type="manageVO" id="manageMap">
+		<id property="manageNum" column="manage_num"/>
+		<result property="manageNum" column="manage_num"/>
+		<result property="manageTitle" column="manage_title"/>
+		<result property="manageContent" column="manage_content"/>
+		<result property="manageStatus" column="manage_status"/>
+		<result property="manageDay" column="manage_day"/>
+		<result property="memId" column="mem_id"/>
+		<result property="manageId" column="manage_id"/>
+		<collection property="manageFileList" resultMap="attachMap"/>
+<!-- 		<collection property="likeList" resultMap="goodMap"/> -->
+	</resultMap>
+	
+	<resultMap type="attVO" id="attachMap">
+		<id property="attId" column="att_id"/>
+		<result property="attId" column="att_id"/>
+		<result property="attPath" column="att_path"/>
+		<result property="attSaveName" column="att_savename"/>
+		<result property="attFileName" column="att_filename"/>
+		<result property="attMime" column="att_mime"/>
+		<result property="attFileSize" column="att_filesize"/>
+		<result property="attFancySize" column="att_fancysize"/>
+		<result property="attDownload" column="att_download"/>
+		<result property="memId" column="mem_id"/>
+		<result property="companyId" column="company_id"/>
+		<result property="annoId" column="anno_id"/>
+		<result property="boardId" column="board_id"/>
+	</resultMap>
+
+
+<insert id="insertResume" parameterType="commendVO">
+insert into commend (commend_id, resume_id, mem_id, anno_id, commend_date)
+values 
+(SEQ_COMMEND.nextval,#{resumeId},#{memId},#{annoId},sysdate)
+</insert>
+
+<select id="prodFree" resultType="prodVO">
+select a.PROD_STATUS ,a.PROD_START ,a.PROD_END , b.mem_name,b.mem_id,b.mem_email from prod a left outer join member b on (a.MEM_ID=B.MEM_ID) where PROD_STATUS ='관리서비스'
+</select>
+
+<select id="prodProj" resultType="prodVO">
+select a.PROD_STATUS ,a.PROD_START ,a.PROD_END , b.mem_name,b.mem_id,b.mem_email from prod a left outer join member b on (a.MEM_ID=B.MEM_ID) where PROD_STATUS ='매칭서비스'
+</select>
+
+
+<select id="memberdetail" parameterType="String" resultType="memberVO">
+	SELECT mem_id, mem_name, mem_birth, mem_gender, mem_tel, mem_email, mem_addr1, mem_addr2
+	FROM member
+	WHERE mem_id = #{memId}
+</select>
+
+<select id="detail" parameterType="String" resultMap="resumeMap">
+SELECT 
+			a.resume_id, a.resume_title, a.resume_status, a.resume_representative, a.mem_id, a.resume_photo,
+			b.act_id, b.act_content, b.act_category, b.act_institution,
+			to_char(act_start, 'yyyy-mm-dd')act_start,
+			to_char(act_end, 'yyyy-mm-dd')act_end, b.att_id,
+			c.award_id, c.award_name, c.award_content, c.award_date, c.award_institution,
+			d.career_id, d.career_category, d.career_cmp_name, d.career_cmp_dprtm, d.career_workfield, d.career_duties, d.career_position, 
+			to_char(career_join_date, 'yyyy-mm-dd')career_join_date,
+			to_char(career_resign_date, 'yyyy-mm-dd')career_resign_date, d.career_salary, d.att_id,
+			e.cert_id, e.cert_name, to_char(cert_date, 'yyyy-mm-dd')cert_date, e.cert_institution, e.att_id,
+			f.desired_id, f.desired_empl_form, f.desired_salary, f.desired_city1, f.desired_city2, f.desired_industry1, f.desired_industry2, f.desired_industry3, 
+			g.edu_id, g.edu_major1, g.edu_major2, g.edu_school_name, 
+			to_char(edu_start, 'yyyy-mm-dd')edu_start,
+			to_char(edu_end, 'yyyy-mm-dd')edu_end,
+			 g.edu_score, g.edu_score_standard, g.edu_status, g.edu_school_type,
+			h.prfrn_id, h.prfrn_veterans, h.prfrn_subsidy, h.prfrn_disability, h.prfrn_military, h.prfrn_protection, h.prfrn_disability_grade, h.prfrn_military_type, h.prfrn_military_start, h.prfrn_military_end, h.prfrn_military_branch, h.prfrn_military_rank,
+			i.lang_id, i.lang_name, i.lang_test_name, to_char(lang_test_date, 'yyyy-mm-dd')lang_test_date, i.lang_test_score,
+<!-- 			j.skill_id, j.skill1, j.skill2, j.skill3, j.skill4, j.skill5,  -->
+			j.skill_id, j.skill_name,
+			k.portfolio_id, k.portfolio_url, k.att_id,
+			l.workfield_id, l.workfield1, l.workfield2
+		FROM resume a
+		LEFT OUTER JOIN activity b ON a.resume_id = b.resume_id 
+		LEFT OUTER JOIN award c ON a.resume_id = c.resume_id
+		LEFT OUTER JOIN career d ON a.resume_id = d.resume_id
+		LEFT OUTER JOIN certification e ON a.resume_id = e.resume_id
+		LEFT OUTER JOIN desired_empl f ON a.resume_id = f.resume_id
+		LEFT OUTER JOIN education g ON a.resume_id = g.resume_id
+		LEFT OUTER JOIN employment_preferences h ON a.resume_id = h.resume_id
+		LEFT OUTER JOIN language i ON a.resume_id = i.resume_id
+		LEFT OUTER JOIN skill j ON a.resume_id = j.resume_id
+		LEFT OUTER JOIN portfolio k ON a.resume_id = k.resume_id
+		LEFT OUTER JOIN workfield l ON a.resume_id = l.resume_id
+		WHERE a.mem_id = #{memId}
+		and RESUME_REPRESENTATIVE = 1
+			
+</select>
+	
+
+<select id="freedetail" parameterType="String" resultType="freeVO">
+select FREE_NUM, MEM_ID, FREE_START, 
+FREE_CAREER, FREE_SALARY, FREE_WORK, 
+FREE_STALY, FREE_COMPANY, FREE_TYPE, 
+FREE_EXPER, FREE_SKILL
+from free
+where mem_id = #{memId}
+</select>
+
+<select id="managerList" parameterType="String" resultMap="manageMap">
+select
+  b.manage_num, b.mem_id, manage_title, manage_content,  manage_status, manage_day, manage_id, 
+  att_id, att_path, att_savename, att_filename, att_mime, att_filesize, att_fancysize,
+  att_download, company_id, anno_id
+from manage b left outer join attach a on(b.manage_num = a.manage_num)
+where b.mem_id = #{memId}
+order by b.manage_num desc
+</select>
+
+<select id="manageDownload" parameterType="int" resultType="attVO">
+	select
+		   att_id, att_path, att_savename, att_filename, att_mime, att_filesize,
+		   att_fancysize, att_download, mem_id, company_id, anno_id, board_id, manage_num
+	  from attach
+	 where att_id = #{attId}
+</select>
+
+<update id="incrementManageDowncount" parameterType="int">
+	update attach
+	   set
+	   	   att_download = att_download +1
+	 where att_id = #{attId}
+</update>
+
+<insert id="insertManage" parameterType="manageVO" useGeneratedKeys="true">
+<selectKey keyProperty="manageNum" resultType="int" order="BEFORE">
+	select seq_manageid.nextval from dual
+</selectKey>
+insert into manage(
+	manage_num, manage_title, manage_content, manage_status, manage_day, mem_id, manage_id
+)values(
+	#{manageNum}, #{manageTitle}, #{manageContent}, #{manageStatus}, sysdate, #{memId}, #{manageId}
+)
+</insert>
+
+
+<insert id="insertManageFile" parameterType="attVO">
+insert into attach(
+	att_id, att_path, att_savename, att_filename, att_mime, att_filesize,
+	att_fancysize, att_download, mem_id, company_id, anno_id, manage_num
+)values(
+	seq_attid.nextval, #{attPath}, #{attSaveName}, #{attFileName}, #{attMime}, 
+	#{attFileSize}, #{attFancySize}, 0, #{memId}, 0, 0, #{manageNum}
+)
+</insert>
+</mapper>

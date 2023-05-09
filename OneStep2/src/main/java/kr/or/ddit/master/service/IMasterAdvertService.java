@@ -1,0 +1,22 @@
+package kr.or.ddit.master.service;
+
+import java.util.List;
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.master.vo.AdvertVO;
+import kr.or.ddit.prod.vo.ProdVO;
+import kr.or.ddit.vo.PaginationInfoVO;
+
+public interface IMasterAdvertService {
+
+	List<AdvertVO> advertList();
+
+	List<ProdVO> prodList(PaginationInfoVO<ProdVO> pagingVO);
+
+	int prodListcount(PaginationInfoVO<ProdVO> pagingVO);
+
+	ProdVO selectOne(String prodId);
+
+	ServiceResult advertUpdate(ProdVO prodVO);
+
+}

@@ -1,0 +1,264 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!-- ===================[fullcalendar 5.8.0 CDN]===================== -->
+<!-- <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' /> -->
+<!-- <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script> -->
+<!-- fullcalendar 언어 CDN -->
+<!-- <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script> -->
+<!-- ===================[fullcalendar 5.8.0 CDN]===================== -->
+
+<!-- ===================[fullcalendar 6.1.4 CDN]===================== -->
+<!--  fullcalendar 6.1.4버전 CDN -->
+<script
+	src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"></script>
+<!-- fullcalendar 6.1.4버전 언어 설정 -->
+<script src="/resources/fullcalendar/ko.global.min.js"></script>
+<!-- ===================[fullcalendar 6.4.1 CDN]===================== -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<style>
+/* body 스타일 */
+html, body {
+	overflow: hidden;
+	/* 	font-family: Arial, Helvetica Neue, Helvetica, sans-serif; */
+	font-size: 14px;
+}
+/* 캘린더 위의 해더 스타일(날짜가 있는 부분) */
+.fc-header-toolbar {
+	padding-top: 1em;
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
+/* .modal-backdrop { 
+	position: fixed; 
+	background: rgba(0, 0, 0, 0.8); 
+ } */
+#calendarModal {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 200px;
+	/*    background-color: #2C3E50;  */
+	/*     background-color: #fff;  */
+}
+
+#modalBox {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	padding: 15px;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: solid 1px;
+	border-radius: 10px;
+	width: 400px;
+	/* 	height: 200px; */
+}
+
+/* 토요일 날짜 파란색 */
+.fc-day-sat a {
+	color: blue;
+	text-decoration: none;
+}
+
+.fc-day-sun a {
+	color: red;
+	text-decoration: none;
+}
+</style>
+</head>
+<script>
+	(function() {
+		$(function() {
+			//     var modal = document.getElementById("addEventsModal");
+
+			var searchAnno = $("#searchAnno");
+			var searchWord = $("#searchWord").val();
+			var searchType = $("#searchType").val();
+
+			var annoObject = {
+				searchWord : searchWord,
+				searchType : searchType
+			}
+
+			var request = $.ajax({
+				url : "/annofullcal/list", // 변경하기
+				type : "post",
+				dataType : "JSON",
+				data : JSON.stringify(annoObject)
+			});
+			// 	    success:function(result){
+			// 	    	if(searchWord != null){
+			// 	    		$.ajax({
+			// 	    			url:"annofullcal/searchList",
+			// 	    			type:"post",
+			// 	    			data:JSON.stringify(annoObject),
+			// 	    			dataType : "JSON",
+			// 	    			success : function(result){
+			// 	    				alert("검색완료!")
+			// 	    			}
+			// 	    		})
+			// 	    	}
+			//     console.log("데이터가 어떻게 " , annoObject);	
+			// 	    }
+
+			request.fail(function(jqXHR, textStatus) {
+				alert("오류발생!! : " + textStatus);
+			});
+
+			//공고 서치를 위한부분
+			searchAnno.on("click",function() {
+// 								alert("클릭이 되는가?")
+								var searchWord = $("#searchWord").val();
+								var searchType = $("#searchType").val();
+
+								// 			var annoObject ={
+								// 					searchWord : searchWord,
+								// 					searchType : searchType
+								// 			}
+
+								console.log("내가 검색한 단어", searchWord);
+								var request1 = $.ajax({
+									url : "/annofullcal/list",
+									type : "post",
+									// 				contentType: "application/json",
+									dataType : "JSON",
+									data : {
+										searchWord : searchWord,
+										searchType : searchType
+									}
+								});
+
+								request1.done(function(data) {
+											var calendarEl = $('#calendar')[0];
+											var calendar2 = new FullCalendar.Calendar(
+													calendarEl,
+													{
+														height : '800px', // calendar 높이 설정
+														expandRows : true, // 화면에 맞게 높이 재설정
+
+														// 해더에 표시할 툴바
+														headerToolbar : {
+															left : 'prev,next,today',
+															center : 'title',
+															right : 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+														},
+														eventLimit : true,
+														initialView : 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
+														locale : 'kr', // 한국어 설정
+														events : data,
+														eventBorderColor : '#5c6a96', //이벤트 앞에 점 컬러
+														displayEventTime : false, // 시간 없애준다.
+
+														eventClick : function(
+																info) {
+															location.href = "detail/"
+																	+ info.event.extendedProps.comId;
+														}
+													});
+											calendar2.render();
+										});
+							});
+			//공고 서치를 위한부분 
+
+			request.done(function(data) {
+
+						console.log("뭐가 나오냐 : " + JSON.stringify(data));
+						var calendarEl = $('#calendar')[0];
+						// full-calendar 생성하기
+						var calendar = new FullCalendar.Calendar(
+								calendarEl,{
+									height : '700px', // calendar 높이 설정
+									expandRows : true, // 화면에 맞게 높이 재설정
+
+									// 해더에 표시할 툴바
+									headerToolbar : {
+										left : 'prev,next,today',
+										center : 'title',
+										right : 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+									},
+// 									navLinks:true,
+									dayMaxEvents : true, 
+// 									eventLimit : true,
+									eventHeight:50,
+									initialView : 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
+									locale : 'ko', // 한국어 설정
+									events : data,
+									eventBorderColor : '#5c6a96', //이벤트 앞에 점 컬러
+									displayEventTime : false, // 시간 없애준다.
+
+									eventClick : function(info) {
+										console.log("흠냐 "+ JSON.stringify(info.event.extendedProps.no));
+										//방법2.
+										location.href = "detail/"
+												+ info.event.extendedProps.comId;
+
+									}
+								});
+						// 캘린더 랜더링 (캘린더 그리기)
+						calendar.render();
+					});
+
+		});
+	})();
+</script>
+<body>
+
+	<div class="col-11" style="margin: 0 auto;">
+		<div class="row">
+
+			<!-- 	  <form class="row" id="searchForm"> -->
+			<input type="hidden" name="page" id="page" value="" />
+			<div class="col-1" style="float: left;">
+				<select class="form-control" id="searchType" name="searchType">
+					<option value="title"
+						<c:if test="${searchType eq 'title' }">selected</c:if>>회사</option>
+					<%-- 			   <option value="writer" <c:if test="${searchType eq 'writer' }">selected</c:if>>작성자</option> --%>
+				</select>
+			</div>
+			<div class="col-3" style="float: left;">
+				<div class="ms-md-auto">
+					<div class="input-group input-group-outline">
+						<label class="form-label"></label> <input type="text"
+							id="searchWord" class="form-control" name="searchWord"
+							value="${searchWord }">
+					</div>
+				</div>
+			</div>
+			<div class="col-2" style="float: left;">
+				<!-- 		  <button type="submit" id="searchAnno" class="btn btn-outline-secondary">검색</button> -->
+				<button type="button" id="searchAnno"
+					class="btn btn-outline-secondary">검색</button>
+			</div>
+			<!-- 	  </form> -->
+<!-- 			<a href=""></a><i id="likebutton" class="las la-star mr-2 font-17"></i></a>  -->
+		</div>
+	
+	</div>
+
+
+
+<%-- 		calendar  --%>
+		<div id='calendar-container' style="float: none;">
+			<div id='calendar'></div>
+		</div>
+
+</body>
+</html>

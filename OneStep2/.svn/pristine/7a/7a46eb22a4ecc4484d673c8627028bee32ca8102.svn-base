@@ -1,0 +1,11 @@
+package kr.or.ddit.master.service;
+
+import java.util.List;
+
+import kr.or.ddit.master.vo.AdvertVO;
+
+public interface IMasterAdvertService {
+
+	List<AdvertVO> advertList();
+
+}

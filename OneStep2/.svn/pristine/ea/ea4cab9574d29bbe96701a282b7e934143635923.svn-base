@@ -1,0 +1,162 @@
+package kr.or.ddit.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.company.vo.CompanyVO;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.prod.vo.ProdVO;
+import kr.or.ddit.vo.AnnoKeywordVO;
+import kr.or.ddit.vo.AnnoVO;
+import kr.or.ddit.vo.ApplyVO;
+import kr.or.ddit.vo.AttVO;
+import kr.or.ddit.vo.EvaluationVO;
+import kr.or.ddit.vo.FaqVO;
+import kr.or.ddit.vo.ProposalVO;
+import kr.or.ddit.vo.ReviewVO;
+import kr.or.ddit.vo.keywordAnnoVO;
+
+@Mapper
+public interface CompanyMapper {
+
+	void insertAnno(AnnoVO anno);
+
+	List<AnnoVO> selectAnno(String comId);
+
+	int deleteAnno(int annoId);
+
+	AnnoVO selectAnnoOne(int annoId);
+
+	int updateAnno(AnnoVO annoVO);
+
+	List<MemberVO> selectMember();
+
+	void insertCompany(CompanyVO vo);
+
+	void insertFile(CompanyVO vo);
+
+	void insertAnnoFile(AnnoVO anno);
+
+	List<AnnoKeywordVO> selectAnnoKeyword();
+
+	CompanyVO getCompany(String companyId);
+
+	List<MemberVO> selectinterMember(String comId);
+
+	List<MemberVO> selectApplyMem(String comId);
+
+	void insertReview(ReviewVO vo);
+
+	List<ReviewVO> getReviewList(int comId);
+
+	List<BoardVO> noticeList();
+
+	int annoCnt(String companyId);
+
+	int interCnt(String companyId);
+
+	int applyCnt(String companyId);
+
+	int reviewCnt(String companyId);
+
+	List<CompanyVO> searchCompanyList(String companyName);
+
+	CompanyVO searchCompany(String companyName);
+
+	List<AnnoVO> annoList();
+
+	List<AnnoVO> ajaxAnnoList(String searchType);
+
+	void deleteBoardFile(int boardId);
+
+	List<FaqVO> selectFaq();
+
+	void delete(int boardId);
+
+	List<AttVO> selectBoardFile(int boardId);
+
+	BoardVO inquiry(int boardId);
+
+	void deleteBoardFileByBoardId(int boardId);
+
+	int deleteBoard(int boardId);
+
+	int updateBoard(BoardVO boardVO);
+
+	void insertBoardFile(AttVO attVO);
+
+	int insertInqu(BoardVO board);
+
+	List<BoardVO> inquirylist(String memId);
+
+	void insertHeart(MemberVO memberVO);
+
+	List<MemberVO> selectinter(String companyId);
+
+	void deleteHeart(MemberVO member);
+
+	CompanyVO getCompanyInt(int companyId);
+
+//	void insertKeyword(AnnoVO anno);
+
+	void createTag(keywordAnnoVO tagVO);
+
+	List<keywordAnnoVO> selectKeyword(int annoId);
+
+	List<AnnoVO> ajaxAnnoSearch(Map<String,List<String>> map);
+
+	List<keywordAnnoVO> seleteComKeyword(String companyId);
+
+	List<ReviewVO> getReview(String companyId);
+
+	BoardVO notice(int boardId);
+
+	List<AnnoVO> ajaxAnnoRegionSearch(Map<String, List<String>> map);
+
+	List<AnnoVO> ajaxAnnoJobSearch(Map<String, List<String>> map);
+
+	List<AnnoVO> selectAnnoList();
+
+	MemberVO detailMem(String memId);
+
+
+	void proposal(ProposalVO proposalVO);
+
+	List<MemberVO> selectProposalMember(String companyId);
+
+	MemberVO detailMemInt(int resumeId);
+
+	void updateApply(ApplyVO applyVO);
+
+	List<MemberVO> selectApplyAnno(int annoId);
+
+	void updateApplyResult(EvaluationVO evaluationVO);
+
+	List<ReviewVO> getReviewAll();
+
+//	List<ProdVO> adCount(String companyId);
+
+	List<ProdVO> adList(String companyId);
+
+	List<MemberVO> selectApplyMemList(int annoId);
+
+	List<BoardVO> noticeList5();
+
+	MemberVO selectApplyMemId(Map<String, Object> memApplyMap);
+
+	Map<String, Object> getAvgPay(String companyMain);
+
+	List<MemberVO> getComMemList(String companyName);
+
+	List<MemberVO> getApplyMemList(String companyName);
+
+
+
+
+//	ResumeVO resume(String memName);
+
+}

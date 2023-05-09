@@ -1,0 +1,150 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<div class="col-11" style="margin: 0 auto;">
+	<div class="card-box">
+	<h2 align="center"> ID : 000</h2>
+		<div class="w-100 animated-underline-content">
+			<ul class="nav nav-tabs  mb-3" id="lineTab" role="tablist">
+				<li class="nav-item"><a class="nav-link active"
+					id="underline-about-tab" data-toggle="tab" href="#underline-about"
+					role="tab" aria-controls="underline-about" aria-selected="true">이력서</a>
+				</li>
+				<li class="nav-item"><a class="nav-link"
+					id="underline-project-tab" data-toggle="tab"
+					href="#underline-project" role="tab"
+					aria-controls="underline-project" aria-selected="false">프리랜서</a>
+				</li>
+				<li class="nav-item"><a class="nav-link"
+					id="underline-team-tab" data-toggle="tab" href="#underline-team"
+					role="tab" aria-controls="underline-team" aria-selected="false">지원내역</a></li>
+				
+				<li class="nav-item"><a class="nav-link"
+					id="underline-team-tab" data-toggle="tab" href="#underline-manage"
+					role="tab" aria-controls="underline-manage" aria-selected="false">관리현황</a></li>
+			</ul>
+			<div class="tab-content" id="lineTabContent-3">
+				<div class="tab-pane fade show active" id="underline-about"
+					role="tabpanel" aria-labelledby="underline-about-tab">
+					<div class="d-flex flex-wrap">
+						여기에 이력서 
+						${member }
+					</div>
+				</div>
+				<!-- 프리랜서 -->
+				<div class="tab-pane fade" id="underline-project" role="tabpanel"
+					aria-labelledby="underline-project-tab">
+					<div class="row w-100 m-0">
+						여기에 프리랜서
+						${free }
+					</div>
+				</div>
+				<!-- 지원내역 -->
+				<div class="tab-pane fade" id="underline-team" role="tabpanel"
+					aria-labelledby="underline-team-tab">
+					<div class="row w-100 m-0">
+						여기에 지원내역
+					</div>
+				</div>
+				<!-- 관리현황 -->
+				<div class="tab-pane fade" id="underline-manage" role="tabpanel"
+					aria-labelledby="underline-manage-tab">
+					<div class="row w-100 m-0">
+							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+								<div class="widget ecommerce-table">
+									<div class="widget-heading">
+										<button type="button" class="btn btn-primary mb-2 mr-2" data-toggle="modal" data-target="#exampleModalCenter">작성하기</button>
+									</div>
+									<div class="widget-content">
+										<div class="table-responsive">
+											<table id="basic-dt" class="table table-hover" style="width: 100%">
+											<thead>
+												<tr>
+													<th style="width: 70%"><div class="th-content">제목</div></th>
+													<th style="width: 10%"><div class="th-content">작성자</div></th>
+													<th style="width: 10%"><div class="th-content">작성일</div></th>
+													<th style="width: 5%"><div class="th-content">상세내역</div></th>
+													<th style="width: 5%"><div class="th-content">상태</div></th>
+												</tr>
+											</thead>
+											<tbody id="tbody">
+<%-- 												<c:forEach items="${noticeList }" var="list"> --%>
+<%-- 													<tr onclick="location.href='/master/noticeDetail?boardId=${list.boardId}'"> --%>
+<%-- 														<td>${list.boardCal }</td> --%>
+<%-- 														<td>${list.boardTitle }</td> --%>
+<%-- 														<td>${list.boardStart }</td> --%>
+<%-- 														<td>${list.boardHit }</td> --%>
+<!-- 													</tr> -->
+<%-- 												</c:forEach> --%>
+											</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="layout-px-spacing">
+                	<div class="row layout-top-spacing">
+                    <div class="col-xl-12 col-lg-12 col-md-12">
+						<div class="row">
+							<div class="d-flex align-center " style="width: 100%">
+								<div class="d-flex align-center " style="float: left; width: 20%;">  
+									<div class="form-group mb-0 w-100">
+										<input type="text" class="form-control">
+									</div>
+								</div>
+								<div class="d-flex align-center " style="float: left;  width: 75%; margin-left: 5%">  
+									<div class="form-group mb-0 w-100">
+										<input type="text" class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="mt-4 d-block">
+								<div class="">
+									<div class="form-group">
+										<textarea rows="10" class="form-control"  name="manageContent" id="manageContent"></textarea>
+									</div>
+								</div>
+							<div class="attached-files">
+							</div>
+								<div class="d-flex align-center justify-content-end mt-4">
+									<form>
+										<label for="file-upload" class="custom-file-upload mb-0">
+											<a title="Attach a file" class="font-20 mr-2 pointer text-primary">
+											<i class="las la-paperclip"></i>
+											</a>
+										</label>
+										<input id="file-upload" name='upload_cont_img' type="file" style="display:none;">
+									</form>
+								<a class="btn btn-sm btn-primary">Send</a>
+									<button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i>닫기</button>
+									<!--                                        <button type="button" class="btn btn-primary">Save</button> -->
+								</div>
+							</div>
+						</div>
+                    </div>
+                </div>
+            </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	CKEDITOR.replace('manageContent',{
+		
+	});
+});
+
+</script>

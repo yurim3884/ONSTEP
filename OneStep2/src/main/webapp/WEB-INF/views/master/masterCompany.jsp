@@ -1,0 +1,156 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+<!-- 구직자 관리 -->
+	<div class="row">
+		<div class="col-xl-11 col-lg-11 col-md-11 col-sm-11 col-11 layout-spacing" style="margin: 0 auto;">
+			<div >
+				<div class="widget-heading">
+					<h2 align="center">구인회원</h2> <br>
+				</div>
+				<div class="widget-content">
+					<div class="table-responsive">
+						<table id="basic-dt" class="table table-hover" style="width: 100%">
+							<thead>
+								<tr>
+									<th ><div class="th-content">번호</div></th>
+									<th ><div class="th-content">아이디</div></th>
+									<th ><div class="th-content">이름</div></th>
+									<th ><div class="th-content">회사</div></th>
+									<th ><div class="th-content">가입일</div></th>
+									<th ><div class="th-content">상태</div></th>
+								</tr>
+							</thead>
+							<tbody id="tbody">
+							<c:forEach items="${comMemberList }" var="list" varStatus="status">
+								<tr id="cl">
+									<td>${status.count }</td>
+									<td>${list.memId }</td>
+									<td>${list.memName }</td>
+									<td><span data-toggle="modal" data-target="#exampleModalCenter${list.memId }">${list.companyList[0].companyName }</span></td>
+									<td>
+									<fmt:formatDate value="${list.memStart }" pattern="yyyy-MM-dd"/>
+									</td>
+									<td>
+										<input type="hidden" id="memId" name="memId" value="${list.memId }">
+										<select class="form-control" style="width:150px;" id="memStatus" name="memStatus">
+											<c:choose>
+												<c:when test="${list.memStatus == 6 }">
+												    <option value="2">승인</option>
+												    <option value="6" selected="selected">승인 대기중</option>
+												    <option value="7">퇴사</option>
+												</c:when>
+												<c:when test="${list.memStatus == 2 }">
+												    <option value="2" selected="selected">승인</option>
+												    <option value="6">승인 대기중</option>
+												    <option value="7">퇴사</option>
+												</c:when>												
+												<c:when test="${list.memStatus == 7 }">
+												    <option value="2">승인</option>
+												    <option value="6">승인 대기중</option>
+												    <option value="7" selected="selected">퇴사</option>
+												</c:when>												
+											</c:choose>
+										</select>
+										<div class="modal fade" id="exampleModalCenter${list.memId }" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				                           <div class="modal-dialog modal-dialog-centered" role="document">
+				                               <div class="modal-content">
+				                                   <div class="modal-body" style="margin: 15px">
+				                                   		<table class="modal-text table table-hover">
+				                                   			<tr>
+				                                   				<td>회사이름</td>
+				                                   				<td>${list.companyList[0].companyName }</td>
+				                                   			</tr>
+				                                   			<tr>
+				                                   				<td>사업자등록번호</td>
+				                                   				<td>${list.companyList[0].companyBusiness }</td>
+				                                   			</tr>
+				                                   			<tr>
+				                                   				<td>대표자성명</td>
+				                                   				<td>${list.companyList[0].companyRepresentative }</td>
+				                                   			</tr>
+				                                   			<tr>
+				                                   				<td>주소</td>
+				                                   				<td>${list.companyList[0].companyAddr1 } ${list.companyList[0].companyAddr2 }</td>
+				                                   			</tr>
+				                                   			<tr>
+				                                   				<td>회사 메일</td>
+				                                   				<td>
+				                                   				${list.companyList[0].companyEmail }
+				                                   				</td>
+				                                   			</tr>
+				                                   			<tr>
+				                                   				<td>회사번호</td>
+				                                   				<td>${list.companyList[0].companyPhone }</td>
+				                                   			</tr>
+				                                   			<tr>
+				                                   				<td>회사 설립일</td>
+				                                   				<td>
+				                                   				<fmt:formatDate value="${list.companyList[0].companyEstablishment }" pattern="yyyy-MM-dd"/>
+				                                   				</td>
+				                                   			</tr>
+				                                   			<tr>
+				                                   				<td>회사형태</td>
+				                                   				<td>${list.companyList[0].companySmall }</td>
+				                                   			</tr>
+				                                   			<tr>
+				                                   				<td>회사주요사업</td>
+				                                   					<td>${list.companyList[0].companyMain }</td>				                                   				
+				                                   			</tr>
+				                                   		</table>
+				                                   </div>
+				                                   <div class="modal-footer">
+				                                       <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i>닫기</button>
+				<!--                                        <button type="button" class="btn btn-primary">Save</button> -->
+				                                   </div>
+				                               </div>
+				                           </div>
+				                       </div>
+									</td>
+								</tr>
+							</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Main Body Ends -->
+<script type="text/javascript">
+// function changeSelect(event){
+// 	var memStatus = event.target.parentNode.parentNode.childNodes[11].childNodes[1].value;
+// 	var memId = event.target.parentNode.parentNode.childNodes[1].innerHTML;
+// 	console.log("체크:", memStatus, memId);
+// 	$.ajax({
+// 		url : "/master/status",
+// 		type : 'post',
+// 		data : {
+// 			"memStatus" : memStatus,
+// 			"memId" : memId
+// 		},
+// 		success : function(data){
+// 			alert("변경되었습니다.");
+// 		}
+// 	});
+// }
+$(function(){
+	$("#tbody").on("change", "#memStatus", function(){
+		var memStatus = $(this).val();
+		var memId = $(this).prev("#memId").val(); 
+	 	$.ajax({
+			url : "/master/comStatus",
+			type : 'post',
+			data : {
+				"memStatus" : memStatus,
+				"memId" : memId
+			},
+			success : function(data){
+				
+			}
+		});
+	});
+});
+</script>

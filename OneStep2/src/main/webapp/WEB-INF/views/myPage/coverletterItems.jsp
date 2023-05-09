@@ -1,0 +1,213 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<div class="sub-header-container">
+	<header class="header navbar navbar-expand-sm">
+		<ul class="navbar-nav flex-row">
+			<li>
+				<div class="page-header">
+					<nav class="breadcrumb-one" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item active" aria-current="page"><span>자기소개서 항목 관리</span></li>
+						</ol>
+					</nav>
+				</div>
+			</li>
+		</ul>
+		<ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+			<li class="">
+				<p class="current-time" id="currentTime"></p>
+				<p class="current-date" id="currentDate"></p>
+			</li>
+		</ul>
+	</header>
+</div>
+<!--  Navbar Ends / Breadcrumb Area  -->
+
+<form:form action="/myPage/covltr/insertItem" method="post" modelAttribute="covltrItem" id="covltrItem">
+	<input type="hidden" name="memId" value="${sessionScope.memberVO.memId }" />
+	<c:if test="${status eq 'u' }">
+		<input type="hidden" name="covltrItemId" value="${covltrItem.covltrItemId }" />
+	</c:if>
+<!-- Main Body Starts -->
+<div class="layout-px-spacing">
+	<div class="layout-top-spacing mb-2">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="container p-0">
+					<div class="row layout-top-spacing date-table-container">
+						<div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+		                   <div class="button-list"></br>
+		                       <button type="button" id="btnDelete" class="btn btn-outline-primary" ">선택 삭제</button>
+		                       <button type="button" id="btnModify" class="btn btn-outline-primary" ">선택 수정</button>
+		                       <button type="button" id="btnInsertItem" class="btn btn-outline-primary" >항목 추가</button>
+		                       <button type="button" id="btnModal" class="btn btn-primary" data-toggle="modal" data-target="#writeCovltr">자기소개서 작성</button>
+                               <!-- Modal -->
+                               <div class="modal fade" id="writeCovltr" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                   <div class="modal-dialog modal-dialog-centered" role="document">
+                                       <div class="modal-content">
+                                           <div class="modal-header">
+                                               <h5 class="modal-title" id="exampleModalCenterTitle">자기소개서 작성</h5>
+                                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                   <i class="las la-times"></i>
+                                               </button>
+                                           </div>
+                                           <div class="modal-body">
+                                               <h4 class="modal-heading mb-4 mt-2">자기소개서 제목을 입력해 주세요.</h4>
+                                               <input class="form-control" name="covltrTitle" id="covltrTitle" type="text" style="width:100%;" />
+                                                   <p class="modal-text"></p>
+                                           </div>
+                                           <div class="modal-footer">
+                                               <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> 취소</button>
+                                               <button type="button" id="btnInsert" class="btn btn-primary">등록</button>
+                                           </div>
+                                       </div>
+                                  </div>
+		                   </div>
+		                   <c:choose>
+		                   		<c:when test="${empty list }">
+		                   			<h4>작성한 자기소개서 항목이 존재하지 않습니다.</h4>
+		                   		</c:when>
+		                   		<c:otherwise>
+			                   		<input type="checkbox" id="chkAll" name="chkAll"/>
+		                   			<c:forEach items="${list }" var="covltrItem">
+	                   					<div class="widget-content widget-content-area br-6" id="item">
+	                   						<input type="hidden" value="${covltrItem.covltrItemId }" data-no="${covltrItem.covltrItemId }"/>
+											<div class="card card-body mt-3">
+												<h5 class="card-title"><input type="checkbox" id="chk">&nbsp&nbsp ${covltrItem.covltrItemTitle }</h5>
+			                                    <p class="card-text">${covltrItem.covltrItemContent } </p>
+			                                    <p class="card-text">
+			                                        <small class="text-muted"></small>
+			                                        <small class="text-muted">2023-04-17</small>
+			                                    </p>
+			                                </div>	
+										</div>
+		                   			</c:forEach>
+		                   		</c:otherwise>
+		                   </c:choose>
+		                   
+							
+							
+							</div>							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Main Body Ends -->
+</form:form>	
+<!-- <div class="responsive-msg-component"> -->
+<!--     <p> -->
+<!--         <a class="close-msg-component"><i class="las la-times"></i></a> -->
+<!--         Please reload the page when you change the viewport size to view the responsive functionalities correctly -->
+<!--     </p> -->
+<!-- </div> -->
+<!--  </div> -->
+<!--  Content Area Ends  -->
+
+<script>
+
+$(function() {
+	var btnDelete = $("#btnDelete");
+	var btnModify = $("#btnModify");
+	var btnInsertItem = $("#btnInsertItem");
+	var btnInsert = $("#btnInsert");
+	var covltrItem = $("#covltrItem");
+	
+// 	btnInsert.on("click",function(){
+// 		covltrItem.submit();
+// 	});
+	
+// 	btnInsertItem.on("click", function(){
+// // 		location.href = '/myPage/coverletter/insertItem';
+// 		sendData();
+// 	});
+	
+	btnModify.on("click", function() {
+		delForm.attr("action", "/myPage/coverletter/modifyItem");
+		delForm.attr("method", "get");
+		delForm.submit();
+	});
+	
+	btnDeleteItem.on("click", function() {
+		if (confirm("정말 삭제하시겠습니까?")) {
+			delForm.submit();
+		} else {
+			delForm.reset();
+		}
+	});
+
+
+// 	var checkedIds = [];
+// 	$("input[type='checkbox']").on('change', function() {
+// 		covltrItemIdList = [];
+// 	    $("input[type='checkbox']:checked").each(function() {
+// 	        checkedIds.push($(this).closest("#item").find("input[type='hidden']").val());
+// 	    });
+// 	    console.log(checkedIds);
+// 	});
+
+// 	btnInsert.on('click', function() {
+// 	    if (checkedIds.length > 0) {
+// 	        $.ajax({
+// 	            type: "POST",
+// 	            url: "/coverletter/insert",
+// 	            data: { "covltrItemIdList": checkedIds },
+// 	            dataType: "json",
+// 	            success: function(result) {
+// 	                console.log(result);
+// 	                alert("자기소개서가 등록되었습니다!");
+// 	            },
+// 	            error: function(xhr, status, error) {
+// 	                console.error(xhr);
+// 	                alert("자기소개서가 등록되지 않았습니다!");
+// 	            }
+// 	        });
+// 	    }
+// 	});
+	
+	
+	
+	
+	
+	
+	
+});
+
+$(document).ready(function() {
+	 $('#btnInsert').on('click', function() {
+	    sendData();
+	  });
+	// 데이터 보내기 함수
+	function sendData() {
+		
+		var chkData = "";
+		   $("input[type='checkbox']:checked").each(function(value, idx) {
+		   	var itemData = $(this).closest("#item").find("input[type='hidden']").val();
+		   	if(itemData != null){
+		    	console.log(value + " :: " + idx);
+		    	console.log(itemData);
+		        chkData += itemData + ",";
+		   	}
+		});
+		   
+		var covltrTitle = $('#covltrTitle').val();
+
+	    $.ajax({
+	      type: 'POST',
+	      url: '/myPage/coverletter/insert',
+	      data: {
+	        checkedIds: chkData,
+	        covltrTitle: covltrTitle
+	      },
+	      success: function(data) {
+	        alert(data);
+	      }
+	    });
+  }
+});
+</script>

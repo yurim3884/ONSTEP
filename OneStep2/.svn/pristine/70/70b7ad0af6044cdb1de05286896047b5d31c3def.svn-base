@@ -1,0 +1,23 @@
+package kr.or.ddit.comment.serviceImpl;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.comment.service.ICommentService;
+import kr.or.ddit.comment.vo.CommentVO;
+import kr.or.ddit.mapper.CommentMapper;
+
+@Service
+public class CommentServiceImpl implements ICommentService{
+
+	@Inject
+	private CommentMapper mapper;
+	
+	
+	@Override
+	public void insertComment(CommentVO commVO) {
+		mapper.insertComment(commVO);
+	}
+
+}

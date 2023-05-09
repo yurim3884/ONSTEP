@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.ManagerMapper">
+	
+<insert id="insertResume" parameterType="commendVO">
+insert into commend (commend_id, resume_id, mem_id, anno_id, commend_date)
+values 
+(SEQ_COMMEND.nextval,#{resumeId},#{memId},#{annoId},sysdate)
+</insert>
+
+<select id="prodFree" resultType="prodVO">
+select a.PROD_STATUS ,a.PROD_START ,a.PROD_END , b.mem_name,b.mem_id,b.mem_email from prod a left outer join member b on (a.MEM_ID=B.MEM_ID) where PROD_STATUS ='관리서비스'
+</select>
+
+<select id="prodProj" resultType="prodVO">
+select a.PROD_STATUS ,a.PROD_START ,a.PROD_END , b.mem_name,b.mem_id,b.mem_email from prod a left outer join member b on (a.MEM_ID=B.MEM_ID) where PROD_STATUS ='매칭서비스'
+</select>
+	
+
+
+
+
+</mapper>

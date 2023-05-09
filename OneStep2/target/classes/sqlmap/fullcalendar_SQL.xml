@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.Fullcalendarmapper">
+
+
+	<sql id="calSearch">
+		<if test="searchType !=null and searchType =='title'">
+			and (COMPANY_NAME like '%' || #{searchWord}||'%')
+		</if>
+<!-- 		<if test="searchType !=null and searchType =='title'"> -->
+<!-- 			and (COMPANY_NAME like '%' || #{searchWord}||'%') -->
+<!-- 		</if> -->
+	</sql>
+
+
+
+	<select id="list" resultType="calVO" parameterType="calVO">
+		select 
+			cal_id, cal_title, cal_content, cal_start, cal_end, mem_id, anno_id, id, label
+		  from cal 
+		   where mem_id = #{memId} 
+	</select>
+	
+	
+<!-- 	<insert id="insert" parameterType="calVO" useGeneratedKeys="true"> -->
+<!-- 		<selectKey order="BEFORE" keyProperty="calId" resultType="int"> -->
+<!-- 			select seq_calid.nextval from dual -->
+<!-- 		</selectKey> -->
+<!-- 		insert into cal( -->
+<!-- 			cal_id, cal_title, cal_content, cal_start, cal_end, mem_id,anno_id -->
+<!-- 		)values( -->
+<!-- 			#{calId}, #{calTitle}, #{calContent}, #{calStart}, #{calEnd},#{memId},#{annoId}  -->
+<!-- 		) -->
+<!-- 	</insert> -->
+
+     <insert id="insert" parameterType="calVO" useGeneratedKeys="true">
+      <selectKey order="BEFORE" keyProperty="calId" resultType="int">
+         select seq_calid.nextval from dual
+      </selectKey>
+      insert into cal(
+         cal_id
+         , cal_title
+         , cal_content
+         , cal_start
+         , cal_end
+         , mem_id
+         , anno_id
+         , id
+         , label
+         )values(
+           #{calId}
+         , #{calTitle}
+         , #{calContent}
+		 , #{calStart}
+		 , #{calEnd}
+         , #{memId}
+         , #{annoId} 
+         , #{id}
+         , #{label}
+         )
+   </insert>
+   
+   
+   
+   <update id="update" parameterType="calVO" >
+   		update cal
+   		   set 
+	           cal_title = #{calTitle}
+	         , cal_content =#{calContent}
+	         , cal_start = #{calStart}
+	         , cal_end = #{calEnd}
+	         , anno_id = #{annoId}
+	         , label = #{label}
+	    where cal_id = #{calId} 
+   </update>
+   
+   
+   <delete id="del" parameterType="calVO">
+   		delete from cal
+   		 where cal_id =#{calId}
+   </delete>
+   
+   
+   <select id="selectFullCount" parameterType="pagingVO" resultType="int">
+		select count(anno_id)
+		  from anno a
+		 where 1=1
+		<include refid="calSearch"/>
+	</select>
+	
+   
+   
+   <select id="selectfullList" parameterType="pagingVO" resultType="annoVO">
+   select
+ 	  b.*
+ 	  from(
+	 	  select
+	 	  		a.*, row_number() over (order by a.anno_id desc) rnum
+	 	  		from(
+			 	  select
+			              a.com_id
+			            , a.anno_id
+			            , a.anno_startDate
+			            , a.anno_endDate
+			            , B.COMPANY_NAME
+			       from ANNOUNCEMENT a
+			       left outer join company b on (a.com_id = b.COMPANY_ID)
+			       where 1=1
+			         and (B.COMPANY_NAME like '%' || #{searchWord} ||'%')
+	       )a
+       )b
+   </select>
+   
+   
+   
+   
+   
+   
+<!-- 회사 리스트 뽑기 -->
+   
+   <select id="comList" resultType="annoVO" parameterType="annoVO">
+		 select
+			              a.com_id
+			            , a.anno_id
+			            , a.anno_startDate
+			            , a.anno_endDate
+			            , a.anno_title
+			       from ANNOUNCEMENT a
+			       left outer join company b on (a.com_id = b.COMPANY_ID)
+			       where com_id = #{comId} 
+	</select>
+   
+
+
+
+<insert id="comCalInsert" parameterType="calVO" useGeneratedKeys="true">
+      <selectKey order="BEFORE" keyProperty="calId" resultType="int">
+         select seq_calid.nextval from dual
+      </selectKey>
+      insert into cal(
+         cal_id
+         , cal_title
+         , cal_content
+         , cal_start
+         , cal_end
+         , mem_id
+         , anno_id
+         , id
+         , label
+         )values(
+           #{calId}
+         , #{calTitle}
+         , #{calContent}
+		 , #{calStart}
+		 , #{calEnd}
+         , #{memId}
+         , #{annoId} 
+         , #{id}
+         , #{label}
+         )
+   </insert>
+   
+   
+   
+   <update id="comCalUpdate" parameterType="calVO" >
+   		update cal
+   		   set 
+	           cal_title = #{calTitle}
+	         , cal_content =#{calContent}
+	         , cal_start = #{calStart}
+	         , cal_end = #{calEnd}
+	         , anno_id = #{annoId}
+	         , label = #{label}
+	    where cal_id = #{calId} 
+   </update>
+   
+   
+   <delete id="comCalDel" parameterType="calVO">
+   		delete from cal
+   		 where cal_id =#{calId}
+   </delete>
+
+
+
+
+
+<select id="">
+SELECT
+		d.com_id,
+        d.mem_id,
+        a.company_name,
+        b.anno_id,
+        b.anno_title,
+        b.anno_startDate,
+        b.anno_endDate
+		from company a, announcement b, support d
+		where d.mem_id = #{memId}
+        and d.com_id = a.company_id
+        and d.com_id = b.com_id
+</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

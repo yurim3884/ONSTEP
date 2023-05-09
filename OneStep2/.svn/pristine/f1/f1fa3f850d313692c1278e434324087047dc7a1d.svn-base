@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.ProfileMapper">
+
+	<insert id ="insertProfile" parameterType="profileVO" useGeneratedKeys="true">
+		<selectKey keyProperty="profileNo" order="BEFORE" resultType="int">
+			select seq_profile.nextval
+			from dual
+		</selectKey>
+		insert into profile (
+			PROFILE_NO, PROFILE_FN, PROFILE_NAME, PROFILE_PATH
+		) values (
+			#{profileNo}, #{profileFn}, #{profileName}, #{profilePath}
+		)
+	</insert>
+
+	<select id = "getProfile" parameterType="int" resultType="profileVO">
+		select PROFILE_NO,
+				PROFILE_FN,
+				PROFILE_NAME,	
+				PROFILE_PATH
+		from PROFILE
+		where PROFILE_NO = #{profileNo}		
+	</select>
+</mapper>

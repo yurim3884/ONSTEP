@@ -1,0 +1,113 @@
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<fmt:formatDate value="${now }" pattern="yyyy-MM-dd" var="today" />
+<script>
+	var today = $
+	{
+		today
+	};
+	console.log("fadfdsfdfa" + today);
+</script>
+
+
+<!-- Datatable with a dropdown -->
+<c:set value="${annoList}" var="annolist" />
+
+<div class="col-xl-11 col-lg-12 col-sm-12  layout-spacing" style="margin: 0 auto;%">
+	<div class="widget-content widget-content-area br-6">
+	<h2 align="center"> 공고</h2>
+		<div class="table-responsive mb-4">
+			<table id="basic-dt" class="table table-hover" style="width: 100%">
+				<thead>
+					<tr>
+						<th width="10%" style="text-align: center;">모집분야</th>
+						<th width="40%" style="text-align: center;">제목</th>
+						<th width="15%" style="text-align: center;">시작날짜</th>
+						<th width="15%" style="text-align: center;">종료날짜</th>
+						<th width="10%" style="text-align: center;">진행</th>
+						<th class="no-content" width="10%"></th>
+					</tr>
+				</thead>
+				<tbody id="tbody">
+
+					<c:forEach items="${annoList}" var="annoList">
+						<tr>
+							<td><c:out value="${annoList.annoMb }" /></td>
+							<td id="detailAnno" data-no="${annoList.annoId }"><c:out
+									value="${annoList.annoTitle }" /></td>
+							<fmt:formatDate value="${annoList.annoStartDate }"
+								pattern="yyyy-MM-dd" var="annoStartDate" />
+							<td style="text-align: center;">${annoStartDate }</td>
+							<fmt:formatDate value="${annoList.annoEndDate }"
+								pattern="yyyy-MM-dd" var="annoEndDate" />
+							</td>
+							<td style="text-align: center;">${annoEndDate }
+							<td><c:choose>
+									<c:when test="${annoEndDate > today }">
+										<p style="text-align: center;">O</p>
+									</c:when>
+									<c:otherwise>
+										<p style="text-align: center;">X</p>
+									</c:otherwise>
+								</c:choose></td>
+							<td class="text-center">
+								<div class="dropdown custom-dropdown">
+									<a class="dropdown-toggle font-20 text-primary" href="#"
+										role="button" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"> <i class="las la-cog"></i>
+									</a>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuLink1"
+										style="will-change: transform;">
+										<button class="dropdown-item" type="button" id="btnModify"
+											data-no="${annoList.annoId }">Edit</button>
+										<br>
+										<button class="dropdown-item" type="button" id="btnDelete"
+											data-no="${annoList.annoId }">Delete</button>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<form id="delForm" action="/company/delete" method="post">
+	<input type="hidden" name="annoId" id="annoId" value="" />
+</form>
+
+<script type="text/javascript">
+	$(function() {
+		var btnModify = $("#btnModify");
+		var btnDelete = $("#btnDelete");
+		var delForm = $("#delForm");
+		var detailAnno = $("#detailAnno");
+		var tbody = $("#tbody");
+
+		tbody.on("click", "#btnModify", function() {
+			delForm.attr("action", "/company/update");
+			delForm.attr("method", "get");
+			$("#annoId").val($(this).data("no"));
+			delForm.submit();
+		});
+
+		tbody.on("click", "#detailAnno", function() {
+			delForm.attr("action", "/company/detailAnno");
+			delForm.attr("method", "get");
+			$("#annoId").val($(this).data("no"));
+			delForm.submit();
+		});
+
+		tbody.on("click", "#btnDelete", function() {
+			if (confirm("정말로 삭제하시겠습니까?")) {
+				$("#annoId").val($(this).data("no"));
+				delForm.submit();
+			} else {
+				delForm.reset();
+			}
+		});
+	});
+</script>

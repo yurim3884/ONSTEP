@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.GoodMapper">
+
+<!-- 좋아요 클릭시 카운트 1 증가 -->
+	<update id="incrementGood" parameterType="int">
+		update good
+		   set 
+		       good_num = good_num +1
+		where  board_id = #{boardId}
+	</update>
+	
+<!-- 좋아요 눌럿는지 안눌럿는지 -->
+	<select id="findGood" resultType="int">
+		select count(*) 
+		  from good 
+		 where board_id = #{boardId} and mem_id = #{memId}
+	</select>
+</mapper>

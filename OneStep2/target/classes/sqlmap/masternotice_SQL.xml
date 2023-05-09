@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.ManoMapper">
+
+<select id="list" resultType="boardVO">
+select board_id
+		, mem_id
+		, board_title
+		, board_content
+		, board_start
+		, board_hit
+		, board_warn
+		, board_category
+		, recnt
+		, goodcnt
+		, board_got
+		, board_cal
+from board
+where board_category = 1
+</select>
+
+<insert id="insert" parameterType="boardVO" useGeneratedKeys="true">
+	<selectKey keyProperty="boardId" resultType="int" order="BEFORE">
+				select seq_boardid.nextval from dual
+	</selectKey>
+insert into board (
+	board_id
+		, mem_id
+		, board_title
+		, board_content
+		, board_start
+		, board_category
+		, board_got
+		, board_cal
+) values (
+	#{boardId}
+	, #{memId}
+	, #{boardTitle}
+	, #{boardContent}
+	, sysdate
+	, 1
+	, #{boardGot}
+	, #{boardCal}
+)
+</insert>
+
+<select id="detail" resultType="boardVO" parameterType="int">
+select board_id
+		, mem_id
+		, board_title
+		, board_content
+		, board_start
+		, board_hit
+		, board_warn
+		, board_category
+		, recnt
+		, goodcnt
+		, board_got
+		, board_cal
+from board
+where board_id = #{boardId}
+</select>
+
+<update id="update" parameterType="boardVO">
+update board
+set board_title = #{boardTitle},
+	board_content = #{boardContent},
+	board_got = #{boardGot},
+	board_cal = #{boardCal}
+where board_id = #{boardId}
+</update>
+
+<delete id="delete" parameterType="int">
+delete from board
+where board_id = #{boardId}
+</delete>
+</mapper>

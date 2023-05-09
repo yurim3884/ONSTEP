@@ -1,0 +1,53 @@
+package kr.or.ddit.manager.serviceImpl;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.freelancer.vo.FreeVO;
+import kr.or.ddit.manager.service.IManagerService;
+import kr.or.ddit.mapper.ManagerMapper;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.prod.vo.ProdVO;
+import kr.or.ddit.vo.CommendVO;
+
+@Service
+public class ManagerServiceImpl implements IManagerService {
+
+	@Inject
+	private ManagerMapper mapper;
+	
+	@Override
+	public void insertResume(CommendVO commendVO) {
+		// TODO Auto-generated method stub
+		mapper.insertResume(commendVO);
+	}
+
+	@Override
+	public List<ProdVO> prodFree() {
+		// TODO Auto-generated method stub
+		return mapper.prodFree();
+	}
+
+	@Override
+	public List<ProdVO> prodProj() {
+		// TODO Auto-generated method stub
+		return mapper.prodProj();
+	}
+
+	@Override
+	public ResumeVO detail(String memId) {
+		return mapper.detail(memId);
+	}
+
+	@Override
+	public List<FreeVO> freedetail(String memId) {
+		return mapper.freedetail(memId);
+	}
+
+
+}

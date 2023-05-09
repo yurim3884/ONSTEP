@@ -1,0 +1,38 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+     <div class="col-10  layout-spacing">
+     		<div class="col-10" style="background-color: #f7f7f7; margin-left: 150px; " >
+     		<br>
+     			<span class="btn btn-primary"> 질문 </span> 
+     			<span style="color: black;font-size : 18pt; vertical-align: middle; ">질문 제목입니다 .</span>
+     			<span style="float: right;"> 작성자 </span>
+     		<br>
+     		<br>
+     		</div>
+     		 <hr class="col-10" style=" margin-left: 150px; ">
+     		 <div class="col-10" style="margin-left: 150px;;">
+     		<span style="color: black;">작성일  : 작성일 입니다 </span> 
+     		<span style="float: right;"> 첨부파일 : 첨부파일 이름</span>
+     		 </div>
+     		  <hr class="col-10" style=" margin-left: 150px; ">
+     		  <div class="col-10" style="margin-left: 150px; ">
+     		  	<span>
+     		  	
+     		  	<br><br><br>
+     		  	[문의 유형]주소검색솔루션 <br><br>
+[문의 내용]<br><br>
+안녕하세요 <br><br>
+
+현재 주소검색솔루션을 구축하여 사용 중 <br><br>
+
+DB 업데이트 이후 색인생성에서 실패를 했는지 제주도가 검색이 안되고 있습니다 <br><br>
+
+이미 새벽에 수행이력이 있다 보니 수동으로도 업데이트를 진행을 할 수 없고 <br><br>
+
+검색은 안되는 상황인데 어떻게 조치를 해야 하나요?<br><br>
+<br><br><br>
+     		  	</span>
+     		 </div>
+     		  <hr class="col-10" style=" margin-left: 150px; ">
+     </div>

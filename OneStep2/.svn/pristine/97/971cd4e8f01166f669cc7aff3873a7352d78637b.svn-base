@@ -1,0 +1,33 @@
+package kr.or.ddit.master.controller;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.master.service.IinquiryService;
+
+@Controller
+@RequestMapping("/master")
+public class InquiryController {
+
+	@Inject
+	private IinquiryService inquiryService;
+			
+	@RequestMapping(value = "/inquirylist", method = RequestMethod.GET)
+	public String inquirylist(Model model) throws Exception {
+		List<BoardVO> inquirylist = inquiryService.inquirylist();
+		model.addAttribute("inquirylist",inquirylist);
+		return "master/inquiryList";
+	}
+	
+	@RequestMapping(value = "/inquirydetail" , method = RequestMethod.GET)
+	public String inquiryDetail(Model model) {
+		return "master/inquiryDetail";
+	}
+}

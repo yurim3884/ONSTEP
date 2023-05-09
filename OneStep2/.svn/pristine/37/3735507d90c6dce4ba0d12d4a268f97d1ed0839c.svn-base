@@ -1,0 +1,506 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<style>
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+.chatbox .contacts_body.no-height {
+  height: auto;
+}
+
+.user_img_msg {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    object-position: center 20%;
+}
+#all {
+  font-family: 'Arial', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: #4a4a4a;
+  text-align: center;
+}
+
+</style>
+
+<!--**********************************
+            Chat box start
+        ***********************************-->
+		<div class="chatbox">
+			<div class="chatbox-close"></div>
+			<div class="custom-tab-1">
+				<ul class="nav nav-tabs">
+					<li class="nav-item">
+						<a class="nav-link" data-bs-toggle="tab" href="#notes">Notes</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-bs-toggle="tab" href="#alerts">알림</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" data-bs-toggle="tab" href="#chat">채팅</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane fade active show" id="chat" role="tabpanel">
+						<div class="card mb-sm-3 mb-md-0 contacts_card dz-chat-user-box">
+						<div class="card-header chat-list-header text-center">
+						  <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+						    <h3 class="mb-1" id="all" style="font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; color: #4a4a4a; text-align: center;">채팅 목록</h3>
+						  </div>
+						</div>
+
+							<div class="card-body contacts_body p-0 dz-scroll auto-height" id="DZ_W_Contacts_Body" style="overflow-y: auto; max-height: 1000px;">
+ 								 <table class="table text-center full-width-table  auto-height" id="infoTableChat">
+							
+      								  <tbody id="tbody">
+									   <tr id=chatList>
+									   	<td></td>
+									   	<td></td>
+									   </tr>
+						    		</tbody>
+					    		</table>
+							</div>
+						</div>
+						
+				<!-- 채팅대상 클릭시 채팅내용-->
+                  <div class="card chat dz-chat-history-box d-none">
+                     <div class="card-header chat-list-header text-center">
+                        <a  href="#" class="dz-chat-history-back chatBack">
+                           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><polygon points="0 0 24 0 24 24 0 24"/><rect fill="#000000" opacity="0.3" transform="translate(15.000000, 12.000000) scale(-1, 1) rotate(-90.000000) translate(-15.000000, -12.000000) " x="14" y="7" width="2" height="10" rx="1"/><path d="M3.7071045,15.7071045 C3.3165802,16.0976288 2.68341522,16.0976288 2.29289093,15.7071045 C1.90236664,15.3165802 1.90236664,14.6834152 2.29289093,14.2928909 L8.29289093,8.29289093 C8.67146987,7.914312 9.28105631,7.90106637 9.67572234,8.26284357 L15.6757223,13.7628436 C16.0828413,14.136036 16.1103443,14.7686034 15.7371519,15.1757223 C15.3639594,15.5828413 14.7313921,15.6103443 14.3242731,15.2371519 L9.03007346,10.3841355 L3.7071045,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(9.000001, 11.999997) scale(-1, -1) rotate(90.000000) translate(-9.000001, -11.999997) "/></g></svg>
+                        </a>
+                        <div>
+                           <h3 class="mb-1" id = "content"></h3>
+                           <p style="margin-bottom: 0; display: inline;" id = "memList"></p>
+                        </div>                     
+                        <div class="dropdown">
+                        </div>
+                     </div>
+                     
+                     <!-- 채팅내용-->
+                     <div class="card-body msg_card_body dz-scroll" id="DZ_W_Contacts_Body3">
+                        <!-- ////////////////////////////////  -->
+                        <!-- 채팅 받기 -->
+                     	<div class="d-flex justify-content-start mb-4">
+                           <div class="msg_cotainer" id = "other">
+                              <span class="msg_time"></span>
+                           </div>
+                        <div class="img_cont_msg">;
+ 			                <img id = "otherProfile">
+					     </div>
+                        </div>
+                     
+                        <!-- ////////////////////////////////  -->
+                        <!-- 채팅주기 -->
+                         <div class="d-flex justify-content-end mb-4">
+                           	<div class="msg_cotainer_send" id="mine">
+								<span class="msg_time_send"></span>
+							</div>
+						<div class="img_cont_msg">;
+ 			                <img id = "myProfile" >
+					     </div>
+                        </div>
+                     </div>
+                     <!-- 채팅 내용 작성, 보내기 -->
+                     <div class="card-footer type_msg">
+                        <div class="input-group">
+                           <textarea id = "inputChat" class="form-control" placeholder="메세지 입력 후 엔터"></textarea>
+                           <div class="input-group-append">
+							<div class="input-group-append">
+							    <label for="inputFileChat" class="input-group-text">파일 <i class="fas fa-file"></i></label>
+							    <input type="file" id="inputFileChat" style="display: none;">
+							</div>
+							<button onclick = "send()" type="button" class="btn btn-primary" style="display:none"></button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+				</div>
+			</div>
+		</div>
+	</div>	
+	
+	<div id="chat-box"></div>
+	  <input id="sender-input" type="text" placeholder="Your Name">
+	  <input id="text-input" type="text" placeholder="Type a message...">
+	  <button id="send-button">Send</button>
+	
+	
+	
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type= text/javascript>
+var ws;
+var studyCode;
+var profile;
+
+var userId = '${userInfo.userId}';
+
+// 소켓 열기
+function openWebSocket() {
+    ws = new WebSocket("ws://localhost/echo.do");
+
+    ws.onopen = function (event) {
+    	console.log("웹소켓 열림 >> ",event)
+        if (event.data === undefined) {
+            return;
+        }
+    };
+}   
+
+
+// 소켓 닫기
+$(document).on("click", ".chatBack", function() {
+	ws.close();
+	console.log("클라: 소켓 닫기");
+});
+
+
+//채팅 내용을 보내면 서버로 그 내용을 보내줌.
+function send() {
+	
+	var inputChat = document.getElementById('inputChat');
+    var message = inputChat.value;
+    var stuId =  ${userInfo.userId};
+    var stuName = '${sessionScope.userInfo.studentVO.stuNameKo}';
+    
+        inputChat.value = '';
+        // 프로필 이미지 가져오기 (함수 써서 가공함)
+        fetchProfileImage(stuId).then(function(imgSrc) {
+           // 이미지 URL을 메시지에 포함
+           var socketMsg = message + "," + stuName + "," + imgSrc;
+       
+        // 메세지 입력하면 insert하는 ajax
+        if(message != null) {
+		    	$.ajax({
+					type:'post',
+					url:'/chat/chatting',
+					data:{
+						stuId : stuId,
+		   		    	chatCont : message,
+		   		    	studyCode : studyCode,
+		   		    	chatDate : new Date().toTimeString().split(' ')[0]
+					},
+					success:function(){
+					  	let msg = JSON.stringify(socketMsg);
+					 	let mmsg = msg.substring(1,msg.length-1);
+   		    		ws.send(mmsg);	// websocket handler로 전송(서버로 전송)
+					}
+				})
+ 		   }
+       });
+        
+        
+        
+        ws.onmessage = function(event){
+        	if(event.data == "소켓 연결 종료"){
+        		console.log(event.data);
+        		return false;
+        	}
+           	console.log("onmessage", event.data);
+           	
+               
+            var sender = event.data.split(' : ')[0];
+            var msg = event.data.split(' : ')[1];	
+            var imgSrc = event.data.split(' : ')[2];
+           	
+
+       	 let str = "";
+       	 let currentDate = new Date();		
+       	 	// 채팅 내용을 화면에 뿌려줌
+       	     if (sender === '<나>') {
+       	         str += '<div class="d-flex justify-content-end mb-4 text-center">';
+       	         str += '<div class="msg_cotainer_send" id="mine">';
+       	         str += `<div>\${msg}</div>`;
+       	    	 str += `<div class="text-muted small" style="text-align: start;">\${currentDate.toLocaleString()}</div>`;
+       	         str += '</div>';
+       	         str += `<div class="img_cont_msg"><img src=\${imgSrc} class="rounded-circle user_img_msg"><span>나</span></div>`;
+       	         str += '</div>';
+       	     } else {
+       	         str += '<div class="d-flex justify-content-start mb-4 text-center">';
+       	         str += `<div class="img_cont_msg"><img src=\${imgSrc} class="rounded-circle user_img_msg"><span style="white-space:nowrap;">\${sender}</span></div>`;
+       	         str += '<div class="msg_cotainer" style="margin-left: 1rem; text-align:left" id="other">';
+       	         str += `<div>\${msg}</div>`;
+       	         str += `<div class="text-dark small" style="text-align: start;">\${currentDate.toLocaleString()}</div>`;
+       	         str += '</div>';
+       	         str += '</div>';
+       	     }
+       	     $("#DZ_W_Contacts_Body3").append(str);
+       	     scrollToBottom();
+            
+           }
+           // 스크롤 아래로
+       	function scrollToBottom() {
+       	    var chatHistory = document.getElementById("DZ_W_Contacts_Body3");
+       	    chatHistory.scrollTop = chatHistory.scrollHeight;
+       	}
+}   
+
+       
+    
+//엔터키 누르면 채팅 입력
+document.getElementById("inputChat").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        send();
+        event.preventDefault();
+    }
+});
+
+	// stuId를 가지고 프로필 이미지 경로를 가져오는 함수!!
+	function fetchProfileImage(stuId) {
+	    return $.ajax({
+	        type: "post",
+	        url: "/chat/chatMemProfile",
+	        dataType: "json",
+            data: {userId : stuId,	userType : '${userInfo.userType}'},
+	    }).then(function(profileRes) {
+	        let imgSrc = `${pageContext.request.contextPath}/resources/images/profile\${profileRes.profile.profilePath}\${profileRes.profile.profileName}`;
+	        return imgSrc;
+	    });
+	}
+
+// 채팅 리스트 가져오는 함수
+$(function() {
+	var obj = {
+		userId : '${userInfo.userId}'
+	}
+	
+	// 채팅(스터디룸) 리스트 불러오는 ajax
+	$.ajax({
+		type :"post",
+		url : "/chat/list",
+		dataType : "json",
+		data: obj,
+		 success: function (res) {
+			$("#infoTableChat > tbody").empty();
+			if (res.length > 0) {
+			    $.each(res, function (index, item) {
+			        index = index + 1;
+			        let str = "<tr id='chatList'>";
+			
+			        // studyDate 값을 Date 객체로 변환
+			        let date = new Date(item.studyDate);
+			
+			        // 년월일만 포맷하여 사용
+			        let formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+			
+			        str += `<td colspan='2' class='siGubun text-start' id='chatDetail' data-id="\${item.stuId}" data-code="\${item.studyCode}" data-title="\${item.studyTitle}" onclick="openWebSocket()">`;
+			        str += `<strong>스터디명 : \${item.studyTitle}</strong><br><small>스터디 개설일 : <p style="margin-bottom: 0; display: inline;">\${formattedDate}</p></small>`;
+			        str += `</td>`;
+			        str += "</tr>"
+			        $("#infoTableChat > tbody").append(str);
+			    });
+			}
+		 },
+	});
+		// 불러온 리스트를 화면에 뿌려줌
+		$("#infoTableChat > tbody").on("click", "#chatDetail", function(){
+			
+	        $(".contacts_card.dz-chat-user-box").addClass("d-none");
+	        // Display the chat content area
+	        $(".card.chat.dz-chat-history-box").removeClass("d-none");
+			studyCode = $(this).data("code");
+			const studyTitle = $(this).data("title");
+			
+			
+	        $("h3#content").text(studyTitle);
+	       
+			const obj = {
+				'studyCode' : studyCode
+			}
+			
+			// 채팅방 하나의 내용을 가져옴
+			$.ajax({
+			    type: "post",
+			    url: "/chat/detail",
+			    dataType: "json",
+			    data: obj,
+			    success: function(res) {
+			        $("#DZ_W_Contacts_Body3").html("");
+			        let str = "";
+			        let cnt = 0;
+
+			        if (res.length > 0) {
+			            $.each(res, function(index, item) {
+			                const stuId = `\${item.stuId}`;
+			                const myId =  ${userInfo.userId};
+			                
+			                $.ajax({
+			                    type: "post",
+			                    url: "/chat/chatMemProfile",
+			                    dataType: "json",
+			                    data: {userId : stuId,	userType : '${userInfo.userType}'},
+			                    async:false, // 일시적 해결책, 동기
+			                    success: function(profileRes) {
+									cnt++;
+									let imgSrc;
+									if(profileRes && profileRes.profile) {
+										imgSrc =  `${pageContext.request.contextPath}/resources/images/profile\${profileRes.profile.profilePath}\${profileRes.profile.profileName}`;
+									}
+			                        
+			                        if (myId == stuId) {
+			                            str += '<div class="d-flex justify-content-end mb-4 text-center">';
+			                            str += '<div class="msg_cotainer_send" id="mine">';
+			                            str += `<div>\${item.chatCont}</div>`;
+			                            str += `<div class="text-muted small" style="text-align: end;">\${item.chatDate}</div>`;
+			                            str += '</div>';
+			                            str += '<div class="img_cont_msg">';
+			                            str += `<img src=\${imgSrc} class="rounded-circle user_img_msg">`;
+			                            str += '<span>나</span></div>';
+			                            str += '</div>';
+			                        } else {
+			                            str += '<div class="d-flex justify-content-start mb-4 text-center">';
+			                            str += '<div class="img_cont_msg">';
+			                            str += `<img src=\${imgSrc} class="rounded-circle user_img_msg"><span style="white-space:nowrap;">\${item.stuNameKo}</span>`;
+			                            str += '</div>';
+			                            str += '<div class="msg_cotainer" id="other" style="margin-left: 1rem; text-align:left">';
+			                            str += `<div>\${item.chatCont}</div>`;
+			                            str += `<div class="text-dark small" style="text-align: start;">\${item.chatDate}</div>`;
+			                            str += '</div>';
+			                            str += '</div>';
+			                        }
+									if(cnt == res.length){
+										
+				                        if(str!=""){
+				                        $("#DZ_W_Contacts_Body3").append(str);
+				    			            $("#DZ_W_Contacts_Body3").append("--------여기까지 읽었습니다--------");
+				    			        }
+									}
+			                    },
+			                   
+			                });
+			            });
+			        }
+			        
+			        setTimeout(function() {
+			            $("#DZ_W_Contacts_Body3").scrollTop($("#DZ_W_Contacts_Body3")[0].scrollHeight);
+			        }, 300);
+			    },
+			});
+			
+		// 스터디룸에 포함된 학생 목록을 가져오는 ajax
+		$.ajax({
+			type :"post",
+			url : "/chat/chatMember",
+			dataType : "json",
+			data: obj,
+			 success: function (res) {
+				 let str = "";
+				   if (res.length > 0) {
+			            $.each(res, function(index, item) {
+			                 str += `  \${item.stuNameKo}`;
+			            });
+			        }	
+				   $("#memList").text(str);
+			 },
+		});		
+		
+	});
+		 
+});
+
+
+var inputFileChat = $("#inputFileChat");
+
+// 파일 업데이트
+inputFileChat.on("input", function(event) {
+	console.log("change event,,");
+	
+	var files = event.target.files;
+	var file = files[0];
+	var str = "";
+	var stuId = '${userInfo.userId}'
+	
+		
+		var formData = new FormData();
+		formData.append("file", file);
+		
+		$.ajax({
+			type : "post",
+			url : "/chat/uploadFile",
+			data : formData,
+			dataType : "text",
+			processData : false,
+			contentType : false,
+			success : function(data){
+				//alert(data);
+				console.log("data!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",data)
+				if(checkImageType(data)) { // 이미지이면 이미지 태그를 이용한 출력형태
+					str += "<div>";
+					str += "<a href = '/chat/displayFile?fileName="+ data + "'>";
+					str += "<img src = '/chat/displayFile?fileName=" + data+ "'/>";
+					str += "</a>";
+					str += "</div>";
+					$.ajax({
+	   					type:'post',
+	   					url:'/chat/chatting',
+	   					data:{
+	   						stuId : stuId,
+			   		    	studyCode : studyCode,
+	   						chatCont:"<a href = '/chat/displayFile?fileName="+ data + "' target='_blank' ><img src = '/chat/displayFile?fileName=" + data + "'/></a>"
+	   					},
+	   					success:function(){
+	   						
+	   					}
+	   				})
+				} else { // 파일이면 파일명에 대한 링크로만 출력
+					str += "<div>";
+					str += "<a href ='/chat/displayFile?fileName="+data+"'>" + data + "</a>";
+					str += "</div>";
+					console.log("file str", str)
+					$.ajax({
+	   					type:'post',
+	   					url:'/chat/chatting',
+	   					data:{
+	   						stuId : stuId,
+			   		    	studyCode : studyCode,
+	   						chatCont : "<a href ='/chat/displayFile?fileName="+data+"'>" + data + "</a>"
+	   					},
+	   					success:function(){
+	   						
+	   					}
+	   				})
+				}
+				 fetchProfileImage(stuId).then(function(imgSrc) {
+				        // 이미지 URL을 메시지에 포함
+				    var stuName = '${sessionScope.userInfo.studentVO.stuNameKo}';
+				    var socketMsg = str + "," + stuName + "," + imgSrc;
+					 // 메세지 입력하면 insert하는 ajax
+			        if(str != null) {
+					    	
+							let msg = JSON.stringify(socketMsg);
+							let mmsg = msg.substring(1,msg.length-1);
+						   	ws.send(mmsg);	// websocket handler로 전송(서버로 전송)
+						
+							setTimeout(function() {
+						       $("#DZ_W_Contacts_Body3").scrollTop($("#DZ_W_Contacts_Body3")[0].scrollHeight);
+						   }, 300);
+				  	  }
+						   
+				    });
+			  
+			}
+		});
+	   
+});
+
+// 파일 데이터 검증
+function getOriginalName(fileName){
+	if(checkImageType(fileName)){
+		return;
+	}		
+	var idx = fileName.indexOf("_") + 1;
+	return fileName.substr(idx);
+}
+
+function checkImageType(fileName){
+	var pattern = /jpg|gif|png|jpeg/i;
+	return fileName.match(pattern); // 패턴과 일치하면 true (너 이미지 맞구나?)
+}
+
+
+
+</script>
+
+

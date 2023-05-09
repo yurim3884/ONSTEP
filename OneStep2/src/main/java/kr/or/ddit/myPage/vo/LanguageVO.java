@@ -1,0 +1,18 @@
+package kr.or.ddit.myPage.vo;
+
+import lombok.Data;
+
+@Data
+public class LanguageVO {
+	
+	/* 어학능력 */
+	private int langId;				// 어학ID
+	private String langName;			// 외국어명
+	private String langTestName;		// 공인시험
+	private String langTestDate;		// 취득년월
+	private String langTestScore;		// 점수
+	private String langInsertDate;		// 작성날짜
+	private String langDeleteDate;		// 삭제날짜
+	private int resumeId;			// 이력서번호
+	
+}

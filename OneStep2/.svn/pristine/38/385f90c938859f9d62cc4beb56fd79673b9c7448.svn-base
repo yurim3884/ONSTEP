@@ -1,0 +1,54 @@
+package kr.or.ddit.board.serviceImpl;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.board.service.IGoodService;
+import kr.or.ddit.mapper.GoodMapper;
+import kr.or.ddit.vo.GoodVO;
+
+@Service
+public class GoodServiceImpl implements IGoodService {
+
+	@Inject
+	private GoodMapper mapper;
+
+	//좋아요 조회
+	@Override
+	public GoodVO read(HashMap<String, Object> hashMap) {
+		return mapper.read(hashMap);
+	}
+//게시판의 좋아요 번호가 있는지 카운트
+	@Override
+	public int countbyGood(HashMap<String, Object> hashMap) {
+		return  mapper.countbyGood(hashMap);
+	}
+//좋아요 번호 등록
+	@Override
+	public void create(HashMap<String, Object> hashMap) {
+		 mapper.create(hashMap);
+	}
+// 좋아요 체크 여부 (0->1)
+	@Override
+	public void good_check(HashMap<String, Object> hashMap) {
+		mapper.good_check(hashMap);
+	}
+// 좋아요 체크 증가
+	@Override
+	public Map<String, Object> good_cnt_up(int boardId) {
+		
+		return mapper.good_cnt_up(boardId);
+	}
+// 좋아요 체크 여부 (1-0) 감소
+	@Override
+	public void good_check_cancel(HashMap<String, Object> hashMap) {
+		mapper.good_check_cancel(hashMap);
+	}
+
+
+
+}

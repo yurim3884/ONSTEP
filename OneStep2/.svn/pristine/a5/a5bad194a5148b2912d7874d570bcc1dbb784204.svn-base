@@ -1,0 +1,73 @@
+.darkmode .widget {
+    background: #272727;
+}
+.darkmode .widget h5 {
+    color: #ffffff;
+}
+.darkmode span.w-numeric-title {
+    color: #adadad;
+}
+.darkmode .widget .dropdown-toggle {
+    border: 1px solid #383838;
+    background-color: #191919;
+    color: #ffffff;
+}
+.darkmode .widget-table-one .weekly-bestsellers {
+    border: 1px solid #383838;
+}
+.darkmode .widget-six {
+    background: #272727;
+}
+.darkmode .dashboard-table .table > thead > tr > th {
+    background-color: #191919;
+    color: #ffffff;
+}
+.nav-item.more-dropdown .flatpickr-input {
+    border: 1px solid #383838;
+    color: #ffffff;
+}
+.darkmode .form-control:focus {
+    box-shadow: none;
+}
+.darkmode .todo-input-container {
+    background: #191919;
+}
+.darkmode .todo-input-container input{
+    background: #272727;
+    border: 1px solid #383838;
+}
+.darkmode .agent-info h5.text-dark {
+    color: #ffffff !important;
+}
+.darkmode .ticker-wrap {
+    background-color: #272727;
+}
+.darkmode .ticker-item {
+    color: #ffffff;
+}
+.darkmode .wallet-balance select {
+    width: 130px;
+    font-size: 12px !important;
+    border: 1px solid #383838;
+    background-color: #191919;
+    color: #ffffff;
+}
+.darkmode .widget.four-areas h3.text-dark {
+    color: #888e9c !important;
+}
+.darkmode .iq-card {
+    background: #272727;
+}
+.darkmode .iq-card .text-dark {
+    color: #676767 !important;
+}
+.darkmode .customer-issues-stats .progress {
+    border-radius: 10px;
+    background-color: #181818;
+}
+.darkmode .four-areas .progress {
+    background-color: #181818;
+}
+.darkmode .widget-chart-one .top-right-icon {
+    color: #ffffff;
+}

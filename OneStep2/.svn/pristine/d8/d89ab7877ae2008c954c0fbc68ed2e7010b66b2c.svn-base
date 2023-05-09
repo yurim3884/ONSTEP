@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.PayMapper">
+
+<insert id="insertmem" parameterType="prodVO">
+insert into prod (Prod_id , prod_status, prod_content,prod_day, prod_start,prod_end,prod_cs,prod_price,mem_id) 
+values (seq_prodid.nextval,#{prodStatus},#{prodContent},#{payContent},sysdate,#{prodStart},#{prodEnd},1,#{prodPrice},#{memId})
+</insert>
+
+<insert id="insertcom" parameterType="prodVO">
+insert into prod (Prod_id , prod_status, prod_content,prod_day, prod_start,prod_end,prod_cs,prod_price,mem_Id,com_id) 
+values (seq_prodid.nextval,#{prodStatus},#{prodContent},#{payContent},sysdate,#{prodStart},#{prodEnd},1,#{prodPrice},#{memId} ,#{comId})
+</insert>
+
+
+
+</mapper>

@@ -1,0 +1,23 @@
+package kr.or.ddit.myPage.vo;
+
+import lombok.Data;
+
+@Data
+public class ResumeVO {
+	
+	/* 이력서 */
+	private int resumeId;					// 이력서번호
+	private String resumeTitle;				// 이력서제목
+	private String resumeStatus;			// 이력서상태
+	private String resumeRepresentative;	// 대표이력서여부
+	private int actId;						// 활동ID
+	private int awardId;					// 수상ID
+	private int eduId;						// 학력ID
+	private int careerId;					// 경력ID
+	private int certId;						// 자격증ID
+	private int langId;						// 이력ID
+	private int skillId;					// 스킬ID
+	private int workfieldId;				// 희망직무ID
+	private int desiredId;					// 희망근무조건ID
+	
+}

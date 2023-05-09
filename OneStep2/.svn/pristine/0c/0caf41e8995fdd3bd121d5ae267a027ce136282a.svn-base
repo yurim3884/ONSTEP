@@ -1,0 +1,780 @@
+package kr.or.ddit.myPage.serviceImpl;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import kr.or.ddit.ServiceResult;
+import kr.or.ddit.mapper.MypageMapper;
+import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.member.vo.SupportVO;
+import kr.or.ddit.myPage.service.IMypageService;
+import kr.or.ddit.myPage.vo.ActivityVO;
+import kr.or.ddit.myPage.vo.AwardVO;
+import kr.or.ddit.myPage.vo.CareerVO;
+import kr.or.ddit.myPage.vo.CertificationVO;
+import kr.or.ddit.myPage.vo.CoverletterItemVO;
+import kr.or.ddit.myPage.vo.CoverletterVO;
+import kr.or.ddit.myPage.vo.DesiredEmplVO;
+import kr.or.ddit.myPage.vo.EducationVO;
+import kr.or.ddit.myPage.vo.EmploymentPreferencesVO;
+import kr.or.ddit.myPage.vo.LanguageVO;
+import kr.or.ddit.myPage.vo.NotificationVO;
+import kr.or.ddit.myPage.vo.PortfolioVO;
+import kr.or.ddit.myPage.vo.ResumeVO;
+import kr.or.ddit.myPage.vo.SkillVO;
+import kr.or.ddit.myPage.vo.WorkfieldVO;
+import kr.or.ddit.vo.AnnoVO;
+import kr.or.ddit.vo.ApplyVO;
+import kr.or.ddit.vo.PaginationInfoVO;
+import kr.or.ddit.vo.ProposalVO;
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
+@Service
+public class MypageServiceImpl implements IMypageService {
+
+	@Inject
+	private MypageMapper mypageMapper;
+	
+	@Resource(name="uploadPath")
+	String uploadPath;
+	
+	@Override
+	public int selectNotificationCount(PaginationInfoVO<NotificationVO> pagingVO) {
+		return mypageMapper.selectNotificationCount(pagingVO);
+	}
+
+	@Override
+	public List<NotificationVO> selectNotificationList(PaginationInfoVO<NotificationVO> pagingVO) {
+		return mypageMapper.selectNotificationList(pagingVO);
+	}
+
+	@Override
+	public ServiceResult deleteNotification(int notificationId) {
+		
+		ServiceResult result = null;
+		mypageMapper.selectNotification(notificationId);
+		
+		int cnt = mypageMapper.deleteNotification(notificationId);
+		if (cnt > 0) {
+			result = ServiceResult.OK;
+		} else {
+			result = ServiceResult.FAILED;
+		}
+		return result;
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+			
+	
+	@Override
+	public int selectResumeCount(PaginationInfoVO<ResumeVO> pagingVO) {
+		return mypageMapper.selectResumeCount(pagingVO);
+	}
+	
+	@Override
+	public List<ResumeVO> selectResumeList(PaginationInfoVO<ResumeVO> pagingVO) {
+		return mypageMapper.selectResumeList(pagingVO);
+	}
+
+	@Override
+	public void insertResume(HttpServletRequest req, ResumeVO resume) throws Exception, IOException {
+		
+		mypageMapper.insertResume(resume);
+		
+		int resumeId = resume.getResumeId();
+		
+		if (resume.getPhotoFile() != null && resume.getPhotoFile().getSize() > 0) {
+			log.info("resume.getPhotoFile() >> ", resume.getPhotoFile());
+			String uuid = UUID.randomUUID().toString();
+			String fileName = resume.getPhotoFile().getOriginalFilename().replaceAll(" ", "_");
+//			String path = req.getSession().getServletContext().getRealPath("/resources/upload");
+//			log.info("realPath >> ", path);
+			String savePath = uploadPath;
+			fileName += "_" + uuid;
+			
+			File file = new File(savePath);
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+			
+			savePath += "/" + fileName;
+			File saveFile = new File(savePath);
+			
+			resume.setResumePhoto(fileName);
+			log.info(resume.getMemId());
+			
+			mypageMapper.insertPhoto(resume);
+			
+			resume.getPhotoFile().transferTo(saveFile);
+		}
+		
+		if (resume.getActivityList() != null && resume.getActivityList().size() != 0) {
+			List<ActivityVO> activityList = resume.getActivityList();
+			int size = activityList.size();
+			ActivityVO activity = null;
+			String actCategory = null;
+			for (int i = 0; i < size; i++) {
+				activity = activityList.get(i);
+				actCategory = activity.getActCategory();
+				if (actCategory == null || actCategory.trim().length() == 0) {
+					continue;
+				}
+				activity.setResumeId(resumeId);
+				mypageMapper.insertActivity(activity);
+			}
+		}
+		
+		if (resume.getAwardList() != null && resume.getAwardList().size() != 0) {
+			List<AwardVO> awardList = resume.getAwardList();
+			int size = awardList.size();
+			AwardVO award = null;
+			String awardName = null;
+			for (int i = 0; i < size; i++) {
+				award = awardList.get(i);
+				awardName = award.getAwardName();
+				if (awardName == null || awardName.trim().length() == 0) {
+					continue;
+				}
+				award.setResumeId(resumeId);
+				mypageMapper.insertAward(award);
+			}
+		}
+		
+		if (resume.getCareerList() != null && resume.getCareerList().size() != 0) {
+			List<CareerVO> careerList = resume.getCareerList();
+			int size = careerList.size();
+			CareerVO career = null;
+			String cmpName = null;
+			for (int i = 0; i < size; i++) {
+				career = careerList.get(i);
+				cmpName = career.getCareerCmpName();
+				if (cmpName == null || cmpName.trim().length() == 0) {
+					continue;
+				}
+				career.setResumeId(resumeId);
+				mypageMapper.insertCareer(career);
+			}
+		}
+		
+		if (resume.getCertList() != null && resume.getCertList().size() != 0) {
+			List<CertificationVO> certList = resume.getCertList();
+			int size = certList.size();
+			CertificationVO certification = null;
+			String certName = null;
+			for (int i = 0; i < size; i++) {
+				certification = certList.get(i);
+				certName = certification.getCertName();
+				if (certName == null || certName.trim().length() == 0) {
+					continue;
+				}
+				certification.setResumeId(resumeId);
+				mypageMapper.insertCertification(certification);
+			}
+		}
+		
+		if (resume.getDesiredList() != null && resume.getDesiredList().size() != 0) {
+			List<DesiredEmplVO> desiredList = resume.getDesiredList();
+			int size = desiredList.size();
+			DesiredEmplVO desired = null;
+			String desiredIndustry = null;
+			for (int i = 0; i < size; i++) {
+				desired = desiredList.get(i);
+				desiredIndustry = desired.getDesiredIndustry1();
+				if (desiredIndustry == null || desiredIndustry.trim().length() == 0) {
+					continue;
+				}
+				desired.setResumeId(resumeId);
+				mypageMapper.insertDesired(desired);
+			}	
+		}
+		
+		if (resume.getEduList() != null && resume.getEduList().size() != 0) {
+			List<EducationVO> eduList = resume.getEduList();
+			int size = eduList.size();
+			EducationVO education = null;
+			String schoolName = null;
+			for (int i = 0; i < size; i++) {
+				education = eduList.get(i);
+				schoolName = education.getEduSchoolName();
+				if (schoolName == null || schoolName.trim().length() == 0) {
+					continue;
+				}
+				education.setResumeId(resumeId);
+				mypageMapper.insertEducation(education);
+			}
+		}
+		
+		if (resume.getPrfrnList() != null && resume.getPrfrnList().size() != 0) {
+			List<EmploymentPreferencesVO> prfrnList = resume.getPrfrnList();
+			int size = prfrnList.size();
+			EmploymentPreferencesVO prfrn = null;
+			for (int i = 0; i < prfrnList.size(); i++) {
+				prfrn = prfrnList.get(i);
+				prfrn.setResumeId(resumeId);
+				mypageMapper.insertPrfrn(prfrn);
+			}
+		}
+		
+		if (resume.getLangList() != null && resume.getLangList().size() != 0) {
+			List<LanguageVO> langList = resume.getLangList();
+			int size = langList.size();
+			LanguageVO language = null;
+			String langName = null;
+			for (int i = 0; i < size; i++) {
+				language = langList.get(i);
+				langName = language.getLangName();
+				if (langName == null || langName.trim().length() == 0) {
+					continue;
+				}
+				language.setResumeId(resumeId);
+				mypageMapper.insertLanguage(language);
+			}
+		}
+						
+//		System.out.println("skillList >> " + resume.getSkillList());
+		if (resume.getSkillList() != null && resume.getSkillList().size() != 0) {
+			List<SkillVO> skillList = resume.getSkillList();
+			int size = skillList.size();
+			SkillVO skill = null;
+			String skillName = null;
+			for (int i = 0; i < size; i++) {
+				skill = skillList.get(i);
+				skillName = skill.getSkillName();
+				if (skillName == null || skillName.trim().length() == 0) {
+					continue;
+				}				
+				skill.setResumeId(resumeId);
+				mypageMapper.insertSkill(skill);
+			}
+		}
+		
+		if (resume.getPortfolioList() != null && resume.getPortfolioList().size() != 0) {
+			List<PortfolioVO> portfolioList = resume.getPortfolioList();
+			int size = portfolioList.size();
+			PortfolioVO portfolio = null;
+			String portfolioUrl =  null;
+
+			for (int i = 0; i < size; i++) {
+				portfolio = portfolioList.get(i);
+				portfolioUrl = portfolio.getPortfolioUrl();
+				if (portfolioUrl == null || portfolioUrl.trim().length() == 0) {
+					continue;
+				}
+				portfolio.setResumeId(resumeId);
+				mypageMapper.insertPortfolio(portfolio);
+				
+				if (portfolio.getUploadFile() != null && portfolio.getUploadFile().getSize() > 0) {
+					String uuid = UUID.randomUUID().toString();
+					String fileName = portfolio.getUploadFile().getOriginalFilename().replaceAll(" ",  "_");
+//					String path = req.getSession().getServletContext().getRealPath("/resources/upload");
+					String savePath = uploadPath;
+					fileName += "_" + uuid;
+					
+					File file = new File(savePath);
+					if (!file.exists()) {
+						file.mkdirs();
+					}
+					savePath += "/" + fileName;
+					File saveFile = new File(savePath);
+					
+					portfolio.setPortfolioFile(fileName);
+					mypageMapper.insertFile(portfolio);
+					
+					portfolio.getUploadFile().transferTo(saveFile);
+				}
+			
+			}
+			
+			
+		}
+		
+		if (resume.getWorkfieldList().size() != 0) {
+			List<WorkfieldVO> workfieldList = resume.getWorkfieldList();
+			int size = workfieldList.size();
+			WorkfieldVO workfield = null;
+			String workfield1 = null;
+			for (int i = 0; i < size; i++) {
+				workfield = workfieldList.get(i);
+				workfield1 = workfield.getWorkfield1();
+				if (workfield1 == null || workfield1.trim().length() == 0) {
+					continue;
+				}
+				workfield.setResumeId(resumeId);
+				mypageMapper.insertWorkfield(workfield);
+			}
+		}
+	}
+
+	@Override
+	public ResumeVO resumeDetail(HttpServletRequest req, int resumeId) {
+		return mypageMapper.resumeDetail(resumeId);
+	}
+
+	@Override
+	public void modifyResume (HttpServletRequest req, ResumeVO resume) throws Exception, IllegalStateException, IOException {
+		mypageMapper.modifyResume(resume);
+		
+		int resumeId = resume.getResumeId();
+		System.out.println("resumeId >> " + resumeId);
+		
+		if (resume.getPhotoFile() != null && resume.getPhotoFile().getSize() > 0) {
+			log.info("resume.getPhotoFile() >> ", resume.getPhotoFile());
+			String uuid = UUID.randomUUID().toString();
+			String fileName = resume.getPhotoFile().getOriginalFilename().replaceAll(" ", "_");
+//			String path = req.getSession().getServletContext().getRealPath("/resources/upload");
+//			log.info("realPath >> ", path);
+			String savePath = uploadPath;
+			fileName += "_" + uuid;
+			
+			File file = new File(savePath);
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+			
+			savePath += "/" + fileName;
+			File saveFile = new File(savePath);
+			
+			resume.setResumePhoto(fileName);
+			log.info(resume.getMemId());
+			
+			mypageMapper.insertPhoto(resume);
+			
+			resume.getPhotoFile().transferTo(saveFile);
+		}
+		
+		mypageMapper.deleteActivity(resumeId);
+		if (resume.getActivityList() != null && resume.getActivityList().size() != 0) {
+			List<ActivityVO> activityList = resume.getActivityList();
+			int size = activityList.size();
+			ActivityVO activity = null;
+			String actCategory = null;
+			for (int i = 0; i < size; i++) {
+				activity = activityList.get(i);
+				actCategory = activity.getActCategory();
+				if (actCategory == null || actCategory.trim().length() == 0) {
+					continue;
+				}
+				activity.setResumeId(resumeId);
+				mypageMapper.insertActivity(activity);
+			}
+		}
+		
+		mypageMapper.deleteAward(resumeId);
+		if (resume.getAwardList() != null && resume.getAwardList().size() != 0) {
+			List<AwardVO> awardList = resume.getAwardList();
+			int size = awardList.size();
+			AwardVO award = null;
+			String awardName = null;
+			for (int i = 0; i < size; i++) {
+				award = awardList.get(i);
+				awardName = award.getAwardName();
+				if (awardName == null || awardName.trim().length() == 0) {
+					continue;
+				}
+				award.setResumeId(resumeId);
+				mypageMapper.insertAward(award);
+			}
+		}
+		
+		mypageMapper.deleteCareer(resumeId);
+		if (resume.getCareerList() != null && resume.getCareerList().size() != 0) {
+			List<CareerVO> careerList = resume.getCareerList();
+			int size = careerList.size();
+			CareerVO career = null;
+			String cmpName = null;
+			for (int i = 0; i < size; i++) {
+				career = careerList.get(i);
+				cmpName = career.getCareerCmpName();
+				if (cmpName == null || cmpName.trim().length() == 0) {
+					continue;
+				}
+				career.setResumeId(resumeId);
+				mypageMapper.insertCareer(career);
+			}
+		}
+		
+		mypageMapper.deleteCertification(resumeId);
+		if (resume.getCertList() != null && resume.getCertList().size() != 0) {
+			List<CertificationVO> certList = resume.getCertList();
+			int size = certList.size();
+			CertificationVO certification = null;
+			String certName = null;
+			for (int i = 0; i < size; i++) {
+				certification = certList.get(i);
+				certName = certification.getCertName();
+				if (certName == null || certName.trim().length() == 0) {
+					continue;
+				}
+				certification.setResumeId(resumeId);
+				mypageMapper.insertCertification(certification);
+			}
+		}
+		
+		mypageMapper.deleteDesired(resumeId);
+		if (resume.getDesiredList() != null && resume.getDesiredList().size() != 0) {
+			List<DesiredEmplVO> desiredList = resume.getDesiredList();
+			int size = desiredList.size();
+			DesiredEmplVO desired = null;
+			String desiredIndustry = null;
+			for (int i = 0; i < size; i++) {
+				desired = desiredList.get(i);
+				desiredIndustry = desired.getDesiredIndustry1();
+				if (desiredIndustry == null || desiredIndustry.trim().length() == 0) {
+					continue;
+				}
+				desired.setResumeId(resumeId);
+				mypageMapper.insertDesired(desired);
+			}	
+		}
+		
+		mypageMapper.deleteEducation(resumeId);
+		if (resume.getEduList() != null && resume.getEduList().size() != 0) {
+			List<EducationVO> eduList = resume.getEduList();
+			int size = eduList.size();
+			EducationVO education = null;
+			String schoolName = null;
+			for (int i = 0; i < size; i++) {
+				education = eduList.get(i);
+				schoolName = education.getEduSchoolName();
+				if (schoolName == null || schoolName.trim().length() == 0) {
+					continue;
+				}
+				education.setResumeId(resumeId);
+				mypageMapper.insertEducation(education);
+			}
+		}
+		
+		mypageMapper.deletePrfrn(resumeId);
+		if (resume.getPrfrnList() != null && resume.getPrfrnList().size() != 0) {
+			List<EmploymentPreferencesVO> prfrnList = resume.getPrfrnList();
+			int size = prfrnList.size();
+			EmploymentPreferencesVO prfrn = null;
+			for (int i = 0; i < prfrnList.size(); i++) {
+				prfrn = prfrnList.get(i);
+				prfrn.setResumeId(resumeId);
+				mypageMapper.insertPrfrn(prfrn);
+			}
+		}
+		
+		mypageMapper.deleteLanguage(resumeId);
+		if (resume.getLangList() != null && resume.getLangList().size() != 0) {
+			List<LanguageVO> langList = resume.getLangList();
+			int size = langList.size();
+			LanguageVO language = null;
+			String langName = null;
+			for (int i = 0; i < size; i++) {
+				language = langList.get(i);
+				langName = language.getLangName();
+				if (langName == null || langName.trim().length() == 0) {
+					continue;
+				}
+				language.setResumeId(resumeId);
+				mypageMapper.insertLanguage(language);
+			}
+		}
+		
+		mypageMapper.deleteSkill(resumeId);
+		if (resume.getSkillList() != null && resume.getSkillList().size() != 0) {
+			List<SkillVO> skillList = resume.getSkillList();
+			int size = skillList.size();
+			SkillVO skill = null;
+			String skillName = null;
+			for (int i = 0; i < size; i++) {
+				skill = skillList.get(i);
+				skillName = skill.getSkillName();
+				if (skillName == null || skillName.trim().length() == 0) {
+					continue;
+				}				
+				skill.setResumeId(resumeId);
+				mypageMapper.insertSkill(skill);
+			}
+		}
+		
+		mypageMapper.deletePortfolio(resumeId);
+		if (resume.getPortfolioList() != null && resume.getPortfolioList().size() != 0) {
+			List<PortfolioVO> portfolioList = resume.getPortfolioList();
+			int size = portfolioList.size();
+			PortfolioVO portfolio = null;
+			String portfolioUrl =  null;
+			for (int i = 0; i < size; i++) {
+				portfolio = portfolioList.get(i);
+				portfolioUrl = portfolio.getPortfolioUrl();
+				if (portfolioUrl == null || portfolioUrl.trim().length() == 0) {
+					continue;
+				}
+				portfolio.setResumeId(resumeId);
+				mypageMapper.insertPortfolio(portfolio);
+
+				if (portfolio.getUploadFile() != null && portfolio.getUploadFile().getSize() > 0) {
+					String uuid = UUID.randomUUID().toString();
+					String fileName = portfolio.getUploadFile().getOriginalFilename().replaceAll(" ",  "_");
+//					String path = req.getSession().getServletContext().getRealPath("/resources/upload");
+					String savePath = uploadPath;
+					fileName += "_" + uuid;
+					
+					File file = new File(savePath);
+					if (!file.exists()) {
+						file.mkdirs();
+					}
+					savePath += "/" + fileName;
+					File saveFile = new File(savePath);
+					
+					portfolio.setPortfolioFile(fileName);
+					mypageMapper.insertFile(portfolio);
+					
+					portfolio.getUploadFile().transferTo(saveFile);
+				}
+			
+			}
+		}
+		
+		mypageMapper.deleteWorkfield(resumeId);
+		if (resume.getWorkfieldList().size() != 0) {
+			List<WorkfieldVO> workfieldList = resume.getWorkfieldList();
+			int size = workfieldList.size();
+			WorkfieldVO workfield = null;
+			String workfield1 = null;
+			for (int i = 0; i < size; i++) {
+				workfield = workfieldList.get(i);
+				workfield1 = workfield.getWorkfield1();
+				if (workfield1 == null || workfield1.trim().length() == 0) {
+					continue;
+				}
+				workfield.setResumeId(resumeId);
+				mypageMapper.insertWorkfield(workfield);
+			}
+		}
+	}
+
+	@Override
+	public MemberVO getMemberByResumeId(int resumeId) {
+		return mypageMapper.getMemberByResumeId(resumeId);
+	}
+
+	@Override
+	public void deleteResume(HttpServletRequest req, int resumeId) {
+		mypageMapper.deleteActivity(resumeId);
+		mypageMapper.deleteAward(resumeId);
+		mypageMapper.deleteCareer(resumeId);
+		mypageMapper.deleteCertification(resumeId);
+		mypageMapper.deleteDesired(resumeId);
+		mypageMapper.deleteEducation(resumeId);
+		mypageMapper.deletePrfrn(resumeId);
+		mypageMapper.deleteLanguage(resumeId);
+		mypageMapper.deletePortfolio(resumeId);
+		mypageMapper.deleteSkill(resumeId);
+		mypageMapper.deleteWorkfield(resumeId);
+		mypageMapper.deleteResume(resumeId);
+	}
+
+	@Override
+	public void insertCoverletter(CoverletterVO covltr) {
+		
+		mypageMapper.insertCoverletter(covltr);
+		
+		int covltrId = covltr.getCovltrId();
+		
+		if (covltr.getCovltrItemList() != null && covltr.getCovltrItemList().size() != 0) {
+			List<CoverletterItemVO> covltrItemList = covltr.getCovltrItemList();
+			int size = covltrItemList.size();
+			CoverletterItemVO covltrItem = null;
+			String covltrItemTitle = null;
+			for (int i = 0; i < size; i++) {
+				covltrItem = covltrItemList.get(i);
+				covltrItemTitle = covltrItem.getCovltrItemTitle();
+				if (covltrItemTitle == null || covltrItemTitle.trim().length() == 0) {
+					continue;
+				}
+				covltrItem.setCovltrId(covltrId);
+				mypageMapper.insertCovltrItem(covltrItem);
+			}
+		}
+	}
+
+	@Override
+	public CoverletterVO coverletterDetail(HttpServletRequest req, int covltrId) {
+		return mypageMapper.coverletterDetail(covltrId);
+	}
+
+	@Override
+	public void modifyCoverletter(HttpServletRequest req, CoverletterVO covltr, String memId) {
+		mypageMapper.modifyCoverletter(covltr);
+		
+		int covltrId = covltr.getCovltrId();
+		log.info("covltrId >> " + covltrId);
+		
+		mypageMapper.deleteCoverletterItem(covltrId);
+		
+		if (covltr.getCovltrItemList() != null && covltr.getCovltrItemList().size() != 0) {
+			List<CoverletterItemVO> covltrItemList = covltr.getCovltrItemList();
+			int size = covltrItemList.size();
+			log.info("size >> ", size);
+			CoverletterItemVO covltrItem = null;
+			String covltrItemTitle = null;
+			for (int i = 0; i < size; i++) {
+				covltrItem = covltrItemList.get(i);
+				covltrItemTitle = covltrItem.getCovltrItemTitle();
+				if (covltrItemTitle == null || covltrItem.getCovltrItemTitle().trim().length() == 0) {
+					continue;
+				}
+				covltrItem.setCovltrId(covltrId);
+				mypageMapper.insertCovltrItem(covltrItem);
+			}
+		}
+	}
+
+	@Override
+	public void deleteCoverletter(HttpServletRequest req, int covltrId) {
+		mypageMapper.deleteCoverletterItem(covltrId);
+		mypageMapper.deleteCoverletter(covltrId);
+	}
+
+	@Override
+	public List<CoverletterVO> selectCoverletterList(HttpServletRequest req, String memId) {
+		return mypageMapper.selectCoverletterList(memId);
+	}
+
+	@Override
+	public MemberVO getMemberByCovltrId(int covltrId) {
+		return mypageMapper.getMemberByCovltrId(covltrId);
+	}
+	
+
+	@Override
+	public List<ProposalVO> getProposalList(String memId) {
+		// TODO Auto-generated method stub
+		return mypageMapper.getProposalList(memId);
+	}
+
+   @Override
+   public AnnoVO getAnnoOne(int annoId) {
+      // TODO Auto-generated method stub
+      return mypageMapper.getAnnoOne(annoId);
+   }
+
+   @Override
+   public void deleteProposal(ProposalVO proVO) {
+      // TODO Auto-generated method stub
+       mypageMapper.deleteProposal(proVO);
+   }
+
+   @Override
+   public List<ApplyVO> getApplyList(String memId) {
+      // TODO Auto-generated method stub
+      return mypageMapper.getApplyList(memId);
+   }
+	
+	@Override
+	public List<AnnoVO> getAnnoCom(int comId) {
+		// TODO Auto-generated method stub
+		return mypageMapper.getAnnoCom(comId);
+	}
+
+	@Override
+	public void deleteSupport(SupportVO supVO) {
+		// TODO Auto-generated method stub
+		 mypageMapper.deleteSupport(supVO);
+	}
+	@Override
+	public List<CoverletterItemVO> getItems() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CoverletterItemVO getItem(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CoverletterVO> getCoverletters() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ResumeVO> myResumeList(String memId) {
+		// TODO Auto-generated method stub
+		return mypageMapper.myResumeList(memId);
+	}
+
+	@Override
+	public List<AnnoVO> myApplyList(String memId) {
+		return mypageMapper.myApplyList(memId);
+	}
+
+
+	@Override
+	public List<CoverletterItemVO> getCovltrItemByMemId(String memId) {
+		return mypageMapper.getCovltrItemByMemId(memId);
+	}
+
+	@Override
+	public List<CoverletterItemVO> getCovltrItemByCovltrItemIdList(List<Integer> covltrItemIdList) {
+		return mypageMapper.getCovltrItemByCovltrItemIdList(covltrItemIdList);
+	}
+
+	@Override
+	public List<AnnoVO> mySupList(String memId) {
+		return mypageMapper.mySupList(memId);
+	}
+
+	@Override
+	public List<ApplyVO> getApply(String memId) {
+		return mypageMapper.getApply(memId);
+	}
+
+	@Override
+	public void updateResumeRepresentative(int resumeId) {
+		mypageMapper.updateResumeRepresentative(resumeId);
+	}
+
+	/////////////////////////////////////////////////////////////////////
+	/*
+	@Override
+	public void insertCovltrItems(HttpServletRequest req, CoverletterItemVO covltrItem) {
+		List<String> titles = covltrItem.getTitleList();
+		List<String> contents = covltrItem.getContentList();
+		for (int i = 0; i < titles.size(); i++) {
+			covltrItem.setCovltrItemTitle(titles.get(i).toString());
+			covltrItem.setCovltrItemContent(contents.get(i).toString());
+			mypageMapper.insertCovltrItems(covltrItem);
+		}
+	}
+
+	@Override
+	public CoverletterItemVO coverletterDetail(HttpServletRequest req, int covltrItemId) {
+		return mypageMapper.coverletterDetail(covltrItemId);
+	}
+
+	@Override
+	public void modifyCoverletterItems(HttpServletRequest req, CoverletterItemVO covltrItem) {
+		mypageMapper.modifyCoverletterItems(covltrItem);
+	}
+
+	@Override
+	public List<CoverletterItemVO> selectCovltrItemList(HttpServletRequest req, String memId) {
+		return mypageMapper.selectCovltrItemList(memId);
+	}
+
+	@Override
+	public void insertCoverletter(String checkedIds, String covltrTitle) {
+		String[] checkIds = checkedIds.split(",");
+		for (int i = 0; i < checkIds.length; i++) {
+			mypageMapper.insertCoverletter(checkIds[i], covltrTitle);
+		}
+	}
+*/
+
+	
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.InquiryMapper">
+
+<select id="inquirylist" resultType="boardVO">
+	select 
+			board_id, mem_id, board_title, board_content, 
+			board_start, board_hit, board_warn, board_category
+	from board
+	where board_category = 3
+</select>
+
+</mapper>

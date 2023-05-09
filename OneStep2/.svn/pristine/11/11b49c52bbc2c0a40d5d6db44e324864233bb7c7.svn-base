@@ -1,0 +1,60 @@
+package kr.or.ddit.myPage.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/myPage")
+public class MyPageController {
+	
+	@GetMapping("/main")
+	public String main() {
+		return "myPage/myPageMain";
+	}
+	
+	@GetMapping("/memInfo")
+	public String memInfo() {
+		return "myPage/memInfo";
+	}
+	
+	@GetMapping("/notification")
+	public String notification() {
+		return "myPage/notification";
+	}
+
+	@GetMapping("/coverletterList")
+	public String coverletterList() {
+		return "myPage/coverletterList";
+	}
+	
+	@GetMapping("/coverletterInsert")
+	public String coverletterInsert() {
+		return "myPage/coverletterInsert";
+	}
+	
+	@GetMapping("/coverletterQuestions")
+	public String coverletterQuestions() {
+		return "myPage/coverletterQuestions";
+	}
+	
+	@GetMapping("/resumeList")
+	public String resumeList() {
+		return "myPage/resumeList";
+	}
+
+	@GetMapping("/resumeView")
+	public String resumeView() {
+		return "myPage/resumeView";
+	}
+	
+	@GetMapping("/resumeInsert")
+	public String resumeInsert() {
+		return "myPage/resumeInsert";
+	}
+	
+	@GetMapping("/resumeItems")
+	public String resumeItems() {
+		return "myPage/resumeItems";
+	}
+}

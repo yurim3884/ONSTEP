@@ -1,0 +1,101 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<style>
+ #aa { 
+ display:none; 
+ } 
+ 
+</style>
+</head>
+	<script type="text/javascript"
+		src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<body>
+ <!--  Content Area Starts  -->
+  <div class="sub-header-container"> 
+                <header class="header navbar navbar-expand-sm">
+                    <ul class="navbar-nav flex-row">
+                        <li>
+                            <div class="page-header">
+                                <nav class="breadcrumb-one" aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Forms</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page"><span>프리미엄 결제하기</span></li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+                        <li class="">
+                            <p class="current-time" id="currentTime"></p>
+                            <p class="current-date" id="currentDate"></p>
+                        </li>
+                    </ul>
+                </header>
+            </div>
+            
+            
+  
+<!-- 	<form action="/member/payss" method="post" id="form" > -->
+<!-- 	<input type="text" value="100" id="payPay" name="payPay" class="form-control"> -->
+<!-- 	<input type="text"  value ="100" id="prodId" name="prodId" class="form-control"> -->
+<!-- 	<input type="text" value="dkdkdk" id="memId" name="memId" class="form-control"> -->
+<!-- 	<input type="text" value="123456" id="payContent" name="payContent" class="form-control"> -->
+<!-- 	<input type="button" value="결제하기" class="btn_payment">  -->
+<!-- 	<input type="submit" value ="" id="aa" >  -->
+<!-- 	</form> -->
+
+	
+	<script type="text/javascript">
+	
+	$(".btn_payment").click(function() {
+		var payPay = $("#payPay");
+		var prodId = $("#prodNo");
+		var memId = $("#memId");
+			//class가 btn_payment인 태그를 선택했을 때 작동한다.
+
+			IMP.init('imp51656844');
+			//결제시 전달되는 정보
+			IMP.request_pay({
+				pg : 'inicis',
+				pay_method : 'card',
+				merchant_uid : 'merchant_' + new Date().getTime(),
+				name : prodId.val() /*상품명*/,
+				amount : payPay.val()/*상품 가격*/,
+				buyer_email : 'iamport@siot.do'/*구매자 이메일*/,
+				buyer_name : memId.val(),
+				buyer_tel : '010-1234-5678'/*구매자 연락처*/,
+				buyer_addr : 'aaaaaa'/*구매자 주소*/,
+				buyer_postcode : '123-456'/*구매자 우편번호*/
+			}, function(rsp) {
+				var result = '';
+				if (rsp.success) {
+					var msg = '결제가 완료되었습니다.';
+					msg += '고유ID : ' + rsp.imp_uid;
+					msg += '상점 거래ID : ' + rsp.merchant_uid;
+					msg += '결제 금액 : ' + rsp.paid_amount;
+					msg += '카드 승인번호 : ' + rsp.apply_num;
+					result = '0';
+					
+				} else {
+					var msg = '결제에 실패하였습니다.';
+					msg += '에러내용 : ' + rsp.error_msg;
+					result = '1';
+					
+				}
+				alert(msg);
+				if (result == '0') {
+					$("#aa").trigger("click");
+					location.href = $.getContextPath() + "/pay";
+				}
+			});
+		});
+		
+		
+	</script>
+
+
+	

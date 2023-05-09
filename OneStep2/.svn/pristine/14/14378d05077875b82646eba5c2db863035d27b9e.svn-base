@@ -1,0 +1,37 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<!-- 공지사항 상세 -->
+
+	<div class="col-10  layout-spacing" style="margin-top: 40px; ">
+		<div class="col-10"
+			style="background-color: #f7f7f7; margin-left: 200px;">
+			<br> <span
+				style="color: black; font-size: 18pt; vertical-align: middle; ">${noticeDetail.boardTitle }
+				.</span> <span style="float: right;"> ${noticeDetail.memId } </span> <br> <br>
+		</div>
+		<hr class="col-10" style="margin-left: 200px;">
+		<div class="col-10" style="margin-left: 200px; text-align: right;">
+		<fmt:formatDate value="${noticeDetail.boardStart }" var="boardStart" pattern="yyyy-MM-dd"/>
+		<c:out value="${boardStart }" />
+		</div>
+		<hr class="col-10" style="margin-left: 200px;">
+		<div class="col-10" style="margin-left: 200px;">
+			<span> <br>
+			<br>
+			<br> <c:out value="${noticeDetail.boardContent }" escapeXml="false"/> <br>
+			<br> <br>
+			<br>
+			<br>
+			</span>
+			<div class="widget-footer text-right">
+	            <button type="submit" class="btn btn-primary mr-2" >수정</button>
+	            <button type="reset" class="btn btn-outline-primary">취소</button>
+	        </div>
+		</div>
+		<hr class="col-10" style="margin-left: 200px;">
+		</div>
+
+	<hr class="col-10" style="margin-left: 200px;">
+		

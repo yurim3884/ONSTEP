@@ -1,0 +1,14 @@
+package kr.or.ddit.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.member.vo.MemberVO;
+
+@Mapper
+public interface MasterMapper {
+
+	public List<MemberVO> list() throws Exception;
+
+}

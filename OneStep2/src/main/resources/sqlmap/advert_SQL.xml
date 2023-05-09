@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.MasterAdvertMapper">
+
+<select id="advertList" resultType="advertVO">
+select advert_id, prod_id, advert_name, advert_content, advert_status, advert_start, advert_end, advert_att, company_id
+from advert
+order by advert_id asc
+</select>
+
+<select id="prodList" parameterType="pagingVO" resultType="prodVO">
+select
+			b.*
+		from (
+			select
+				a.*, row_number() over (order by a.prod_id desc) rnum
+			from(
+				select
+					prod_id, prod_status, prod_content, 
+					prod_day, prod_start, prod_end, 
+					prod_cs, prod_price, mem_id, 
+					p.company_id, prod_att, advert_name,c.company_name
+				from prod p , company c
+				where prod_status = '광고'
+				and p.company_id = c.company_id
+				order by prod_id desc
+			) a
+		) b
+		<![CDATA[
+			where b.rnum >= #{startRow} and b.rnum <= #{endRow}
+		]]>
+</select>
+
+<select id="prodListcount" parameterType="pagingVO" resultType="int">
+select count(prod_id)
+from prod
+where 1=1
+and prod_status = '광고'
+</select>
+
+<select id="selectOne" parameterType="String" resultType="prodVO">
+select prod_id, prod_status, prod_content, 
+		prod_day, prod_start, prod_end, 
+		prod_cs, prod_price, mem_id, 
+		company_id, prod_att, advert_name
+from prod
+where prod_id = #{prodId}
+</select>
+
+<update id="advertUpdate" parameterType="prodVO">
+update advert
+set
+  	  advert_content = #{prodContent}
+	, company_id = #{companyId}
+	, advert_start = #{prodStart}
+	, advert_end = #{prodEnd}
+	, advert_att = #{prodAtt}
+	, advert_status = 1
+where advert_name = #{advertName}
+</update>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

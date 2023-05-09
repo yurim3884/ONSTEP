@@ -1,0 +1,103 @@
+package kr.or.ddit.chat.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.RemoteEndpoint.Basic;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
+
+import org.springframework.stereotype.Controller;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@ServerEndpoint(value="/echo.do")
+public class ChatWebSocket {
+    
+	// 세션 리스트를 저장하기 위한 List 객체 생성
+	private static final List<Session> sessionList = new ArrayList<Session>();
+	
+	// 생성자
+	public ChatWebSocket() {
+	}
+  
+	// 웹소켓 연결 시 호출되는 메서드
+	@OnOpen // WebSocket 클라이언트가 접속했을 때 실행되는 메소드이다. 해당 어노테이션을 붙이면 WebSocket 클라이언트와 연결이 성공하면 해당 메소드가 호출된다.
+	public void onOpen(Session session) {
+    	log.info("Open session id >> " + session.getId());
+    	try {
+    		// Basic 객체를 얻어온다.
+        	final Basic basic = session.getBasicRemote();
+        	// 해당 세션에 대한 기본 원격 끝점을 사용하여 문자열을 보낸다.
+        	basic.sendText("대화방에 들어오신것을 환영합니다</br> 접속시간 :");
+    	} catch (Exception e) {
+    		// 예외 처리
+			System.out.println(e.getMessage());
+    	}
+    	// 연결된 세션을 세션 리스트에 추가
+    	sessionList.add(session);
+    	log.info("현재 소켓 참여 리스트 : " + sessionList.toString());
+	}
+	  
+	// 모든 세션에 메시지를 전송하는 메서드
+	private void sendAllSessionToMessage(Session self, String sender, String message) {
+	  	
+		try {
+			for (Session session : ChatWebSocket.sessionList) { // 세션 리스트의 모든 세션에 대해서 반복문 실행.
+				// 메시지를 보낸 세션을 제외하고 나머지 세션에 메시지 전송
+				if(!self.getId().equals(session.getId())) {
+					// 해당 세션에 대한 기본 원격 끝점을 사용하여 메시지를 보낸다.
+					session.getBasicRemote().sendText(sender + " : " + message);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	  
+	// 메시지를 수신할 때 호출되는 메서드
+	@OnMessage // WebSocket 클라이언트로부터 메시지를 받았을 때 실행되는 메소드이다. 해당 어노테이션을 붙이면 WebSocket 클라이언트로부터 메시지를 받으면 해당 메소드가 호출된다.
+	public void onMessage(String message, Session session) {
+		log.info("message" + message);
+		// 전달된 메시지에서 이미지 소스, 발신자, 메시지를 추출
+//		String imgSrc = message.split(",")[2];
+	  	String sender = message.split(",")[1];
+	  	message = message.split(",")[0];
+	  	// 받은 메시지를 콤마(,)를 기준으로 분리하여 각각의 변수에 저장한다.
+
+	  	log.info("sender >> " + sender);
+	  	log.info("message >> " + message);
+//	  	log.info("imgSrc >> " + imgSrc);
+	  	log.info("<나> : " + message);
+	  	try {
+	  		// Basic 객체를 얻어온다.
+	  		final Basic basic = session.getBasicRemote();
+	  		basic.sendText("<나> : " + message);
+	  	} catch (Exception e) {
+	  		// 예외 처리
+	  		log.info(e.getMessage());
+	  	}
+	  	// 모든 세션에게 메시지를 보내는 메소드를 호출
+//	  	sendAllSessionToMessage(session, sender, message);
+	}
+	
+	// 에러 발생 시 호출되는 메서드 
+	@OnError // WebSocket 동작 중에 예외가 발생했을 때 실행되는 메소드이다. 해당 어노테이션을 붙이면 예외가 발생하면 해당 메소드가 호출된다.
+	public void onError(Throwable e,Session session) {
+	}
+	
+	// 웹소켓 연결이 닫힐 때 호출되는 메서드
+	@OnClose
+	public void onClose(Session session) {
+		sessionList.remove(session);
+	  	log.info("소켓 닫힘");
+	  	log.info("현재 소켓 참여 리스트 : " + sessionList.toString());
+	    log.info("Session >> " + session.getId() + " has ended");
+	}
+}

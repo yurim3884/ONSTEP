@@ -1,0 +1,21 @@
+package kr.or.ddit.member.service;
+
+import kr.or.ddit.member.vo.MemberVO;
+
+public interface IMemService {
+
+	int join(MemberVO vo);
+
+	int companyJoin(MemberVO vo);
+
+	MemberVO memCheck(String memId);
+
+	MemberVO idForget(MemberVO vo);
+
+	MemberVO pwForget(MemberVO vo);
+
+	void changePw(MemberVO vo2);
+
+	void changeInfo(MemberVO vo);
+
+}

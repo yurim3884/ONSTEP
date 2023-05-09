@@ -1,0 +1,204 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <div class="sub-header-container">
+                <header class="header navbar navbar-expand-sm">
+                    <ul class="navbar-nav flex-row">
+                        <li>
+                            <div class="page-header">
+                                <nav class="breadcrumb-one" aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Apps</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page"><span>인재검색</span></li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav d-flex align-center ml-auto right-side-filter">
+                        <li class="">
+                            <p class="current-time" id="currentTime"></p>
+                            <p class="current-date" id="currentDate"></p>
+                        </li>
+                    </ul>
+                </header>
+            </div>
+  
+  
+   <div class="searchable-items grid card-box">
+                                    <div class="row w-100 m-0">
+                                        <div class="col-xl-3 col-lg-3 col-md-3 mb-4">
+                                            <div class="card single-seller">
+                                                <img src="assets/img/company-7.jpg" class="card-img-top" alt="widget-card-2">
+                                                <div class="card-body">
+                                                    <p class="meta-date">hightech@mail.com</p>
+                                                    <p class="meta-date">(+1) 1235 4586</p>
+                                                    <h5 class="card-title mt-3">Hightech</h5>
+                                                    <p class="card-text">Mobile, Fashion, Electronics, Groceries</p>
+                                                    <div class="team">
+                                                    </div>
+                                                    <div class="meta-info">
+                                                        <div class="meta-action">
+                                                            <div class="meta-bottom-info">
+                                                                <span>Revenue :</span><span>$2,909</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-3 mb-4">
+                                            <div class="card single-seller">
+                                                <img src="assets/img/company-8.jpg" class="card-img-top" alt="widget-card-2">
+                                                <div class="card-body" onclick="location.href='/company/pay'">
+                                                    <p class="meta-date">vision@mail.com</p>
+                                                    <p class="meta-date">(+1) 1235 4586</p>
+                                                    <h5 class="card-title mt-3">Vision</h5>
+                                                    <p class="card-text">Mobile, Fashion, Electronics, Groceries</p>
+                                                    <div class="team">
+                                                    </div>
+                                                    <div class="meta-info">
+                                                        <div class="meta-action">
+                                                            <div class="meta-bottom-info">
+                                                                <span>Revenue :</span><span>$20,909</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-3 mb-4">
+                                            <div class="card single-seller">
+                                                <img src="assets/img/company-3.jpg" class="card-img-top" alt="widget-card-2">
+                                                <div class="card-body" onclick="location.href='/company/pay'">
+                                                    <p class="meta-date">innovation@mail.com</p>
+                                                    <p class="meta-date">(+1) 7845 4586</p>
+                                                    <h5 class="card-title mt-3">Innovation</h5>
+                                                    <p class="card-text">Fashion, Electronics, Groceries, Laptop</p>
+                                                    <div class="team">
+                                                    </div>
+                                                    <div class="meta-info">
+                                                        <div class="meta-action">
+                                                            <div class="meta-bottom-info">
+                                                                <span>Revenue :</span><span>$20,909</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-3 mb-4">
+                                            <div class="card single-seller">
+                                                <img src="assets/img/company-4.jpg" class="card-img-top" alt="widget-card-2">
+                                                <div class="card-body" onclick="location.href='/company/pay'">
+                                                    <p class="meta-date">circle@mail.com</p>
+                                                    <p class="meta-date">(+1) 5896 4586</p>
+                                                    <h5 class="card-title mt-3">Circle</h5>
+                                                    <p class="card-text">Fashion, Electronics, Groceries, Laptop</p>
+                                                    <div class="team">
+                                                    </div>
+                                                    <div class="meta-info">
+                                                        <div class="meta-action">
+                                                            <div class="meta-bottom-info">
+                                                                <span>Revenue :</span><span>$8,909</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-3 mb-4">
+                                            <div class="card single-seller">
+                                                <img src="assets/img/company-5.jpg" class="card-img-top" alt="widget-card-2">
+                                                <div class="card-body" onclick="location.href='/company/pay'">
+                                                    <p class="meta-date">linc@mail.com</p>
+                                                    <p class="meta-date">(+1) 4758 7777</p>
+                                                    <h5 class="card-title mt-3">Linc</h5>
+                                                    <p class="card-text">Fashion, Electronics, Groceries, Laptop</p>
+                                                    <div class="team">
+                                                    </div>
+                                                    <div class="meta-info">
+                                                        <div class="meta-action">
+                                                            <div class="meta-bottom-info">
+                                                                <span>Revenue :</span><span>$4,145</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-3 mb-4">
+                                            <div class="card single-seller">
+                                                <img src="assets/img/company-6.jpg" class="card-img-top" alt="widget-card-2">
+                                                <div class="card-body" onclick="location.href='/company/pay'">
+                                                    <p class="meta-date">union@mail.com</p>
+                                                    <p class="meta-date">(+1) 5896 4586</p>
+                                                    <h5 class="card-title mt-3">Union Banko</h5>
+                                                    <p class="card-text">Mobile, Electronics, Groceries, Laptop</p>
+                                                    <div class="team">
+                                                    </div>
+                                                    <div class="meta-info">
+                                                        <div class="meta-action">
+                                                            <div class="meta-bottom-info">
+                                                                <span>Revenue :</span><span>$80,784</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-3 mb-4">
+                                            <div class="card single-seller">
+                                                <img src="assets/img/company-2.jpg" class="card-img-top" alt="widget-card-2">
+                                                <div class="card-body" onclick="location.href='/company/pay'">
+                                                    <p class="meta-date">hightech@mail.com</p>
+                                                    <p class="meta-date">(+1) 9568 4784</p>
+                                                    <h5 class="card-title mt-3">Hightech</h5>
+                                                    <p class="card-text">Fashion, Mobile, Groceries, Laptop, Electronics</p>
+                                                    <div class="team">
+                                                    </div>
+                                                    <div class="meta-info">
+                                                        <div class="meta-action">
+                                                            <div class="meta-bottom-info">
+                                                                <span>Revenue :</span><span>$4,456</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-3 mb-4">
+                                            <div class="card single-seller">
+                                                <img src="assets/img/company-7.jpg" class="card-img-top" alt="widget-card-2">
+                                                <div class="card-body" onclick="location.href='/company/pay'">
+                                                    <p class="meta-date">hightech@mail.com</p>
+                                                    <p class="meta-date">(+1) 1235 4586</p>
+                                                    <h5 class="card-title mt-3">Hightech</h5>
+                                                    <p class="card-text">Mobile, Fashion, Electronics, Groceries</p>
+                                                    <div class="team">
+                                                    </div>
+                                                    <div class="meta-info">
+                                                        <div class="meta-action">
+                                                            <div class="meta-bottom-info">
+                                                                <span>Revenue :</span><span>$2,909</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="pagination p13 text-center w-100 mt-1">
+                                        <ul class="mx-auto">
+                                        <a href="#" class="prev"><li>Prev</li></a>
+                                        <a class="is-active" href="#"><li>1</li></a>
+                                        <a href="#"><li>2</li></a>
+                                        <a href="#"><li>3</li></a>
+                                        <a href="#" class="next"><li>Next</li></a>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    

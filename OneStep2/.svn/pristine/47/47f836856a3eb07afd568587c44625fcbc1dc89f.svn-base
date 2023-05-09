@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.MasterMapper">
+
+<select id="list" resultType="memberVO">
+select a.mem_id, company_id, mem_pw, 
+		mem_name, mem_nick, mem_birth, 
+		mem_gender, mem_zip, mem_addr1, 
+		mem_addr2, mem_email, mem_tel, 
+		mem_msn, mem_email_app, mem_app, 
+		mem_start, mem_status, mem_end, mem_free, blacklist_start, blacklist_check, blacklist_id 
+from member a left outer join blacklist b
+on a.mem_id = b.mem_id
+where mem_status = '1'
+or mem_status = '5'
+</select>
+
+<update id="status" parameterType="String">
+	update member 
+	set mem_status = #{memStatus}
+	where mem_id = #{memId}
+</update>
+
+<select id="reportList" resultType="reportVO">
+select report_id, report_mem, report_date, 
+		report_content, report_status, comm_id, 
+		a.board_id, a.mem_id, b.board_category, b.board_title, b.board_content
+from report a join board b
+on a.board_id = b.board_id
+</select>
+
+<select id="reportCnt" resultType="memberVO">
+select a.mem_id, count(b.report_mem) as cnt
+from member a join report b
+on a.mem_id = b.report_mem
+where b.report_status = 1
+group by a.mem_id, b.report_mem,b.report_status
+</select>
+
+<insert id="insertBlack" parameterType="String">
+insert into blacklist (blacklist_id, blacklist_start, blacklist_content, blacklist_check, mem_id)
+values (seq_blacklistid.nextval, sysdate, '차단', '1', #{memId})
+</insert>
+
+<update id="updateBlack" parameterType="String">
+update blacklist 
+set blacklist_start = sysdate,
+<if test="memStatus == '1'">
+	blacklist_content = '정상',
+	blacklist_check = '0'
+where mem_id = #{memId}
+</if>
+<if test="memStatus == '5'">
+	blacklist_content = '차단',
+	blacklist_check = '1'
+where mem_id = #{memId}
+</if>
+</update>
+
+<select id="selectOneId" parameterType="String" resultType="String">
+select mem_id
+from blackList
+where mem_id = #{memId}
+</select>
+
+</mapper>
